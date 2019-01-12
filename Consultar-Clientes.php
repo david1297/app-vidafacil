@@ -33,16 +33,13 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevoCliente">
+						<button type="button" class="btn btn-default" onclick="NuevoCliente()">
 							<span class="glyphicon glyphicon-user"></span> Nuevo cliente
 						</button>
 						</div>
 						<h4><i class='glyphicon glyphicon-search'></i> Consultar Clientes</h4>
 					</div>
 					<div class="panel-body">
-					<?php 
-						include("Componentes/modal/registro_clientes.php");
-					?>
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
 								<label for="q" class="col-md-2 control-label">Nombre o # de Documento</label>
@@ -56,10 +53,7 @@
 					</div>
 				</div>	
 			</div>
-			<div class="clearfix"></div>
-				<footer>
-					<p class="copyright">&copy; Copyright <a href="https://www.tupro.com.co/" target="_blank">TuPro Creativo. </a>Todos los derechos reservados</p>
-				</footer>
+			
 		</div>
 	</div>
 	</div>
@@ -71,5 +65,9 @@
 	<script src="assets/scripts/common.js"></script>
 	<script type="text/javascript" src="js/VentanaCentrada.js"></script>
 	<script type="text/javascript" src="Componentes/JavaScript/Clientes.js"></script>
+
+	<script>
+	
+	</script>
   </body>
 </html>

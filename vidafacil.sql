@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-01-2019 a las 22:25:36
+-- Tiempo de generación: 12-01-2019 a las 18:09:26
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -21,6 +21,37 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `vidafacil`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `clientes`
+--
+
+CREATE TABLE `clientes` (
+  `Nit` varchar(30) NOT NULL,
+  `Razon_Social` varchar(200) DEFAULT NULL,
+  `Tipo` varchar(20) DEFAULT NULL,
+  `Tel_C` varchar(20) DEFAULT NULL,
+  `Direccion` varchar(120) DEFAULT NULL,
+  `Correo_N` varchar(80) DEFAULT NULL,
+  `Cel_C` varchar(20) DEFAULT NULL,
+  `Correo_C` varchar(80) DEFAULT NULL,
+  `Rep_Legal` varchar(200) DEFAULT NULL,
+  `CC` varchar(30) DEFAULT NULL,
+  `Nombre_R1` varchar(200) DEFAULT NULL,
+  `Tel_R1` varchar(200) DEFAULT NULL,
+  `Nombre_R2` varchar(200) DEFAULT NULL,
+  `Tel_R2` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`Nit`, `Razon_Social`, `Tipo`, `Tel_C`, `Direccion`, `Correo_N`, `Cel_C`, `Correo_C`, `Rep_Legal`, `CC`, `Nombre_R1`, `Tel_R1`, `Nombre_R2`, `Tel_R2`) VALUES
+('123456789', 'vida facil', 'Juridica', '123456', '1231', '1@gmail.com', '123', '1@gmail.com', 'jose', '987654321', '1', '1', '1', '1'),
+('900316686', 'Grupo Sai S.A.S', 'Natural', '4852040', 'AV 5AN # 24', 'juan.andrade@sai-open.com', '0000', 'juan.andrade@sai-open.com', 'Juan David Andrade', '1112492933', '1', '1', '1', '1');
 
 -- --------------------------------------------------------
 
@@ -79,6 +110,12 @@ INSERT INTO `usuarios` (`Usuario`, `Correo`, `Rol`, `Clave`, `Nombre`, `Apellido
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  ADD PRIMARY KEY (`Nit`);
 
 --
 -- Indices de la tabla `permisos`
