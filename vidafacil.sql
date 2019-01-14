@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-01-2019 a las 18:09:26
+-- Tiempo de generación: 14-01-2019 a las 23:36:23
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -50,8 +50,9 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`Nit`, `Razon_Social`, `Tipo`, `Tel_C`, `Direccion`, `Correo_N`, `Cel_C`, `Correo_C`, `Rep_Legal`, `CC`, `Nombre_R1`, `Tel_R1`, `Nombre_R2`, `Tel_R2`) VALUES
-('123456789', 'vida facil', 'Juridica', '123456', '1231', '1@gmail.com', '123', '1@gmail.com', 'jose', '987654321', '1', '1', '1', '1'),
-('900316686', 'Grupo Sai S.A.S', 'Natural', '4852040', 'AV 5AN # 24', 'juan.andrade@sai-open.com', '0000', 'juan.andrade@sai-open.com', 'Juan David Andrade', '1112492933', '1', '1', '1', '1');
+('123456789', 'soluciones vida facil', 'Natural', '4852040', 'calle 23 # 49a -16', '2@gmail.com', '123', '1@gmail.com', 'jose', '11252', '123', '456', '789', '741456'),
+('9002298187', 'MONTAJES LP LTDA', 'Juridica', '374 6244', 'CALLE 40 # 3N - 83', 'contabilidadmontajeslp@hotmail.com', '317 667 4585', 'contabilidadmontajeslp@hotmail.com', 'LUIS CARLOS', '16448551', 'juan', 'juan', 'david', '123456'),
+('900316686', 'Grupo Sai S.A.S', 'Juridica', '4852040', 'AV 5AN # 24', 'juan.andrade@sai-open.com', '0000', 'juan.andrade@sai-open.com', 'Juan David Andrade', '1112492933', '1', '1', '1', '1');
 
 -- --------------------------------------------------------
 
@@ -82,7 +83,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`Numero`, `Tipo`) VALUES
-(1, 'Administrador');
+(1, 'Administrador'),
+(2, 'Usuario');
 
 -- --------------------------------------------------------
 
@@ -94,18 +96,20 @@ CREATE TABLE `usuarios` (
   `Usuario` varchar(80) NOT NULL,
   `Correo` varchar(80) DEFAULT NULL,
   `Rol` int(11) DEFAULT NULL,
-  `Clave` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Clave` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS',
   `Nombre` varchar(80) DEFAULT NULL,
   `Apellido` varchar(80) DEFAULT NULL,
-  `Genero` varchar(80) DEFAULT NULL
+  `Genero` varchar(80) DEFAULT NULL,
+  `Porcentaje` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`Usuario`, `Correo`, `Rol`, `Clave`, `Nombre`, `Apellido`, `Genero`) VALUES
-('Admin', 'juandavid.andrade1997@gmail.com', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 'Juan David', 'Andrade Valencia ', 'Masculino');
+INSERT INTO `usuarios` (`Usuario`, `Correo`, `Rol`, `Clave`, `Nombre`, `Apellido`, `Genero`, `Porcentaje`) VALUES
+('Admin', 'juandavid.andrade1997@gmail.com', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 'Juan David', 'Andrade Valencia', 'Masculino', 8),
+('User2', 'User2@gmail.com', 1, '$2y$10$uKICFTr7YzNhWPKuXr4f..QioP2C5MBE8nBzDR7MhDrmKOhVBcXVC', 'User', '2', 'Masculino', 15);
 
 --
 -- Índices para tablas volcadas
