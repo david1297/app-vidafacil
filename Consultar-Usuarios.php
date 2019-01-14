@@ -7,10 +7,11 @@
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
 	$Inicio="";
-	$Proyectos="active";
+	$Proyectos="";
+	$Clientes="";
 	$PCrear="";
-	$PConsultar="active";
-	$Usuarios="";
+	$PConsultar="";
+	$Usuarios="active";
 	$UCrear="";
 	$UConsultar="";
 	$Notificaciones="";
@@ -32,16 +33,26 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
-							<a  href="Nuevo-Proyecto.php" class="btn btn-default"><span class="glyphicon glyphicon-plus" ></span> Nuevo Proyecto</a>
+						<?php 
+							if($_SESSION['Rol'] == '1'){
+							echo'<button type="button" class="btn btn-default" onclick="NuevoUsuario()">
+							<span class="glyphicon glyphicon-user"></span> Nuevo Usuario
+						</button>';
+							}
+						?>
+						
 						</div>
-						<h4><i class='glyphicon glyphicon-search'></i> Buscar Proyectos</h4>
+						<h4><i class='glyphicon glyphicon-search'></i> Consultar Usuarios</h4>
 					</div>
 					<div class="panel-body">
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
-								<label for="q" class="col-md-2 control-label">Cliente o # de Proyectos</label>
+								<label for="q" class="col-md-3 control-label">Nombre, Apellido, Correo o Usuario</label>
 								<div class="col-md-5">
-									<input type="text" class="form-control" id="q" placeholder="Nombre del cliente o # de factura" onkeyup='load(1);'>
+									<input type="text" class="form-control" id="q" placeholder="Nombre, Apellido, Correo o Usuario" onkeyup='load(1);'>
+								</div>
+								<div class="col-md-2">
+								<span id="loader"></span>
 								</div>
 							</div>
 						</form>
@@ -50,10 +61,7 @@
 					</div>
 				</div>	
 			</div>
-			<div class="clearfix"></div>
-				<footer>
-					<p class="copyright">&copy; Copyright <a href="https://www.tupro.com.co/" target="_blank">TuPro Creativo. </a>Todos los derechos reservados</p>
-				</footer>
+			
 		</div>
 	</div>
 	</div>
@@ -64,6 +72,10 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script type="text/javascript" src="js/VentanaCentrada.js"></script>
-	<script type="text/javascript" src="js/Proyectos.js"></script>
+	<script type="text/javascript" src="Componentes/JavaScript/Usuarios.js"></script>
+
+	<script>
+	
+	</script>
   </body>
 </html>

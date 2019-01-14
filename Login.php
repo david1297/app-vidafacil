@@ -62,7 +62,7 @@ if ($login->isUserLoggedIn() == true) {
 				?>
 							<div class="form-group">
 								<label for="signin-email" class="control-label sr-only">Email</label>
-								<input type="Email" class="form-control" id="signin-email" name="user_name" value="juandavid.andrade1997@gmail.com" placeholder="Correo o Usuario" autofocus="" required>
+								<input type="Text" class="form-control" id="signin-email" name="user_name" value="juandavid.andrade1997@gmail.com" placeholder="Correo o Usuario" autofocus="" required>
 							</div>
 							<div class="form-group">
 								<label for="signin-password" class="control-label sr-only">Password</label>

@@ -366,10 +366,7 @@
 			</div>
 		</div>
 		<!-- END MAIN CONTENT -->
-		<div class="clearfix"></div>
-		<footer> 	
-			<p class="copyright">&copy; Copyright <a href="https://www.tupro.com.co/" target="_blank">TuPro Creativo. </a>Todos los derechos reservados</p>
-		</footer>
+		
 	</div>
 	</div>
 	<!-- END WRAPPER -->

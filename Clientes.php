@@ -44,9 +44,11 @@
 		$Tel_R2 =$rw_Admin['Tel_R2'];
 
 		$Estado="Editando";
+		$Read= "readonly='readonly'";
 	}else
 	{
 		$Estado="Nuevo";
+		$Read= "";
 	}
 
 
@@ -70,8 +72,8 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    		<div class="btn-group pull-right">
-							<button type="button" class="btn btn-default" onclick="NuevoCliente()">
-								<span class="glyphicon glyphicon-user"></span> Nuevo cliente
+							<button type="button" class="btn btn-default" id="Consultar">
+								<span class="glyphicon glyphicon-user"></span> Consultar Clientes
 							</button>
 						</div>
 						<h4><i class="fas fa-user-tie"></i>   Clientes</h4>
@@ -83,7 +85,7 @@
 				  <div class="form-group">
 				  	<label for="Nit" class="col-sm-3  control-label">Nit</label>
 				  	<div class="col-sm-8 ">
-				   		<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" required>
+				   		<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" <?php echo $Read; ?> required>
 				  	</div>
 			   	</div>
 				 	<div class="form-group">
@@ -95,7 +97,7 @@
 					<div class="form-group">
 						<label for="Tipo" class="col-sm-3 control-label">Tipo Persona</label>
 						<div class="col-md-8">
-							<select class='form-control' id="Tipo" placeholder="Tipo Persona">
+							<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo Persona">
 								<?php 
 									if($Tipo == 'Natural'){
 										echo '<option value="Natural">Natural</option>';
@@ -178,8 +180,9 @@
 							<input type="text" class="form-control" id="Tel_R2" name="Tel_R2" required placeholder="Telefono de Referencia 2" value="<?php echo $Tel_R2; ?>">
 						</div>
 					</div>	
-					<div class="modal-footer aling-items-left">
-						<button type="button" class="btn btn-default" id="Cancelar">Cerrar</button>
+					<div id="resultados_ajax2"></div>
+					<div class="modal-footer ">
+						<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
 						<button type="submit" class="btn btn-primary">Guardar datos</button>
 		  		</div>				
 				</form>	
@@ -201,32 +204,33 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script>
+
 $( "#Cancelar" ).click(function( event ) {
 	if (document.getElementById('Estado').value == 'Editando') {
 		location.reload(true);
 	}
 	else{
-location.href='Consultar-Clientes.php';
+		location.href='Consultar-Clientes.php';
 	}
+})
+$( "#Consultar" ).click(function( event ) {
 	
-    
+		location.href='Consultar-Clientes.php';
+
 })
 
 
-	$( "#Administracion" ).submit(function( event ) {
-  $('#actualizar_datos2').attr("disabled", true);
-
+	$( "#guardar_cliente" ).submit(function( event ) {
  var parametros = $(this).serialize();
 	 $.ajax({
 			type: "POST",
-			url: "Componentes/Ajax/editar_Administracion.php",
+			url: "Componentes/Ajax/Guardar_Cliente.php",
 			data: parametros,
 			 beforeSend: function(objeto){
 				$("#resultados_ajax2").html("Mensaje: Cargando...");
 			  },
 			success: function(datos){
 			$("#resultados_ajax2").html(datos);
-			$('#actualizar_datos2').attr("disabled", false);
 			load(1);
 		  }
 	});

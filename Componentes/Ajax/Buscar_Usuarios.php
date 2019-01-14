@@ -5,22 +5,22 @@
 	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 	if($action == 'ajax'){
         $q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
-		$sTable = "Clientes";
+		$sTable = "Usuarios";
 		$sWhere = "";
 		if ( $_GET['q'] != "" ){
-			$sWhere.= " WHERE  (Clientes.Razon_Social like '%$q%' or Clientes.Nit like '%$q%')";
+			$sWhere.= " where  (Usuarios.Usuario like '%$q%' or Usuarios.Nombre like '%$q%' or Usuarios.Apellido like '%$q%' or Usuarios.Correo like '%$q%')";
 		}
-		$sWhere.=" order by Clientes.Razon_Social desc";
+		$sWhere.=" order by Usuarios.Usuario desc";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 10; 
+		$per_page = 10;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
 		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere");
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
-		$reload = './Consultar-Clientes.php';
+		$reload = './Consultar-Usuarios.php';
 		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
@@ -29,32 +29,34 @@
 			<div class="table-responsive">
 			  <table class="table">
 				<tr  class="warning">
-					<th>Nit</th>
-					<th>Razon Social</th>
-					<th>Telefono</th>
+					<th>Usuario</th>
 					<th>Correo</th>
-					<th>Tipo</th>
-					<th>Direccion</th>
-					<th class='text-right'>Editar</th>					
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th>Rol</th>
+					<th class='text-right'>Editar</th>
 				</tr>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
-						$Nit=$row['Nit'];
-						$Razon_Social=$row['Razon_Social'];
-						$Telefono=$row['Tel_C'];
-						$email_cliente=$row['Correo_C'];
-						$Tipo=$row['Tipo'];
-						$Direccion=$row['Direccion'];
+						$Usuario=$row['Usuario'];
+						$Correo=$row['Correo'];
+						$Nombre=$row['Nombre'];
+						$Apellido=$row['Apellido'];
+						$Rol=$row['Rol'];
+						if ($Rol == '1'){
+							$Rol='Administrador';
+						}else{
+							$Rol='Usuario';	
+						}
 					?>
 					<tr>
-						<td><?php echo $Nit; ?></td>
-						<td><?php echo $Razon_Social; ?></td>
-						<td><?php echo $Telefono; ?></td>
-						<td><?php echo $email_cliente; ?></td>
-						<td><?php echo $Tipo; ?></td>
-						<td><?php echo $Direccion; ?></td>
+						<td><?php echo $Usuario; ?></td>
+						<td><?php echo $Correo; ?></td>
+						<td><?php echo $Nombre; ?></td>
+						<td><?php echo $Apellido; ?></td>
+						<td><?php echo $Rol; ?></td>				
 						<td class="text-right">
-							<a href="#" class='btn btn-default' title='Editar cliente' onclick="obtener_datos('<?php echo $Nit;?>');" data-toggle="modal" data-target="#nuevoCliente"><i class="glyphicon glyphicon-edit"></i></a> 
+							<a href="#" class='btn btn-default' title='Editar cliente' onclick="obtener_datos('<?php echo $Usuario;?>');"><i class="glyphicon glyphicon-edit"></i></a> 
 						</td>
 					</tr>
 					<?php

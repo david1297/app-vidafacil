@@ -1,4 +1,7 @@
+
+
 <nav class="navbar navbar-default navbar-fixed-top">
+
 			<div class="container-fluid">
 				<div class="navbar-btn" >
 					<button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu"></i></button>
@@ -91,7 +94,7 @@
 								<ul class="dropdown-menu user-menu menu-icon">
 									<li class="menu-heading">CONFIGURACIONES DE LA CUENTA</li>
 									<li><a href="#"><i class="fa fa-fw fa-bell"></i> <span>Notificaciones</span></a></li>
-									<li><a href="Perfil.php"><i class="fas fa-sliders-h"></i> <span>Preferencias</span></a></li>
+									<li><a href="Usuarios.php?Usuario=<?php echo $_SESSION['Usuario'];?>&Perfil=Si"><i class="fas fa-sliders-h"></i> <span>Preferencias</span></a></li>
 									<li><a href="login.php?logout"><i class="fa fa-fw fa-sign-out-alt"></i> <span>Cerrar Sesion</span></a></li>
 								</ul>
 							</li>
@@ -120,7 +123,7 @@
 						<li class="<?php echo $Clientes;?>"><a href="Consultar-Clientes.php"><i class="fas fa-user-tie"></i><span>Clientes</span></a></li>
 						<li class="<?php echo $Contabilidad;?>"><a href="Consultar-Contabilidad"><i class="fas fa-book"></i> <span>Contabilidad</span></a></li>
 						<li class="<?php echo $Transacciones;?>"><a href="Consultar-Transacciones"><i class="fas fa-exchange-alt"></i>  <span>Transacciones</span></a></li>
-						<li class="<?php echo $Usuarios;?>"><a href="Consultar-Usuarios"><i class="fas fa-users"></i>  <span>Usuarios</span></a></li>
+						<li class="<?php echo $Usuarios;?>"><a href="Consultar-Usuarios.php"><i class="fas fa-users"></i>  <span>Usuarios</span></a></li>
 						
 					</ul>
 				</nav>

@@ -65,3 +65,4 @@ class Login
         return false;
     }
 }
+?>

@@ -6,9 +6,9 @@
 			var q= $("#q").val();
 			$("#loader").fadeIn('slow');
 			$.ajax({
-				url:'Componentes/Ajax/Buscar_Clientes.php?action=ajax&page='+page+'&q='+q,
+				url:'Componentes/Ajax/Buscar_Usuarios.php?action=ajax&page='+page+'&q='+q,
 				 beforeSend: function(objeto){
-				 $('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+					$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			  },
 				success:function(data){
 					$(".outer_div").html(data).fadeIn('slow');
@@ -17,11 +17,11 @@
 				}
 			})
 		}
-function NuevoCliente(){
-	location.href='Clientes.php';
+function NuevoUsuario(){
+	location.href='Usuarios.php';
 }
-function obtener_datos(Nit){
-	location.href='Clientes.php?Nit='+Nit;
+function obtener_datos(Usuario){
+	location.href='Usuarios.php?Usuario='+Usuario;
 }
 	
 		
