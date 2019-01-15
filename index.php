@@ -356,7 +356,7 @@
 								<p class="metric-inline"><i class="far fa-handshake"></i> +528 <span>PROVEEDORES</span></p>
 							</div>
 							<div class="col-md-4 col-sm-6">
-								<p class="metric-inline"><i class="fas fa-users"></i> +1065 <span>EMPLEADOS</span></p>
+								<p class="metric-inline"><i class="fas fa-users"></i> +1065 <span>USUARIOS</span></p>
 							</div>
 							
 						</div>
