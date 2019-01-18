@@ -301,43 +301,14 @@
 					</div>
 					<div class="panel-content">
 						<div class="row margin-bottom-15">
-							<div class="col-md-12 col-sm-7 left">
+							<div class="col-md-12 col-sm-12 left">
 								<div id="demo-line-chart" class="ct-chart"></div>
 							</div>
-							<!--<div class="col-md-4 col-sm-5 right">
-								<div class="row margin-bottom-30">
-									<div class="col-xs-4">
-										<p class="text-right text-larger"><span class="text-muted">Impression</span>
-											<br><strong>32,743</strong></p>
-									</div>
-									<div class="col-xs-4">
-										<p class="text-right text-larger"><span class="text-muted">Clicks</span>
-											<br><strong>1423</strong></p>
-									</div>
-									<div class="col-xs-4">
-										<p class="text-right text-larger"><span class="text-muted">CTR</span>
-											<br><strong>4,34%</strong></p>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-4">
-										<p class="text-right text-larger"><span class="text-muted">Cost</span>
-											<br><strong>$42.69</strong></p>
-									</div>
-									<div class="col-xs-4">
-										<p class="text-right text-larger"><span class="text-muted">CPC</span>
-											<br><strong>$0,03</strong></p>
-									</div>
-									<div class="col-xs-4">
-										<p class="text-right text-larger"><span class="text-muted">Budget</span>
-											<br><strong>$200</strong></p>
-									</div>
-								</div>
-							</div>
+							
 						</div>
 						<div class="action-buttons">
 							<a href="#" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add Budget</a> <a href="#" class="btn btn-default"><i class="fa fa-file-text-o"></i> View Campaign Details</a>
-						</div> -->
+						</div> 
 					</div>
 				</div>
 				<!-- END CAMPAIGN -->
@@ -437,7 +408,7 @@
 
 		// line chart
 		var data = {
-			labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+			labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio','Agosto','Septiembre'],
 			series: [
 				[200, 380, 350, 480, 410, 450, 550],
 			]

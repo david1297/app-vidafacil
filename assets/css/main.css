@@ -19,7 +19,7 @@ body {
   color: #5A5A5A; }
 
 a {
-  color: #6290d0; }
+  color: #137dad; }
   a:hover, a:focus {
     color: #437ac7;
     text-decoration: none; }
@@ -1215,12 +1215,13 @@ textarea.parsley-error {
 /* paginations */
 .pagination > li > a,
 .pagination > li > span {
-  color: #5c8ed4; }
+  color: #137dad; }
+  
 
 .pagination > li > a:hover, .pagination > li > span:hover,
 .pagination > li > a:focus, .pagination > li > span:focus {
-  background-color: #7ca4dd;
-  border-color: #5c8ed4;
+  background-color: #349bc7;
+  border-color: #137dad;
   color: #fff; }
 
 .pagination > li:first-child > a,
@@ -1243,14 +1244,19 @@ textarea.parsley-error {
 
 .pagination > .active > a:hover, .pagination > .active > span:hover,
 .pagination > .active > a:focus, .pagination > .active > span:focus {
-  background-color: #7ca4dd;
-  border-color: #5c8ed4;
+  background-color: #349bc7;
+  border-color: #137dad;
   color: #fff; }
+  .pagination > .disabled > a:hover, .pagination > .disabled > span:hover,
+  .pagination > .disabled > a:focus, .pagination > .disabled > span:focus {
+    background-color: #fff;
+    border-color: #ddd;
+    color: #777; }
 
 .pagination > .active > a, .pagination > .active > span {
-  background-color: #5c8ed4;
-  border-color: #4880cf; }
-
+  background-color: #137dad;
+  border-color: #056e9c; }
+  
 .pagination.borderless > li > a,
 .pagination.borderless > li > span {
   -webkit-border-radius: 2px;
@@ -1269,17 +1275,17 @@ textarea.parsley-error {
 .pagination.borderless > li.active > a,
 .pagination.borderless > li.active > span {
   color: #fff;
-  background-color: #5c8ed4; }
+  background-color: #137dad; }
   .pagination.borderless > li.active > a:hover, .pagination.borderless > li.active > a:focus,
   .pagination.borderless > li.active > span:hover,
   .pagination.borderless > li.active > span:focus {
     color: #fff;
-    background-color: #5c8ed4; }
+    background-color: #137dad; }
 
 .pager li > a {
-  border-color: #5c8ed4; }
+  border-color: #137dad; }
   .pager li > a:hover, .pager li > a:focus {
-    background-color: #5c8ed4;
+    background-color: #137dad;
     border-color: #5086d1;
     color: #fff; }
 

@@ -13,7 +13,7 @@
 					<form class="form-horizontal">
 					  <div class="form-group">
 						<div class="col-sm-6">
-						  <input type="text" class="form-control" id="Busc_Cliente" placeholder="Buscar Cliente" onkeyup="loadc(1)">
+						  <input type="text" class="form-control" id="Busc_Cliente" placeholder="Buscar Cliente" onkeyup="load(1)">
 						</div>
 						<!--<button type="button" class="btn btn-default" onclick="loadc(1)"><span class='glyphicon glyphicon-search'></span> Buscar</button>-->
 					  </div>

@@ -7,7 +7,7 @@
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
 	
-	$Clientes="active";
+	$Ventas="active";
 	
 ?>
 <!doctype html>
@@ -26,19 +26,19 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
-						<button type="button" class="btn btn-default" onclick="NuevoCliente()">
-							<span class="glyphicon glyphicon-user"></span> Nuevo cliente
+						<button type="button" class="btn btn-default" onclick="NuevaVenta()">
+							<span class="glyphicon glyphicon-user"></span> Nueva Venta
 						</button>
 						</div>
-						<h4><i class='glyphicon glyphicon-search'></i> Consultar Clientes</h4>
+						<h4><i class='glyphicon glyphicon-search'></i> Consultar Ventas</h4>
 						
 					</div>
 					<div class="panel-body">
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
-								<label for="q" class="col-md-2 control-label">Nombre o # de Documento</label>
+								<label for="q" class="col-md-2 control-label">Tipo, Estado, Campaña</label>
 								<div class="col-md-6">
-									<input type="text" class="form-control" id="q" placeholder="Nombre o # de Documento" onkeyup='load(1);'>
+									<input type="text" class="form-control" id="q" placeholder="Tipo, Estado o Campaña" onkeyup='load(1);'>
 								</div>
 								<div class="col-md-2">
 								<span id="loader"></span>
@@ -61,7 +61,7 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script type="text/javascript" src="js/VentanaCentrada.js"></script>
-	<script type="text/javascript" src="Componentes/JavaScript/Clientes.js"></script>
+	<script type="text/javascript" src="Componentes/JavaScript/Ventas.js"></script>
 
 	<script>
 	

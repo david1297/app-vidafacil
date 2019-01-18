@@ -20,7 +20,7 @@
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
-		$reload = './Consultar-Clientes.php';
+		$reload = 'Consultar-Clientes.php';
 		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
@@ -59,9 +59,11 @@
 					</tr>
 					<?php
 				}
+				
 				?>
+				
 				<tr>
-					<td colspan=7><span class="pull-right"><?
+					<td colspan=7><span class="pull-right"><?php
 					 echo paginate($reload, $page, $total_pages, $adjacents);
 					?></span></td>
 				</tr>

@@ -102,7 +102,7 @@
 									</div>
 									<div class="form-group">
 										<label for="Rol" class="col-sm-3 control-label">Rol</label>
-										<div class="col-md-8">
+										<div class="col-md-8 col-sm-8">
 										<?php 
 										if($_SESSION['Rol'] == '2'){
 											echo '
@@ -141,7 +141,7 @@
 									</div>
 									<div class="form-group">
 										<label for="Genero" class="col-sm-3 control-label">Genero</label>
-										<div class="col-md-8">
+										<div class="col-md-8 col-sm-8">
 											<select class='form-control' id="Genero" name ="Genero" placeholder="Genero">
 												<?php 
 													if($Genero	 == 'Femenino'){

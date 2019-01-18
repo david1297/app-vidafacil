@@ -1,12 +1,12 @@
 <?php
 	include('is_logged.php');
-	require_once ("../config/db.php");
-	require_once ("../config/conexion.php");
+	require_once ("../../config/db.php");
+	require_once ("../../config/conexion.php");
 	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 	if($action == 'ajax'){
          $Busc_Cliente = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Busc_Cliente'], ENT_QUOTES)));
-		 $aColumns = array('Nit', 'Nombre');
-		 $sTable = "Terceros";
+		 $aColumns = array('Nit', 'Razon_Social');
+		 $sTable = "Clientes";
 		 $sWhere = "";
 		if ( $_GET['Busc_Cliente'] != "" )
 		{
@@ -28,7 +28,7 @@
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
-		$reload = './index.php';
+		$reload = 'Componentes/Modal/Buscar_Clientes.php';
 		//main query to fetch the data
 		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
@@ -40,32 +40,29 @@
 			  <table class="table">
 				<tr  class="warning">
 					<th>Nit</th>
-					<th>Nombre</th>
-					<th><span>Telefono</span></th>
+					<th>Razon_Social</th>
 					<th><span>Correo</span></th>
 					<th class='text-center' style="width: 36px;">Seleccionar</th>
 				</tr>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
 					$Nit=$row['Nit'];
-					$Nombre=$row['Nombre'];
-					$Telefono=$row['Telefono'];
-					$Correo=$row["Correo"];
+					$Razon_Social=$row['Razon_Social'];
+					$Correo=$row["Correo_C"];
 					?>
 					<tr>
 						<td><?php echo $Nit; ?></td>
-						<td><?php echo $Nombre; ?></td>
-						<td><?php echo $Telefono; ?></td>
+						<td><?php echo $Razon_Social; ?></td>
 						<td><?php echo $Correo; ?></td>
 						
 						
-						<td class='text-center'><a class='btn btn-success'href="#" data-dismiss="modal" onclick="Seleccionar('<?php echo $Nit ?>','<?php echo $Nombre ?>','<?php echo $Telefono ?>','<?php echo $Correo ?>')"><i class="glyphicon glyphicon-ok"></i></a></td>
+						<td class='text-center'><a class='btn btn-success'href="#" data-dismiss="modal" onclick="Seleccionar('<?php echo $Nit ?>','<?php echo $Razon_Social ?>','<?php echo $Correo ?>')"><i class="glyphicon glyphicon-ok"></i></a></td>
 					</tr>
 					<?php
 				}
 				?>
 				<tr>
-					<td colspan=5><span class="pull-right"><?
+					<td colspan=5><span class="pull-right"><?php
 					 echo paginate($reload, $page, $total_pages, $adjacents);
 					?></span></td>
 				</tr>

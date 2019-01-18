@@ -88,16 +88,16 @@
 				   		<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" <?php echo $Read; ?> required>
 				  	</div>
 			   	</div>
-				 	<div class="form-group">
-					  <label for="Razon_Social" class="col-sm-3 control-label">Razon Social</label>
+				<div class="form-group">
+					<label for="Razon_Social" class="col-sm-3 control-label">Razon Social</label>
 				  	<div class="col-sm-8">
  				   		<input type="text" class="form-control" id="Razon_Social" name="Razon_Social" required placeholder="Razon Social" value="<?php echo $Razon_Social; ?>">
 				  	</div>
 			   	</div>
-					<div class="form-group">
-						<label for="Tipo" class="col-sm-3 control-label">Tipo Persona</label>
-						<div class="col-md-8">
-							<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo Persona">
+				<div class="form-group">
+					<label for="Tipo" class="col-sm-3 control-label">Tipo Persona</label>
+					<div class="col-md-8 col-sm-8">
+						<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo Persona">
 								<?php 
 									if($Tipo == 'Natural'){
 										echo '<option value="Natural">Natural</option>';
@@ -107,8 +107,8 @@
 										echo '<option value="Natural">Natural</option>';
 									}
 							  ?>
-							</select>
-						</div>
+						</select>
+					</div>
 					</div>
 					<div class="form-group">
 						<label for="Tel_C" class="col-sm-3 control-label">Telefono de Contacto</label>
