@@ -61,11 +61,11 @@ if ($login->isUserLoggedIn() == true) {
 				}
 				?>
 							<div class="form-group">
-								<label for="signin-email" class="control-label sr-only">Email</label>
-								<input type="Text" class="form-control" id="signin-email" name="user_name" value="juandavid.andrade1997@gmail.com" placeholder="Correo o Usuario" autofocus="" required>
+								<label for="signin-email" class="control-label sr-only">Correo o Nit</label>
+								<input type="Text" class="form-control" id="signin-email" name="user_name" value="juandavid.andrade1997@gmail.com" placeholder="Correo o Nit" autofocus="" required>
 							</div>
 							<div class="form-group">
-								<label for="signin-password" class="control-label sr-only">Password</label>
+								<label for="signin-password" class="control-label sr-only">Contraseña</label>
 								<input type="password" class="form-control" id="signin-password" value="123456" placeholder="Contraseña" name="user_password" autocomplete="off" required>
 							</div>
 							<button type="submit" class="btn btn-primary btn-lg btn-block" name="login" id="submit">INICIAR SESIÓN</button>

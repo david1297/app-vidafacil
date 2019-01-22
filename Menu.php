@@ -94,7 +94,7 @@
 								<ul class="dropdown-menu user-menu menu-icon">
 									<li class="menu-heading">CONFIGURACIONES DE LA CUENTA</li>
 									<li><a href="#"><i class="fa fa-fw fa-bell"></i> <span>Notificaciones</span></a></li>
-									<li><a href="Usuarios.php?Usuario=<?php echo $_SESSION['Usuario'];?>&Perfil=Si"><i class="fas fa-sliders-h"></i> <span>Preferencias</span></a></li>
+									<li><a href="Usuarios.php?Nit=<?php echo $_SESSION['Nit'];?>&Perfil=Si"><i class="fas fa-sliders-h"></i> <span>Preferencias</span></a></li>
 									<li><a href="login.php?logout"><i class="fa fa-fw fa-sign-out-alt"></i> <span>Cerrar Sesion</span></a></li>
 								</ul>
 							</li>
@@ -120,7 +120,7 @@
 					<!--<i class="fas fa-cogs"></i> <i class="fas fa-dolly"></i> -->
 						<li class="<?php echo $Inicio;?>"><a href="index.php"><i class="fas fa-home"></i> <span>Inicio</span></a></li>
 						<!--<li class="<?php echo $Administracion;?>"><a href="Administracion.php"><i class="fab fa-jedi-order"></i> <span>Administracion</span></a></li>-->
-						<li class="<?php echo $Clientes;?>"><a href="Consultar-Clientes.php"><i class="fas fa-user-tie"></i><span>Clientes</span></a></li>
+						<li class="<?php echo $Afiliados;?>"><a href="Consultar-Afiliados.php"><i class="fas fa-user-tie"></i><span>Afiliados</span></a></li>
 						<li class="<?php echo $Contabilidad;?>"><a href="#"><i class="fas fa-book"></i> <span>Contabilidad</span></a></li>
 						<!--<li class="<?php echo $Transacciones;?>"><a href="#"><i class="fas fa-exchange-alt"></i>  <span>Transacciones</span></a></li>-->
 						<li class="<?php echo $Ventas;?>"><a href="Consultar-Ventas.php"><i class="fas fa-shopping-cart"></i>  <span>Ventas</span></a></li>

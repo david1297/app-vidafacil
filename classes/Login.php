@@ -27,15 +27,16 @@ class Login
             }
             if (!$this->db_connection->connect_errno) {
                 $user_name = $this->db_connection->real_escape_string($_POST['user_name']);
-                $sql = "select Usuario,Correo,Clave,Nombre,Rol from Usuarios
-                        WHERE Usuario = '" . $user_name . "' OR Correo = '" . $user_name . "';";
+                $sql = "select Razon_Social,Correo,Clave,Tipo,Rol,Nit from Usuarios
+                        WHERE Estado='Activo' and ( Correo = '" . $user_name . "' OR Nit = '" . $user_name . "' );";
                 $result_of_login_check = $this->db_connection->query($sql);
                 if ($result_of_login_check->num_rows == 1) {
                     $result_row = $result_of_login_check->fetch_object();
                     if (password_verify($_POST['user_password'], $result_row->Clave)) {
-                        $_SESSION['Usuario'] = $result_row->Usuario;
-						$_SESSION['Correo'] = $result_row->Correo;
-                        $_SESSION['Nombre'] = $result_row->Nombre;
+                        $_SESSION['Razon_Social'] = $result_row->Usuario;
+                        $_SESSION['Correo'] = $result_row->Correo;
+                        $_SESSION['Nit'] = $result_row->Nit;
+                        $_SESSION['Tipo'] = $result_row->Nombre;
                         $_SESSION['Rol'] = $result_row->Rol;
                         $_SESSION['user_login_status'] = 1;
 
@@ -43,7 +44,7 @@ class Login
                         $this->errors[] = "Usuario y/o contraseña no coinciden.";
                     }
                 } else {
-                    $this->errors[] = "Usuario y/o contraseña no coinciden.";
+                    $this->errors[] = "El Usuario No Existe o No se encuentra Activo";
                 }
             } else {
                 $this->errors[] = "Problema de conexión de base de datos.";

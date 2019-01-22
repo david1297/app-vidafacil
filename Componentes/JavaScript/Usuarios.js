@@ -4,9 +4,10 @@
 
 		function load(page){
 			var q= $("#q").val();
+			var Filtro = $("#Filtro").val();
 			$("#loader").fadeIn('slow');
 			$.ajax({
-				url:'Componentes/Ajax/Buscar_Usuarios.php?action=ajax&page='+page+'&q='+q,
+				url:'Componentes/Ajax/Buscar_Usuarios.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro,
 				 beforeSend: function(objeto){
 					$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			  },
@@ -20,8 +21,8 @@
 function NuevoUsuario(){
 	location.href='Usuarios.php';
 }
-function obtener_datos(Usuario){
-	location.href='Usuarios.php?Usuario='+Usuario;
+function obtener_datos(Nit){
+	location.href='Usuarios.php?Nit='+Nit;
 }
 	
 		

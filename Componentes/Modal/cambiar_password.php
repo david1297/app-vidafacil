@@ -21,7 +21,7 @@
 				<label for="user_password_new3" class="col-sm-4 control-label">Nueva contraseña</label>
 				<div class="col-sm-8">
 				  <input type="password" class="form-control" id="user_password_new3" name="user_password_new3" placeholder="Nueva contraseña" pattern=".{6,}" title="Contraseña ( min . 6 caracteres)" required>
-					<input type="hidden" id="user_id_mod" name="user_id_mod" value="<?php echo $Usuario; ?>">
+					<input type="hidden" id="user_id_mod" name="user_id_mod" value="<?php echo $Nit; ?>">
 				</div>
 			  </div>
 			  <div class="form-group">

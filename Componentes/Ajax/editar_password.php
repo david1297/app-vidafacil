@@ -33,7 +33,7 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 					
       
 					// write new user's data into database
-                    $sql = "UPDATE Usuarios SET Clave='".$user_password_hash."' WHERE Usuario='".$user_id."';";
+                    $sql = "UPDATE Usuarios SET Clave='".$user_password_hash."' WHERE Nit='".$user_id."';";
                     $query = mysqli_query($con,$sql);
 
                     // if user has been added successfully
