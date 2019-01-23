@@ -63,15 +63,13 @@
 <body>
 	<div id="wrapper">
 		<?php
-	include("Menu.php");
-	?>
-		<!-- END LEFT SIDEBAR -->
-		<!-- MAIN CONTENT -->
+			include("Menu.php");
+		?>
 		<div id="main-content">
 			<div class="container-fluid">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-		    		<div class="btn-group pull-right">
+		    			<div class="btn-group pull-right">
 							<button type="button" class="btn btn-default" id="Consultar">
 								<span class="glyphicon glyphicon-user"></span> Consultar Clientes
 							</button>
@@ -79,37 +77,37 @@
 						<h4><i class="fas fa-user-tie"></i>   Clientes</h4>
 					</div>
 					<div class="panel-body">
-					<form class="form-horizontal col-sm-8" method="post" id="guardar_cliente" name="guardar_cliente">
-			   	<div id="resultados_ajax"></div>
-					<input type="text" class="form-control hidden" id="Estado" name="Estado"  value="<?php echo $Estado; ?>" > 
-				  <div class="form-group">
-				  	<label for="Nit" class="col-sm-3  control-label">Nit</label>
-				  	<div class="col-sm-8 ">
-				   		<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" <?php echo $Read; ?> required>
-				  	</div>
-			   	</div>
-				<div class="form-group">
-					<label for="Razon_Social" class="col-sm-3 control-label">Razon Social</label>
-				  	<div class="col-sm-8">
- 				   		<input type="text" class="form-control" id="Razon_Social" name="Razon_Social" required placeholder="Razon Social" value="<?php echo $Razon_Social; ?>">
-				  	</div>
-			   	</div>
-				<div class="form-group">
-					<label for="Tipo" class="col-sm-3 control-label">Tipo Persona</label>
-					<div class="col-md-8 col-sm-8">
-						<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo Persona">
-								<?php 
-									if($Tipo == 'Natural'){
-										echo '<option value="Natural">Natural</option>';
-										echo '<option value="Juridica">Juridica</option>';
-									}else{
-										echo '<option value="Juridica">Juridica</option>';
-										echo '<option value="Natural">Natural</option>';
-									}
-							  ?>
-						</select>
-					</div>
-					</div>
+						<form class="form-horizontal col-sm-8" method="post" id="guardar_cliente" name="guardar_cliente">
+			   				<div id="resultados_ajax"></div>
+							<input type="text" class="form-control hidden" id="Estado" name="Estado"  value="<?php echo $Estado; ?>" > 
+				  			<div class="form-group">
+				  				<label for="Nit" class="col-sm-3  control-label">Nit</label>
+				  				<div class="col-sm-8 ">
+				   					<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" <?php echo $Read; ?> required>
+				  				</div>
+			   				</div>
+							<div class="form-group">
+								<label for="Razon_Social" class="col-sm-3 control-label">Razon Social</label>
+				  				<div class="col-sm-8">
+ 				   					<input type="text" class="form-control" id="Razon_Social" name="Razon_Social" required placeholder="Razon Social" value="<?php echo $Razon_Social; ?>">
+				  				</div>
+			   				</div>
+							<div class="form-group">
+								<label for="Tipo" class="col-sm-3 control-label">Tipo Persona</label>
+								<div class="col-md-8 col-sm-8">
+									<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo Persona" onchange="TipoPersona()">
+										<?php 
+										if($Tipo == 'Natural'){
+											echo '<option value="Natural">Natural</option>';
+											echo '<option value="Juridica">Juridica</option>';
+										}else{
+											echo '<option value="Juridica">Juridica</option>';
+											echo '<option value="Natural">Natural</option>';
+										}
+							  		?>
+									</select>
+								</div>
+							</div>
 					<div class="form-group">
 						<label for="Tel_C" class="col-sm-3 control-label">Telefono de Contacto</label>
 						<div class="col-sm-8">
@@ -218,6 +216,7 @@ $( "#Consultar" ).click(function( event ) {
 		location.href='Consultar-Clientes.php';
 
 })
+
 
 
 	$( "#guardar_cliente" ).submit(function( event ) {

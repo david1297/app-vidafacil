@@ -47,7 +47,7 @@
 					<div class="panel-body">
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
-								<div class="col-md-2">		
+								<div class="col-md-3">		
 									<select class='form-control' id="Filtro" name ="Filtro" placeholder="Genero" onchange='load(1);'>
 										<option value="Razon_Social">Nombre o Razon Social</option>
 										<option value="Nit">Nit</option>
@@ -56,7 +56,7 @@
 									</select>
 								</div>		
 								<div class="col-md-5">
-									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Nombre, Nit, Telefono, Correo" onkeyup='load(1);'>
+									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
 								</div>
 								<div class="col-md-2">
 								<span id="loader"></span>

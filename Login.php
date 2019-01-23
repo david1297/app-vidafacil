@@ -61,8 +61,8 @@ if ($login->isUserLoggedIn() == true) {
 				}
 				?>
 							<div class="form-group">
-								<label for="signin-email" class="control-label sr-only">Correo o Nit</label>
-								<input type="Text" class="form-control" id="signin-email" name="user_name" value="juandavid.andrade1997@gmail.com" placeholder="Correo o Nit" autofocus="" required>
+								<label for="signin-email" class="control-label sr-only">Nit</label>
+								<input type="Text" class="form-control" id="signin-email" name="user_name" value="1112492933" placeholder="Nit o Numero de Documento" autofocus="" required>
 							</div>
 							<div class="form-group">
 								<label for="signin-password" class="control-label sr-only">Contraseña</label>

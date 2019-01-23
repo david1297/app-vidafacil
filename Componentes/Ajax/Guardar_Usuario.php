@@ -9,13 +9,12 @@ if (empty($_POST['Nit'])){
 	$errors[] = "El Nit del Usuario Se Encuentra Vacio";
 } elseif (empty($_POST['Tipo_Persona'])) {
 	$errors[] = "Tipo Persona Se Encuentra Vacio";
-} elseif (empty($_POST['Razon_Social'])){
+}elseif (($_POST['Tipo_Persona']=='Narutal') && ((empty($_POST['Razon_Social'])) || (empty($_POST['Nombre'])) ||  (empty($_POST['Apellido']))) ){
+	$errors[] = "La Razon Social o Nombres Se Encuentra Vacia";
+}  
+elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])) )){
 	$errors[] = "La Razon Social Se Encuentra Vacia";
-} elseif (empty($_POST['Nombre'])) {
-	$errors[] = "El Nombre  Se Encuentra Vacio";
-} elseif (empty($_POST['Apellido'])) {
-	$errors[] = "El Apellido  Se Encuentra Vacio";
-} elseif (empty($_POST['Rol'])){
+}elseif (empty($_POST['Rol'])){
 	$errors[] = "El Rol de Usuario Se Encuentra Vacia";
 } elseif (empty($_POST['Estado'])){
 	$errors[] = "El Esatdo de Usuario Se Encuentra Vacio";
@@ -48,9 +47,6 @@ if (empty($_POST['Nit'])){
 } elseif (
 			!empty($_POST['Nit'])
 			&& !empty($_POST['Tipo_Persona'])
-			&& !empty($_POST['Razon_Social'])
-			&& !empty($_POST['Nombre'])
-			&& !empty($_POST['Apellido'])
 			&& !empty($_POST['Rol'])
 			&& !empty($_POST['Estado'])
 			&& !empty($_POST['Tipo'])
@@ -97,7 +93,7 @@ if (empty($_POST['Nit'])){
 
 				('".$Nit."', '".$Tipo_Persona."', '".$Razon_Social."', '".$Nombre."', '".$Apellido."', '".$Rol."', '".$Estado."', '".$Tipo."', '".$Tel_C."', '".$Direccion."'
 				, '".$Correo."', '".$Cel_C."', '".$Correo_C."', '".$Porcentaje."', '".$Rep_Legal."', '".$CC."', '".$Nombre_R1."', '".$Tel_R1."', '".$Nombre_R2."', '".$Tel_R2."'
-				) ON DUPLICATE KEY UPDATE
+				) ON DUPLICATE  KEY UPDATE
 				Tipo_Persona = '".$Tipo_Persona."',Razon_Social ='".$Razon_Social."',Nombre='".$Nombre."',Apellido='".$Apellido."',Rol='".$Rol."',Estado='".$Estado."',Tipo='".$Tipo."',Tel_C='".$Tel_C."',Direccion='".$Direccion."' 
 				,Correo='".$Correo."',Cel_C='".$Cel_C."',Correo_C='".$Correo_C."',Porcentaje='".$Porcentaje."',Rep_Legal='".$Rep_Legal."',CC='".$CC."',Nombre_R1='".$Nombre_R1."',Tel_R1='".$Tel_R1."',Nombre_R2='".$Nombre_R2."',Tel_R2='".$Tel_R2."';";
                     $query_update = mysqli_query($con,$sql);

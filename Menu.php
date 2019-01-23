@@ -124,6 +124,8 @@
 						<li class="<?php echo $Contabilidad;?>"><a href="#"><i class="fas fa-book"></i> <span>Contabilidad</span></a></li>
 						<!--<li class="<?php echo $Transacciones;?>"><a href="#"><i class="fas fa-exchange-alt"></i>  <span>Transacciones</span></a></li>-->
 						<li class="<?php echo $Ventas;?>"><a href="Consultar-Ventas.php"><i class="fas fa-shopping-cart"></i>  <span>Ventas</span></a></li>
+						<li class="<?php echo $Campanas;?>"><a href="Consultar-Campanas.php"><i class="fas fa-bullhorn"></i>  <span>Campañas</span></a></li>
+						
 						
 						<li class="<?php echo $Usuarios;?>"><a href="Consultar-Usuarios.php"><i class="fas fa-users"></i>  <span>Usuarios</span></a></li>
 						

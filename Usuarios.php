@@ -84,7 +84,7 @@
 	?>
 
 </head>
-<body>
+<body onload="Cargar()">
 	<div id="wrapper">
 		<?php
 	include("Menu.php");
@@ -127,7 +127,7 @@
 									<div class="form-group">
 										<label for="Tipo_Persona" class="col-sm-3 control-label">Tipo Persona</label>
 										<div class="col-md-8 col-sm-8">
-											<select class='form-control' id="Tipo_Persona" name ="Tipo_Persona" placeholder="Tipo Persona">
+											<select class='form-control' id="Tipo_Persona" name ="Tipo_Persona" placeholder="Tipo Persona" onchange="TipoPersona()"> 
 												<?php 
 												if($Tipo_Persona == 'Natural'){
 													echo '<option value="Natural">Natural</option>';
@@ -140,22 +140,22 @@
 											</select>
 										</div>
 									</div>  
-									<div class="form-group">
-										<label for="Razon_Social" class="col-sm-3 control-label">Razon Social</label>
+									<div class="form-group" id="D_Razon_Social">
+										<label for="Razon_Social"  class="col-sm-3 control-label">Razon Social</label>
 				  						<div class="col-sm-8">
- 				   							<input type="text" class="form-control" id="Razon_Social" name="Razon_Social" required placeholder="Razon Social" value="<?php echo $Razon_Social; ?>">
+ 				   							<input type="text" class="form-control" id="Razon_Social" name="Razon_Social"  placeholder="Razon Social" value="<?php echo $Razon_Social; ?>">
 				  						</div>
 			   						</div> 
-									<div class="form-group">
+									<div class="form-group" id="D_Nombre">
 					  					<label for="Nombre" class="col-sm-3 control-label">Nombre</label>
 				  						<div class="col-sm-8">
- 				   							<input type="text" class="form-control" id="Nombre" name="Nombre" required placeholder="Nombre" value="<?php echo $Nombre; ?>">
+ 				   							<input type="text" class="form-control" id="Nombre" name="Nombre"  placeholder="Nombre" value="<?php echo $Nombre; ?>"  onkeyup="RazonSocial()">
 				  						</div>
 			   						</div>
-									<div class="form-group">
+									<div class="form-group" id="D_Apellido">
 										<label for="Apellido" class="col-sm-3 control-label">Apellido</label>
 										<div class="col-sm-8">
-				  							<input type="text" class="form-control" id="Apellido" name="Apellido" required placeholder="Apellido" value="<?php echo $Apellido; ?>">
+				  							<input type="text" class="form-control" id="Apellido" name="Apellido"  placeholder="Apellido" value="<?php echo $Apellido; ?>"  onkeyup="RazonSocial()">
 										</div>
 									</div>
 									<div class="form-group">
@@ -379,6 +379,7 @@ $( "#Consultar" ).click(function( event ) {
 
 	$( "#Guardar_Usuario" ).submit(function( event ) {
  var parametros = $(this).serialize();
+
 	 $.ajax({
 			type: "POST",
 			url: "Componentes/Ajax/Guardar_Usuario.php",
@@ -412,7 +413,33 @@ $( "#editar_password" ).submit(function( event ) {
 	});
   event.preventDefault();
 })
-
+function TipoPersona(){
+	
+	if (document.getElementById('Tipo_Persona').value=='Natural'){
+		$('#D_Nombre').removeClass("hidden");
+		$('#D_Apellido').removeClass("hidden");
+		$('#D_Razon_Social').addClass("hidden");
+	} else{
+		$('#D_Nombre').addClass("hidden");
+		$('#D_Apellido').addClass("hidden");
+		$('#D_Razon_Social').removeClass("hidden");
+	}
+	
+}
+function Cargar() {
+	if (document.getElementById('Tipo_Persona').value=='Natural'){
+		$('#D_Nombre').removeClass("hidden");
+		$('#D_Apellido').removeClass("hidden");
+		$('#D_Razon_Social').addClass("hidden");
+	} else{
+		$('#D_Nombre').addClass("hidden");
+		$('#D_Apellido').addClass("hidden");
+		$('#D_Razon_Social').removeClass("hidden");
+	}
+}
+function RazonSocial(){
+	document.getElementById('Razon_Social').value = document.getElementById('Nombre').value	 +' '+document.getElementById('Apellido').value;
+}
 	</script>
 </body>
 
