@@ -26,11 +26,18 @@
 		$Tel_R1 ="";
 		$Nombre_R2 ="";
 		$Tel_R2 ="";
+		$Banco_1="";
+		$Tipo_Banco_1="";
+		$Numero_Cuenta_1="";
+		$Banco_2="";
+		$Tipo_Banco_2="";
+		$Numero_Cuenta_2="";
 		
 		$Tipo ="";
 		$Estado ="";
 		$Porcentaje ="";
 		$Perfil="";
+
 
 	if (isset($_GET['Nit'])) {
 
@@ -61,6 +68,13 @@
 		$Tel_R1 =$rw_Admin['Tel_R1'];
 		$Nombre_R2 =$rw_Admin['Nombre_R2'];
 		$Tel_R2 =$rw_Admin['Tel_R2'];
+		$Banco_1=$rw_Admin['Banco_1'];
+		$Tipo_Banco_1=$rw_Admin['Tipo_Banco_1'];
+		$Numero_Cuenta_1=$rw_Admin['Numero_Cuenta_1'];
+		$Banco_2=$rw_Admin['Banco_2'];
+		$Tipo_Banco_2=$rw_Admin['Tipo_Banco_2'];
+		$Numero_Cuenta_2=$rw_Admin['Numero_Cuenta_2'];
+
 
 		$EstadoU="Editando";
 		$Read= "readonly='readonly'";
@@ -293,6 +307,91 @@ if($_SESSION['Rol'] == '2'){
 				  		<input type="text" class="form-control" id="CC" name="CC" required placeholder="Numero de Documento" value="<?php echo $CC; ?>">
 						</div>
 					</div>
+					<hr class="style1">
+					<H2 style="text-align: left;">Bancos</H2>
+					<hr class="style1">
+					<div class="form-group">
+						
+						<div class="col-sm-4">
+						<label for="Banco_1" class="control-label">Nombre</label>
+						<?PHP
+						$query1=mysqli_query($con, "select * from 
+						Bancos");
+						echo'
+							<select class="form-control" id="Banco_1" name ="Banco_1" placeholder="Banco_1 ">';
+							
+						while($rw_Admin1=mysqli_fetch_array($query1)){
+							echo '<option value="'.$rw_Admin1['Nombre'].'">'.$rw_Admin1['Nombre'].'</option>';
+												
+						}
+						echo '
+						</select>';
+						?>
+						</div>
+					
+						
+						<div class="col-sm-4">
+						<label for="Tipo_Banco_1" class=" control-label">Tipo de Cuenta</label>
+						<?PHP
+						
+						echo'
+							<select class="form-control" id="Tipo_Banco_1" name ="Tipo_Banco_1" placeholder="Tipo_Banco_1 ">';
+							
+							echo '<option value="Ahorros">Ahorros</option>';
+							echo '<option value="Corriente">Corriente</option>';
+												
+						echo '
+						</select>';
+						?>
+						</div>
+						<div class="col-sm-4 aling-left">
+						<label for="Numero_Cuenta_1" class="control-label ">Numero de cuenta</label>
+
+							<input type="text" class="form-control" id="Numero_Cuenta_1" name="Numero_Cuenta_1" required placeholder="Numero de Cuenta" value="<?php echo $Numero_Cuenta_1; ?>">
+						</div>
+					</div>	
+					<div class="form-group">
+						
+						<div class="col-sm-4">
+						<label for="Banco_2" class="control-label">Nombre</label>
+						<?PHP
+						$query1=mysqli_query($con, "select * from 
+						Bancos");
+						echo'
+							<select class="form-control" id="Banco_2" name ="Banco_2" placeholder="Banco_2 ">';
+							
+						while($rw_Admin1=mysqli_fetch_array($query1)){
+							echo '<option value="'.$rw_Admin1['Nombre'].'">'.$rw_Admin1['Nombre'].'</option>';
+												
+						}
+						echo '
+						</select>';
+						?>
+						</div>
+					
+						
+						<div class="col-sm-4">
+						<label for="Tipo_Banco_2" class=" control-label">Tipo de Cuenta</label>
+						<?PHP
+						
+						echo'
+							<select class="form-control" id="Tipo_Banco_2" name ="Tipo_Banco_2" placeholder="Tipo_Banco_2 ">';
+							
+							echo '<option value="Ahorros">Ahorros</option>';
+							echo '<option value="Corriente">Corriente</option>';
+												
+						echo '
+						</select>';
+						?>
+						</div>
+						<div class="col-sm-4 aling-left">
+						<label for="Numero_Cuenta_2" class="control-label ">Numero de cuenta</label>
+
+							<input type="text" class="form-control" id="Numero_Cuenta_2" name="Numero_Cuenta_2" required placeholder="Numero de Cuenta" value="<?php echo $Numero_Cuenta_2; ?>">
+						</div>
+					</div>
+					
+
 					<hr class="style1">
 					<H2 style="text-align: left;">Referencias</H2>
 					<hr class="style1">

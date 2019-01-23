@@ -6,28 +6,28 @@
 	if($action == 'ajax'){
 		$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
-		$sTable = "Usuarios";
+		$sTable = "Campanas";
 		$sWhere = "";
 		if ( $_GET['q'] != "" ){
-			if ($Filtro == "Razon_Social"){
+			if ($Filtro == "Numero"){
 				
-				$sWhere.= " where  (Usuarios.Nombre like '%$q%' or Usuarios.Apellido like '%$q%' or Usuarios.Razon_Social like '%$q%')";	
+				$sWhere.= " where  (Campanas.Numero like '%$q%' )";	
 			}else{
-				if ($Filtro =="Nit"){
-					$sWhere.= " where  (Usuarios.Nit like '%$q%')";	
+				if ($Filtro =="Nombre"){
+					$sWhere.= " where  (Campanas.Nombre like '%$q%')";	
 				}else{
-					if ($Filtro =="Telefono"){
-						$sWhere.= " where  (Usuarios.Tel_C like '%$q%' or Usuarios.Cel_C like '%$q%')";
+					if ($Filtro =="Area"){
+						$sWhere.= " where  (Campanas.Area like '%$q%')";
 					}else{
-						if ($Filtro=="Correo"){
-							$sWhere.= " where  (Usuarios.Correo_C like '%$q%' or Usuarios.Correo like '%$q%')";
+						if ($Filtro=="Contacto"){
+							$sWhere.= " where  (Campanas.Contacto like '%$q%')";
 						}
 					}
 				}
 			}
 			
 		}
-		$sWhere.=" order by Usuarios.Razon_Social desc";
+		$sWhere.=" order by Campanas.Nombre desc";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 10;
@@ -46,42 +46,34 @@
 			<div class="table-responsive">
 			  <table class="table">
 				<tr  class="warning">
+					<th>Numero</th>
 					<th>Nombre</th>
-					<th>Nit</th>
-					<th>Correo</th>
-					<th>Tipo</th>
-					<th>Rol</th>
+					<th>Contacto</th>
+					<th>Area</th>
 					<th>Estado</th>
 					<th class='text-right'>Editar</th>
 				</tr>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
 
-						$Nombre=$row['Razon_Social'];
-						$Nit=$row['Nit'];
-						$Correo=$row['Correo'];
-						$Tipo=$row['Tipo'];
-						$Rol=$row['Rol'];
-						if ($Rol == '1'){
-							$Rol='Administrador';
-						}else{
-							$Rol='Usuario';	
-						}
+						$Numero=$row['Numero'];
+						$Nombre=$row['Nombre'];
+						$Contacto=$row['Contacto'];
+						$Area=$row['Area'];
 						$Estado=$row['Estado'];
-						if ($Estado=="Activo"){$label_class='label-success';}
-						if ($Estado=="InActivo"){$label_class='label-danger';}
+						if ($Estado=="Activa"){$label_class='label-success';}
+						if ($Estado=="InActiva"){$label_class='label-danger';}
 						if ($Estado=="Pendiente"){$label_class='label-warning';}
 						
 					?>
 					<tr>
+						<td><?php echo $Numero; ?></td>
 						<td><?php echo $Nombre; ?></td>
-						<td><?php echo $Nit; ?></td>
-						<td><?php echo $Correo; ?></td>
-						<td><?php echo $Tipo; ?></td>
-						<td><?php echo $Rol; ?></td>				
+						<td><?php echo $Contacto; ?></td>
+						<td><?php echo $Area; ?></td>
 						<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>			
 						<td class="text-right">
-							<a href="#" class='btn btn-default' title='Editar Usuarios' onclick="obtener_datos('<?php echo $Nit;?>');"><i class="glyphicon glyphicon-edit"></i></a> 
+							<a href="#" class='btn btn-default' title='Editar Campañas' onclick="obtener_datos('<?php echo $Numero;?>');"><i class="glyphicon glyphicon-edit"></i></a> 
 						</td>
 					</tr>
 					<?php
