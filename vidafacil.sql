@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-01-2019 a las 23:31:49
+-- Tiempo de generación: 24-01-2019 a las 23:07:03
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -21,6 +21,53 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `vidafacil`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `bancos`
+--
+
+CREATE TABLE `bancos` (
+  `Numero` int(11) NOT NULL,
+  `Nombre` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `bancos`
+--
+
+INSERT INTO `bancos` (`Numero`, `Nombre`) VALUES
+(1, 'BANCOLOMBIA'),
+(2, 'BANCO FALABELLA'),
+(3, 'BANCO DE BOGOTA'),
+(4, 'DAVIVIENDA'),
+(5, 'NEQUI');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `campanas`
+--
+
+CREATE TABLE `campanas` (
+  `Numero` int(11) NOT NULL,
+  `Nombre` varchar(80) NOT NULL,
+  `Contacto` varchar(200) NOT NULL,
+  `Area` varchar(200) NOT NULL,
+  `Estado` varchar(20) NOT NULL,
+  `Porcentaje` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `campanas`
+--
+
+INSERT INTO `campanas` (`Numero`, `Nombre`, `Contacto`, `Area`, `Estado`, `Porcentaje`) VALUES
+(1, 'SVF', 'yo', 'Administrativa', 'Activa', 10),
+(2, 'EMERMEDICA', 'yo', 'Administriva', 'InActiva', 0),
+(3, 'TELEFONIA', 'obvio yo', 'todas', 'Pendiente', 50),
+(4, 'prueba', 'sebastian', 'ventas', 'Pendiente', 30);
 
 -- --------------------------------------------------------
 
@@ -74,21 +121,81 @@ CREATE TABLE `usuarios` (
   `Numero_Cuenta_1` varchar(30) NOT NULL,
   `Banco_2` varchar(80) NOT NULL,
   `Tipo_Banco_2` varchar(80) NOT NULL,
-  `Numero_Cuenta_2` varchar(30) NOT NULL
+  `Numero_Cuenta_2` varchar(30) NOT NULL,
+  `Titular_1` varchar(200) NOT NULL,
+  `Titular_2` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`Nit`, `Tipo_Persona`, `Tipo`, `Apellido`, `Nombre`, `Razon_Social`, `Tel_C`, `Direccion`, `Correo`, `Cel_C`, `Correo_C`, `Rep_Legal`, `CC`, `Nombre_R1`, `Tel_R1`, `Nombre_R2`, `Tel_R2`, `Rol`, `Clave`, `Porcentaje`, `Estado`, `Banco_1`, `Tipo_Banco_1`, `Numero_Cuenta_1`, `Banco_2`, `Tipo_Banco_2`, `Numero_Cuenta_2`) VALUES
-('1112492933', 'Juridica', 'Distribuidor', '', '', 'KUMBA INFLABLES SAS', '33', '1', 'juandavid.andrade1997@gmail.com', '1', 'fandacion@gmail.com', 'ANTHONY MONTERO RUIZ', '321654', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 1, '$2y$10$a9TM97e.oAPp0YBSj8OCi.gKSgQ.rCSsJFD5rBOidu9OnUcIWq5LG', 10, 'Activo', 'BANCOLOMBIA', 'Ahorros', '123', 'BANCOLOMBIA', 'Ahorros', '123'),
-('9005104631', 'Juridica', 'Distribuidor', '', '', 'KUMBA INFLABLES SAS', '3008930251', 'Carrera 95# 2b1-86, 1', 'juandavid.andrade1997@gmail.com', '123456', 'juandavid.andrade@gmail.com', 'benito', '66901489', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 1, 'InActivo', '', '', '', '', '', ''),
-('9008211529', 'Juridica', 'Distribuidor', '', '', 'JGH PROYECTOS Y SERVICIOS S.A.S', '3008930251', 'Carrera 95# 2b1-86, 1', 'juandavid.andrade1997@gmail.com', '123456', 'juandavid.andrade1997@gmail.com', 'JHON ALEXANDER', '321654', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 1, 'Activo', 'BANCOLOMBIA', 'Ahorros', '123', 'BANCOLOMBIA', 'Ahorros', '123');
+INSERT INTO `usuarios` (`Nit`, `Tipo_Persona`, `Tipo`, `Apellido`, `Nombre`, `Razon_Social`, `Tel_C`, `Direccion`, `Correo`, `Cel_C`, `Correo_C`, `Rep_Legal`, `CC`, `Nombre_R1`, `Tel_R1`, `Nombre_R2`, `Tel_R2`, `Rol`, `Clave`, `Porcentaje`, `Estado`, `Banco_1`, `Tipo_Banco_1`, `Numero_Cuenta_1`, `Banco_2`, `Tipo_Banco_2`, `Numero_Cuenta_2`, `Titular_1`, `Titular_2`) VALUES
+('1112492933', 'Juridica', 'Distribuidor', '', '', 'KUMBA INFLABLES SAS', '33', '1', 'juandavid.andrade1997@gmail.com', '1', 'fandacion@gmail.com', 'ANTHONY MONTERO RUIZ', '321654', 'juan david andrade', '3008930251', 'juan david andrade', '300', 1, '$2y$10$a9TM97e.oAPp0YBSj8OCi.gKSgQ.rCSsJFD5rBOidu9OnUcIWq5LG', 10, 'Activo', 'BANCOLOMBIA', 'Ahorros', '123', 'BANCO FALABELLA', 'Ahorros', '123', 'yo', 'obvio'),
+('123456789', 'Juridica', 'Operador', '', '', 'ejemplo', '32165', 'calle', 'ejemplo@gmail.com', '32165', 'ejemplo@gmail.com', 'r', 'a', 'a', 'a', 'a', 'a', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 10, 'InActivo', 'NEQUI', 'Telefonica', '3106949631', 'BANCO DE BOGOTA', 'Corriente', '3214', 'ejemplo', 'el banco'),
+('8000099734', 'Juridica', 'Distribuidor', '', '', 'LUVAGA CIA LTDA.', '665 25 09', 'Av 4B Norte # 37 A - 127', 'contabilidad@luvaga.com', '664 01 01', 'contabilidad@luvaga.com', 'LUIS ENRIQUE', '79589752', '1', '1', '1', '1', 2, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 10, 'Pendiente', 'BANCOLOMBIA', 'Ahorros', '79589752', 'NEQUI', 'Telefonica', '79589752', 'LUIS ENRIQUE', 'LUIS ENRIQUE'),
+('9005104631', 'Juridica', 'Distribuidor', '', '', 'KUMBA INFLABLES SAS', '3008930251', 'Carrera 95# 2b1-86, 1', 'juandavid.andrade1997@gmail.com', '123456', 'juandavid.andrade@gmail.com', 'benito', '66901489', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 1, 'InActivo', '', '', '', '', '', '', '', ''),
+('9008211529', 'Juridica', 'Distribuidor', '', '', 'JGH PROYECTOS Y SERVICIOS S.A.S', '3008930251', 'Carrera 95# 2b1-86, 1', 'juandavid.andrade1997@gmail.com', '123456', 'juandavid.andrade1997@gmail.com', 'JHON ALEXANDER', '321654', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 1, 'Activo', 'BANCOLOMBIA', 'Ahorros', '123', 'BANCOLOMBIA', 'Ahorros', '123', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario_camp`
+--
+
+CREATE TABLE `usuario_camp` (
+  `Numero` int(11) NOT NULL,
+  `Campana` int(11) NOT NULL,
+  `Usuario` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `usuario_camp`
+--
+
+INSERT INTO `usuario_camp` (`Numero`, `Campana`, `Usuario`) VALUES
+(36, 3, '9005104631'),
+(49, 3, '8000099734'),
+(102, 4, '1112492933');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `u_camp_temp`
+--
+
+CREATE TABLE `u_camp_temp` (
+  `Numero_Temp` int(11) NOT NULL,
+  `Numero` int(11) NOT NULL,
+  `Nombre` varchar(80) NOT NULL,
+  `Porcentaje` float NOT NULL,
+  `session_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Nit` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `u_camp_temp`
+--
+
+INSERT INTO `u_camp_temp` (`Numero_Temp`, `Numero`, `Nombre`, `Porcentaje`, `session_id`, `Nit`) VALUES
+(77, 3, 'TELEFONIA', 50, 't1fkgk1qqdi0h22s8jekvin2qm', '8000099734'),
+(169, 4, 'prueba', 30, 't1fkgk1qqdi0h22s8jekvin2qm', '1112492933');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `bancos`
+--
+ALTER TABLE `bancos`
+  ADD PRIMARY KEY (`Numero`);
+
+--
+-- Indices de la tabla `campanas`
+--
+ALTER TABLE `campanas`
+  ADD PRIMARY KEY (`Numero`);
 
 --
 -- Indices de la tabla `roles`
@@ -104,6 +211,44 @@ ALTER TABLE `usuarios`
   ADD KEY `Rol` (`Rol`);
 
 --
+-- Indices de la tabla `usuario_camp`
+--
+ALTER TABLE `usuario_camp`
+  ADD PRIMARY KEY (`Numero`),
+  ADD KEY `Campana` (`Campana`),
+  ADD KEY `Usuario` (`Usuario`);
+
+--
+-- Indices de la tabla `u_camp_temp`
+--
+ALTER TABLE `u_camp_temp`
+  ADD PRIMARY KEY (`Numero_Temp`),
+  ADD KEY `Numero` (`Numero`),
+  ADD KEY `Nit` (`Nit`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `bancos`
+--
+ALTER TABLE `bancos`
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario_camp`
+--
+ALTER TABLE `usuario_camp`
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+
+--
+-- AUTO_INCREMENT de la tabla `u_camp_temp`
+--
+ALTER TABLE `u_camp_temp`
+  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+
+--
 -- Restricciones para tablas volcadas
 --
 
@@ -112,6 +257,20 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`Rol`) REFERENCES `roles` (`Numero`);
+
+--
+-- Filtros para la tabla `usuario_camp`
+--
+ALTER TABLE `usuario_camp`
+  ADD CONSTRAINT `usuario_camp_ibfk_1` FOREIGN KEY (`Campana`) REFERENCES `campanas` (`Numero`),
+  ADD CONSTRAINT `usuario_camp_ibfk_2` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`Nit`);
+
+--
+-- Filtros para la tabla `u_camp_temp`
+--
+ALTER TABLE `u_camp_temp`
+  ADD CONSTRAINT `u_camp_temp_ibfk_1` FOREIGN KEY (`Nit`) REFERENCES `usuarios` (`Nit`),
+  ADD CONSTRAINT `u_camp_temp_ibfk_2` FOREIGN KEY (`Numero`) REFERENCES `campanas` (`Numero`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

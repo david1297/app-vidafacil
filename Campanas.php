@@ -61,7 +61,7 @@
 	?>
 
 </head>
-<body onload="Cargar()">
+<body >
 	<div id="wrapper">
 		<?php
 	include("Menu.php");
@@ -233,7 +233,7 @@ $( "#Consultar" ).click(function( event ) {
 			  },
 			success: function(datos){
 			$("#resultados_ajax2").html(datos);
-			load(1);
+		
 		  }
 	});
   event.preventDefault();

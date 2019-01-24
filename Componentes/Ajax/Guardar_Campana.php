@@ -46,7 +46,7 @@ elseif (
                     if ($query_update) {
                         $messages[] = "Los Datos Se Han Modificado Con Exito.";
                     } else {
-                        $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>".$sql;
+                        $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
                     }
         } else {
             $errors[] = "Un error desconocido ocurrió.";
