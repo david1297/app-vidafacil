@@ -11,21 +11,23 @@
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Numero"){
 				
-				$sWhere.= " where  (Campanas.Numero like '%$q%' )";	
+				$sWhere.= " where  (Campanas.Numero like '%$q%' ) and  Estado ='Activa'";	
 			}else{
 				if ($Filtro =="Nombre"){
-					$sWhere.= " where  (Campanas.Nombre like '%$q%')";	
+					$sWhere.= " where  (Campanas.Nombre like '%$q%') and  Estado ='Activa'";	
 				}else{
 					if ($Filtro =="Area"){
-						$sWhere.= " where  (Campanas.Area like '%$q%')";
+						$sWhere.= " where  (Campanas.Area like '%$q%') and  Estado ='Activa'";
 					}else{
 						if ($Filtro=="Contacto"){
-							$sWhere.= " where  (Campanas.Contacto like '%$q%')";
+							$sWhere.= " where  (Campanas.Contacto like '%$q%') and  Estado ='Activa'";
 						}
 					}
 				}
 			}
 			
+		} else{
+			$sWhere = " where Estado ='Activa'";	
 		}
 		$sWhere.=" order by Campanas.Nombre desc";
 		include 'pagination.php';
