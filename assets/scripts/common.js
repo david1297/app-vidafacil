@@ -18,16 +18,16 @@ $(document).ready(function() {
 			$(this).find(".fa").toggleClass('fa-angle-left fa-angle-right');
 
 			$(this).animate({
-				left: "+=28px"
-			}, 800);
+				left: "+=80px"
+			}, 500);
 
 		} else {
 			$('body').removeClass('layout-fullwidth');
 			$(this).find(".fa").toggleClass('fa-angle-left fa-angle-right');
 
 			$(this).animate({
-				left: "-=28px"
-			}, 800);
+				left: "-=80px"
+			}, 500);
 		}
 	});
 

@@ -23,7 +23,7 @@
 <?php include("head.php");?>
 </head>
 
-<body>
+<body class="">
 	<div id="Menus">
 	<!-- WRAPPER -->
 	<div id="wrapper">
