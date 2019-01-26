@@ -6,27 +6,32 @@
 	if($action == 'ajax'){
 		$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
+		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
+
 		$sTable = "Campanas";
-		$sWhere = "";
+		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Numero"){
 				
-				$sWhere.= " where  (Campanas.Numero like '%$q%' )";	
+				$sWhere.= " and  (Campanas.Numero like '%$q%' )";	
 			}else{
 				if ($Filtro =="Nombre"){
-					$sWhere.= " where  (Campanas.Nombre like '%$q%')";	
+					$sWhere.= " and  (Campanas.Nombre like '%$q%')";	
 				}else{
 					if ($Filtro =="Area"){
-						$sWhere.= " where  (Campanas.Area like '%$q%')";
+						$sWhere.= " and  (Campanas.Area like '%$q%')";
 					}else{
 						if ($Filtro=="Contacto"){
-							$sWhere.= " where  (Campanas.Contacto like '%$q%')";
+							$sWhere.= " and  (Campanas.Contacto like '%$q%')";
 						}
 					}
 				}
 			}
 			
 		}
+		if($Estado<>"Todos"){
+			$sWhere.= " and Estado ='".$Estado."'";	
+		} 
 		$sWhere.=" order by Campanas.Nombre desc";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;

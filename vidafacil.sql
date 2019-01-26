@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-01-2019 a las 23:07:03
+-- Tiempo de generación: 26-01-2019 a las 17:44:35
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -21,6 +21,37 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `vidafacil`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `afiliados`
+--
+
+CREATE TABLE `afiliados` (
+  `Identificacion` varchar(30) NOT NULL,
+  `Primer_Nombre` varchar(50) NOT NULL,
+  `Segundo_Nombre` varchar(50) NOT NULL,
+  `Primer_Apellido` varchar(50) NOT NULL,
+  `Segundo_Apellido` varchar(50) NOT NULL,
+  `Tipo_Identificacion` varchar(50) NOT NULL,
+  `Fecha_Nacimiento` date NOT NULL,
+  `Nacionalidad` varchar(50) NOT NULL,
+  `Ciudad` int(11) NOT NULL,
+  `Departamento` int(11) NOT NULL,
+  `Direccion` varchar(100) NOT NULL,
+  `Direccion_Adicional` varchar(200) NOT NULL,
+  `Estrato` int(11) NOT NULL,
+  `Nivel_Educacion` varchar(80) NOT NULL,
+  `Nivel_edicativo` varchar(100) NOT NULL,
+  `Ocupacion` varchar(100) NOT NULL,
+  `Rango_Ingresos` varchar(100) NOT NULL,
+  `Telefono` varchar(20) NOT NULL,
+  `Forma_Pago` varchar(40) NOT NULL,
+  `Direccion_Firma` varchar(200) NOT NULL,
+  `Fecha_Firma` date NOT NULL,
+  `Horario` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -56,18 +87,19 @@ CREATE TABLE `campanas` (
   `Contacto` varchar(200) NOT NULL,
   `Area` varchar(200) NOT NULL,
   `Estado` varchar(20) NOT NULL,
-  `Porcentaje` float NOT NULL
+  `Porcentaje` float NOT NULL,
+  `Observaciones` varchar(5000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `campanas`
 --
 
-INSERT INTO `campanas` (`Numero`, `Nombre`, `Contacto`, `Area`, `Estado`, `Porcentaje`) VALUES
-(1, 'SVF', 'yo', 'Administrativa', 'Activa', 10),
-(2, 'EMERMEDICA', 'yo', 'Administriva', 'InActiva', 0),
-(3, 'TELEFONIA', 'obvio yo', 'todas', 'Pendiente', 50),
-(4, 'prueba', 'sebastian', 'ventas', 'Pendiente', 30);
+INSERT INTO `campanas` (`Numero`, `Nombre`, `Contacto`, `Area`, `Estado`, `Porcentaje`, `Observaciones`) VALUES
+(1, 'SVF', 'yo', 'Administrativa', 'Activa', 10, 'fdf'),
+(2, 'EMERMEDICA', 'yo', 'Administriva', 'InActiva', 0, ''),
+(3, 'TELEFONIA', 'obvio yo', 'todas', 'InActiva', 50, 'HOLI\r\nQUE TAL COMO ESTAS \r\nSALTO'),
+(4, 'prueba', 'sebastian', 'ventas', 'Pendiente', 30, '');
 
 -- --------------------------------------------------------
 
@@ -156,7 +188,8 @@ CREATE TABLE `usuario_camp` (
 INSERT INTO `usuario_camp` (`Numero`, `Campana`, `Usuario`) VALUES
 (36, 3, '9005104631'),
 (49, 3, '8000099734'),
-(102, 4, '1112492933');
+(103, 4, '1112492933'),
+(104, 3, '1112492933');
 
 -- --------------------------------------------------------
 
@@ -178,8 +211,10 @@ CREATE TABLE `u_camp_temp` (
 --
 
 INSERT INTO `u_camp_temp` (`Numero_Temp`, `Numero`, `Nombre`, `Porcentaje`, `session_id`, `Nit`) VALUES
-(77, 3, 'TELEFONIA', 50, 't1fkgk1qqdi0h22s8jekvin2qm', '8000099734'),
-(169, 4, 'prueba', 30, 't1fkgk1qqdi0h22s8jekvin2qm', '1112492933');
+(180, 4, 'prueba', 30, 'lo4hk5i3gvk73d8gu3l5oum287', '1112492933'),
+(181, 3, 'TELEFONIA', 50, 'lo4hk5i3gvk73d8gu3l5oum287', '1112492933'),
+(182, 3, 'TELEFONIA', 50, 'p63tftvuvrl37gtnc4t330lo8e', '9005104631'),
+(187, 3, 'TELEFONIA', 50, 'p63tftvuvrl37gtnc4t330lo8e', '8000099734');
 
 --
 -- Índices para tablas volcadas
@@ -240,13 +275,13 @@ ALTER TABLE `bancos`
 -- AUTO_INCREMENT de la tabla `usuario_camp`
 --
 ALTER TABLE `usuario_camp`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT de la tabla `u_camp_temp`
 --
 ALTER TABLE `u_camp_temp`
-  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- Restricciones para tablas volcadas

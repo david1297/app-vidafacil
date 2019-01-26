@@ -35,13 +35,15 @@ elseif (
 				$Area = mysqli_real_escape_string($con,(strip_tags($_POST["Area"],ENT_QUOTES)));
 				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 				$Porcentaje = mysqli_real_escape_string($con,(strip_tags($_POST["Porcentaje"],ENT_QUOTES)));
+				$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));
 				
 				
-				$sql =  "INSERT INTO  Campanas(Numero,Nombre,Contacto,Area,Estado,Porcentaje) VALUES
+				$sql =  "INSERT INTO  Campanas(Numero,Nombre,Contacto,Area,Estado,Porcentaje,Observaciones) VALUES
 
-				('".$Numero."', '".$Nombre."', '".$Contacto."', '".$Area."', '".$Estado."', '".$Porcentaje."'
+				('".$Numero."', '".$Nombre."', '".$Contacto."', '".$Area."', '".$Estado."', '".$Porcentaje."', '".$Observaciones."'
 				) ON DUPLICATE  KEY UPDATE
-				Numero = '".$Numero."',Nombre ='".$Nombre."',Contacto='".$Contacto."',Area='".$Area."',Estado='".$Estado."',Porcentaje='".$Porcentaje."';";
+				Numero = '".$Numero."',Nombre ='".$Nombre."',Contacto='".$Contacto."',Area='".$Area."',Estado='".$Estado."',Porcentaje='".$Porcentaje."'
+				,Observaciones='".$Observaciones."';";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
                         $messages[] = "Los Datos Se Han Modificado Con Exito.";

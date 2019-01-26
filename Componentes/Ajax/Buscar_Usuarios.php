@@ -6,27 +6,33 @@
 	if($action == 'ajax'){
 		$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
+		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
 		$sTable = "Usuarios";
-		$sWhere = "";
+		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Razon_Social"){
 				
-				$sWhere.= " where  (Usuarios.Nombre like '%$q%' or Usuarios.Apellido like '%$q%' or Usuarios.Razon_Social like '%$q%')";	
+				$sWhere.= " and   (Usuarios.Nombre like '%$q%' or Usuarios.Apellido like '%$q%' or Usuarios.Razon_Social like '%$q%')";	
 			}else{
 				if ($Filtro =="Nit"){
-					$sWhere.= " where  (Usuarios.Nit like '%$q%')";	
+					$sWhere.= " and  (Usuarios.Nit like '%$q%')";	
 				}else{
 					if ($Filtro =="Telefono"){
-						$sWhere.= " where  (Usuarios.Tel_C like '%$q%' or Usuarios.Cel_C like '%$q%')";
+						$sWhere.= " and  (Usuarios.Tel_C like '%$q%' or Usuarios.Cel_C like '%$q%')";
 					}else{
 						if ($Filtro=="Correo"){
-							$sWhere.= " where  (Usuarios.Correo_C like '%$q%' or Usuarios.Correo like '%$q%')";
+							$sWhere.= " and  (Usuarios.Correo_C like '%$q%' or Usuarios.Correo like '%$q%')";
 						}
 					}
 				}
 			}
 			
 		}
+		if($Estado<>"Todos"){
+			$sWhere.= " and Estado ='".$Estado."'";	
+		} 
+
+
 		$sWhere.=" order by Usuarios.Razon_Social desc";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;

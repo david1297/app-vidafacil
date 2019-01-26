@@ -48,7 +48,7 @@
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
 								<div class="col-md-3">		
-									<select class='form-control' id="Filtro" name ="Filtro" placeholder="Genero" onchange='load(1);'>
+									<select class='form-control' id="Filtro" name ="Filtro" placeholder="Estado" onchange='load(1);'>
 										<option value="Razon_Social">Nombre o Razon Social</option>
 										<option value="Nit">Nit</option>
 										<option value="Telefono">Telefono</option>
@@ -57,6 +57,14 @@
 								</div>		
 								<div class="col-md-5">
 									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
+								</div>
+								<div class="col-md-2">		
+									<select class='form-control' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
+										<option value="Todos">Todos</option>
+										<option value="Pendiente">Pendiente</option>
+										<option value="Activo">Activo</option>
+										<option value="InActivo">InActivo</option>
+									</select>
 								</div>
 								<div class="col-md-2">
 								<span id="loader"></span>
@@ -78,7 +86,6 @@
 	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
-	<script type="text/javascript" src="js/VentanaCentrada.js"></script>
 	<script type="text/javascript" src="Componentes/JavaScript/Usuarios.js"></script>
 
 	<script>

@@ -3,32 +3,26 @@
 	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
         header("location: login.php");
 		exit;
-        }
+    }
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
 	
-	$Usuarios="active";
-
+	$Campanas="active";
 	$Numero ="";
-		$Nombre ="";
-		$Contacto="";
-		$Area ="";
-		$Estado ="";
-		$Porcentaje ="";
-		
-		
-		$Tipo ="";
-		$EstadoC ="";
-		$Porcentaje ="";
-		$Perfil="";
-
+	$Nombre ="";
+	$Contacto="";
+	$Area ="";
+	$Estado ="";
+	$Porcentaje ="";			
+	$Tipo ="";
+	$EstadoC ="";
+	$Porcentaje ="";
+	$Perfil="";
+	$Observaciones="";
 
 	if (isset($_GET['Numero'])) {
-
-		$query=mysqli_query($con, "select * from 
-		Campanas where Numero ='".$_GET['Numero']."' ");
+		$query=mysqli_query($con, "select * from Campanas where Numero ='".$_GET['Numero']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
-
 		
 		$Numero =$rw_Admin['Numero'];
 		$Nombre =$rw_Admin['Nombre'];
@@ -36,53 +30,41 @@
 		$Area =$rw_Admin['Area'];
 		$Estado =$rw_Admin['Estado'];
 		$Porcentaje =$rw_Admin['Porcentaje'];
-
-
-
+		$Observaciones=$rw_Admin['Observaciones'];
 		$EstadoC="Editando";
 		$Read= "readonly='readonly'";
-	}else
-	{
+	}else{
 		$EstadoC="Nuevo";
 		$Read= "";
 	}
 	if (isset($_GET['Perfil'])) {
-	$Perfil="SI";
+		$Perfil="SI";
 	}
-
-
-
 ?>
 <!doctype html>
 <html lang="es">
 <head>
-	<?php include("head.php"); 
-		include("componentes/modal/cambiar_password.php");
+	<?php 
+		include("head.php"); 
 	?>
-
 </head>
-<body >
+<body>
 	<div id="wrapper">
 		<?php
-	include("Menu.php");
-	?>
-	
+			include("Menu.php");
+		?>
 		<div id="main-content">
 			<div class="container-fluid">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-		    			<div class="btn-group pull-right">
-						
+		    			<div class="btn-group pull-right">				
 							<button type="button" class="btn btn-default" id="Consultar">
-							<span class="glyphicon glyphicon-user"></span> Consultar Campañas
-						</button>
-					
-							
+								<span class="glyphicon glyphicon-user"></span> Consultar Campañas
+							</button>
 						</div>
 						<h4><i class="fas fa-bullhorn"></i>   Campañas</h4>
 					</div>
 					<div class="panel-body">
-						
 						<div class="tab-content content-profile">
 							<div class="tab-pane fade in active" id="Informacion">
 								<form class="form-horizontal col-sm-8" method="post" id="Guardar_Campana" name="Guardar_Campana">
@@ -94,7 +76,6 @@
 				   							<input type="text" class="form-control" id="Numero" name="Numero" placeholder="Numero" value="<?php echo $Numero; ?>" <?php echo $Read; ?> required>
 				  						</div>
 			   						</div>
-									
 									<div class="form-group" >
 										<label for="Nombre"  class="col-sm-3 control-label">Nombre</label>
 				  						<div class="col-sm-8">
@@ -119,13 +100,12 @@
 										echo '
 										<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Pendiente" >
 										';
-									} else{
+									} else {
 										echo '
 										<div class="form-group">
-										<label for="Estado" class="col-sm-3 control-label">Estado</label>
-										<div class="col-md-8 col-sm-8">
-										';
-										echo '<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
+											<label for="Estado" class="col-sm-3 control-label">Estado</label>
+											<div class="col-md-8 col-sm-8">
+												<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
 											if($Estado == 'Activa'){
 												echo '<option value="Activa">Activa</option>';
 												echo '<option value="InActiva">InActiva</option>';
@@ -133,38 +113,24 @@
 												echo '<option value="InActiva">InActiva</option>';
 												echo '<option value="Activa">Activa</option>';
 											}
-											echo '</select>
+											echo '
+												</select>
 											</div>
-									</div>';
+										</div>';
 									}
-
 									?>
-									
-
-
-				  <div class="form-group">
-					<label for="Porcentaje" class="col-sm-3 control-label">Porcentaje</label>
+				  					<div class="form-group">
+										<label for="Porcentaje" class="col-sm-3 control-label">Porcentaje</label>
 										<div class="col-sm-8">
-										<?php
-if($_SESSION['Rol'] == '2'){
-?>
-<input type="text" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje; ?> " <?php echo $Read; ?>>
-<?php
-}else{
-?>
-<input type="text" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje; ?> ">
-<?php
-}
-?>
-				  							
+											<input type="text" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje; ?> ">
 										</div>
-									
-									<div class="col-md-12">
-  										<label for="Observaciones">Observaciones:</label>
-  										<textarea class="form-control" rows="5" id="Observaciones"></textarea>
 									</div>
+									<div class="form-group">
+										<label for="Observaciones">Observaciones:</label>
+										<div class="col-sm-12">
+  											<textarea class="form-control" rows="5" id="Observaciones"NAME="Observaciones" ><?php echo $Observaciones; ?></textarea>
+										</div>
 									</div>
-									<br>
 
 
 					
