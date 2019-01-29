@@ -4,6 +4,7 @@ include('is_logged.php');
 $session_id= session_id();
 
 if (isset($_POST['Nit'])){$Nit=$_POST['Nit'];}
+if (isset($_POST['Perfil'])){$Perfil=$_POST['Perfil'];}
 
 require_once ("../../config/db.php");
 require_once ("../../config/conexion.php");
@@ -51,7 +52,15 @@ while ($row=mysqli_fetch_array($sql)){
 			<td class='text-center'><?php echo $Numero;?></td>
 			<td><?php echo $Nombre;?></td>
 			<td class='text-center'><?php echo $Porcentaje;?></td>
-			<td class='text-center'><a href="#" class='btn btn-default' onclick="eliminar('<?php echo $Numero_Temp ?>')"><i class="glyphicon glyphicon-trash"></i></a></td>
+			<?PHP
+			if ($Perfil <>'SI'){
+			ECHO' 
+				<td class="text-center"><a href="#" class="btn btn-default" onclick="eliminar('.$Numero_Temp.')"><i class="glyphicon glyphicon-trash"></i></a></td>
+				';
+			}else{
+echo '<td class="text-center"></td>';
+			}
+			?>
 		</tr>		
 		<?php
 	}

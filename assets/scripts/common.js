@@ -1,17 +1,39 @@
+function getCookie(cname) {
+	var name = cname + "=";
+	var decodedCookie = decodeURIComponent(document.cookie);
+	var ca = decodedCookie.split(';');
+	for(var i = 0; i < ca.length; i++) {
+	  var c = ca[i];
+	  while (c.charAt(0) == ' ') {
+		c = c.substring(1);
+	  }
+	  if (c.indexOf(name) == 0) {
+		return c.substring(name.length, c.length);
+	  }
+	}
+	return "";
+  }
 $(document).ready(function() {
+	if(getCookie('MENU')=='INACTIVO'){
+		$('body').addClass('layout-fullwidth');
+		$('#boton').find(".fa").toggleClass('fa-angle-left fa-angle-right');
 
+		$('#boton').css({
+			left: "+=80px"
+		});
+	}
 	// sidebar navigation
 	$('#main-menu').metisMenu();
+	
 
 	// sidebar nav scrolling
 	$('#left-sidebar .sidebar-scroll').slimScroll({
-		height: '95%',
+		height: '100%',
 		wheelStep: 5,
 		touchScrollStep: 50,
 		color: '#cecece'
 	});
 
-	// toggle fullwidth layout
 	$('.btn-toggle-fullwidth').on('click', function() {
 		if(!$('body').hasClass('layout-fullwidth')) {
 			$('body').addClass('layout-fullwidth');
@@ -20,6 +42,10 @@ $(document).ready(function() {
 			$(this).animate({
 				left: "+=80px"
 			}, 500);
+			var d = new Date();
+  		d.setTime(d.getTime() + (10*24*60*60*1000));
+  		var expires = "expires="+ d.toUTCString();
+  		document.cookie =  "MENU=INACTIVO;" + expires + ";path=/";
 
 		} else {
 			$('body').removeClass('layout-fullwidth');
@@ -28,8 +54,16 @@ $(document).ready(function() {
 			$(this).animate({
 				left: "-=80px"
 			}, 500);
+			var d = new Date();
+  		d.setTime(d.getTime() + (10*24*60*60*1000));
+  		var expires = "expires="+ d.toUTCString();
+  		document.cookie =  "MENU=ACTIVO;" + expires + ";path=/";
 		}
+		
+
 	});
+	
+	
 
 	// off-canvas menu toggle
 	$('.btn-toggle-offcanvas').on('click', function() {
@@ -89,6 +123,7 @@ $(document).ready(function() {
 			$('.navbar-brand img.logo').attr('src', 'assets/img/logo.png');
 		}
 	});
+	
 
 });
 
@@ -106,5 +141,5 @@ $.fn.clickToggle = function( f1, f2 ) {
 			return f1.apply(this, arguments);
 		});
 	});
-
+	
 };

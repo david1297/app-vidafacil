@@ -59,10 +59,11 @@ function GuardarCampanas(){
 }
 function CargarCampanas(){
 	var Nit =$("#Nit").val();
+	var Perfil =$("#Perfil").val();
 	$.ajax({
     	type: "POST",
         url: "Componentes/Ajax/Cargar_Campana_Usuario.php",
-        data: "Nit="+Nit,
+        data: "Nit="+Nit+"&Perfil="+Perfil,
 		beforeSend: function(objeto){
 			
 		},success: function(datos){

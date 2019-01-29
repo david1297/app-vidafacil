@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-01-2019 a las 17:44:35
+-- Tiempo de generación: 29-01-2019 a las 23:35:01
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -50,7 +50,8 @@ CREATE TABLE `afiliados` (
   `Forma_Pago` varchar(40) NOT NULL,
   `Direccion_Firma` varchar(200) NOT NULL,
   `Fecha_Firma` date NOT NULL,
-  `Horario` time NOT NULL
+  `Horario` time NOT NULL,
+  `Estado` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -186,10 +187,10 @@ CREATE TABLE `usuario_camp` (
 --
 
 INSERT INTO `usuario_camp` (`Numero`, `Campana`, `Usuario`) VALUES
-(36, 3, '9005104631'),
 (49, 3, '8000099734'),
 (103, 4, '1112492933'),
-(104, 3, '1112492933');
+(104, 3, '1112492933'),
+(105, 1, '9005104631');
 
 -- --------------------------------------------------------
 
@@ -211,10 +212,10 @@ CREATE TABLE `u_camp_temp` (
 --
 
 INSERT INTO `u_camp_temp` (`Numero_Temp`, `Numero`, `Nombre`, `Porcentaje`, `session_id`, `Nit`) VALUES
-(180, 4, 'prueba', 30, 'lo4hk5i3gvk73d8gu3l5oum287', '1112492933'),
-(181, 3, 'TELEFONIA', 50, 'lo4hk5i3gvk73d8gu3l5oum287', '1112492933'),
-(182, 3, 'TELEFONIA', 50, 'p63tftvuvrl37gtnc4t330lo8e', '9005104631'),
-(187, 3, 'TELEFONIA', 50, 'p63tftvuvrl37gtnc4t330lo8e', '8000099734');
+(190, 1, 'SVF', 10, 'q5esedl0kshf7lagpeh6u2l4rd', '9005104631'),
+(254, 3, 'TELEFONIA', 50, 'cd8deak7js72otnugeugnd00c8', '8000099734'),
+(263, 4, 'prueba', 30, 'cd8deak7js72otnugeugnd00c8', '1112492933'),
+(264, 3, 'TELEFONIA', 50, 'cd8deak7js72otnugeugnd00c8', '1112492933');
 
 --
 -- Índices para tablas volcadas
@@ -275,13 +276,13 @@ ALTER TABLE `bancos`
 -- AUTO_INCREMENT de la tabla `usuario_camp`
 --
 ALTER TABLE `usuario_camp`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT de la tabla `u_camp_temp`
 --
 ALTER TABLE `u_camp_temp`
-  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
+  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
 
 --
 -- Restricciones para tablas volcadas

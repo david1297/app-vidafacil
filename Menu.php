@@ -103,7 +103,7 @@
 			</div>
 		</nav>
 		<div id="left-sidebar" class="sidebar">
-			<button type="button" class="btn btn-xs btn-link btn-toggle-fullwidth">
+			<button type="button" class="btn btn-xs btn-link btn-toggle-fullwidth" id="boton">
 				<span class="sr-only">Toggle Fullwidth</span>
 				<i class="fa fa-angle-left"></i>
 			</button>

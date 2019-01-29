@@ -126,7 +126,9 @@
 							<div class="tab-pane fade in active" id="Informacion">
 								<form class="form-horizontal col-sm-12" method="post" id="Guardar_Usuario" name="Guardar_Usuario">
 			   						<div id="resultados_ajax"></div>
-									<input type="text" class="form-control hidden" id="EstadoU" name="EstadoU"  value="<?php echo $EstadoU; ?>" > 
+									   	<input type="text" class="form-control hidden" id="EstadoU" name="EstadoU"  value="<?php echo $EstadoU; ?>" > 
+										<input type="text" class="form-control hidden" id="Perfil" name="Perfil"  value="<?php echo $Perfil; ?>" > 
+
 									<div class="form-group col-sm-8">
 				  						<label for="Nit" class="col-sm-3  control-label">Nit</label>
 				  						<div class="col-sm-8 ">
@@ -272,7 +274,7 @@
 											<?php
 												}else{
 											?>
-											<input type="text" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje; ?> ">
+											<input type="text" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje; ?>  " <?php echo $Read; ?> > 
 											<?php
 												}
 											?>
@@ -447,11 +449,17 @@
 							</div>
 							<div class="tab-pane fade" id="Campanas">
 								<!-- Campañas-->
-								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarCampana">
+								<?php
+								if ($Perfil <>'SI'){
+									echo '
+									<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarCampana">
 									<i class="fas fa-plus"></i> Agregar Campaña
 								</button>
 								
-								<button type="button" class="btn btn-primary" onclick="GuardarCampanas()"><i class="fas fa-check"></i>Guardar Campañas</button>
+								<button type="button" class="btn btn-primary" onclick="GuardarCampanas()"><i class="fas fa-check"></i>Guardar Campañas</button>';
+								}
+							?>
+								
 								<br><br>
 								<div id="resultados_Campana"></div>
 								<div id="resultados" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->			
