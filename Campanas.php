@@ -59,7 +59,7 @@
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">				
 							<button type="button" class="btn btn-default" id="Consultar">
-								<span class="glyphicon glyphicon-user"></span> Consultar Campañas
+								<span class="fas fa-bullhorn"></span> Consultar Campañas
 							</button>
 						</div>
 						<h4><i class="fas fa-bullhorn"></i>   Campañas</h4>

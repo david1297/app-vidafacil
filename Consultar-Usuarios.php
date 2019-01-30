@@ -36,7 +36,7 @@
 						<?php 
 							if($_SESSION['Rol'] == '1'){
 							echo'<button type="button" class="btn btn-default" onclick="NuevoUsuario()">
-							<span class="glyphicon glyphicon-user"></span> Nuevo Usuario
+							<span class="fas fa-users"></span> Nuevo Usuario
 						</button>';
 							}
 						?>

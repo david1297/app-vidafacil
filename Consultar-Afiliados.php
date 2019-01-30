@@ -26,25 +26,40 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
-						<button type="button" class="btn btn-default" onclick="NuevoCliente()">
-							<span class="glyphicon glyphicon-user"></span> Nuevo cliente
-						</button>
+						<button type="button" class="btn btn-default" onclick="NuevoAfiliado()">
+								<span class="fas fa-user-tie"></span> Nuevo Afiliado
+							</button>
 						</div>
-						<h4><i class='glyphicon glyphicon-search'></i> Consultar Clientes</h4>
-						
+						<h4><i class='glyphicon glyphicon-search'></i> Consultar Afiliados</h4>
 					</div>
 					<div class="panel-body">
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
-								<label for="q" class="col-md-2 control-label">Nombre o # de Documento</label>
-								<div class="col-md-6">
-									<input type="text" class="form-control" id="q" placeholder="Nombre o # de Documento" onkeyup='load(1);'>
+								<div class="col-md-3">		
+									<select class='form-control' id="Filtro" name ="Filtro" placeholder="Filtro" onchange='load(1);'>
+										<option value="Identificacion">Identificacion</option>
+										<option value="Nombre">Nombre o Apellido</option>
+										<option value="Ciudad">Ciudad</option>
+										<option value="Departamento">Departamento</option>
+										<option value="Telefono">Telefono</option>
+									</select>
+								</div>		
+								<div class="col-md-5">
+									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
+								</div>
+								<div class="col-md-2">		
+									<select class='form-control' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
+										<option value="Todos">Todos</option>
+										<option value="Activo">Activo</option>
+										<option value="InActivo">InActivo</option>
+									</select>
 								</div>
 								<div class="col-md-2">
 								<span id="loader"></span>
 								</div>
 							</div>
 						</form>
+
 						<div id="resultados"></div><!-- Carga los datos ajax -->
 						<div class='outer_div'></div><!-- Carga los datos ajax -->
 					</div>
@@ -60,8 +75,8 @@
 	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
-	<script type="text/javascript" src="js/VentanaCentrada.js"></script>
-	<script type="text/javascript" src="Componentes/JavaScript/Clientes.js"></script>
+
+	<script type="text/javascript" src="Componentes/JavaScript/Afiliados.js"></script>
 
 	<script>
 	

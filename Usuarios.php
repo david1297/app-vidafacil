@@ -81,7 +81,7 @@
 		$Read= "";
 	}
 	if (isset($_GET['Perfil'])) {
-		$Perfil="SI";
+		$Perfil="Si";
 	}
 ?>
 <!doctype html>
@@ -106,7 +106,7 @@
 								if ($Perfil <>'SI'){
 									echo '
 									<button type="button" class="btn btn-default" id="Consultar">
-										<span class="glyphicon glyphicon-user"></span> Consultar Usuarios
+										<span class="fas fa-users"></span> Consultar Usuarios
 									</button>';
 								}
 							?>
@@ -173,7 +173,7 @@
 										<label for="Rol" class="col-sm-3 control-label">Rol</label>
 										<div class="col-md-8 col-sm-8">
 											<?php 
-												if($_SESSION['Rol'] == '2'){
+												if ($Perfil =='Si'){
 													echo'<input type="Text" class="form-control hidden" id="Rol" name="Rol" require value="'.$Rol.'" readonly="readonly">';
 													if ($Rol=="1"){
 														$Rol="Administrador";
@@ -182,17 +182,31 @@
 													}									
 													echo '
 													<input type="Text" class="form-control" require value="'.$Rol.'" readonly="readonly">';
-												}else {
-													echo '<select class="form-control" id="Rol" name ="Rol" placeholder="Rol"  >';
-													if($Rol == 'Usuario'){
-														echo '<option value="2">Usuario</option>';
-														echo '<option value="1">Administrador</option>';
-													}else{
-														echo '<option value="1">Administrador</option>';
-														echo '<option value="2">Usuario</option>';
+												} else{
+													if($_SESSION['Rol'] == '2'){
+														echo'<input type="Text" class="form-control hidden" id="Rol" name="Rol" require value="'.$Rol.'" readonly="readonly">';
+														if ($Rol=="1"){
+															$Rol="Administrador";
+														}else{
+															$Rol="Usuario";
+														}									
+														echo '
+														<input type="Text" class="form-control" require value="'.$Rol.'" readonly="readonly">';
+													}else {											
+														echo '<select class="form-control" id="Rol" name ="Rol" placeholder="Rol"  >';
+														if($Rol == '2'){
+															echo '<option value="2">Usuario</option>';
+															echo '<option value="1">Administrador</option>';
+														}else{
+															echo '<option value="1">Administrador</option>';
+															echo '<option value="2">Usuario</option>';
+														}
+														echo '</select>';
 													}
-													echo '</select>';
 												}
+
+
+												
 											?>	
 										</div>
 									</div>

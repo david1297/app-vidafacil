@@ -26,14 +26,9 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
-						<?php 
-							
-							echo'<button type="button" class="btn btn-default" onclick="NuevaCampana()">
-							<span class="glyphicon glyphicon-user"></span> Nueva Campaña
-						</button>';
-							
-						?>
-						
+							<button type="button" class="btn btn-default" onclick="NuevaCampana()">
+								<span class="fas fa-bullhorn"></span> Nueva Campaña
+							</button>
 						</div>
 						<h4><i class='glyphicon glyphicon-search'></i> Consultar Campañas</h4>
 					</div>

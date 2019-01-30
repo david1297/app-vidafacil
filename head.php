@@ -12,7 +12,6 @@
 	<link rel="stylesheet" href="assets/vendor/toastr/toastr.min.css">
 	<link rel="stylesheet" href="assets/css/main.css">
 	<link rel="stylesheet" href="assets/css/demo.css">
-	<link rel="stylesheet" href="assets/vendor/linearicons/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
