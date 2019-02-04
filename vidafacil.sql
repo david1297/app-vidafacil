@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-01-2019 a las 23:45:05
--- Versión del servidor: 10.1.34-MariaDB
--- Versión de PHP: 7.2.8
+-- Tiempo de generación: 04-02-2019 a las 07:00:55
+-- Versión del servidor: 10.1.36-MariaDB
+-- Versión de PHP: 7.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -44,9 +44,9 @@ CREATE TABLE `afiliados` (
   `Estrato` int(11) NOT NULL,
   `Nivel_Educacion` varchar(80) NOT NULL,
   `Ocupacion` varchar(100) NOT NULL,
-  `Rango_Ingresos` varchar(100) NOT NULL,
+  `Rango_Ingresos` int(11) NOT NULL,
+  `Forma_Pago` int(11) NOT NULL,
   `Telefono` varchar(20) NOT NULL,
-  `Forma_Pago` varchar(40) NOT NULL,
   `Direccion_Firma` varchar(200) NOT NULL,
   `Fecha_Firma` date NOT NULL,
   `Horario` time NOT NULL,
@@ -57,8 +57,8 @@ CREATE TABLE `afiliados` (
 -- Volcado de datos para la tabla `afiliados`
 --
 
-INSERT INTO `afiliados` (`Identificacion`, `Primer_Nombre`, `Segundo_Nombre`, `Primer_Apellido`, `Segundo_Apellido`, `Tipo_Identificacion`, `Fecha_Nacimiento`, `Nacionalidad`, `Ciudad`, `Departamento`, `Direccion`, `Direccion_Adicional`, `Estrato`, `Nivel_Educacion`, `Ocupacion`, `Rango_Ingresos`, `Telefono`, `Forma_Pago`, `Direccion_Firma`, `Fecha_Firma`, `Horario`, `Estado`) VALUES
-('1112492933', 'JUAN', 'DAVID', 'ANDRADE', 'VALENCIA', 'Cedula', '1997-12-17', 'COLOMBIA', 1, 1, 'CALLE 23 # 49A-16', 'SA', 2, 'TECNICO', 'TRABAJADOR', '1200000', '32231', '1', '1', '2019-01-31', '31:00:00', 'Activo');
+INSERT INTO `afiliados` (`Identificacion`, `Primer_Nombre`, `Segundo_Nombre`, `Primer_Apellido`, `Segundo_Apellido`, `Tipo_Identificacion`, `Fecha_Nacimiento`, `Nacionalidad`, `Ciudad`, `Departamento`, `Direccion`, `Direccion_Adicional`, `Estrato`, `Nivel_Educacion`, `Ocupacion`, `Rango_Ingresos`, `Forma_Pago`, `Telefono`, `Direccion_Firma`, `Fecha_Firma`, `Horario`, `Estado`) VALUES
+('1112492933', 'JUAN', 'DAVID', 'ANDRADE', 'VALENCIA', 'Cedula', '1997-12-17', 'COLOMBIA', 1, 30, 'CALLE 23 # 49A-16', 'SA', 2, 'Universitario', 'Empleado', 1, 5, '32231', '1', '2019-01-31', '12:00:00', 'Activo');
 
 -- --------------------------------------------------------
 
@@ -125,7 +125,9 @@ CREATE TABLE `ciudades` (
 --
 
 INSERT INTO `ciudades` (`Codigo`, `Departamento`, `Nombre`) VALUES
-(1, 1, 'Cali');
+(1, 30, 'Cali'),
+(2, 10, 'Popayan'),
+(3, 10, 'Caloto');
 
 -- --------------------------------------------------------
 
@@ -143,38 +145,83 @@ CREATE TABLE `departamentos` (
 --
 
 INSERT INTO `departamentos` (`Codigo`, `Nombre`) VALUES
-(11, 'Amazonas'),
-(12, 'Antioquia'),
-(13, 'Arauca'),
-(14, 'Atlántico'),
-(15, 'Bolívar'),
-(16, 'Boyacá'),
-(17, 'Caldas'),
-(18, 'Caquetá'),
-(19, 'Casanare'),
-(20, 'Cauca'),
-(21, 'Cesar'),
-(22, 'Chocó'),
-(23, 'Córdoba'),
-(24, 'Cundinamarca'),
-(25, 'Guainía'),
-(26, 'Guaviare'),
-(27, 'Huila'),
-(28, 'La Guajira'),
-(29, 'Magdalena'),
-(30, 'Meta'),
-(31, 'Nariño'),
-(32, 'Norte de Santander'),
-(33, 'Putumayo'),
-(34, 'Quindio'),
-(35, 'Risaralda'),
-(36, 'San Andres y Providencia'),
-(37, 'Santander'),
-(40, 'Sucre'),
-(41, 'Tolima'),
-(1, 'Valle del Cauca'),
-(42, 'Vaupés'),
-(43, 'Vichada');
+(1, 'Amazonas'),
+(2, 'Antioquia'),
+(3, 'Arauca'),
+(4, 'Atlántico'),
+(5, 'Bolivar'),
+(6, 'Boyaca'),
+(7, 'Caldas'),
+(8, 'Caqueta'),
+(9, 'Casanare'),
+(10, 'Cauca'),
+(11, 'Cesar'),
+(12, 'Chocó'),
+(13, 'Córdoba'),
+(14, 'Cundinamarca'),
+(15, 'Guainía'),
+(16, 'Guaviare'),
+(17, 'Huila'),
+(18, 'La Guajira'),
+(19, 'Magdalena'),
+(20, 'Meta'),
+(21, 'Nariño'),
+(22, 'Norte de Santander'),
+(23, 'Putumayo'),
+(24, 'Quindio'),
+(25, 'Risaralda'),
+(26, 'San Andres y Providencia'),
+(27, 'Santander'),
+(28, 'Sucre'),
+(29, 'Tolima'),
+(30, 'Valle del Cauca'),
+(31, 'Vaupés'),
+(32, 'Vichada');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `formas_pago`
+--
+
+CREATE TABLE `formas_pago` (
+  `Codigo` int(11) NOT NULL,
+  `Descripcion` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `formas_pago`
+--
+
+INSERT INTO `formas_pago` (`Codigo`, `Descripcion`) VALUES
+(1, 'Codensa'),
+(2, 'Cheque'),
+(3, 'Contra-Entrega'),
+(4, 'Datafono'),
+(5, 'Efectivo'),
+(6, 'Tarjeta Credito'),
+(7, 'Tarjeta Debito');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rango_ingresos`
+--
+
+CREATE TABLE `rango_ingresos` (
+  `Codigo` int(11) NOT NULL,
+  `Descripcion` varchar(2000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `rango_ingresos`
+--
+
+INSERT INTO `rango_ingresos` (`Codigo`, `Descripcion`) VALUES
+(1, '$0 - $828.116'),
+(2, '$828.116 - $1\'200.000'),
+(3, '$1\'200.000 - $2\'000.000'),
+(4, '$2\'000.000 - $3\'000.000');
 
 -- --------------------------------------------------------
 
@@ -261,10 +308,9 @@ CREATE TABLE `usuario_camp` (
 --
 
 INSERT INTO `usuario_camp` (`Numero`, `Campana`, `Usuario`) VALUES
-(49, 3, '8000099734'),
-(103, 4, '1112492933'),
-(104, 3, '1112492933'),
-(105, 1, '9005104631');
+(105, 1, '9005104631'),
+(107, 1, '8000099734'),
+(108, 1, '1112492933');
 
 -- --------------------------------------------------------
 
@@ -287,9 +333,8 @@ CREATE TABLE `u_camp_temp` (
 
 INSERT INTO `u_camp_temp` (`Numero_Temp`, `Numero`, `Nombre`, `Porcentaje`, `session_id`, `Nit`) VALUES
 (190, 1, 'SVF', 10, 'q5esedl0kshf7lagpeh6u2l4rd', '9005104631'),
-(294, 4, 'prueba', 30, 'qgdpi9kf28qk00ls9bcnuk4alb', '1112492933'),
-(295, 3, 'TELEFONIA', 50, 'qgdpi9kf28qk00ls9bcnuk4alb', '1112492933'),
-(297, 3, 'TELEFONIA', 50, 'u1c21ur6crrdsd3924lmibfnla', '8000099734');
+(317, 1, 'SVF', 10, 'ob25jfhgjlg1bmc9uc14fu9b1q', '8000099734'),
+(318, 1, 'SVF', 10, 'ob25jfhgjlg1bmc9uc14fu9b1q', '1112492933');
 
 --
 -- Índices para tablas volcadas
@@ -301,7 +346,9 @@ INSERT INTO `u_camp_temp` (`Numero_Temp`, `Numero`, `Nombre`, `Porcentaje`, `ses
 ALTER TABLE `afiliados`
   ADD PRIMARY KEY (`Identificacion`),
   ADD KEY `Ciudad` (`Ciudad`),
-  ADD KEY `Departamento` (`Departamento`);
+  ADD KEY `Departamento` (`Departamento`),
+  ADD KEY `Rango_Ingresos` (`Rango_Ingresos`),
+  ADD KEY `Forma_Pago` (`Forma_Pago`);
 
 --
 -- Indices de la tabla `bancos`
@@ -326,6 +373,18 @@ ALTER TABLE `ciudades`
 -- Indices de la tabla `departamentos`
 --
 ALTER TABLE `departamentos`
+  ADD PRIMARY KEY (`Codigo`);
+
+--
+-- Indices de la tabla `formas_pago`
+--
+ALTER TABLE `formas_pago`
+  ADD PRIMARY KEY (`Codigo`);
+
+--
+-- Indices de la tabla `rango_ingresos`
+--
+ALTER TABLE `rango_ingresos`
   ADD PRIMARY KEY (`Codigo`);
 
 --
@@ -371,25 +430,37 @@ ALTER TABLE `bancos`
 -- AUTO_INCREMENT de la tabla `ciudades`
 --
 ALTER TABLE `ciudades`
-  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `departamentos`
 --
 ALTER TABLE `departamentos`
-  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT de la tabla `formas_pago`
+--
+ALTER TABLE `formas_pago`
+  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `rango_ingresos`
+--
+ALTER TABLE `rango_ingresos`
+  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_camp`
 --
 ALTER TABLE `usuario_camp`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT de la tabla `u_camp_temp`
 --
 ALTER TABLE `u_camp_temp`
-  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=298;
+  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=319;
 
 --
 -- Restricciones para tablas volcadas
@@ -400,7 +471,9 @@ ALTER TABLE `u_camp_temp`
 --
 ALTER TABLE `afiliados`
   ADD CONSTRAINT `afiliados_ibfk_1` FOREIGN KEY (`Ciudad`) REFERENCES `ciudades` (`Codigo`),
-  ADD CONSTRAINT `afiliados_ibfk_2` FOREIGN KEY (`Departamento`) REFERENCES `departamentos` (`Codigo`);
+  ADD CONSTRAINT `afiliados_ibfk_2` FOREIGN KEY (`Departamento`) REFERENCES `departamentos` (`Codigo`),
+  ADD CONSTRAINT `afiliados_ibfk_3` FOREIGN KEY (`Rango_Ingresos`) REFERENCES `rango_ingresos` (`Codigo`),
+  ADD CONSTRAINT `afiliados_ibfk_4` FOREIGN KEY (`Forma_Pago`) REFERENCES `formas_pago` (`Codigo`);
 
 --
 -- Filtros para la tabla `ciudades`

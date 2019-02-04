@@ -44,18 +44,19 @@
 		$Nacionalidad=$rw_Admin['Nacionalidad'];
 		$Departamento=$rw_Admin['Departamento'];
 		$Ciudad=$rw_Admin['Ciudad'];
-		$Direccion="";
-		$Direccion_Adicional="";
-		$Estrato="";
-		$Nivel_Educacion="";
-		$Ocupacion="";
-		$Rango_Ingresos="";
-		$Telefono="";
-		$Forma_Pago="";
-		$Direccion_Firma="";
-		$Fecha_Firma="";
-		$Horario="";
-		$Estado="";
+		$Direccion=$rw_Admin['Direccion'];
+		$Direccion_Adicional=$rw_Admin['Direccion_Adicional'];
+		$Estrato=$rw_Admin['Estrato'];
+		$Nivel_Educacion=$rw_Admin['Nivel_Educacion'];
+		$Ocupacion=$rw_Admin['Ocupacion'];
+		$Rango_Ingresos=$rw_Admin['Rango_Ingresos'];
+		$Forma_Pago=$rw_Admin['Forma_Pago'];
+		$Telefono=$rw_Admin['Telefono'];
+		
+		$Direccion_Firma=$rw_Admin['Direccion_Firma'];
+		$Fecha_Firma=$rw_Admin['Fecha_Firma'];
+		$Horario=$rw_Admin['Horario'];
+		$Estado=$rw_Admin['Estado'];
 		$EstadoC="Editando";
 		$Read= "readonly='readonly'";
 	}else{
@@ -71,7 +72,7 @@
 		include("head.php"); 
 	?>
 </head>
-<body>
+<body onload="Cargar()">
 	<div id="wrapper">
 		<?php
 			include("Menu.php");
@@ -99,36 +100,36 @@
 				   							<input type="text" class="form-control" id="Identificacion" name="Identificacion" placeholder="Identificacion" value="<?php echo $Identificacion; ?>" <?php echo $Read; ?> required>
 				  						</div>
 			   						</div>
-									   <div class="form-group" >
+									<div class="form-group" >
 										<label for="Tipo_Identificacion" class="col-sm-3 control-label">Tipo de Identificacion</label>
 										<div class="col-sm-8">
-										<select class='form-control' id="Tipo_Identificacion" name ="Tipo_Identificacion" placeholder="Tipo de Identificacion" >
-										<?php 
-										$Cedula="";
-										$Extranjeria="";
-										$Contrasena="";
-										$Pasaporte="";
-										if($Tipo_Identificacion == 'Cedula'){
-											$Cedula="selected"; 
-										}else{
-											if($Tipo_Identificacion == 'Cedula De Extranjeria'){
-												$Extranjeria="selected"; 												
-											}else{
-												if($Tipo_Identificacion == 'Contraseña'){
-													$Contrasena="selected"; 
+											<select class='form-control' id="Tipo_Identificacion" name ="Tipo_Identificacion" placeholder="Tipo de Identificacion" >
+											<?php 
+												$Cedula="";
+												$Extranjeria="";
+												$Contrasena="";
+												$Pasaporte="";
+												if($Tipo_Identificacion == 'Cedula'){
+													$Cedula="selected"; 
 												}else{
-													if($Tipo_Identificacion == 'Pasaporte'){
-														$Pasaporte="selected"; 
-													}	
-												}	
-											}
-										}
-										echo '<option value="Cedula"'.$Cedula.'>Cedula</option>';
-										echo '<option value="Cedula De Extranjeria"'.$Extranjeria.'>Cedula De Extranjeria</option>';
-										echo '<option value="Contraseña"'.$Contrasena.'>Contraseña</option>';
-										echo '<option value="Pasaporte"'.$Pasaporte.'>Pasaporte</option>';
-							  		?>
-									</select>
+													if($Tipo_Identificacion == 'Cedula De Extranjeria'){
+														$Extranjeria="selected"; 												
+													}else{
+														if($Tipo_Identificacion == 'Contraseña'){
+															$Contrasena="selected"; 
+														}else{
+															if($Tipo_Identificacion == 'Pasaporte'){
+																$Pasaporte="selected"; 
+															}	
+														}	
+													}
+												}
+												echo '<option value="Cedula"'.$Cedula.'>Cedula</option>';
+												echo '<option value="Cedula De Extranjeria"'.$Extranjeria.'>Cedula De Extranjeria</option>';
+												echo '<option value="Contraseña"'.$Contrasena.'>Contraseña</option>';
+												echo '<option value="Pasaporte"'.$Pasaporte.'>Pasaporte</option>';
+							  				?>
+											</select>
 										</div>
 									</div>
 									<div class="form-group" >
@@ -149,7 +150,6 @@
  				   							<input type="text" class="form-control" id="Segundo_Apellido" name="Segundo_Apellido"  placeholder="Segundo Apellido" value="<?php echo $Segundo_Apellido; ?>"  onkeyup="RazonSocial()">
 				  						</div>  
 			   						</div>
-									
 									<div class="form-group">
 										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Fecha de Nacimiento</label>
 										<div class="col-sm-8">
@@ -163,11 +163,11 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Nacionalidad</label>
+										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Departamento</label>
 										<div class="col-sm-8">
 										<?PHP
 												$query1=mysqli_query($con, "select * from Departamentos order by Nombre");
-												echo' <select class="form-control" id="Departamento" name ="Departamento" placeholder="Departamento " onchange="Departamento()">';
+												echo' <select class="form-control" id="Departamento" name ="Departamento" placeholder="Departamento" onchange="CargarCiudades()">';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Departamento ==$rw_Admin1['Codigo']){
 														echo '<option value="'.$rw_Admin1['Codigo'].'" selected >'.$rw_Admin1['Nombre'].'</option>';
@@ -175,61 +175,196 @@
 														echo '<option value="'.$rw_Admin1['Codigo'].'">'.$rw_Admin1['Nombre'].'</option>';	
 													}
 												}
-												
 												echo '</select>';
 											?>	
 										</div>
 									</div>
+									<div class="form-group">
+										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Ciudad</label>
+										<div class="col-sm-8" id="Ciudades" >
+											<input type="Text" class="form-control hidden" id="Ciu" name="Ciu" require value="<?php echo $Ciudad?>" readonly="readonly">
 
-
-
-
-									
-
-									
-									<?php 
-									if($EstadoC == "Nuevo"){
-										echo '
-										<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Pendiente" >
-										';
-									} else {
-										echo '
-										<div class="form-group">
-											<label for="Estado" class="col-sm-3 control-label">Estado</label>
-											<div class="col-md-8 col-sm-8">
-												<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
-											if($Estado == 'Activa'){
-												echo '<option value="Activa">Activa</option>';
-												echo '<option value="InActiva">InActiva</option>';
-											}else{
-												echo '<option value="InActiva">InActiva</option>';
-												echo '<option value="Activa">Activa</option>';
-											}
-											echo '
-												</select>
-											</div>
-										</div>';
-									}
-									?>
-				  					<div class="form-group">
-										<label for="Porcentaje" class="col-sm-3 control-label">Porcentaje</label>
-										<div class="col-sm-8">
-											<input type="text" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje; ?> ">
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="Observaciones">Observaciones:</label>
-										<div class="col-sm-12">
-  											<textarea class="form-control" rows="5" id="Observaciones"NAME="Observaciones" ><?php echo $Observaciones; ?></textarea>
+										<label for="Direccion" class="col-sm-3 control-label">Direccion</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="Direccion" name="Direccion" required placeholder="Direccion" value="<?php echo $Direccion;?>">
 										</div>
 									</div>
+									<div class="form-group">
+										<label for="Direccion_Adicional" class="col-sm-3 control-label">Direccion Adicional</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="Direccion_Adicional" name="Direccion_Adicional" required placeholder="Direccion Adicional" value="<?php echo $Direccion_Adicional;?>">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="Estrato" class="col-sm-3 control-label">Estrato</label>
+										<div class="col-sm-8">
+											<?php
+												echo' <select class="form-control" id="Estrato" name ="Estrato" placeholder="Estrato">';
+												for ($i = 1; $i <= 6; $i++) {
+													if ($Estrato ==$i){
+														echo '<option value="'.$i.'" selected >'.$i.'</option>';
+													} else{
+														echo '<option value="'.$i.'">'.$i.'</option>';	
+													}
+												}
+												echo '</select>';
+											?>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="Nivel_Educacion" class="col-sm-3 control-label">Nivel Educativo</label>
+										<div class="col-sm-8">
+											<?php
+											$Primaria='';
+											$Bachillerato='';
+											$Universitario='';
+											$Otro='';
+											if ($Nivel_Educacion=='Primaria'){
+												$Primaria = 'Selected';
+											} else {
+												if ($Nivel_Educacion =='Bachillerato'){
+													$Bachillerato = 'Selected';
+												} else {
+													if ($Nivel_Educacion=='Universitario') {
+														$Universitario='Selected';
+													} else {
+														if($Nivel_Educacion=='Otro'){
+															$Otro='Selected';
+														}
+													}
 
+												}
+											}
+											echo' <select class="form-control" id="Nivel_Educacion" name ="Nivel_Educacion" placeholder="Estrato">';
+													echo '<option value="Primaria" '.$Primaria.'>Primaria</option>';
+													echo '<option value="Bachillerato" '.$Bachillerato.'>Bachillerato</option>';	
+													echo '<option value="Universitario" '.$Universitario.'>Universitario</option>';	
+													echo '<option value="Otro" '.$Otro.' >Otro</option>';	
+											echo '</select>';
+											?>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="Ocupacion" class="col-sm-3 control-label">Ocupacion</label>
+										<div class="col-sm-8">
+										<?php
+											$Ama='';
+											$Desempleado='';
+											$Empleado='';
+											$Estudiante='';
+											$Otro='';
+											if ($Ocupacion=='Ama de Casa'){
+												$Ama = 'Selected';
+											} else {
+												if ($Ocupacion =='Desempleado'){
+													$Desempleado = 'Selected';
+												} else {
+													if ($Ocupacion=='Empleado') {
+														$Empleado='Selected';
+													} else {
+														if($Ocupacion=='Estudiante'){
+															$Estudiante='Selected';
+														}else{
+															$Otro='Selected';	
+														}
+													}
 
-					
-					
-
-									
-									
+												}
+											}
+											echo' <select class="form-control" id="Ocupacion" name ="Ocupacion" placeholder="Estrato">';
+													echo '<option value="Ama de Casa" '.$Ama.'>Ama de Casa</option>';
+													echo '<option value="Desempleado" '.$Desempleado.'>Desempleado</option>';	
+													echo '<option value="Empleado" '.$Empleado.'>Empleado</option>';	
+													echo '<option value="Estudiante" '.$Estudiante.'>Estudiante</option>';	
+													echo '<option value="Otro" '.$Otro.' >Otro</option>';	
+											echo '</select>';
+											?>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="Rango_Ingresos" class="col-sm-3 control-label">Ingresos</label>
+										<div class="col-sm-8">
+											<?PHP
+												$query1=mysqli_query($con, "SELECT * FROM rango_ingresos ");
+												echo' <select class="form-control" id="Rango_Ingresos" name ="Rango_Ingresos" placeholder="Rango de Ingresos">';
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													if ($Rango_Ingresos ==$rw_Admin1['Codigo']){
+														echo '<option value="'.$rw_Admin1['Codigo'].'" selected >'.$rw_Admin1['Descripcion'].'</option>';
+													} else{
+														echo '<option value="'.$rw_Admin1['Codigo'].'">'.$rw_Admin1['Descripcion'].'</option>';	
+													}
+												}
+												echo '</select>';
+											?>	
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="Forma_Pago" class="col-sm-3 control-label">Forma De Pago</label>
+										<div class="col-sm-8">
+											<?PHP
+												$query1=mysqli_query($con, "SELECT * FROM Formas_Pago ");
+												echo' <select class="form-control" id="Forma_Pago" name ="Forma_Pago" placeholder="Forma de Pago">';
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													if ($Forma_Pago ==$rw_Admin1['Codigo']){
+														echo '<option value="'.$rw_Admin1['Codigo'].'" selected >'.$rw_Admin1['Descripcion'].'</option>';
+													} else{
+														echo '<option value="'.$rw_Admin1['Codigo'].'">'.$rw_Admin1['Descripcion'].'</option>';	
+													}
+												}
+												echo '</select>';
+											?>	
+										</div>
+									</div>		
+									<div class="form-group">
+										<label for="Telefono" class="col-sm-3 control-label">Telefono</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="Telefono" name="Telefono" required placeholder="Telefono" value="<?php echo $Telefono;?>">
+										</div>
+									</div>	
+									<div class="form-group">
+										<label for="Direccion_Firma" class="col-sm-3 control-label">Direccion de Firma</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="Direccion_Firma" name="Direccion_Firma" required placeholder="Direccion de Firma" value="<?php echo $Direccion_Firma;?>">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="Fecha_Firma" class="col-sm-3 control-label">Fecha de Firma</label>
+										<div class="col-sm-8">
+											<input type="date" class="form-control" id="Fecha_Firma" name="Fecha_Firma" required placeholder="Fecha de Firma" value="<?php echo $Fecha_Firma;?>" step="2">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="Horario" class="col-sm-3 control-label">Hora de Firma</label>
+										<div class="col-sm-8">
+										<input class="form-control"  type="time" id="Horario" name="Horario" min="12:00" max="24:00" value ="<?php echo $Horario;?>"required>
+										</div>
+									</div>
+									<?php 
+										if($EstadoC == "Nuevo"){
+											echo '
+											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Activo" >';
+										} else {
+											echo '
+											<div class="form-group">
+												<label for="Estado" class="col-sm-3 control-label">Estado</label>
+												<div class="col-md-8 col-sm-8">
+													<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
+													if($Estado == 'Activo'){
+														echo '<option value="Activo">Activo</option>';
+														echo '<option value="InActiva">InActiva</option>';
+													}else{
+														echo '<option value="InActivo">InActivo</option>';
+														echo '<option value="Activo">Activo</option>';
+													}
+													echo '
+													</select>
+												</div>
+											</div>';
+										}
+									?>
 									<div id="resultados_ajax2"></div>
 									<hr class="style1">
 									<div class=" pull-right">
@@ -263,28 +398,53 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script>
+	function CargarCiudades(){
+		var Depto = $("#Departamento").val();
+		var Id_N = $("#Identificacion").val();
+		var Ciu = $("#Ciu").val();
+	$.ajax({
+    	type: "POST",
+        url: "Componentes/Ajax/Cargar_Ciudades.php",
+        data: "Depto="+Depto+"&Id_N="+Id_N+"&Ciu="+Ciu,
+		beforeSend: function(objeto){
+			
+		},success: function(datos){
+			$("#Ciudades").html(datos);
+		}
+	});
+	
+}
+function Cargar() {
+
+	CargarCiudades();
+}
+	
+</script>
+	<script>
+
+
 
 $( "#Cancelar" ).click(function( event ) {
 	if (document.getElementById('EstadoC').value == 'Editando') {
 		location.reload(true);
 	}
 	else{
-		location.href='Consultar-Campanas.php';
+		location.href='Consultar-Afiliados.php';
 	}
 })
 $( "#Consultar" ).click(function( event ) {
 	
-		location.href='Consultar-Campanas.php';
+		location.href='Consultar-Afiliados.php';
 
 })
 
 
-	$( "#Guardar_Campana" ).submit(function( event ) {
+	$( "#Guardar_Afiliado" ).submit(function( event ) {
  var parametros = $(this).serialize();
 
 	 $.ajax({
 			type: "POST",
-			url: "Componentes/Ajax/Guardar_Campana.php",
+			url: "Componentes/Ajax/Guardar_Afiliados.php",
 			data: parametros,
 			 beforeSend: function(objeto){
 				$("#resultados_ajax2").html("Mensaje: Cargando...");
@@ -296,6 +456,7 @@ $( "#Consultar" ).click(function( event ) {
 	});
   event.preventDefault();
 })
+
 
 	</script>
 </body>

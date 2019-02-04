@@ -464,7 +464,7 @@
 							<div class="tab-pane fade" id="Campanas">
 								<!-- Campañas-->
 								<?php
-								if ($Perfil <>'SI'){
+								if ($Perfil <>'Si'){
 									echo '
 									<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarCampana">
 									<i class="fas fa-plus"></i> Agregar Campaña

@@ -53,7 +53,7 @@ while ($row=mysqli_fetch_array($sql)){
 			<td><?php echo $Nombre;?></td>
 			<td class='text-center'><?php echo $Porcentaje;?></td>
 			<?PHP
-			if ($Perfil <>'SI'){
+			if ($Perfil <>'Si'){
 			ECHO' 
 				<td class="text-center"><a href="#" class="btn btn-default" onclick="eliminar('.$Numero_Temp.')"><i class="glyphicon glyphicon-trash"></i></a></td>
 				';
