@@ -29,6 +29,7 @@
 	$Fecha_Firma="";
 	$Horario="";
 	$Estado="";
+	$Correo="";
 
 
 	if (isset($_GET['Identificacion'])) {
@@ -57,6 +58,7 @@
 		$Fecha_Firma=$rw_Admin['Fecha_Firma'];
 		$Horario=$rw_Admin['Horario'];
 		$Estado=$rw_Admin['Estado'];
+		$Correo=$rw_Admin['Correo'];
 		$EstadoC="Editando";
 		$Read= "readonly='readonly'";
 	}else{
@@ -168,11 +170,12 @@
 										<?PHP
 												$query1=mysqli_query($con, "select * from Departamentos order by Nombre");
 												echo' <select class="form-control" id="Departamento" name ="Departamento" placeholder="Departamento" onchange="CargarCiudades()">';
+																				
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Departamento ==$rw_Admin1['Codigo']){
-														echo '<option value="'.$rw_Admin1['Codigo'].'" selected >'.$rw_Admin1['Nombre'].'</option>';
+														echo '<option value="'.$rw_Admin1['Codigo'].'" selected >'.utf8_encode($rw_Admin1['Nombre']).'</option>';
 													} else{
-														echo '<option value="'.$rw_Admin1['Codigo'].'">'.$rw_Admin1['Nombre'].'</option>';	
+														echo '<option value="'.$rw_Admin1['Codigo'].'">'.utf8_encode($rw_Admin1['Nombre']).'</option>';	
 													}
 												}
 												echo '</select>';
@@ -180,7 +183,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Ciudad</label>
+										<label for="Ciudad" class="col-sm-3 control-label">Ciudad</label>
 										<div class="col-sm-8" id="Ciudades" >
 											<input type="Text" class="form-control hidden" id="Ciu" name="Ciu" require value="<?php echo $Ciudad?>" readonly="readonly">
 
@@ -325,6 +328,12 @@
 										</div>
 									</div>	
 									<div class="form-group">
+										<label for="Correo" class="col-sm-3 control-label">Correo</label>
+										<div class="col-sm-8">
+											<input type="Email" class="form-control" id="Correo" name="Correo" required placeholder="Correo" value="<?php echo $Correo;?>">
+										</div>
+									</div>	
+									<div class="form-group">
 										<label for="Direccion_Firma" class="col-sm-3 control-label">Direccion de Firma</label>
 										<div class="col-sm-8">
 											<input type="text" class="form-control" id="Direccion_Firma" name="Direccion_Firma" required placeholder="Direccion de Firma" value="<?php echo $Direccion_Firma;?>">
@@ -354,7 +363,7 @@
 													<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
 													if($Estado == 'Activo'){
 														echo '<option value="Activo">Activo</option>';
-														echo '<option value="InActiva">InActiva</option>';
+														echo '<option value="InActivo">InActivo</option>';
 													}else{
 														echo '<option value="InActivo">InActivo</option>';
 														echo '<option value="Activo">Activo</option>';
@@ -387,10 +396,6 @@
 			</div>	  		
 		</div>
 	</div>
-	
-
-	<!-- END WRAPPER -->
-	<!-- Javascript -->
 	<script src="assets/vendor/jquery/jquery.min.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="assets/vendor/metisMenu/metisMenu.js"></script>
@@ -398,67 +403,51 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script>
-	function CargarCiudades(){
-		var Depto = $("#Departamento").val();
-		var Id_N = $("#Identificacion").val();
-		var Ciu = $("#Ciu").val();
-	$.ajax({
-    	type: "POST",
-        url: "Componentes/Ajax/Cargar_Ciudades.php",
-        data: "Depto="+Depto+"&Id_N="+Id_N+"&Ciu="+Ciu,
-		beforeSend: function(objeto){
-			
-		},success: function(datos){
-			$("#Ciudades").html(datos);
+		function CargarCiudades(){
+			var Depto = $("#Departamento").val();
+			var Id_N = $("#Identificacion").val();
+			var Ciu = $("#Ciu").val();
+			$.ajax({
+				type: "POST",
+				url: "Componentes/Ajax/Cargar_Ciudades.php",
+				data: "Depto="+Depto+"&Id_N="+Id_N+"&Ciu="+Ciu,
+				beforeSend: function(objeto){
+				},success: function(datos){
+					$("#Ciudades").html(datos);
+				}	
+			});
 		}
-	});
-	
-}
-function Cargar() {
 
-	CargarCiudades();
-}
-	
-</script>
-	<script>
+		function Cargar() {
+			CargarCiudades();
+		}
 
-
-
-$( "#Cancelar" ).click(function( event ) {
-	if (document.getElementById('EstadoC').value == 'Editando') {
-		location.reload(true);
-	}
-	else{
-		location.href='Consultar-Afiliados.php';
-	}
-})
-$( "#Consultar" ).click(function( event ) {
-	
-		location.href='Consultar-Afiliados.php';
-
-})
-
-
-	$( "#Guardar_Afiliado" ).submit(function( event ) {
- var parametros = $(this).serialize();
-
-	 $.ajax({
-			type: "POST",
-			url: "Componentes/Ajax/Guardar_Afiliados.php",
-			data: parametros,
-			 beforeSend: function(objeto){
-				$("#resultados_ajax2").html("Mensaje: Cargando...");
-			  },
-			success: function(datos){
-			$("#resultados_ajax2").html(datos);
+		$( "#Cancelar" ).click(function( event ) {
+			if (document.getElementById('EstadoC').value == 'Editando') {
+				location.reload(true);
+			} else {
+				location.href='Consultar-Afiliados.php';
+			}
+		})
 		
-		  }
-	});
-  event.preventDefault();
-})
-
-
+		$( "#Consultar" ).click(function( event ) {
+			location.href='Consultar-Afiliados.php';
+		})
+		$( "#Guardar_Afiliado" ).submit(function( event ) {
+			var parametros = $(this).serialize();
+			$.ajax({
+				type: "POST",
+				url: "Componentes/Ajax/Guardar_Afiliados.php",
+				data: parametros,
+				beforeSend: function(objeto){
+					$("#resultados_ajax2").html("Mensaje: Cargando...");
+				},
+				success: function(datos){
+					$("#resultados_ajax2").html(datos);
+				}
+			});
+			event.preventDefault();
+		})
 	</script>
 </body>
-
 </html>

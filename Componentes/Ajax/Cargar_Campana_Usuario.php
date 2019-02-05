@@ -21,9 +21,7 @@ while ($row=mysqli_fetch_array($sql)){
 	$rw_Admin1=mysqli_fetch_array($query1);
 	$Nombre=$rw_Admin1['Nombre'];
 	$Porcentaje =$rw_Admin1['Porcentaje'];
-
     $insert_tmp=mysqli_query($con, "INSERT INTO u_camp_temp (Numero,Nombre,Porcentaje,session_id,Nit) VALUES ('$Numero','$Nombre','$Porcentaje','$session_id','$Nit')");
-
 }
 
 

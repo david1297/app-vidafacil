@@ -2,19 +2,29 @@
 		if (isset($con))
 		{
 	?>	
-			<div class="modal fade bs-example-modal-lg" id="BuscarCliente" tabindex="-1" role="dialog" aria-labelledby="BuscarClienteLabel">
+			<div class="modal fade bs-example-modal-lg" id="BuscarAfiliado" tabindex="-1" role="dialog" aria-labelledby="BuscarAfiliado">
 			  <div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 				  <div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Buscar Cliente</h4>
+					<h4 class="modal-title" id="myModalLabel">Buscar Afiliado</h4>
 				  </div>
 				  <div class="modal-body">
 					<form class="form-horizontal">
 					  <div class="form-group">
-						<div class="col-sm-6">
-						  <input type="text" class="form-control" id="Busc_Cliente" placeholder="Buscar Cliente" onkeyup="load(1)">
-						</div>
+						<div class="col-md-3">		
+									<select class='form-control' id="Filtro" name ="Filtro" placeholder="Filtro" onchange='load(1);'>
+										<option value="Identificacion">Identificacion</option>
+										<option value="Nombre">Nombre o Apellido</option>
+										<option value="Ciudad">Ciudad</option>
+										<option value="Departamento">Departamento</option>
+										<option value="Telefono">Telefono</option>
+									</select>
+								</div>		
+								<div class="col-md-5">
+									<input type="text" class="form-control" id="Busc_Afiliado" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
+								</div>
+						
 						<!--<button type="button" class="btn btn-default" onclick="loadc(1)"><span class='glyphicon glyphicon-search'></span> Buscar</button>-->
 					  </div>
 					</form>

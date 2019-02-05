@@ -33,7 +33,7 @@ class Login
                 if ($result_of_login_check->num_rows == 1) {
                     $result_row = $result_of_login_check->fetch_object();
                     if (password_verify($_POST['user_password'], $result_row->Clave)) {
-                        $_SESSION['Razon_Social'] = $result_row->Usuario;
+                        $_SESSION['Razon_Social'] = $result_row->Razon_Social;
                         $_SESSION['Correo'] = $result_row->Correo;
                         $_SESSION['Nit'] = $result_row->Nit;
                         $_SESSION['Tipo'] = $result_row->Nombre;

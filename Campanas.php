@@ -19,6 +19,7 @@
 	$Porcentaje ="";
 	$Perfil="";
 	$Observaciones="";
+	$Estados="";
 
 	if (isset($_GET['Numero'])) {
 		$query=mysqli_query($con, "select * from Campanas where Numero ='".$_GET['Numero']."' ");
@@ -31,6 +32,7 @@
 		$Estado =$rw_Admin['Estado'];
 		$Porcentaje =$rw_Admin['Porcentaje'];
 		$Observaciones=$rw_Admin['Observaciones'];
+		$Estados=$rw_Admin['Estados'];
 		$EstadoC="Editando";
 		$Read= "readonly='readonly'";
 	}else{
@@ -126,12 +128,18 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="Observaciones">Observaciones:</label>
+										<label for="Estados">Estados:</label>
 										<div class="col-sm-12">
-  											<textarea class="form-control" rows="5" id="Observaciones"NAME="Observaciones" ><?php echo $Observaciones; ?></textarea>
+  											<textarea class="form-control" rows="5" id="Estados"NAME="Estados" ><?php echo $Estados; ?></textarea>
 										</div>
 									</div>
-
+									<div class="form-group">
+										<label for="Observaciones">Observaciones:</label>
+										<div class="col-sm-12">
+  											<textarea class="form-control" rows="3" id="Observaciones"NAME="Observaciones" ><?php echo $Observaciones;?></textarea>
+										</div>
+									</div>
+									
 
 					
 					

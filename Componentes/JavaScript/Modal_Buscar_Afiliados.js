@@ -3,10 +3,10 @@
 		});
 
 		function load(page){
-			var Busc_Cliente= $("#Busc_Cliente").val();
+			var Busc_Afiliado= $("#Busc_Afiliado").val();
 			$("#loaderc").fadeIn('slow');
 			$.ajax({
-				url:'Componentes/Ajax/Modal_Buscar_Clientes.php?action=ajax&page='+page+'&Busc_Cliente='+Busc_Cliente,
+				url:'Componentes/Ajax/Modal_Buscar_Afiliados.php?action=ajax&page='+page+'&Busc_Afiliado='+Busc_Afiliado,
 				 beforeSend: function(objeto){
 				 $('#loaderc').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			  },

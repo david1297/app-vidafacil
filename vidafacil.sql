@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-02-2019 a las 07:00:55
--- Versión del servidor: 10.1.36-MariaDB
--- Versión de PHP: 7.2.11
+-- Tiempo de generación: 05-02-2019 a las 23:40:52
+-- Versión del servidor: 10.1.34-MariaDB
+-- Versión de PHP: 7.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -47,6 +47,7 @@ CREATE TABLE `afiliados` (
   `Rango_Ingresos` int(11) NOT NULL,
   `Forma_Pago` int(11) NOT NULL,
   `Telefono` varchar(20) NOT NULL,
+  `Correo` varchar(100) NOT NULL,
   `Direccion_Firma` varchar(200) NOT NULL,
   `Fecha_Firma` date NOT NULL,
   `Horario` time NOT NULL,
@@ -57,8 +58,8 @@ CREATE TABLE `afiliados` (
 -- Volcado de datos para la tabla `afiliados`
 --
 
-INSERT INTO `afiliados` (`Identificacion`, `Primer_Nombre`, `Segundo_Nombre`, `Primer_Apellido`, `Segundo_Apellido`, `Tipo_Identificacion`, `Fecha_Nacimiento`, `Nacionalidad`, `Ciudad`, `Departamento`, `Direccion`, `Direccion_Adicional`, `Estrato`, `Nivel_Educacion`, `Ocupacion`, `Rango_Ingresos`, `Forma_Pago`, `Telefono`, `Direccion_Firma`, `Fecha_Firma`, `Horario`, `Estado`) VALUES
-('1112492933', 'JUAN', 'DAVID', 'ANDRADE', 'VALENCIA', 'Cedula', '1997-12-17', 'COLOMBIA', 1, 30, 'CALLE 23 # 49A-16', 'SA', 2, 'Universitario', 'Empleado', 1, 5, '32231', '1', '2019-01-31', '12:00:00', 'Activo');
+INSERT INTO `afiliados` (`Identificacion`, `Primer_Nombre`, `Segundo_Nombre`, `Primer_Apellido`, `Segundo_Apellido`, `Tipo_Identificacion`, `Fecha_Nacimiento`, `Nacionalidad`, `Ciudad`, `Departamento`, `Direccion`, `Direccion_Adicional`, `Estrato`, `Nivel_Educacion`, `Ocupacion`, `Rango_Ingresos`, `Forma_Pago`, `Telefono`, `Correo`, `Direccion_Firma`, `Fecha_Firma`, `Horario`, `Estado`) VALUES
+('1112492933', 'JUAN', 'DAVID', 'ANDRADE', 'VALENCIA', 'Cedula', '1997-12-17', 'NariÃ±o', 3, 10, 'CALLE 23 # 49A-16', 'SA', 2, 'Universitario', 'Empleado', 2, 5, '32231', 'l@gmail.com', '1', '2019-01-31', '12:00:00', 'Activo');
 
 -- --------------------------------------------------------
 
@@ -95,18 +96,19 @@ CREATE TABLE `campanas` (
   `Area` varchar(200) NOT NULL,
   `Estado` varchar(20) NOT NULL,
   `Porcentaje` float NOT NULL,
-  `Observaciones` varchar(5000) NOT NULL
+  `Observaciones` varchar(5000) NOT NULL,
+  `Estados` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `campanas`
 --
 
-INSERT INTO `campanas` (`Numero`, `Nombre`, `Contacto`, `Area`, `Estado`, `Porcentaje`, `Observaciones`) VALUES
-(1, 'SVF', 'yo', 'Administrativa', 'Activa', 10, 'fdf'),
-(2, 'EMERMEDICA', 'yo', 'Administriva', 'InActiva', 0, ''),
-(3, 'TELEFONIA', 'obvio yo', 'todas', 'InActiva', 50, 'HOLI\r\nQUE TAL COMO ESTAS \r\nSALTO'),
-(4, 'prueba', 'sebastian', 'ventas', 'Pendiente', 30, '');
+INSERT INTO `campanas` (`Numero`, `Nombre`, `Contacto`, `Area`, `Estado`, `Porcentaje`, `Observaciones`, `Estados`) VALUES
+(1, 'SVF', 'yo', 'Administrativa', 'Activa', 10, 'fdf', ''),
+(2, 'EMERMEDICA', 'yo', 'Administriva', 'Activa', 0, '', 'Estado1\r\nEstado3\r\nEjemplo'),
+(3, 'TELEFONIA', 'obvio yo', 'todas', 'Activa', 50, 'HOLI\r\nQUE TAL COMO ESTAS \r\nSALTO', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado\r\nEn Proceso\r\nPagado\r\nPor Pagar\r\nPara Descontar'),
+(4, 'prueba', 'sebastian', 'ventas', 'Activa', 30, '', '');
 
 -- --------------------------------------------------------
 
@@ -148,7 +150,7 @@ INSERT INTO `departamentos` (`Codigo`, `Nombre`) VALUES
 (1, 'Amazonas'),
 (2, 'Antioquia'),
 (3, 'Arauca'),
-(4, 'Atlántico'),
+(4, 'Atlantico'),
 (5, 'Bolivar'),
 (6, 'Boyaca'),
 (7, 'Caldas'),
@@ -156,10 +158,10 @@ INSERT INTO `departamentos` (`Codigo`, `Nombre`) VALUES
 (9, 'Casanare'),
 (10, 'Cauca'),
 (11, 'Cesar'),
-(12, 'Chocó'),
-(13, 'Córdoba'),
+(12, 'Choco'),
+(13, 'Cordoba'),
 (14, 'Cundinamarca'),
-(15, 'Guainía'),
+(15, 'Guainia'),
 (16, 'Guaviare'),
 (17, 'Huila'),
 (18, 'La Guajira'),
@@ -175,7 +177,7 @@ INSERT INTO `departamentos` (`Codigo`, `Nombre`) VALUES
 (28, 'Sucre'),
 (29, 'Tolima'),
 (30, 'Valle del Cauca'),
-(31, 'Vaupés'),
+(31, 'Vaupes'),
 (32, 'Vichada');
 
 -- --------------------------------------------------------
@@ -201,6 +203,19 @@ INSERT INTO `formas_pago` (`Codigo`, `Descripcion`) VALUES
 (5, 'Efectivo'),
 (6, 'Tarjeta Credito'),
 (7, 'Tarjeta Debito');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `observaciones_ventas`
+--
+
+CREATE TABLE `observaciones_ventas` (
+  `Numero` int(11) NOT NULL,
+  `Venta` int(11) NOT NULL,
+  `Fecha` date NOT NULL,
+  `Observacion` varchar(10000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -310,7 +325,10 @@ CREATE TABLE `usuario_camp` (
 INSERT INTO `usuario_camp` (`Numero`, `Campana`, `Usuario`) VALUES
 (105, 1, '9005104631'),
 (107, 1, '8000099734'),
-(108, 1, '1112492933');
+(118, 1, '1112492933'),
+(119, 4, '1112492933'),
+(120, 2, '1112492933'),
+(121, 3, '1112492933');
 
 -- --------------------------------------------------------
 
@@ -332,9 +350,26 @@ CREATE TABLE `u_camp_temp` (
 --
 
 INSERT INTO `u_camp_temp` (`Numero_Temp`, `Numero`, `Nombre`, `Porcentaje`, `session_id`, `Nit`) VALUES
-(190, 1, 'SVF', 10, 'q5esedl0kshf7lagpeh6u2l4rd', '9005104631'),
-(317, 1, 'SVF', 10, 'ob25jfhgjlg1bmc9uc14fu9b1q', '8000099734'),
-(318, 1, 'SVF', 10, 'ob25jfhgjlg1bmc9uc14fu9b1q', '1112492933');
+(348, 1, 'SVF', 10, 'p6vae8dk4g0rj4lther2mgmqo3', '1112492933'),
+(349, 4, 'prueba', 30, 'p6vae8dk4g0rj4lther2mgmqo3', '1112492933'),
+(350, 2, 'EMERMEDICA', 0, 'p6vae8dk4g0rj4lther2mgmqo3', '1112492933'),
+(351, 3, 'TELEFONIA', 50, 'p6vae8dk4g0rj4lther2mgmqo3', '1112492933');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ventas`
+--
+
+CREATE TABLE `ventas` (
+  `Numero` int(11) NOT NULL,
+  `Afiliado` varchar(30) NOT NULL,
+  `Usuario` varchar(30) NOT NULL,
+  `Campana` int(11) NOT NULL,
+  `Estado` varchar(30) NOT NULL,
+  `Estado_Campana` varchar(30) NOT NULL,
+  `Fecha` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Índices para tablas volcadas
@@ -382,6 +417,13 @@ ALTER TABLE `formas_pago`
   ADD PRIMARY KEY (`Codigo`);
 
 --
+-- Indices de la tabla `observaciones_ventas`
+--
+ALTER TABLE `observaciones_ventas`
+  ADD PRIMARY KEY (`Numero`),
+  ADD KEY `Venta` (`Venta`);
+
+--
 -- Indices de la tabla `rango_ingresos`
 --
 ALTER TABLE `rango_ingresos`
@@ -398,7 +440,8 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`Nit`),
-  ADD KEY `Rol` (`Rol`);
+  ADD KEY `Rol` (`Rol`),
+  ADD KEY `Banco_1` (`Banco_1`);
 
 --
 -- Indices de la tabla `usuario_camp`
@@ -415,6 +458,15 @@ ALTER TABLE `u_camp_temp`
   ADD PRIMARY KEY (`Numero_Temp`),
   ADD KEY `Numero` (`Numero`),
   ADD KEY `Nit` (`Nit`);
+
+--
+-- Indices de la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  ADD PRIMARY KEY (`Numero`),
+  ADD KEY `Afiliado` (`Afiliado`),
+  ADD KEY `Usuario` (`Usuario`),
+  ADD KEY `Campana` (`Campana`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -445,6 +497,12 @@ ALTER TABLE `formas_pago`
   MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT de la tabla `observaciones_ventas`
+--
+ALTER TABLE `observaciones_ventas`
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `rango_ingresos`
 --
 ALTER TABLE `rango_ingresos`
@@ -454,13 +512,19 @@ ALTER TABLE `rango_ingresos`
 -- AUTO_INCREMENT de la tabla `usuario_camp`
 --
 ALTER TABLE `usuario_camp`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT de la tabla `u_camp_temp`
 --
 ALTER TABLE `u_camp_temp`
-  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=319;
+  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
+
+--
+-- AUTO_INCREMENT de la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -482,6 +546,12 @@ ALTER TABLE `ciudades`
   ADD CONSTRAINT `ciudades_ibfk_1` FOREIGN KEY (`Departamento`) REFERENCES `departamentos` (`Codigo`);
 
 --
+-- Filtros para la tabla `observaciones_ventas`
+--
+ALTER TABLE `observaciones_ventas`
+  ADD CONSTRAINT `observaciones_ventas_ibfk_1` FOREIGN KEY (`Venta`) REFERENCES `ventas` (`Numero`);
+
+--
 -- Filtros para la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -500,6 +570,14 @@ ALTER TABLE `usuario_camp`
 ALTER TABLE `u_camp_temp`
   ADD CONSTRAINT `u_camp_temp_ibfk_1` FOREIGN KEY (`Nit`) REFERENCES `usuarios` (`Nit`),
   ADD CONSTRAINT `u_camp_temp_ibfk_2` FOREIGN KEY (`Numero`) REFERENCES `campanas` (`Numero`);
+
+--
+-- Filtros para la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  ADD CONSTRAINT `ventas_ibfk_1` FOREIGN KEY (`Campana`) REFERENCES `campanas` (`Numero`),
+  ADD CONSTRAINT `ventas_ibfk_2` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`Nit`),
+  ADD CONSTRAINT `ventas_ibfk_3` FOREIGN KEY (`Afiliado`) REFERENCES `afiliados` (`Identificacion`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

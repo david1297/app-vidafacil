@@ -18,6 +18,9 @@ if (empty($_POST['Numero'])){
 }elseif (empty($_POST['Porcentaje'])){
 	$errors[] = "El Porcentaje de la Campaña Se Encuentra Vacio";
 }
+elseif (empty($_POST['Estados'])){
+	$errors[] = "Los Estados de la Campaña Se Encuentran Vacios";
+}
 elseif (
 			!empty($_POST['Numero'])
 			&& !empty($_POST['Nombre'])
@@ -25,6 +28,7 @@ elseif (
 			&& !empty($_POST['Area'])
 			&& !empty($_POST['Estado'])
 			&& !empty($_POST['Porcentaje'])
+			&& !empty($_POST['Estados'])
           )
          {
             require_once ("../../config/db.php");
@@ -36,14 +40,15 @@ elseif (
 				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 				$Porcentaje = mysqli_real_escape_string($con,(strip_tags($_POST["Porcentaje"],ENT_QUOTES)));
 				$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));
+				$Estados = mysqli_real_escape_string($con,(strip_tags($_POST["Estados"],ENT_QUOTES)));
 				
 				
-				$sql =  "INSERT INTO  Campanas(Numero,Nombre,Contacto,Area,Estado,Porcentaje,Observaciones) VALUES
+				$sql =  "INSERT INTO  Campanas(Numero,Nombre,Contacto,Area,Estado,Porcentaje,Observaciones,Estados) VALUES
 
-				('".$Numero."', '".$Nombre."', '".$Contacto."', '".$Area."', '".$Estado."', '".$Porcentaje."', '".$Observaciones."'
+				('".$Numero."', '".$Nombre."', '".$Contacto."', '".$Area."', '".$Estado."', '".$Porcentaje."', '".$Observaciones."', '".$Estados."'
 				) ON DUPLICATE  KEY UPDATE
 				Numero = '".$Numero."',Nombre ='".$Nombre."',Contacto='".$Contacto."',Area='".$Area."',Estado='".$Estado."',Porcentaje='".$Porcentaje."'
-				,Observaciones='".$Observaciones."';";
+				,Observaciones='".$Observaciones."',Estados='".$Estados."';";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
                         $messages[] = "Los Datos Se Han Modificado Con Exito.";
