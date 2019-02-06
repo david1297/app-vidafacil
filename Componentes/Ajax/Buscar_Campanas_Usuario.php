@@ -46,7 +46,7 @@
 			echo mysqli_error($con);
 			?>
 			<div class="table-responsive">
-			  <table class="table">
+			  <table class="table table-hover">
 				<tr  class="warning">
 					<th class="text-center">Numero</th>
 					<th class="text-left">Nombre</th>

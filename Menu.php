@@ -4,7 +4,7 @@
 
 			<div class="container-fluid">
 				<div class="navbar-btn" >
-					<button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu"></i></button>
+					<button type="button" class="btn-toggle-offcanvas"><i class="fas fa-bars"></i></button>
 				</div>
       <div id="logo" class="pull-left logo-ini hidden-xs"><a href="#intro" class="scrollto">
         <img src="assets/img/logo-vida-facil2.jpg" class="img-fluid" alt="" style="height: 50px;">

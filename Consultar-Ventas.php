@@ -27,7 +27,7 @@
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
 						<button type="button" class="btn btn-default" onclick="NuevaVenta()">
-							<span class="glyphicon glyphicon-user"></span> Nueva Venta
+							<span class="fa fa-shopping-cart"></span> Nueva Venta
 						</button>
 						</div>
 						<h4><i class='glyphicon glyphicon-search'></i> Consultar Ventas</h4>
@@ -36,9 +36,23 @@
 					<div class="panel-body">
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
-								<label for="q" class="col-md-2 control-label">Tipo, Estado, Campaña</label>
-								<div class="col-md-6">
-									<input type="text" class="form-control" id="q" placeholder="Tipo, Estado o Campaña" onkeyup='load(1);'>
+							<div class="col-md-3">		
+									<select class='form-control' id="Filtro" name ="Filtro" placeholder="Estado" onchange='load(1);'>
+										<option value="Afiliado">Afiliado</option>
+										<option value="Numero">Numero</option>
+										
+									</select>
+								</div>		
+								<div class="col-md-5">
+									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
+								</div>
+								<div class="col-md-2">		
+									<select class='form-control' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
+										<option value="Todos">Todos</option>
+										<option value="Pendiente">Pendiente</option>
+										<option value="Aprobada">Aprobada</option>
+										<option value="Rechazada">Rechazada</option>
+									</select>
 								</div>
 								<div class="col-md-2">
 								<span id="loader"></span>

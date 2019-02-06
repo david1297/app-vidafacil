@@ -18,6 +18,9 @@
 	$Fecha ="";
 	$Nombre="";
 	$Correo="";
+	$Transportadora="";
+	$Seguimiento="";
+	$Observaciones_Cargadas="";
 		
 
 	if (isset($_GET['Numero'])) {
@@ -31,15 +34,41 @@
 		$Estado =$rw_Admin['Estado'];
 		$Estado_Campana =$rw_Admin['Estado_Campana'];
 		$Fecha =$rw_Admin['Fecha'];
-		$query=mysqli_query($con, "select * from Afiliados where Numero ='".$_GET['Numero']."' ");
+		$Transportadora=$rw_Admin['Transportadora'];
+		$Seguimiento=$rw_Admin['Seguimiento'];
+		$query=mysqli_query($con, "select * from Afiliados where Identificacion ='".$Afiliado."' ");
 		$rw_Admin=mysqli_fetch_array($query);
-
-
+		$Nombre =$rw_Admin['Primer_Nombre'].' '.$rw_Admin['Primer_Apellido'];
+		$Correo=$rw_Admin['Correo'];
 		$EstadoV="Editando";
 		$Read= "readonly='readonly'";
+
+		$Numero_venta="Venta Numero: ".$Numero;
+
+		$sql="SELECT * FROM observaciones_ventas inner join Usuarios on Usuarios.Nit=observaciones_ventas.Usuario WHERE VENTA=".$Numero."";
+
+		$query = mysqli_query($con, $sql);
+		while ($row=mysqli_fetch_array($query)){
+			$Observaciones_Cargadas.=
+				
+			'<br>
+			<div class="card border-secondary mb-3">
+  				<div class="card-header">'.$row['Razon_Social'].'<em>&nbsp;&nbsp;&nbsp;&nbsp;('.$row['Fecha'].')</em></div>
+  				<div class="card-body text-secondary">
+    				<p class="card-text">'.$row['Observacion'].'</p>
+  				</div>
+			</div>
+		';
+
+
+
+			
+		}
+
 	}else{
 		$EstadoV="Nuevo";
 		$Read= "";
+		$Numero_venta="Nueva Venta";
 	}
 
 
@@ -64,22 +93,25 @@
 					<div class="panel-heading">
 		    		<div class="btn-group pull-right">
 							<button type="button" class="btn btn-default" id="Consultar">
-								<span class="glyphicon glyphicon-user"></span> Consultar Ventas
+								<span class="fa fa-shopping-cart"></span> Consultar Ventas
 							</button>
 						</div>
-						<h4><i class="fas fa-user-tie"></i>   Ventas</h4>
+						<h4><i class="fas fa-shopping-cart"></i>   <?php echo $Numero_venta;?></h4>
 					</div>
 					<div class="panel-body">
 					<?php 
 						include("Componentes/Modal/Buscar_Afiliados.php");
 					?>
-					<form class="form-horizontal" role="form" id="datos_factura">
+					<form class="form-horizontal" method="post" id="Guardar_Ventas" name="Guardar_Ventas">
+					<input type="text" class="form-control hidden" id="EstadoV" name="EstadoV"  value="<?php echo $EstadoV; ?>" > 
+
 							<div class="form-group container-fluid">
 								<div class="row">
 									<div class="col-md-4">
 										<label for="Afiliado" class="control-label">Afiliado</label>
 								 		<div class="input-group">
-								 			<input class="form-control hidden" type="text" id="Afiliado" VALUE="<?php echo $Afiliado;?>"  required readonly>
+								 			<input class="form-control hidden" type="text" id="Numero" name="Numero" VALUE="<?php echo $Numero;?>"   readonly>
+								 			<input class="form-control hidden" type="text" id="Afiliado" name="Afiliado" VALUE="<?php echo $Afiliado;?>"  required readonly>
 											<input class="form-control" type="text" id="Nombre" placeholder="Nombre del Afiliado" VALUE="<?php echo $Nombre;?>" required readonly>
 											<span class="input-group-btn">
 												<button type="button" class="btn btn-default" data-toggle="modal" data-target="#BuscarAfiliado"><span class="glyphicon glyphicon-search"></span></button>
@@ -94,11 +126,11 @@
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Usuario</label>
 										<input type="text" class="form-control" id="Usuario_N" placeholder="Usuario" value="<?php echo $_SESSION['Razon_Social'];?>" readonly>
-											<input type="text" class="form-control hidden" id="Usuario" placeholder="Usuario" value="<?php echo $_SESSION['Nit'];?>" readonly>
+											<input type="text" class="form-control hidden" id="Usuario" name="Usuario" placeholder="Usuario" value="<?php echo $_SESSION['Nit'];?>" readonly>
 									</div>	
 									<div class="col-md-4">
 										<label for="tel2" class="control-label">Fecha</label>
-										<input type="text" class="form-control" id="fecha" value="<?php echo date("d/m/Y");?>" readonly>
+										<input type="DAte" class="form-control" id="fecha" name="fecha" value="<?php echo date("Y-m-d");?>"readonly>
 									</div>	
 									<div class="col-md-4">
 										<label for="email" class="control-label">Campaña</label>
@@ -106,21 +138,61 @@
 												$query1=mysqli_query($con, "select Campanas.Nombre,Campanas.Numero from usuario_camp inner join Campanas on usuario_camp.Campana = Campanas.Numero where Usuario ='".$_SESSION['Nit']."' and Campanas.Estado ='Activa' order by Nombre");
 												echo' <select class="form-control" id="Campana" name ="Campana" placeholder="Campaña" onchange="CargarEstados()">';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
+													if($Campana==$rw_Admin1['Numero']){
+														echo '<option value="'.$rw_Admin1['Numero'].'" selected>'.utf8_encode($rw_Admin1['Nombre']).'</option>';	
+
+													}else{
 														echo '<option value="'.$rw_Admin1['Numero'].'">'.utf8_encode($rw_Admin1['Nombre']).'</option>';	
+
+													}
 												}
 												echo '</select>';
 											?>	
 									</div>
+									<input type="Text" class="form-control hidden" id="Est_camp" name="Est_camp" require value="<?php echo $Estado_Campana?>" readonly="readonly">
+									<input type="Text" class="form-control hidden" id="Seg_camp" name="Seg_camp" require value="<?php echo $Seguimiento?>" readonly="readonly">
+									<input type="Text" class="form-control hidden" id="Tran_camp" name="Tran_camp" require value="<?php echo $Transportadora?>" readonly="readonly">
 									
-									<div class="col-md-4" id="Estados">
-										<label for="email" class="control-label">Estadod dCampaña</label>
+									<div  id="Estados">
+										
 										
 									</div>
-									
+									<div class="col-md-4">
+									<?php 
+										if($EstadoV == "Nuevo"){
+											echo '
+											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Pendiente" >';
+										} else {
+											if($_SESSION['Rol']<>'2'){
+												echo '
+												<label for="Estado" class="control-label">Estado</label>
+												
+													<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
+													if($Estado == 'Aprobada'){
+														echo '<option value="Aprobada">Aprobada</option>';
+														echo '<option value="Rechazada">Rechazada</option>';
+													}else{
+														echo '<option value="Rechazada">Rechazada</option>';
+														echo '<option value="Aprobada">Aprobada</option>';
+													}
+													echo '
+													</select>
+												
+											';
+											}
+											
+											
+										}
+									?>
+									</div>
 									<div class="col-md-12">
   										<label for="Observaciones">Observaciones:</label>
-  										<textarea class="form-control" rows="5" id="Observaciones"></textarea>
-									</div>										
+  										<textarea class="form-control" rows="5" id="Observaciones" name="Observaciones"></textarea>
+									</div>	
+									<div class="col-md-12"><br>
+									<?php echo $Observaciones_Cargadas ?>
+  										
+									</div>									
 								</div>
 								<br>
 								
@@ -153,7 +225,7 @@
 	<script>
 
 $( "#Cancelar" ).click(function( event ) {
-	if (document.getElementById('Estado').value == 'Editando') {
+	if (document.getElementById('EstadoV').value == 'Editando') {
 		location.reload(true);
 	}
 	else{
@@ -165,12 +237,30 @@ $( "#Consultar" ).click(function( event ) {
 		location.href='Consultar-Ventas.php';
 
 })
+$( "#Guardar_Ventas" ).submit(function( event ) {
+			var parametros = $(this).serialize();
+			$.ajax({
+				type: "POST",
+				url: "Componentes/Ajax/Guardar_Ventas.php",
+				data: parametros,
+				beforeSend: function(objeto){
+					$("#resultados_ajax2").html("Mensaje: Cargando...");
+				},
+				success: function(datos){
+					$("#resultados_ajax2").html(datos);
+				}
+			});
+			event.preventDefault();
+		})
 function CargarEstados(){
 			var Campana = $("#Campana").val();
+			var Est_camp = $("#Est_camp").val();
+			var Seg_camp = $("#Seg_camp").val();
+			var Tran_camp = $("#Tran_camp").val();
 			$.ajax({
 				type: "POST",
 				url: "Componentes/Ajax/Cargar_Estados_Campana.php",
-				data: "Campana="+Campana,
+				data: "Campana="+Campana+"&Est_camp="+Est_camp+"&Seg_camp="+Seg_camp+"&Tran_camp="+Tran_camp,
 				beforeSend: function(objeto){
 				},success: function(datos){
 					$("#Estados").html(datos);

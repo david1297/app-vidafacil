@@ -19,11 +19,11 @@
 		}
 
 	function Seleccionar(Nit,Nombre,Correo){
-		document.getElementById('Nit_cliente').value = Nit ;
-			document.getElementById('Nombre_cliente').value = Nombre ;
-
-document.getElementById('Correo_cliente').value = Correo ;		
-
-			
+		document.getElementById('Afiliado').value = Nit ;
+		document.getElementById('Nombre').value = Nombre ;
+		document.getElementById('Correo').value = Correo ;			
 		}
-		
+		function NuevoAfiliado(){
+			
+			window.open("Afiliados.php", "Diseño Web", "");
+		}

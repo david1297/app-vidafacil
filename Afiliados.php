@@ -184,8 +184,9 @@
 									</div>
 									<div class="form-group">
 										<label for="Ciudad" class="col-sm-3 control-label">Ciudad</label>
+										<input type="Text" class="form-control hidden" id="Ciu" name="Ciu" require value="<?php echo $Ciudad?>" readonly="readonly">
+
 										<div class="col-sm-8" id="Ciudades" >
-											<input type="Text" class="form-control hidden" id="Ciu" name="Ciu" require value="<?php echo $Ciudad?>" readonly="readonly">
 
 										</div>
 									</div>

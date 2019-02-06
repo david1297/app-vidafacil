@@ -49,7 +49,7 @@
 			echo mysqli_error($con);
 			?>
 			<div class="table-responsive">
-			  <table class="table">
+			  <table class="table table-hover">
 				<tr  class="warning">
 					<th>Numero</th>
 					<th>Nombre</th>

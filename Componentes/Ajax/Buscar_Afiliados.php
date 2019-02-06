@@ -53,7 +53,7 @@
 			echo mysqli_error($con);
 			?>
 			<div class="table-responsive">
-			  <table class="table">
+			  <table class="table table-hover">
 				<tr  class="warning">
 					<th>Identificacion</th>
 					<th>Nombres</th>

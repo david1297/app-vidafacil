@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-02-2019 a las 23:40:52
+-- Tiempo de generación: 06-02-2019 a las 23:40:37
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -97,18 +97,20 @@ CREATE TABLE `campanas` (
   `Estado` varchar(20) NOT NULL,
   `Porcentaje` float NOT NULL,
   `Observaciones` varchar(5000) NOT NULL,
-  `Estados` varchar(1000) NOT NULL
+  `Estados` varchar(1000) NOT NULL,
+  `Seguimiento` varchar(1000) NOT NULL,
+  `Transportadoras` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `campanas`
 --
 
-INSERT INTO `campanas` (`Numero`, `Nombre`, `Contacto`, `Area`, `Estado`, `Porcentaje`, `Observaciones`, `Estados`) VALUES
-(1, 'SVF', 'yo', 'Administrativa', 'Activa', 10, 'fdf', ''),
-(2, 'EMERMEDICA', 'yo', 'Administriva', 'Activa', 0, '', 'Estado1\r\nEstado3\r\nEjemplo'),
-(3, 'TELEFONIA', 'obvio yo', 'todas', 'Activa', 50, 'HOLI\r\nQUE TAL COMO ESTAS \r\nSALTO', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado\r\nEn Proceso\r\nPagado\r\nPor Pagar\r\nPara Descontar'),
-(4, 'prueba', 'sebastian', 'ventas', 'Activa', 30, '', '');
+INSERT INTO `campanas` (`Numero`, `Nombre`, `Contacto`, `Area`, `Estado`, `Porcentaje`, `Observaciones`, `Estados`, `Seguimiento`, `Transportadoras`) VALUES
+(1, 'SVF', 'yo', 'Administrativa', 'Activa', 10, 'fdf', '', '', ''),
+(2, 'EMERMEDICA', 'yo', 'Administriva', 'Activa', 0, '', 'Estado1\r\nEstado3\r\nEjemplo', '', ''),
+(3, 'TELEFONIA', 'obvio yo', 'todas', 'Activa', 50, 'HOLI\r\nQUE TAL COMO ESTAS \r\nSALTO', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado\r\nEn Proceso\r\nPagado\r\nPor Pagar\r\nPara Descontar', 'Devuelto Al Remitente.\r\nDirecciÃ³n Errada.\r\nDirecciÃ³n Incompleta.\r\nEn EnviÃ³.\r\nEntrega Exitosa.\r\nNo Desea Recibir.\r\nNo Desea Recibir.\r\nZona De EnviÃ³.', 'Aeropostal.\r\nBici Mail.\r\nCoordinadora.\r\nTCC.\r\nInterrapÃ­disimo.\r\nDHL.\r\nEnvÃ­a.\r\n4/72.\r\nDeprisa.\r\nFedex.\r\nServientrega.'),
+(4, 'prueba', 'sebastian', 'ventas', 'Activa', 30, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -214,8 +216,27 @@ CREATE TABLE `observaciones_ventas` (
   `Numero` int(11) NOT NULL,
   `Venta` int(11) NOT NULL,
   `Fecha` date NOT NULL,
-  `Observacion` varchar(10000) NOT NULL
+  `Observacion` varchar(1000) NOT NULL,
+  `Usuario` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `observaciones_ventas`
+--
+
+INSERT INTO `observaciones_ventas` (`Numero`, `Venta`, `Fecha`, `Observacion`, `Usuario`) VALUES
+(1, 1, '0000-00-00', '', '1112492933'),
+(2, 4, '2019-02-06', 'sasa', '1112492933'),
+(3, 4, '2019-02-06', 'ejemplo otro', '1112492933'),
+(4, 0, '2019-02-06', 'saa', '1112492933'),
+(5, 4, '2019-02-06', 'sasa', '1112492933'),
+(6, 4, '2019-02-06', 'otro ejemplo', '1112492933'),
+(7, 6, '2019-02-06', 'observacion 1', '1112492933'),
+(8, 0, '2019-02-06', 'Nueva Opservacion', '1112492933'),
+(9, 7, '2019-02-06', 'ejemplo comentario', '1112492933'),
+(10, 0, '2019-02-06', 'Observacion Usuario', '1112492933'),
+(11, 8, '2019-02-06', 'dxa', '9008211529'),
+(12, 8, '2019-02-06', 'holi que hace', '1112492933');
 
 -- --------------------------------------------------------
 
@@ -304,7 +325,7 @@ INSERT INTO `usuarios` (`Nit`, `Tipo_Persona`, `Tipo`, `Apellido`, `Nombre`, `Ra
 ('123456789', 'Juridica', 'Operador', '', '', 'ejemplo', '32165', 'calle', 'ejemplo@gmail.com', '32165', 'ejemplo@gmail.com', 'r', 'a', 'a', 'a', 'a', 'a', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 10, 'InActivo', 'NEQUI', 'Telefonica', '3106949631', 'BANCO DE BOGOTA', 'Corriente', '3214', 'ejemplo', 'el banco'),
 ('8000099734', 'Juridica', 'Distribuidor', '', '', 'LUVAGA CIA LTDA.', '665 25 09', 'Av 4B Norte # 37 A - 127', 'contabilidad@luvaga.com', '664 01 01', 'contabilidad@luvaga.com', 'LUIS ENRIQUE', '79589752', '1', '1', '1', '1', 2, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 10, 'InActivo', 'BANCOLOMBIA', 'Ahorros', '79589752', 'NEQUI', 'Telefonica', '79589752', 'LUIS ENRIQUE', 'LUIS ENRIQUE'),
 ('9005104631', 'Juridica', 'Distribuidor', '', '', 'KUMBA INFLABLES SAS', '3008930251', 'Carrera 95# 2b1-86, 1', 'juandavid.andrade1997@gmail.com', '123456', 'juandavid.andrade@gmail.com', 'benito', '66901489', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 1, 'InActivo', '', '', '', '', '', '', '', ''),
-('9008211529', 'Juridica', 'Distribuidor', '', '', 'JGH PROYECTOS Y SERVICIOS S.A.S', '3008930251', 'Carrera 95# 2b1-86, 1', 'juandavid.andrade1997@gmail.com', '123456', 'juandavid.andrade1997@gmail.com', 'JHON ALEXANDER', '321654', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 1, 'Activo', 'BANCOLOMBIA', 'Ahorros', '123', 'BANCOLOMBIA', 'Ahorros', '123', '', '');
+('9008211529', 'Juridica', 'Distribuidor', '', '', 'JGH PROYECTOS Y SERVICIOS S.A.S', '3008930251', 'Carrera 95# 2b1-86, 1', 'juandavid.andrade1997@gmail.com', '123456', 'juandavid.andrade1997@gmail.com', 'JHON ALEXANDER', '321654', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 2, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 1, 'Activo', 'BANCOLOMBIA', 'Ahorros', '123', 'BANCOLOMBIA', 'Ahorros', '123', '', '');
 
 -- --------------------------------------------------------
 
@@ -328,7 +349,11 @@ INSERT INTO `usuario_camp` (`Numero`, `Campana`, `Usuario`) VALUES
 (118, 1, '1112492933'),
 (119, 4, '1112492933'),
 (120, 2, '1112492933'),
-(121, 3, '1112492933');
+(121, 3, '1112492933'),
+(122, 3, '9008211529'),
+(123, 1, '9008211529'),
+(124, 4, '9008211529'),
+(125, 2, '9008211529');
 
 -- --------------------------------------------------------
 
@@ -350,10 +375,14 @@ CREATE TABLE `u_camp_temp` (
 --
 
 INSERT INTO `u_camp_temp` (`Numero_Temp`, `Numero`, `Nombre`, `Porcentaje`, `session_id`, `Nit`) VALUES
-(348, 1, 'SVF', 10, 'p6vae8dk4g0rj4lther2mgmqo3', '1112492933'),
-(349, 4, 'prueba', 30, 'p6vae8dk4g0rj4lther2mgmqo3', '1112492933'),
-(350, 2, 'EMERMEDICA', 0, 'p6vae8dk4g0rj4lther2mgmqo3', '1112492933'),
-(351, 3, 'TELEFONIA', 50, 'p6vae8dk4g0rj4lther2mgmqo3', '1112492933');
+(360, 3, 'TELEFONIA', 50, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
+(361, 1, 'SVF', 10, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
+(362, 4, 'prueba', 30, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
+(363, 2, 'EMERMEDICA', 0, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
+(384, 1, 'SVF', 10, 'j5bgpjdjpolju4rch7f8dofmul', '1112492933'),
+(385, 4, 'prueba', 30, 'j5bgpjdjpolju4rch7f8dofmul', '1112492933'),
+(386, 2, 'EMERMEDICA', 0, 'j5bgpjdjpolju4rch7f8dofmul', '1112492933'),
+(387, 3, 'TELEFONIA', 50, 'j5bgpjdjpolju4rch7f8dofmul', '1112492933');
 
 -- --------------------------------------------------------
 
@@ -368,8 +397,25 @@ CREATE TABLE `ventas` (
   `Campana` int(11) NOT NULL,
   `Estado` varchar(30) NOT NULL,
   `Estado_Campana` varchar(30) NOT NULL,
-  `Fecha` date NOT NULL
+  `Fecha` date NOT NULL,
+  `Seguimiento` varchar(100) NOT NULL,
+  `Transportadora` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`Numero`, `Afiliado`, `Usuario`, `Campana`, `Estado`, `Estado_Campana`, `Fecha`, `Seguimiento`, `Transportadora`) VALUES
+(0, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-06', 'Devuelto Al Remitente.', 'Aeropostal.'),
+(1, '1112492933', '1112492933', 3, 'Pendiente', 'Pendientes', '0000-00-00', '', ''),
+(2, '1112492933', '1112492933', 2, 'Rechazada', 'Estado3', '2019-02-06', '', ''),
+(3, '1112492933', '1112492933', 2, 'Pendiente', 'Estado1', '2019-02-06', '', ''),
+(4, '1112492933', '1112492933', 2, 'Rechazada', 'Estado1', '2019-02-06', '', ''),
+(5, '1112492933', '1112492933', 2, 'Aprobada', 'Estado1', '2019-02-06', '', ''),
+(6, '1112492933', '1112492933', 2, 'Pendiente', 'Estado3', '2019-02-06', '', ''),
+(7, '1112492933', '1112492933', 3, 'Aprobada', 'Pagado', '2019-02-06', 'En EnviÃ³.', 'DHL.'),
+(8, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-06', 'Devuelto Al Remitente.', 'Bici Mail.');
 
 --
 -- Índices para tablas volcadas
@@ -421,7 +467,8 @@ ALTER TABLE `formas_pago`
 --
 ALTER TABLE `observaciones_ventas`
   ADD PRIMARY KEY (`Numero`),
-  ADD KEY `Venta` (`Venta`);
+  ADD KEY `Venta` (`Venta`),
+  ADD KEY `Usuario` (`Usuario`);
 
 --
 -- Indices de la tabla `rango_ingresos`
@@ -500,7 +547,7 @@ ALTER TABLE `formas_pago`
 -- AUTO_INCREMENT de la tabla `observaciones_ventas`
 --
 ALTER TABLE `observaciones_ventas`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `rango_ingresos`
@@ -512,19 +559,13 @@ ALTER TABLE `rango_ingresos`
 -- AUTO_INCREMENT de la tabla `usuario_camp`
 --
 ALTER TABLE `usuario_camp`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT de la tabla `u_camp_temp`
 --
 ALTER TABLE `u_camp_temp`
-  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
-
---
--- AUTO_INCREMENT de la tabla `ventas`
---
-ALTER TABLE `ventas`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=388;
 
 --
 -- Restricciones para tablas volcadas
@@ -549,7 +590,8 @@ ALTER TABLE `ciudades`
 -- Filtros para la tabla `observaciones_ventas`
 --
 ALTER TABLE `observaciones_ventas`
-  ADD CONSTRAINT `observaciones_ventas_ibfk_1` FOREIGN KEY (`Venta`) REFERENCES `ventas` (`Numero`);
+  ADD CONSTRAINT `observaciones_ventas_ibfk_1` FOREIGN KEY (`Venta`) REFERENCES `ventas` (`Numero`),
+  ADD CONSTRAINT `observaciones_ventas_ibfk_2` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`Nit`);
 
 --
 -- Filtros para la tabla `usuarios`
