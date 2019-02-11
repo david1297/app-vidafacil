@@ -21,7 +21,24 @@ if (empty($_POST['Afiliado'])){
 	$errors[] = "El Seguimiento de la Campaña Se Encuentra Vacio";
 }elseif (empty($_POST['Transportadora'])){
 	$errors[] = "La Transportadora de la Campaña Se Encuentra Vacia";
+}elseif (empty($_POST['NumeroNip'])and ($_POST['Telefonica']=='True')){
+		$errors[] = "El Numero de Nip Se Encuentra Vacio";
+}elseif (empty($_POST['DataCreditoTipo']and ($_POST['Telefonica']=='True'))){
+		$errors[] = "El Tipo Data Credito Se Encuentra Vacio";
+}elseif (empty($_POST['Servicio'])and ($_POST['Telefonica']=='True')){
+		$errors[] = "El Servicio Se Encuentra Vacio";
+}elseif (empty($_POST['Canal'])and ($_POST['Telefonica']=='True')){
+		$errors[] = "El Canal Se Encuentra Vacio";
+}elseif (empty($_POST['NumeroCelular'])and ($_POST['Telefonica']=='True')){
+		$errors[] = "El Numero de Celular Se Encuentra Vacio";
+}elseif (empty($_POST['OperadorVenta'])and ($_POST['Telefonica']=='True')){
+		$errors[] = "El Operador de Venta Se Encuentra Vacio";
+}elseif (empty($_POST['OperadorDonante'])and ($_POST['Telefonica']=='True')){
+		$errors[] = "El Operador Donante Se Encuentra Vacio";
+}elseif (empty($_POST['NumeroSim'])and ($_POST['Telefonica']=='True')){
+		$errors[] = "El Numero de Sim Se Encuentra Vacio";
 }
+
 elseif (
 		!empty($_POST['Afiliado'])
 		&& !empty($_POST['Usuario'])
@@ -42,6 +59,26 @@ elseif (
 				$Estado_Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Estado_Campana"],ENT_QUOTES)));
 				$Seguimiento = mysqli_real_escape_string($con,(strip_tags($_POST["Seguimiento"],ENT_QUOTES)));
 				$Transportadora = mysqli_real_escape_string($con,(strip_tags($_POST["Transportadora"],ENT_QUOTES)));
+				if($_POST['Telefonica']=='True'){
+					$NumeroNip = mysqli_real_escape_string($con,(strip_tags($_POST["NumeroNip"],ENT_QUOTES)));
+					$DataCreditoTipo = mysqli_real_escape_string($con,(strip_tags($_POST["DataCreditoTipo"],ENT_QUOTES)));
+					$Servicio = mysqli_real_escape_string($con,(strip_tags($_POST["Servicio"],ENT_QUOTES)));
+					$Canal = mysqli_real_escape_string($con,(strip_tags($_POST["Canal"],ENT_QUOTES)));
+					$NumeroCelular = mysqli_real_escape_string($con,(strip_tags($_POST["NumeroCelular"],ENT_QUOTES)));
+					$OperadorVenta = mysqli_real_escape_string($con,(strip_tags($_POST["OperadorVenta"],ENT_QUOTES)));
+					$OperadorDonante = mysqli_real_escape_string($con,(strip_tags($_POST["OperadorDonante"],ENT_QUOTES)));
+					$NumeroSim = mysqli_real_escape_string($con,(strip_tags($_POST["NumeroSim"],ENT_QUOTES)));
+				}else{
+					$NumeroNip = "";
+					$DataCreditoTipo = "";
+					$Servicio = "";
+					$Canal = "";
+					$NumeroCelular = "";
+					$OperadorVenta = "";
+					$OperadorDonante = "";
+					$NumeroSim = "";	
+				}
+
 				if (isset($_POST['Numero'])) {
 					$Numero = mysqli_real_escape_string($con,(strip_tags($_POST["Numero"],ENT_QUOTES)));	
 					if ($Numero<>''){
@@ -55,13 +92,21 @@ elseif (
 
 				
 
-				$sql =  "INSERT INTO  Ventas(Numero,Afiliado,Usuario,fecha,Campana,Estado,Estado_Campana,Seguimiento,Transportadora) VALUES
+				$sql =  "INSERT INTO  Ventas(Numero,Afiliado,Usuario,fecha,Campana,Estado,Estado_Campana,Seguimiento,Transportadora,
+											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim
+											) VALUES
 
 				('".$numero_VEnta."','".$Afiliado."', '".$Usuario."', '".$fecha."', '".$Campana."', '".$Estado."'
 				, '".$Estado_Campana."', '".$Seguimiento."', '".$Transportadora."'
+				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."', '".$NumeroSim."'
 				) ON DUPLICATE  KEY UPDATE
 				Afiliado = '".$Afiliado."',Usuario ='".$Usuario."',fecha='".$fecha."',Campana='".$Campana."',Estado='".$Estado."'
-				,Estado_Campana='".$Estado_Campana."',Seguimiento='".$Seguimiento."',Transportadora='".$Transportadora."';";
+				,Estado_Campana='".$Estado_Campana."',Seguimiento='".$Seguimiento."',Transportadora='".$Transportadora."'
+				,NumeroNip='".$NumeroNip."',DataCreditoTipo='".$DataCreditoTipo."',Servicio='".$Servicio."',Canal='".$Canal."'
+				,NumeroCelular='".$NumeroCelular."',OperadorVenta='".$OperadorVenta."',OperadorDonante='".$OperadorDonante."',NumeroSim='".$NumeroSim."'
+				
+				
+				;";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
                         $messages[] = "La Venta Se Guardo Con Exito.";

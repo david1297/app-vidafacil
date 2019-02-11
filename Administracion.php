@@ -3,21 +3,11 @@
 	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
         header("location: login.php");
 		exit;
-        }
+  }
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
-	$Inicio="";
-	$Proyectos="";
-	$PCrear="";
-	$PConsultar="";
-	$Usuarios="";
-	$UCrear="";
-	$UConsultar="";
-	$Notificaciones="";
-    $Reportes="";
-    $Administracion="active";
-
-	$query=mysqli_query($con, "Select Empresa,Nit,Telefono,Direccion,Correo from Administracion ;");
+  $Administracion="active";
+	$query=mysqli_query($con, "Select Operador_Venta,Operador_Donante from Administracion ;");
 	$rw_Admin=mysqli_fetch_array($query);
 
 
@@ -25,7 +15,7 @@
 <!doctype html>
 <html lang="es">
 <head>
-	<?php include("head.php"); include("modal/cambiar_password.php");	?>
+	<?php include("head.php"); 	?>
 
 </head>
 <body>
@@ -52,29 +42,22 @@
 								<div class="clearfix">
 									<div class="left">
 										<h2 class="profile-heading">Informacion Basica</h2>
-										<div class="form-group">
-											<label>Nombre</label>
-											<input type="text" id="Empresa"  Name="Empresa"class="form-control" value="<?php echo $rw_Admin['Empresa']; ?>">
-										<br>
-											<label>Nit</label>
-											<input type="text"id="Nit"Name="Nit"  class="form-control" value="<?php echo $rw_Admin['Nit']; ?>">
-										<br>
-											<label>Direccion</label>
-											<input type="text" Name="Direccion" class="form-control" value="<?php echo $rw_Admin['Direccion']; ?>">
-										<br>
-											<label>Telefono</label>
-											<input type="text" Name="Telefono" class="form-control" value="<?php echo $rw_Admin['Telefono']; ?>">
-                                        <br>
-											<label>Correo</label>
-											<input type="text" Name="Correo" class="form-control" value="<?php echo $rw_Admin['Correo']; ?>">
+										<div class="form-group">	
+											<label for="Observaciones">Operadoes de Venta:</label>
+											<div class="col-sm-12">
+  											<textarea class="form-control" rows="5" id="Operador_Venta"NAME="Operador_Venta" ><?php echo $rw_Admin['Operador_Venta'];?></textarea>
+											</div>
 										</div>
+										<div class="form-group">	
+											<label for="Observaciones">Operadores Donantes:</label>
+											<div class="col-sm-12">
+  											<textarea class="form-control" rows="5" id="Operador_Donante"NAME="Operador_Donante" ><?php echo $rw_Admin['Operador_Donante'];?></textarea>
+											</div>
+										</div>
+									
                                         
 										
 									</div>
-									<!-- END LEFT SECTION -->
-									<!-- RIGHT SECTION -->
-										
-									<!-- END RIGHT SECTION  onclick="get_user_id('<?php echo $rw_user['Usuario'];?>');" data-toggle="modal" data-target="#myModal3" -->
 								</div>
 								<div id="resultados_ajax2"></div>
 								<p class="margin-top-30">

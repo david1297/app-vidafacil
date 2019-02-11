@@ -24,9 +24,7 @@ elseif (empty($_POST['Estados'])){
 	$errors[] = "Los Seguimientos de la Campaña Se Encuentran Vacios";
 }elseif (empty($_POST['Transportadoras'])){
 	$errors[] = "Las Transportadoras de la Campaña Se Encuentran Vacias";
-}
-
-elseif (
+}elseif (
 			!empty($_POST['Numero'])
 			&& !empty($_POST['Nombre'])
 			&& !empty($_POST['Contacto'])
@@ -50,14 +48,15 @@ elseif (
 				$Estados = mysqli_real_escape_string($con,(strip_tags($_POST["Estados"],ENT_QUOTES)));
 				$Seguimiento = mysqli_real_escape_string($con,(strip_tags($_POST["Seguimiento"],ENT_QUOTES)));
 				$Transportadoras = mysqli_real_escape_string($con,(strip_tags($_POST["Transportadoras"],ENT_QUOTES)));
+				$Telefonica = mysqli_real_escape_string($con,(strip_tags(@$_POST["Telefonica"],ENT_QUOTES)));
 				
 				
-				$sql =  "INSERT INTO  Campanas(Numero,Nombre,Contacto,Area,Estado,Porcentaje,Observaciones,Estados,Seguimiento,Transportadoras) VALUES
+				$sql =  "INSERT INTO  Campanas(Numero,Nombre,Contacto,Area,Estado,Porcentaje,Observaciones,Estados,Seguimiento,Transportadoras,Telefonica) VALUES
 
-				('".$Numero."', '".$Nombre."', '".$Contacto."', '".$Area."', '".$Estado."', '".$Porcentaje."', '".$Observaciones."', '".$Estados."', '".$Seguimiento."', '".$Transportadoras."'
+				('".$Numero."', '".$Nombre."', '".$Contacto."', '".$Area."', '".$Estado."', '".$Porcentaje."', '".$Observaciones."', '".$Estados."', '".$Seguimiento."', '".$Transportadoras."', '".$Telefonica."'
 				) ON DUPLICATE  KEY UPDATE
 				Numero = '".$Numero."',Nombre ='".$Nombre."',Contacto='".$Contacto."',Area='".$Area."',Estado='".$Estado."',Porcentaje='".$Porcentaje."'
-				,Observaciones='".$Observaciones."',Estados='".$Estados."',Seguimiento='".$Seguimiento."',Transportadoras='".$Transportadoras."';";
+				,Observaciones='".$Observaciones."',Estados='".$Estados."',Seguimiento='".$Seguimiento."',Transportadoras='".$Transportadoras."',Telefonica='".$Telefonica."';";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
                         $messages[] = "Los Datos Se Han Modificado Con Exito.";

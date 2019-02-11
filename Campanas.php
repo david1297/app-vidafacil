@@ -22,6 +22,7 @@
 	$Estados="";
 	$Seguimiento="";
 	$Transportadoras="";
+	$Telefonica="";
 
 	if (isset($_GET['Numero'])) {
 		$query=mysqli_query($con, "select * from Campanas where Numero ='".$_GET['Numero']."' ");
@@ -37,6 +38,7 @@
 		$Estados=$rw_Admin['Estados'];
 		$Seguimiento=$rw_Admin['Seguimiento'];
 		$Transportadoras=$rw_Admin['Transportadoras'];
+		$Telefonica=$rw_Admin['Telefonica'];
 		$EstadoC="Editando";
 		$Read= "readonly='readonly'";
 	}else{
@@ -130,6 +132,21 @@
 										<div class="col-sm-8">
 											<input type="text" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje; ?> ">
 										</div>
+									</div>
+									<div class="form-group col-sm-8">
+										<label for="Porcentaje" class="col-sm-3 control-label">Telefonica</label>
+										<div class="col-sm-8">
+										<?php
+										if($Telefonica =='True'){
+										echo'	<input type="checkbox" class="form-check-input" id="Telefonica" name="Telefonica" value="True" checked>';
+										}else{
+										echo'	<input type="checkbox" class="form-check-input" id="Telefonica" name="Telefonica" value="False">';
+
+										}
+										?>
+    									
+  									</div>
+									</div>
 									</div>
 									<div class="form-group col-sm-6">
 										<label for="Estados">Estados:</label>
@@ -228,6 +245,14 @@ $( "#Consultar" ).click(function( event ) {
 		  }
 	});
   event.preventDefault();
+})
+$("#Telefonica").click(function( event){
+	if(document.getElementById("Telefonica").checked == true){
+		document.getElementById('Telefonica').value= 'True';
+	}else{
+		document.getElementById('Telefonica').value= 'False';
+
+	}
 })
 
 	</script>

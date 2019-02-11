@@ -14,7 +14,8 @@ require_once ("../../config/conexion.php");
 
 $query=mysqli_query($con, "select * from Campanas where Numero ='".$Campana."' ");
         $rw_Admin=mysqli_fetch_array($query);
-      
+										
+		echo '<input type="text" class="form-control hidden" id="Telefonica" name="Telefonica" VALUE="'.$rw_Admin['Telefonica'].'" placeholder="Telefonica" readonly>';
 		$tuArray = explode("\r\n", $rw_Admin['Estados']);
 		echo '<div class="col-md-4"> 
 		<label for="email" class="control-label">Estado Campaña</label>';

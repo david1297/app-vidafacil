@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-02-2019 a las 18:02:02
+-- Tiempo de generación: 11-02-2019 a las 23:37:17
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -21,6 +21,25 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `vidafacil`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `administracion`
+--
+
+CREATE TABLE `administracion` (
+  `Numero` int(11) NOT NULL,
+  `Operador_Venta` varchar(1000) NOT NULL,
+  `Operador_Donante` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `administracion`
+--
+
+INSERT INTO `administracion` (`Numero`, `Operador_Venta`, `Operador_Donante`) VALUES
+(1, 'Claro\r\nMovistar\r\nTigo', 'Avantel\r\nEtb\r\nExito\r\nUff\r\nVirgin Mobile');
 
 -- --------------------------------------------------------
 
@@ -99,18 +118,19 @@ CREATE TABLE `campanas` (
   `Observaciones` varchar(5000) NOT NULL,
   `Estados` varchar(1000) NOT NULL,
   `Seguimiento` varchar(1000) NOT NULL,
-  `Transportadoras` varchar(1000) NOT NULL
+  `Transportadoras` varchar(1000) NOT NULL,
+  `Telefonica` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `campanas`
 --
 
-INSERT INTO `campanas` (`Numero`, `Nombre`, `Contacto`, `Area`, `Estado`, `Porcentaje`, `Observaciones`, `Estados`, `Seguimiento`, `Transportadoras`) VALUES
-(1, 'SVF', 'yo', 'Administrativa', 'Activa', 10, 'fdf', '', '', ''),
-(2, 'EMERMEDICA', 'yo', 'Administriva', 'Activa', 0, '', 'Estado1\r\nEstado3\r\nEjemplo', '', ''),
-(3, 'TELEFONIA', 'obvio yo', 'todas', 'Activa', 50, 'HOLI\r\nQUE TAL COMO ESTAS \r\nSALTO', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado\r\nEn Proceso\r\nPagado\r\nPor Pagar\r\nPara Descontar', 'Devuelto Al Remitente.\r\nDirecciÃ³n Errada.\r\nDirecciÃ³n Incompleta.\r\nEn EnviÃ³.\r\nEntrega Exitosa.\r\nNo Desea Recibir.\r\nNo Desea Recibir.\r\nZona De EnviÃ³.', 'Aeropostal.\r\nBici Mail.\r\nCoordinadora.\r\nTCC.\r\nInterrapÃ­disimo.\r\nDHL.\r\nEnvÃ­a.\r\n4/72.\r\nDeprisa.\r\nFedex.\r\nServientrega.'),
-(4, 'prueba', 'sebastian', 'ventas', 'Activa', 30, '', '', '', '');
+INSERT INTO `campanas` (`Numero`, `Nombre`, `Contacto`, `Area`, `Estado`, `Porcentaje`, `Observaciones`, `Estados`, `Seguimiento`, `Transportadoras`, `Telefonica`) VALUES
+(1, 'SVF', 'yo', 'Administrativa', 'Activa', 10, 'OBSERVACIONES DE LA CAMPAÃ‘A', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado', 'Devuelto Al Remitente.\r\nDirecciÃ³n Errada.\r\nDirecciÃ³n Incompleta.\r\nEn EnviÃ³.', 'Aeropostal.\r\nBici Mail.\r\nCoordinadora.', ''),
+(2, 'EMERMEDICA', 'yo', 'Administriva', 'Activa', 0, '', 'Estado1\r\nEstado3\r\nEjemplo', '', '', ''),
+(3, 'TELEFONIA', 'obvio yo', 'todas', 'Activa', 50, 'OBSERVACIONES DE LA CAMPAÃ‘A', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado\r\nEn Proceso\r\nPagado\r\nPor Pagar\r\nPara Descontar', 'Devuelto Al Remitente.\r\nDirecciÃ³n Errada.\r\nDirecciÃ³n Incompleta.\r\nEn EnviÃ³.\r\nEntrega Exitosa.\r\nNo Desea Recibir.\r\nNo Desea Recibir.\r\nZona De EnviÃ³.', 'Aeropostal.\r\nBici Mail.\r\nCoordinadora.\r\nTCC.\r\nInterrapÃ­disimo.\r\nDHL.\r\nEnvÃ­a.\r\n4/72.\r\nDeprisa.\r\nFedex.\r\nServientrega.', 'True'),
+(4, 'prueba', 'sebastian', 'ventas', 'Activa', 30, 's', 'as', 's', 's', 'True');
 
 -- --------------------------------------------------------
 
@@ -997,7 +1017,261 @@ INSERT INTO `ciudades` (`Codigo`, `Departamento`, `Nombre`) VALUES
 (869, 22, 'Herrán'),
 (870, 22, 'Labateca'),
 (871, 22, 'Ragonvalia'),
-(872, 22, 'Toledo');
+(872, 22, 'Toledo'),
+(873, 23, 'Colón'),
+(874, 23, 'Mocoa'),
+(875, 23, 'Orito'),
+(876, 23, 'Puerto Asís'),
+(877, 23, 'Puerto Caicedo'),
+(878, 23, 'Puerto Guzmán'),
+(879, 23, 'Puerto Leguízamo'),
+(880, 23, 'San Francisco'),
+(881, 23, 'San Miguel'),
+(882, 23, 'Santiago'),
+(883, 23, 'Sibundoy'),
+(884, 23, 'Valle del Guamuez'),
+(885, 23, 'Villagarzón'),
+(886, 24, 'Armenia'),
+(887, 24, 'Buenavista'),
+(888, 24, 'Calarcá'),
+(889, 24, 'Circasia'),
+(890, 24, 'Córdoba'),
+(891, 24, 'Filandia'),
+(892, 24, 'Génova'),
+(893, 24, 'La Tebaida'),
+(894, 24, 'Montenegro'),
+(895, 24, 'Pijao'),
+(896, 24, 'Quimbaya'),
+(897, 24, 'Salento'),
+(898, 25, 'Apía'),
+(899, 25, 'Balboa'),
+(900, 25, 'Belén de Umbría'),
+(901, 25, 'Dosquebradas'),
+(902, 25, 'Guática'),
+(903, 25, 'La Celia'),
+(904, 25, 'La Virginia'),
+(905, 25, 'Marsella'),
+(906, 25, 'Mistrató'),
+(907, 25, 'Pereira'),
+(908, 25, 'Pueblo Rico'),
+(909, 25, 'Quinchía'),
+(910, 25, 'Santa Rosa de Cabal'),
+(911, 25, 'Santuario'),
+(912, 26, 'San Andrés'),
+(913, 26, 'Providencia'),
+(914, 26, 'Santa Catalina'),
+(915, 27, 'Aguada'),
+(916, 27, 'Albania'),
+(917, 27, 'Aratoca'),
+(918, 27, 'Barbosa'),
+(919, 27, 'Barichara'),
+(920, 27, 'Barrancabermeja'),
+(921, 27, 'Betulia'),
+(922, 27, 'Bolívar'),
+(923, 27, 'Bucaramanga'),
+(924, 27, 'Cabrera'),
+(925, 27, 'California'),
+(926, 27, 'Capitanejo'),
+(927, 27, 'Carcasí'),
+(928, 27, 'Cepitá'),
+(929, 27, 'Cerrito'),
+(930, 27, 'Charalá'),
+(931, 27, 'Charta'),
+(932, 27, 'Chima'),
+(933, 27, 'Chipatá'),
+(934, 27, 'Cimitarra'),
+(935, 27, 'Concepción'),
+(936, 27, 'Confines'),
+(937, 27, 'Contratación'),
+(938, 27, 'Coromoro'),
+(939, 27, 'Curití'),
+(940, 27, 'El Carmen de Chucurí'),
+(941, 27, 'El Guacamayo'),
+(942, 27, 'El Peñón'),
+(943, 27, 'El Playón'),
+(944, 27, 'Encino'),
+(945, 27, 'Enciso'),
+(946, 27, 'Florián'),
+(947, 27, 'Floridablanca'),
+(948, 27, 'Galán'),
+(949, 27, 'Gámbita'),
+(950, 27, 'Girón'),
+(951, 27, 'Guaca'),
+(952, 27, 'Guadalupe'),
+(953, 27, 'Guapotá'),
+(954, 27, 'Guavatá'),
+(955, 27, 'Güepsa'),
+(956, 27, 'Hato'),
+(957, 27, 'Jesús María'),
+(958, 27, 'Jordán'),
+(959, 27, 'La Belleza'),
+(960, 27, 'La Paz'),
+(961, 27, 'Landázuri'),
+(962, 27, 'Lebrija'),
+(963, 27, 'Los Santos'),
+(964, 27, 'Macaravita'),
+(965, 27, 'Málaga'),
+(966, 27, 'Matanza'),
+(967, 27, 'Mogotes'),
+(968, 27, 'Molagavita'),
+(969, 27, 'Ocamonte'),
+(970, 27, 'Oiba'),
+(971, 27, 'Onzaga'),
+(972, 27, 'Palmar'),
+(973, 27, 'Palmas del Socorro'),
+(974, 27, 'Páramo'),
+(975, 27, 'Piedecuesta'),
+(976, 27, 'Pinchote'),
+(977, 27, 'Puente Nacional'),
+(978, 27, 'Puerto Parra'),
+(979, 27, 'Puerto Wilches'),
+(980, 27, 'Rionegro'),
+(981, 27, 'Sabana de Torres'),
+(982, 27, 'San Andrés'),
+(983, 27, 'San Benito'),
+(984, 27, 'San Gil'),
+(985, 27, 'San Joaquín'),
+(986, 27, 'San José de Miranda'),
+(987, 27, 'San Miguel'),
+(988, 27, 'San Vicente de Chucurí'),
+(989, 27, 'Santa Bárbara'),
+(990, 27, 'Santa Helena del Opón'),
+(991, 27, 'Simacota'),
+(992, 27, 'Socorro'),
+(993, 27, 'Suaita'),
+(994, 27, 'Sucre'),
+(995, 27, 'Suratá'),
+(996, 27, 'Tona'),
+(997, 27, 'Valle de San José'),
+(998, 27, 'Vélez'),
+(999, 27, 'Vetas'),
+(1000, 27, 'Villanueva'),
+(1001, 27, 'Zapatoca'),
+(1002, 28, 'Guaranda'),
+(1003, 28, 'Majagual'),
+(1004, 28, 'Sucre'),
+(1005, 28, 'Chalán'),
+(1006, 28, 'Colosó'),
+(1007, 28, 'Morroa'),
+(1008, 28, 'Ovejas'),
+(1009, 28, 'Sincelejo'),
+(1010, 28, 'Coveñas'),
+(1011, 28, 'Palmito'),
+(1012, 28, 'San Onofre'),
+(1013, 28, 'Santiago de Tolú'),
+(1014, 28, 'Tolúviejo'),
+(1015, 28, 'Buenavista'),
+(1016, 28, 'Corozal'),
+(1017, 28, 'El Roble'),
+(1018, 28, 'Galeras'),
+(1019, 28, 'Los Palmitos'),
+(1020, 28, 'Sampués'),
+(1021, 28, 'San Juan de Betulia'),
+(1022, 28, 'San Pedro'),
+(1023, 28, 'Sincé'),
+(1024, 28, 'Caimito'),
+(1025, 28, 'La Unión'),
+(1026, 28, 'San Benito Abad'),
+(1027, 28, 'San Marcos'),
+(1028, 29, 'Alvarado'),
+(1029, 29, 'Anzoátegui'),
+(1030, 29, 'Cajamarca'),
+(1031, 29, 'Coello'),
+(1032, 29, 'Espinal'),
+(1033, 29, 'Flandes'),
+(1034, 29, 'Ibagué'),
+(1035, 29, 'Piedras'),
+(1036, 29, 'Rovira'),
+(1037, 29, 'San Luis'),
+(1038, 29, 'Valle de San Juan'),
+(1039, 29, 'Casabianca'),
+(1040, 29, 'Herveo'),
+(1041, 29, 'Lérida'),
+(1042, 29, 'Líbano'),
+(1043, 29, 'Murillo'),
+(1044, 29, 'Santa Isabel'),
+(1045, 29, 'Venadillo'),
+(1046, 29, 'Villahermosa'),
+(1047, 29, 'Ambalema'),
+(1048, 29, 'Armero'),
+(1049, 29, 'Falan'),
+(1050, 29, 'Fresno'),
+(1051, 29, 'Honda'),
+(1052, 29, 'San Sebastián de Mariquita'),
+(1053, 29, 'Palocabildo'),
+(1054, 29, 'Carmen de Apicalá'),
+(1055, 29, 'Cunday'),
+(1056, 29, 'Icononzo'),
+(1057, 29, 'Melgar'),
+(1058, 29, 'Villarrica'),
+(1059, 29, 'Ataco'),
+(1060, 29, 'Chaparral'),
+(1061, 29, 'Coyaima'),
+(1062, 29, 'Natagaima'),
+(1063, 29, 'Ortega'),
+(1064, 29, 'Planadas'),
+(1065, 29, 'Rioblanco'),
+(1066, 29, 'Roncesvalles'),
+(1067, 29, 'San Antonio'),
+(1068, 29, 'Alpujarra'),
+(1069, 29, 'Dolores'),
+(1070, 29, 'Guamo'),
+(1071, 29, 'Prado'),
+(1072, 29, 'Purificación'),
+(1073, 29, 'Saldaña'),
+(1074, 29, 'Suárez'),
+(1075, 30, 'Alcalá'),
+(1076, 30, 'Andalucía'),
+(1077, 30, 'Ansermanuevo'),
+(1078, 30, 'Argelia'),
+(1079, 30, 'Bolívar'),
+(1080, 30, 'Buenaventura'),
+(1081, 30, 'Buga'),
+(1082, 30, 'Bugalagrande'),
+(1083, 30, 'Caicedonia'),
+(1084, 30, 'Cali'),
+(1085, 30, 'Calima - El Darién'),
+(1086, 30, 'Candelaria'),
+(1087, 30, 'Cartago'),
+(1088, 30, 'Dagua'),
+(1089, 30, 'El Águila'),
+(1090, 30, 'El Cairo'),
+(1091, 30, 'El Cerrito'),
+(1092, 30, 'El Dovio'),
+(1093, 30, 'Florida'),
+(1094, 30, 'Ginebra'),
+(1095, 30, 'Guacarí'),
+(1096, 30, 'Jamundí'),
+(1097, 30, 'La Cumbre'),
+(1098, 30, 'La Unión'),
+(1099, 30, 'La Victoria'),
+(1100, 30, 'Obando'),
+(1101, 30, 'Palmira'),
+(1102, 30, 'Pradera'),
+(1103, 30, 'Restrepo'),
+(1104, 30, 'Riofrío'),
+(1105, 30, 'Roldanillo'),
+(1106, 30, 'San Pedro'),
+(1107, 30, 'Sevilla'),
+(1108, 30, 'Toro'),
+(1109, 30, 'Trujillo'),
+(1110, 30, 'Tuluá'),
+(1111, 30, 'Ulloa'),
+(1112, 30, 'Versalles'),
+(1113, 30, 'Vijes'),
+(1114, 30, 'Yotoco'),
+(1115, 30, 'Yumbo'),
+(1116, 30, 'Zarzal'),
+(1117, 31, 'Carurú'),
+(1118, 31, 'Mitú'),
+(1119, 31, 'Pacoa'),
+(1120, 31, 'Papunaua'),
+(1121, 31, 'Taraira'),
+(1122, 31, 'Yavaraté'),
+(1123, 32, 'Cumaribo'),
+(1124, 32, 'La Primavera'),
+(1125, 32, 'Puerto Carreño'),
+(1126, 32, 'Santa Rosalía');
 
 -- --------------------------------------------------------
 
@@ -1102,7 +1376,8 @@ INSERT INTO `observaciones_ventas` (`Numero`, `Venta`, `Fecha`, `Observacion`, `
 (9, 7, '2019-02-06', 'ejemplo comentario', '1112492933'),
 (10, 0, '2019-02-06', 'Observacion Usuario', '1112492933'),
 (11, 8, '2019-02-06', 'dxa', '9008211529'),
-(12, 8, '2019-02-06', 'holi que hace', '1112492933');
+(12, 8, '2019-02-06', 'holi que hace', '1112492933'),
+(13, 2, '2019-02-11', 'ejemplo observacion', '1112492933');
 
 -- --------------------------------------------------------
 
@@ -1187,7 +1462,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`Nit`, `Tipo_Persona`, `Tipo`, `Apellido`, `Nombre`, `Razon_Social`, `Tel_C`, `Direccion`, `Correo`, `Cel_C`, `Correo_C`, `Rep_Legal`, `CC`, `Nombre_R1`, `Tel_R1`, `Nombre_R2`, `Tel_R2`, `Rol`, `Clave`, `Porcentaje`, `Estado`, `Banco_1`, `Tipo_Banco_1`, `Numero_Cuenta_1`, `Banco_2`, `Tipo_Banco_2`, `Numero_Cuenta_2`, `Titular_1`, `Titular_2`) VALUES
-('1112492933', 'Juridica', 'Distribuidor', '', '', 'KUMBA INFLABLES SAS', '33', '1', 'juandavid.andrade1997@gmail.com', '1', 'fandacion@gmail.com', 'ANTHONY MONTERO RUIZ', '321654', 'juan david andrade', '3008930251', 'juan david andrade', '300', 1, '$2y$10$a9TM97e.oAPp0YBSj8OCi.gKSgQ.rCSsJFD5rBOidu9OnUcIWq5LG', 10, 'Activo', 'BANCOLOMBIA', 'Ahorros', '123', 'BANCO FALABELLA', 'Ahorros', '123', 'yo', 'obvio'),
+('1112492933', 'Natural', 'Distribuidor', 'Andrade Valencia ', 'Juan David', 'Juan David Andrade Valencia ', '33', '1', 'juandavid.andrade1997@gmail.com', '1', 'fandacion@gmail.com', 'ANTHONY MONTERO RUIZ', '321654', 'juan david andrade', '3008930251', 'juan david andrade', '300', 1, '$2y$10$a9TM97e.oAPp0YBSj8OCi.gKSgQ.rCSsJFD5rBOidu9OnUcIWq5LG', 10, 'Activo', 'BANCOLOMBIA', 'Ahorros', '123', 'BANCO FALABELLA', 'Ahorros', '123', 'yo', 'obvio'),
 ('123456789', 'Juridica', 'Operador', '', '', 'ejemplo', '32165', 'calle', 'ejemplo@gmail.com', '32165', 'ejemplo@gmail.com', 'r', 'a', 'a', 'a', 'a', 'a', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 10, 'InActivo', 'NEQUI', 'Telefonica', '3106949631', 'BANCO DE BOGOTA', 'Corriente', '3214', 'ejemplo', 'el banco'),
 ('8000099734', 'Juridica', 'Distribuidor', '', '', 'LUVAGA CIA LTDA.', '665 25 09', 'Av 4B Norte # 37 A - 127', 'contabilidad@luvaga.com', '664 01 01', 'contabilidad@luvaga.com', 'LUIS ENRIQUE', '79589752', '1', '1', '1', '1', 2, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 10, 'InActivo', 'BANCOLOMBIA', 'Ahorros', '79589752', 'NEQUI', 'Telefonica', '79589752', 'LUIS ENRIQUE', 'LUIS ENRIQUE'),
 ('9005104631', 'Juridica', 'Distribuidor', '', '', 'KUMBA INFLABLES SAS', '3008930251', 'Carrera 95# 2b1-86, 1', 'juandavid.andrade1997@gmail.com', '123456', 'juandavid.andrade@gmail.com', 'benito', '66901489', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 1, 'InActivo', '', '', '', '', '', '', '', ''),
@@ -1245,10 +1520,10 @@ INSERT INTO `u_camp_temp` (`Numero_Temp`, `Numero`, `Nombre`, `Porcentaje`, `ses
 (361, 1, 'SVF', 10, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
 (362, 4, 'prueba', 30, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
 (363, 2, 'EMERMEDICA', 0, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
-(384, 1, 'SVF', 10, 'j5bgpjdjpolju4rch7f8dofmul', '1112492933'),
-(385, 4, 'prueba', 30, 'j5bgpjdjpolju4rch7f8dofmul', '1112492933'),
-(386, 2, 'EMERMEDICA', 0, 'j5bgpjdjpolju4rch7f8dofmul', '1112492933'),
-(387, 3, 'TELEFONIA', 50, 'j5bgpjdjpolju4rch7f8dofmul', '1112492933');
+(388, 1, 'SVF', 10, 'facg1omtjrmiveh9b4p7u2pngu', '1112492933'),
+(389, 4, 'prueba', 30, 'facg1omtjrmiveh9b4p7u2pngu', '1112492933'),
+(390, 2, 'EMERMEDICA', 0, 'facg1omtjrmiveh9b4p7u2pngu', '1112492933'),
+(391, 3, 'TELEFONIA', 50, 'facg1omtjrmiveh9b4p7u2pngu', '1112492933');
 
 -- --------------------------------------------------------
 
@@ -1265,27 +1540,41 @@ CREATE TABLE `ventas` (
   `Estado_Campana` varchar(30) NOT NULL,
   `Fecha` date NOT NULL,
   `Seguimiento` varchar(100) NOT NULL,
-  `Transportadora` varchar(100) NOT NULL
+  `Transportadora` varchar(100) NOT NULL,
+  `NumeroNip` varchar(50) NOT NULL,
+  `DataCreditoTipo` varchar(50) NOT NULL,
+  `Servicio` varchar(800) NOT NULL,
+  `Canal` varchar(20) NOT NULL,
+  `NumeroCelular` varchar(20) NOT NULL,
+  `OperadorVenta` varchar(80) NOT NULL,
+  `OperadorDonante` varchar(80) NOT NULL,
+  `NumeroSim` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `ventas`
 --
 
-INSERT INTO `ventas` (`Numero`, `Afiliado`, `Usuario`, `Campana`, `Estado`, `Estado_Campana`, `Fecha`, `Seguimiento`, `Transportadora`) VALUES
-(0, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-06', 'Devuelto Al Remitente.', 'Aeropostal.'),
-(1, '1112492933', '1112492933', 3, 'Pendiente', 'Pendientes', '0000-00-00', '', ''),
-(2, '1112492933', '1112492933', 2, 'Rechazada', 'Estado3', '2019-02-06', '', ''),
-(3, '1112492933', '1112492933', 2, 'Pendiente', 'Estado1', '2019-02-06', '', ''),
-(4, '1112492933', '1112492933', 2, 'Rechazada', 'Estado1', '2019-02-06', '', ''),
-(5, '1112492933', '1112492933', 2, 'Aprobada', 'Estado1', '2019-02-06', '', ''),
-(6, '1112492933', '1112492933', 2, 'Pendiente', 'Estado3', '2019-02-06', '', ''),
-(7, '1112492933', '1112492933', 3, 'Aprobada', 'Pagado', '2019-02-06', 'En EnviÃ³.', 'DHL.'),
-(8, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-06', 'Devuelto Al Remitente.', 'Bici Mail.');
+INSERT INTO `ventas` (`Numero`, `Afiliado`, `Usuario`, `Campana`, `Estado`, `Estado_Campana`, `Fecha`, `Seguimiento`, `Transportadora`, `NumeroNip`, `DataCreditoTipo`, `Servicio`, `Canal`, `NumeroCelular`, `OperadorVenta`, `OperadorDonante`, `NumeroSim`) VALUES
+(0, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-06', 'Devuelto Al Remitente.', 'Aeropostal.', '', '1', '', '', '', '', '', '0'),
+(1, '1112492933', '1112492933', 3, 'Pendiente', 'Pendientes', '0000-00-00', '', '', '', '', '', '', '', '', '', '0'),
+(2, '1112492933', '1112492933', 3, 'Rechazada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '1', '2', '1', 'Movil', '1', 'Claro', 'Avantel', '1'),
+(3, '1112492933', '1112492933', 2, 'Pendiente', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0'),
+(4, '1112492933', '1112492933', 2, 'Rechazada', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0'),
+(5, '1112492933', '1112492933', 1, 'Aprobada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '', '', '', '', '', '', '', ''),
+(6, '1112492933', '1112492933', 2, 'Pendiente', 'Estado3', '2019-02-06', '', '', '', '', '', '', '', '', '', '0'),
+(7, '1112492933', '1112492933', 3, 'Aprobada', 'Pagado', '2019-02-06', 'En EnviÃ³.', 'DHL.', '', '', '', '', '', '', '', '0'),
+(8, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-06', 'Devuelto Al Remitente.', 'Bici Mail.', '', '', '', '', '', '', '', '0');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `administracion`
+--
+ALTER TABLE `administracion`
+  ADD PRIMARY KEY (`Numero`);
 
 --
 -- Indices de la tabla `afiliados`
@@ -1395,7 +1684,7 @@ ALTER TABLE `bancos`
 -- AUTO_INCREMENT de la tabla `ciudades`
 --
 ALTER TABLE `ciudades`
-  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=873;
+  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1127;
 
 --
 -- AUTO_INCREMENT de la tabla `departamentos`
@@ -1413,7 +1702,7 @@ ALTER TABLE `formas_pago`
 -- AUTO_INCREMENT de la tabla `observaciones_ventas`
 --
 ALTER TABLE `observaciones_ventas`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `rango_ingresos`
@@ -1431,7 +1720,7 @@ ALTER TABLE `usuario_camp`
 -- AUTO_INCREMENT de la tabla `u_camp_temp`
 --
 ALTER TABLE `u_camp_temp`
-  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=388;
+  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=392;
 
 --
 -- Restricciones para tablas volcadas
