@@ -21,10 +21,8 @@
 <body>
 	<div id="wrapper">
 		<?php
-	include("Menu.php");
-	?>
-		<!-- END LEFT SIDEBAR -->
-		<!-- MAIN CONTENT -->
+			include("Menu.php");
+		?>
 		<div id="main-content">
 			<div class="container-fluid">
 				<div class="section-heading">
@@ -32,69 +30,52 @@
 				</div>
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="active"><a href="#General" role="tab" data-toggle="tab">General</a></li>
-					<li><a href="#FormasPago" role="tab" data-toggle="tab">Formas de Pago</a></li>
+					<li><a href="#FormasPago" role="tab" data-toggle="tab" id="ClickFormas">Formas de Pago</a></li>
 					<li><a href="#Bancos" role="tab" data-toggle="tab">Bancos</a></li>
 				</ul>				
 				<div class="tab-content content-profile">
 					<div class="tab-pane fade in active" id="General">
-					General
+						<form id="Administracion" name="Administracion" method="post">
+							<div class="tab-content content-profile">	
+								<div class="profile-section">		
+									<div class="clearfix">
+										<div class="left">
+											<h2 class="profile-heading">Informacion Basica</h2>
+											<div class="form-group">	
+												<label for="Observaciones">Operadoes de Venta:</label>
+												<div class="col-sm-12">
+													<textarea class="form-control" rows="5" id="Operador_Venta"NAME="Operador_Venta" ><?php echo $rw_Admin['Operador_Venta'];?></textarea>
+												</div>
+											</div>
+											<div class="form-group">	
+												<label for="Observaciones">Operadores Donantes:</label>
+												<div class="col-sm-12">
+													<textarea class="form-control" rows="5" id="Operador_Donante"NAME="Operador_Donante" ><?php echo $rw_Admin['Operador_Donante'];?></textarea>
+												</div>
+											</div>	
+										</div>
+									</div>
+									<div id="resultados_ajax2"></div>
+									<p class="margin-top-30">
+										<button type="submit"  class="btn btn-primary">Guardar</button> &nbsp;&nbsp;
+										<button type="button" id="Cancelar" class="btn btn-default">Cancelar</button>
+									</p>	
+								</div>
+							</div>
+						</form>
 					</div>
 					<div class="tab-pane fade" id="FormasPago">
-					FormasPago
+						<div id="RFormasPago">
+						</div>
 					</div>
 					<div class="tab-pane fade" id="Bancos">
 					Bancos
 					</div>
 				</div>
-
-			
-				<form id="Administracion" name="Administracion" method="post">
-					<div class="tab-content content-profile">
-						<!-- MY PROFILE -->
-						<div class="tab-pane fade in active" id="myprofile">
-							
-							<div class="profile-section">
-								
-								<div class="clearfix">
-									<div class="left">
-										<h2 class="profile-heading">Informacion Basica</h2>
-										<div class="form-group">	
-											<label for="Observaciones">Operadoes de Venta:</label>
-											<div class="col-sm-12">
-  											<textarea class="form-control" rows="5" id="Operador_Venta"NAME="Operador_Venta" ><?php echo $rw_Admin['Operador_Venta'];?></textarea>
-											</div>
-										</div>
-										<div class="form-group">	
-											<label for="Observaciones">Operadores Donantes:</label>
-											<div class="col-sm-12">
-  											<textarea class="form-control" rows="5" id="Operador_Donante"NAME="Operador_Donante" ><?php echo $rw_Admin['Operador_Donante'];?></textarea>
-											</div>
-										</div>
-									
-                                        
-										
-									</div>
-								</div>
-								<div id="resultados_ajax2"></div>
-								<p class="margin-top-30">
-									<button type="submit"  class="btn btn-primary">Guardar</button> &nbsp;&nbsp;
-									<button type="button" id="Cancelar" class="btn btn-default">Cancelar</button>
-								</p>
-								
-							</div>
-						</div>
-					</div>
-				</form>
 			</div>
 		</div>
-		<!-- END MAIN CONTENT -->
-		<div class="clearfix"></div>
-		<footer>
-			<p class="copyright">&copy; Copyright <a href="https://www.tupro.com.co/" target="_blank">TuPro Creativo. </a>Todos los derechos reservados</p>
-		</footer>
 	</div>
-	<!-- END WRAPPER -->
-	<!-- Javascript -->
+
 	<script src="assets/vendor/jquery/jquery.min.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="assets/vendor/metisMenu/metisMenu.js"></script>
@@ -105,7 +86,9 @@
 $( "#Cancelar" ).click(function( event ) {
     location.reload(true);
 })
-
+$("#ClickFormas").click(function( event){
+	CargarFormasPago();
+})
 
 	$( "#Administracion" ).submit(function( event ) {
   $('#actualizar_datos2').attr("disabled", true);
@@ -126,6 +109,37 @@ $( "#Cancelar" ).click(function( event ) {
 	});
   event.preventDefault();
 })
+
+function CargarFormasPago(){
+	$.ajax({
+    	type: "POST",
+        url: "Componentes/Ajax/Cargar_FormasDePago.php",
+        data: "",
+		beforeSend: function(objeto){
+			
+		},success: function(datos){
+			$("#RFormasPago").html(datos);
+		}
+	});
+}
+function UpdateDescFormaPago(Key,Numero){
+	if (Key.keyCode == 13) {
+			var Descripcion = $("#Descripcion_"+Numero).val();
+		
+		 alert(Descripcion);
+		$.ajax({
+        type: "GET",
+				url: "Componentes/Ajax/Actualizar_FormaDePago.php",
+        data: "Numero="+Numero+"&Descripcion="+Descripcion<,
+		beforeSend: function(objeto){
+			$("#resultados").html("Mensaje: Cargando...");
+		},success: function(datos){
+			CargarFormasPago();
+		}
+	});
+    }
+}
+
 
 	</script>
 </body>

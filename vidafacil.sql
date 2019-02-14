@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-02-2019 a las 23:37:17
+-- Tiempo de generación: 14-02-2019 a las 23:34:21
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -1349,6 +1349,32 @@ INSERT INTO `formas_pago` (`Codigo`, `Descripcion`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `formas_pago_temp`
+--
+
+CREATE TABLE `formas_pago_temp` (
+  `Numero_Temp` int(11) NOT NULL,
+  `Numero` int(11) NOT NULL,
+  `session_id` varchar(100) NOT NULL,
+  `Descripcion` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `formas_pago_temp`
+--
+
+INSERT INTO `formas_pago_temp` (`Numero_Temp`, `Numero`, `session_id`, `Descripcion`) VALUES
+(127, 1, '4563o511ih2ii6e36pgvedet39', 'Codensa'),
+(128, 2, '4563o511ih2ii6e36pgvedet39', 'Cheque'),
+(129, 3, '4563o511ih2ii6e36pgvedet39', 'Contra-Entrega'),
+(130, 4, '4563o511ih2ii6e36pgvedet39', 'Datafono'),
+(131, 5, '4563o511ih2ii6e36pgvedet39', 'Efectivo'),
+(132, 6, '4563o511ih2ii6e36pgvedet39', 'Tarjeta Credito'),
+(133, 7, '4563o511ih2ii6e36pgvedet39', 'Tarjeta Debito');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `observaciones_ventas`
 --
 
@@ -1618,6 +1644,12 @@ ALTER TABLE `formas_pago`
   ADD PRIMARY KEY (`Codigo`);
 
 --
+-- Indices de la tabla `formas_pago_temp`
+--
+ALTER TABLE `formas_pago_temp`
+  ADD PRIMARY KEY (`Numero_Temp`);
+
+--
 -- Indices de la tabla `observaciones_ventas`
 --
 ALTER TABLE `observaciones_ventas`
@@ -1697,6 +1729,12 @@ ALTER TABLE `departamentos`
 --
 ALTER TABLE `formas_pago`
   MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `formas_pago_temp`
+--
+ALTER TABLE `formas_pago_temp`
+  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
 -- AUTO_INCREMENT de la tabla `observaciones_ventas`
