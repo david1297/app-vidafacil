@@ -30,7 +30,23 @@
 				<div class="section-heading">
 					<h1 class="page-title">Administracion de la Empresa</h1>
 				</div>
-				
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="active"><a href="#General" role="tab" data-toggle="tab">General</a></li>
+					<li><a href="#FormasPago" role="tab" data-toggle="tab">Formas de Pago</a></li>
+					<li><a href="#Bancos" role="tab" data-toggle="tab">Bancos</a></li>
+				</ul>				
+				<div class="tab-content content-profile">
+					<div class="tab-pane fade in active" id="General">
+					General
+					</div>
+					<div class="tab-pane fade" id="FormasPago">
+					FormasPago
+					</div>
+					<div class="tab-pane fade" id="Bancos">
+					Bancos
+					</div>
+				</div>
+
 			
 				<form id="Administracion" name="Administracion" method="post">
 					<div class="tab-content content-profile">
