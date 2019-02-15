@@ -22,6 +22,7 @@
 	<div id="wrapper">
 		<?php
 			include("Menu.php");
+			include("componentes/modal/Agregar_FormaPago.php");
 		?>
 		<div id="main-content">
 			<div class="container-fluid">
@@ -31,7 +32,7 @@
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="active"><a href="#General" role="tab" data-toggle="tab">General</a></li>
 					<li><a href="#FormasPago" role="tab" data-toggle="tab" id="ClickFormas">Formas de Pago</a></li>
-					<li><a href="#Bancos" role="tab" data-toggle="tab">Bancos</a></li>
+					<li><a href="#Bancos" role="tab" data-toggle="tab" id="ClickBancos">Bancos</a></li>
 				</ul>				
 				<div class="tab-content content-profile">
 					<div class="tab-pane fade in active" id="General">
@@ -65,11 +66,20 @@
 						</form>
 					</div>
 					<div class="tab-pane fade" id="FormasPago">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarFormaDePago">
+							<i class="fas fa-plus"></i> Agregar Forma De Pago
+						</button>
+						<br><br>
 						<div id="RFormasPago">
 						</div>
 					</div>
 					<div class="tab-pane fade" id="Bancos">
-					Bancos
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarBanco">
+							<i class="fas fa-plus"></i> Agregar Banco
+						</button>
+						<br><br>
+						<div id="RBanco">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -86,8 +96,12 @@
 $( "#Cancelar" ).click(function( event ) {
     location.reload(true);
 })
+
 $("#ClickFormas").click(function( event){
 	CargarFormasPago();
+})
+$("#ClickBancos").click(function( event){
+	CargarBancos();
 })
 
 	$( "#Administracion" ).submit(function( event ) {
@@ -125,20 +139,77 @@ function CargarFormasPago(){
 function UpdateDescFormaPago(Key,Numero){
 	if (Key.keyCode == 13) {
 			var Descripcion = $("#Descripcion_"+Numero).val();
-		
-		 alert(Descripcion);
 		$.ajax({
-        type: "GET",
+        type: "POST",
 				url: "Componentes/Ajax/Actualizar_FormaDePago.php",
-        data: "Numero="+Numero+"&Descripcion="+Descripcion<,
+        data: "Numero="+Numero+"&Descripcion="+Descripcion,
+			beforeSend: function(objeto){
+				$('#loader_'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			},success: function(datos){
+				$('#loader_'+Numero).html(datos);
+				$('#loader_'+Numero).fadeOut(2000); 
+				setTimeout(function() { 
+					$('#loader_'+Numero).html('');	
+					$('#loader_'+Numero).fadeIn(1000); 
+				}, 1000);	
+			}
+		});
+  }
+}
+function eliminar (Numero){
+	$.ajax({
+        type: "GET",
+        url: "Componentes/Ajax/Cargar_FormasDePago.php",
+        data: "Numero="+Numero,
 		beforeSend: function(objeto){
-			$("#resultados").html("Mensaje: Cargando...");
+
 		},success: function(datos){
-			CargarFormasPago();
+			if (datos=='Error'){
+				$("#RFormasPago").html('<div class="alert alert-danger" role="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Error!</strong> Lo sentimos , No se Puede Eliminar La Forma De Pago.<br></div>');
+				$('#RFormasPago').fadeOut(2000); 
+				
+				setTimeout(function() { 
+					$('#RFormasPago').fadeIn('fast'); 
+					$('#RFormasPago').html('');	
+				
+					CargarFormasPago();
+				}, 2000);	
+			
+			}else{
+					$("#RFormasPago").html(datos);
+
+			}
+
+
+		
 		}
 	});
-    }
 }
+$( "#New_FormaPago" ).submit(function( event ) {
+  
+  
+ var parametros = $(this).serialize();
+	 $.ajax({
+			type: "POST",
+			url: "Componentes/Ajax/Guardar_Forma_Pago.php",
+			data: parametros,
+			 beforeSend: function(objeto){
+				$("#resultados_ajax3").html("Mensaje: Cargando...");
+			  },
+			success: function(datos){
+			$("#resultados_ajax3").html(datos);
+			$('#actualizar_datos3').attr("disabled", false);
+			$('#resultados_ajax3').fadeOut(2000); 
+				setTimeout(function() { 
+					$('#resultados_ajax3').html('');	
+					$('#resultados_ajax3').fadeIn(1000); 
+				}, 1000);	
+			CargarFormasPago();
+			document.getElementById('New_Descripcion').value = '';
+		  }
+	});
+  event.preventDefault();
+})
 
 
 	</script>
