@@ -23,6 +23,7 @@
 		<?php
 			include("Menu.php");
 			include("componentes/modal/Agregar_FormaPago.php");
+			include("componentes/modal/Agregar_Banco.php");
 		?>
 		<div id="main-content">
 			<div class="container-fluid">
@@ -136,6 +137,18 @@ function CargarFormasPago(){
 		}
 	});
 }
+function CargarBancos(){
+	$.ajax({
+    	type: "POST",
+        url: "Componentes/Ajax/Cargar_Bancos.php",
+        data: "",
+		beforeSend: function(objeto){
+			
+		},success: function(datos){
+			$("#RBanco").html(datos);
+		}
+	});
+}
 function UpdateDescFormaPago(Key,Numero){
 	if (Key.keyCode == 13) {
 			var Descripcion = $("#Descripcion_"+Numero).val();
@@ -156,6 +169,28 @@ function UpdateDescFormaPago(Key,Numero){
 		});
   }
 }
+function UpdateDescBancos(Key,Numero){
+	if (Key.keyCode == 13) {
+			var Descripcion = $("#Descripcion_B"+Numero).val();
+		$.ajax({
+        type: "POST",
+				url: "Componentes/Ajax/Actualizar_Banco.php",
+        data: "Numero="+Numero+"&Descripcion="+Descripcion,
+			beforeSend: function(objeto){
+				$('#loader_B'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			},success: function(datos){
+				$('#loader_B'+Numero).html(datos);
+				$('#loader_B'+Numero).fadeOut(2000); 
+				setTimeout(function() { 
+					$('#loader_B'+Numero).html('');	
+					$('#loader_B'+Numero).fadeIn(1000); 
+				}, 1000);	
+			}
+		});
+  }
+}
+
+
 function eliminar (Numero){
 	$.ajax({
         type: "GET",
@@ -177,6 +212,37 @@ function eliminar (Numero){
 			
 			}else{
 					$("#RFormasPago").html(datos);
+
+			}
+
+
+		
+		}
+	});
+}
+
+
+function eliminarBanco (Numero){
+	$.ajax({
+        type: "GET",
+        url: "Componentes/Ajax/Cargar_Bancos.php",
+        data: "Numero="+Numero,
+		beforeSend: function(objeto){
+
+		},success: function(datos){
+			if (datos=='Error'){
+				$("#RBanco").html('<div class="alert alert-danger" role="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Error!</strong> Lo sentimos , No se Puede Eliminar El Banco.<br></div>');
+				$('#RBanco').fadeOut(2000); 
+				
+				setTimeout(function() { 
+					$('#RBanco').fadeIn('fast'); 
+					$('#RBanco').html('');	
+				
+					CargarBancos();
+				}, 2000);	
+			
+			}else{
+					$("#RBanco").html(datos);
 
 			}
 
@@ -211,6 +277,31 @@ $( "#New_FormaPago" ).submit(function( event ) {
   event.preventDefault();
 })
 
+$( "#New_Banco" ).submit(function( event ) {
+  
+  
+	var parametros = $(this).serialize();
+		$.ajax({
+			 type: "POST",
+			 url: "Componentes/Ajax/Guardar_Banco.php",
+			 data: parametros,
+				beforeSend: function(objeto){
+				 $("#resultados_ajax3B").html("Mensaje: Cargando...");
+				 },
+			 success: function(datos){
+			 $("#resultados_ajax3B").html(datos);
+			 $('#actualizar_datos3B').attr("disabled", false);
+			 $('#resultados_ajax3B').fadeOut(2000); 
+				 setTimeout(function() { 
+					 $('#resultados_ajax3B').html('');	
+					 $('#resultados_ajax3B').fadeIn(1000); 
+				 }, 1000);	
+			 CargarBancos();
+			 document.getElementById('New_DescripcionB').value = '';
+			 }
+	 });
+	 event.preventDefault();
+ })
 
 	</script>
 </body>
