@@ -468,12 +468,9 @@
 									echo '
 									<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarCampana">
 									<i class="fas fa-plus"></i> Agregar Campaña
-								</button>
-								
-								<button type="button" class="btn btn-primary" onclick="GuardarCampanas()"><i class="fas fa-check"></i>Guardar Campañas</button>';
+								</button>';
 								}
 							?>
-								
 								<br><br>
 								<div id="resultados_Campana"></div>
 								<div id="resultados" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->			
@@ -507,12 +504,8 @@ $( "#Cancelar" ).click(function( event ) {
 	}
 })
 $( "#Consultar" ).click(function( event ) {
-	
 		location.href='Consultar-Usuarios.php';
-
 })
-
-
 	$( "#Guardar_Usuario" ).submit(function( event ) {
  var parametros = $(this).serialize();
 

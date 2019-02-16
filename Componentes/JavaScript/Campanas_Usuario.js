@@ -30,12 +30,12 @@ function agregar (Numero){
 		}
 	});
 }
-function eliminar (Numero){
+function eliminar (Campana){
 	var Nit =$("#Nit").val();
 	$.ajax({
         type: "GET",
         url: "Componentes/Ajax/Agregar_Campana_Usuario.php",
-        data: "Numero="+Numero+"&Nit="+Nit,
+        data: "Campana="+Campana+"&Nit="+Nit,
 		beforeSend: function(objeto){
 			$("#resultados").html("Mensaje: Cargando...");
 		},success: function(datos){
@@ -62,7 +62,7 @@ function CargarCampanas(){
 	var Perfil =$("#Perfil").val();
 	$.ajax({
     	type: "POST",
-        url: "Componentes/Ajax/Cargar_Campana_Usuario.php",
+        url: "Componentes/Ajax/Agregar_Campana_Usuario.php",
         data: "Nit="+Nit+"&Perfil="+Perfil,
 		beforeSend: function(objeto){
 			
