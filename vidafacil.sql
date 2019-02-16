@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-02-2019 a las 23:34:21
+-- Tiempo de generación: 16-02-2019 a las 20:05:25
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -1338,39 +1338,14 @@ CREATE TABLE `formas_pago` (
 --
 
 INSERT INTO `formas_pago` (`Codigo`, `Descripcion`) VALUES
-(1, 'Codensa'),
 (2, 'Cheque'),
 (3, 'Contra-Entrega'),
 (4, 'Datafono'),
 (5, 'Efectivo'),
-(6, 'Tarjeta Credito'),
-(7, 'Tarjeta Debito');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `formas_pago_temp`
---
-
-CREATE TABLE `formas_pago_temp` (
-  `Numero_Temp` int(11) NOT NULL,
-  `Numero` int(11) NOT NULL,
-  `session_id` varchar(100) NOT NULL,
-  `Descripcion` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `formas_pago_temp`
---
-
-INSERT INTO `formas_pago_temp` (`Numero_Temp`, `Numero`, `session_id`, `Descripcion`) VALUES
-(127, 1, '4563o511ih2ii6e36pgvedet39', 'Codensa'),
-(128, 2, '4563o511ih2ii6e36pgvedet39', 'Cheque'),
-(129, 3, '4563o511ih2ii6e36pgvedet39', 'Contra-Entrega'),
-(130, 4, '4563o511ih2ii6e36pgvedet39', 'Datafono'),
-(131, 5, '4563o511ih2ii6e36pgvedet39', 'Efectivo'),
-(132, 6, '4563o511ih2ii6e36pgvedet39', 'Tarjeta Credito'),
-(133, 7, '4563o511ih2ii6e36pgvedet39', 'Tarjeta Debito');
+(8, 'Tarjeta Credito'),
+(9, 'Tarjeta Debito'),
+(16, 'otro'),
+(17, 'jojo');
 
 -- --------------------------------------------------------
 
@@ -1501,7 +1476,6 @@ INSERT INTO `usuarios` (`Nit`, `Tipo_Persona`, `Tipo`, `Apellido`, `Nombre`, `Ra
 --
 
 CREATE TABLE `usuario_camp` (
-  `Numero` int(11) NOT NULL,
   `Campana` int(11) NOT NULL,
   `Usuario` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1510,46 +1484,19 @@ CREATE TABLE `usuario_camp` (
 -- Volcado de datos para la tabla `usuario_camp`
 --
 
-INSERT INTO `usuario_camp` (`Numero`, `Campana`, `Usuario`) VALUES
-(105, 1, '9005104631'),
-(107, 1, '8000099734'),
-(118, 1, '1112492933'),
-(119, 4, '1112492933'),
-(120, 2, '1112492933'),
-(121, 3, '1112492933'),
-(122, 3, '9008211529'),
-(123, 1, '9008211529'),
-(124, 4, '9008211529'),
-(125, 2, '9008211529');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `u_camp_temp`
---
-
-CREATE TABLE `u_camp_temp` (
-  `Numero_Temp` int(11) NOT NULL,
-  `Numero` int(11) NOT NULL,
-  `Nombre` varchar(80) NOT NULL,
-  `Porcentaje` float NOT NULL,
-  `session_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Nit` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `u_camp_temp`
---
-
-INSERT INTO `u_camp_temp` (`Numero_Temp`, `Numero`, `Nombre`, `Porcentaje`, `session_id`, `Nit`) VALUES
-(360, 3, 'TELEFONIA', 50, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
-(361, 1, 'SVF', 10, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
-(362, 4, 'prueba', 30, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
-(363, 2, 'EMERMEDICA', 0, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
-(388, 1, 'SVF', 10, 'facg1omtjrmiveh9b4p7u2pngu', '1112492933'),
-(389, 4, 'prueba', 30, 'facg1omtjrmiveh9b4p7u2pngu', '1112492933'),
-(390, 2, 'EMERMEDICA', 0, 'facg1omtjrmiveh9b4p7u2pngu', '1112492933'),
-(391, 3, 'TELEFONIA', 50, 'facg1omtjrmiveh9b4p7u2pngu', '1112492933');
+INSERT INTO `usuario_camp` (`Campana`, `Usuario`) VALUES
+(1, '1112492933'),
+(1, '8000099734'),
+(1, '9005104631'),
+(1, '9008211529'),
+(2, '1112492933'),
+(2, '8000099734'),
+(2, '9008211529'),
+(3, '1112492933'),
+(3, '9008211529'),
+(4, '1112492933'),
+(4, '8000099734'),
+(4, '9008211529');
 
 -- --------------------------------------------------------
 
@@ -1644,12 +1591,6 @@ ALTER TABLE `formas_pago`
   ADD PRIMARY KEY (`Codigo`);
 
 --
--- Indices de la tabla `formas_pago_temp`
---
-ALTER TABLE `formas_pago_temp`
-  ADD PRIMARY KEY (`Numero_Temp`);
-
---
 -- Indices de la tabla `observaciones_ventas`
 --
 ALTER TABLE `observaciones_ventas`
@@ -1681,17 +1622,9 @@ ALTER TABLE `usuarios`
 -- Indices de la tabla `usuario_camp`
 --
 ALTER TABLE `usuario_camp`
-  ADD PRIMARY KEY (`Numero`),
+  ADD PRIMARY KEY (`Campana`,`Usuario`),
   ADD KEY `Campana` (`Campana`),
   ADD KEY `Usuario` (`Usuario`);
-
---
--- Indices de la tabla `u_camp_temp`
---
-ALTER TABLE `u_camp_temp`
-  ADD PRIMARY KEY (`Numero_Temp`),
-  ADD KEY `Numero` (`Numero`),
-  ADD KEY `Nit` (`Nit`);
 
 --
 -- Indices de la tabla `ventas`
@@ -1728,13 +1661,7 @@ ALTER TABLE `departamentos`
 -- AUTO_INCREMENT de la tabla `formas_pago`
 --
 ALTER TABLE `formas_pago`
-  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT de la tabla `formas_pago_temp`
---
-ALTER TABLE `formas_pago_temp`
-  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `observaciones_ventas`
@@ -1747,18 +1674,6 @@ ALTER TABLE `observaciones_ventas`
 --
 ALTER TABLE `rango_ingresos`
   MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla `usuario_camp`
---
-ALTER TABLE `usuario_camp`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
-
---
--- AUTO_INCREMENT de la tabla `u_camp_temp`
---
-ALTER TABLE `u_camp_temp`
-  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=392;
 
 --
 -- Restricciones para tablas volcadas
@@ -1798,13 +1713,6 @@ ALTER TABLE `usuarios`
 ALTER TABLE `usuario_camp`
   ADD CONSTRAINT `usuario_camp_ibfk_1` FOREIGN KEY (`Campana`) REFERENCES `campanas` (`Numero`),
   ADD CONSTRAINT `usuario_camp_ibfk_2` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`Nit`);
-
---
--- Filtros para la tabla `u_camp_temp`
---
-ALTER TABLE `u_camp_temp`
-  ADD CONSTRAINT `u_camp_temp_ibfk_1` FOREIGN KEY (`Nit`) REFERENCES `usuarios` (`Nit`),
-  ADD CONSTRAINT `u_camp_temp_ibfk_2` FOREIGN KEY (`Numero`) REFERENCES `campanas` (`Numero`);
 
 --
 -- Filtros para la tabla `ventas`
