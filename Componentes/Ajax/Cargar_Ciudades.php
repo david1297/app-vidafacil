@@ -19,9 +19,9 @@ $sql=mysqli_query($con, "select * from Ciudades where  Departamento=".$Depto."")
 while ($row=mysqli_fetch_array($sql)){
 	
 	if ($Ciu ==$row['Codigo']){
-		echo '<option value="'.$row['Codigo'].'" selected >'.utf8_encode($row['Nombre']).'</option>';
+		echo '<option value="'.$row['Codigo'].'" selected >'.$row['Nombre'].'</option>';
 	} else{
-		echo '<option value="'.$row['Codigo'].'">'.utf8_encode($row['Nombre']).'</option>';	
+		echo '<option value="'.$row['Codigo'].'">'.$row['Nombre'].'</option>';	
 	}
 
 

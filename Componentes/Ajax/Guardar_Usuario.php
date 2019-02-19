@@ -99,11 +99,11 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 				Correo,Cel_C,Correo_C,Porcentaje,Rep_Legal,CC,Nombre_R1,Tel_R1,Nombre_R2,Tel_R2,Banco_1,Tipo_Banco_1,Numero_Cuenta_1,Banco_2,Tipo_Banco_2,Numero_Cuenta_2,Titular_1,Titular_2) VALUES
 
 				('".$Nit."', '".$Tipo_Persona."', '".$Razon_Social."', '".$Nombre."', '".$Apellido."', '".$Rol."', '".$Estado."', '".$Tipo."', '".$Tel_C."', '".$Direccion."'
-				, '".$Correo."', '".$Cel_C."', '".$Correo_C."', '".$Porcentaje."', '".$Rep_Legal."', '".$CC."', '".$Nombre_R1."', '".$Tel_R1."', '".$Nombre_R2."', '".$Tel_R2."'
+				, '".$Correo."', '".$Cel_C."', '".$Correo_C."',".$Porcentaje.", '".$Rep_Legal."', '".$CC."', '".$Nombre_R1."', '".$Tel_R1."', '".$Nombre_R2."', '".$Tel_R2."'
 				, '".$Banco_1."', '".$Tipo_Banco_1."', '".$Numero_Cuenta_1."', '".$Banco_2."', '".$Tipo_Banco_2."', '".$Numero_Cuenta_2."', '".$Titular_1."', '".$Titular_2."'
 				) ON DUPLICATE  KEY UPDATE
 				Tipo_Persona = '".$Tipo_Persona."',Razon_Social ='".$Razon_Social."',Nombre='".$Nombre."',Apellido='".$Apellido."',Rol='".$Rol."',Estado='".$Estado."',Tipo='".$Tipo."',Tel_C='".$Tel_C."',Direccion='".$Direccion."' 
-				,Correo='".$Correo."',Cel_C='".$Cel_C."',Correo_C='".$Correo_C."',Porcentaje='".$Porcentaje."',Rep_Legal='".$Rep_Legal."',CC='".$CC."',Nombre_R1='".$Nombre_R1."',Tel_R1='".$Tel_R1."',Nombre_R2='".$Nombre_R2."',Tel_R2='".$Tel_R2."'
+				,Correo='".$Correo."',Cel_C='".$Cel_C."',Correo_C='".$Correo_C."',Porcentaje=".$Porcentaje.",Rep_Legal='".$Rep_Legal."',CC='".$CC."',Nombre_R1='".$Nombre_R1."',Tel_R1='".$Tel_R1."',Nombre_R2='".$Nombre_R2."',Tel_R2='".$Tel_R2."'
 				,Banco_1='".$Banco_1."',Tipo_Banco_1='".$Tipo_Banco_1."',Numero_Cuenta_1='".$Numero_Cuenta_1."',Banco_2='".$Banco_2."',Tipo_Banco_2='".$Tipo_Banco_2."',Numero_Cuenta_2='".$Numero_Cuenta_2."'
 				,Titular_1='".$Titular_1."',Titular_2='".$Titular_2."';";
                     $query_update = mysqli_query($con,$sql);

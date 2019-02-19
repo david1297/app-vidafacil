@@ -23,7 +23,7 @@ if (empty($_POST['Afiliado'])){
 	$errors[] = "La Transportadora de la Campaña Se Encuentra Vacia";
 }elseif (empty($_POST['NumeroNip'])and ($_POST['Telefonica']=='True')){
 		$errors[] = "El Numero de Nip Se Encuentra Vacio";
-}elseif (empty($_POST['DataCreditoTipo']and ($_POST['Telefonica']=='True'))){
+}elseif (empty($_POST['DataCreditoTipo'])and ($_POST['Telefonica']=='True')){
 		$errors[] = "El Tipo Data Credito Se Encuentra Vacio";
 }elseif (empty($_POST['Servicio'])and ($_POST['Telefonica']=='True')){
 		$errors[] = "El Servicio Se Encuentra Vacio";

@@ -74,7 +74,6 @@
 	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
-	<script type="text/javascript" src="js/VentanaCentrada.js"></script>
 	<script type="text/javascript" src="Componentes/JavaScript/Ventas.js"></script>
 
 	<script>

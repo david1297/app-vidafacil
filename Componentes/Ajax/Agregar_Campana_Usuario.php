@@ -26,7 +26,8 @@ $delete=mysqli_query($con, "DELETE FROM usuario_camp WHERE Campana='".$Campana."
 }
 
 ?>
-<table class="table">
+<div class="table-responsive">
+			  <table class="table table-hover">
 <tr>
 	<th class='text-center'>Numero</th>
 	<th>Nombre</th>
@@ -61,4 +62,4 @@ $delete=mysqli_query($con, "DELETE FROM usuario_camp WHERE Campana='".$Campana."
 ?>
 
 
-</table>
+</table></div>

@@ -173,9 +173,9 @@
 																				
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Departamento ==$rw_Admin1['Codigo']){
-														echo '<option value="'.$rw_Admin1['Codigo'].'" selected >'.utf8_encode($rw_Admin1['Nombre']).'</option>';
+														echo '<option value="'.$rw_Admin1['Codigo'].'" selected >'.$rw_Admin1['Nombre'].'</option>';
 													} else{
-														echo '<option value="'.$rw_Admin1['Codigo'].'">'.utf8_encode($rw_Admin1['Nombre']).'</option>';	
+														echo '<option value="'.$rw_Admin1['Codigo'].'">'.$rw_Admin1['Nombre'].'</option>';	
 													}
 												}
 												echo '</select>';

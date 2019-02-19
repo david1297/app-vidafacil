@@ -68,8 +68,8 @@
 
 						$Identificacion=$row['Identificacion'];
 						$Nombre=$row['Primer_Nombre'].' '.$row['Primer_Apellido'];
-						$Departamento=utf8_encode($row['Departamento']);
-						$Ciudad=utf8_encode($row['Ciudad']);
+						$Departamento=$row['Departamento'];
+						$Ciudad=$row['Ciudad'];
 						$Direccion=$row['Direccion'];
 						$Estado=$row['Estado'];
 						if ($Estado=="Activo"){$label_class='label-success';}

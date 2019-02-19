@@ -53,9 +53,9 @@ elseif (empty($_POST['Estados'])){
 				
 				$sql =  "INSERT INTO  Campanas(Numero,Nombre,Contacto,Area,Estado,Porcentaje,Observaciones,Estados,Seguimiento,Transportadoras,Telefonica) VALUES
 
-				('".$Numero."', '".$Nombre."', '".$Contacto."', '".$Area."', '".$Estado."', '".$Porcentaje."', '".$Observaciones."', '".$Estados."', '".$Seguimiento."', '".$Transportadoras."', '".$Telefonica."'
+				('".$Numero."', '".$Nombre."', '".$Contacto."', '".$Area."', '".$Estado."',".$Porcentaje.", '".$Observaciones."', '".$Estados."', '".$Seguimiento."', '".$Transportadoras."', '".$Telefonica."'
 				) ON DUPLICATE  KEY UPDATE
-				Numero = '".$Numero."',Nombre ='".$Nombre."',Contacto='".$Contacto."',Area='".$Area."',Estado='".$Estado."',Porcentaje='".$Porcentaje."'
+				Numero = '".$Numero."',Nombre ='".$Nombre."',Contacto='".$Contacto."',Area='".$Area."',Estado='".$Estado."',Porcentaje=".$Porcentaje."
 				,Observaciones='".$Observaciones."',Estados='".$Estados."',Seguimiento='".$Seguimiento."',Transportadoras='".$Transportadoras."',Telefonica='".$Telefonica."';";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
