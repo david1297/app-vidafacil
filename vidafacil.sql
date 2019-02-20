@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-02-2019 a las 20:05:25
+-- Tiempo de generación: 20-02-2019 a las 23:32:54
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -70,15 +70,16 @@ CREATE TABLE `afiliados` (
   `Direccion_Firma` varchar(200) NOT NULL,
   `Fecha_Firma` date NOT NULL,
   `Horario` time NOT NULL,
-  `Estado` varchar(20) NOT NULL
+  `Estado` varchar(20) NOT NULL,
+  `Fecha_Expedicion` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `afiliados`
 --
 
-INSERT INTO `afiliados` (`Identificacion`, `Primer_Nombre`, `Segundo_Nombre`, `Primer_Apellido`, `Segundo_Apellido`, `Tipo_Identificacion`, `Fecha_Nacimiento`, `Nacionalidad`, `Ciudad`, `Departamento`, `Direccion`, `Direccion_Adicional`, `Estrato`, `Nivel_Educacion`, `Ocupacion`, `Rango_Ingresos`, `Forma_Pago`, `Telefono`, `Correo`, `Direccion_Firma`, `Fecha_Firma`, `Horario`, `Estado`) VALUES
-('1112492933', 'JUAN', 'DAVID', 'ANDRADE', 'VALENCIA', 'Cedula', '1997-12-17', 'NariÃ±o', 138, 2, 'CALLE 23 # 49A-16', 'SA', 2, 'Universitario', 'Empleado', 2, 5, '32231', 'l@gmail.com', '1', '2019-01-31', '12:00:00', 'Activo');
+INSERT INTO `afiliados` (`Identificacion`, `Primer_Nombre`, `Segundo_Nombre`, `Primer_Apellido`, `Segundo_Apellido`, `Tipo_Identificacion`, `Fecha_Nacimiento`, `Nacionalidad`, `Ciudad`, `Departamento`, `Direccion`, `Direccion_Adicional`, `Estrato`, `Nivel_Educacion`, `Ocupacion`, `Rango_Ingresos`, `Forma_Pago`, `Telefono`, `Correo`, `Direccion_Firma`, `Fecha_Firma`, `Horario`, `Estado`, `Fecha_Expedicion`) VALUES
+('1112492933', 'JUAN', 'DAVID', 'ANDRADE', 'VALENCIA', 'Cedula', '1997-12-17', 'NariÃ±o', 138, 2, 'CALLE 23 # 49A-16', 'SA', 2, 'Universitario', 'Empleado', 2, 5, '32231', 'l@gmail.com', '1', '2019-01-31', '12:00:00', 'Activo', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -129,7 +130,7 @@ CREATE TABLE `campanas` (
 INSERT INTO `campanas` (`Numero`, `Nombre`, `Contacto`, `Area`, `Estado`, `Porcentaje`, `Observaciones`, `Estados`, `Seguimiento`, `Transportadoras`, `Telefonica`) VALUES
 (1, 'SVF', 'yo', 'Administrativa', 'Activa', 10, 'OBSERVACIONES DE LA CAMPAÃ‘A', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado', 'Devuelto Al Remitente.\r\nDirecciÃ³n Errada.\r\nDirecciÃ³n Incompleta.\r\nEn EnviÃ³.', 'Aeropostal.\r\nBici Mail.\r\nCoordinadora.', ''),
 (2, 'EMERMEDICA', 'yo', 'Administriva', 'Activa', 0, '', 'Estado1\r\nEstado3\r\nEjemplo', '', '', ''),
-(3, 'TELEFONIA', 'obvio yo', 'todas', 'Activa', 50, 'OBSERVACIONES DE LA CAMPAÃ‘A', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado\r\nEn Proceso\r\nPagado\r\nPor Pagar\r\nPara Descontar', 'Devuelto Al Remitente.\r\nDirecciÃ³n Errada.\r\nDirecciÃ³n Incompleta.\r\nEn EnviÃ³.\r\nEntrega Exitosa.\r\nNo Desea Recibir.\r\nNo Desea Recibir.\r\nZona De EnviÃ³.', 'Aeropostal.\r\nBici Mail.\r\nCoordinadora.\r\nTCC.\r\nInterrapÃ­disimo.\r\nDHL.\r\nEnvÃ­a.\r\n4/72.\r\nDeprisa.\r\nFedex.\r\nServientrega.', 'True'),
+(3, 'MOVISTAR', 'obvio yo', 'todas', 'Activa', 50, 'OBSERVACIONES DE LA CAMPAÃ‘A', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado\r\nEn Proceso\r\nPagado\r\nPor Pagar\r\nPara Descontar', 'Devuelto Al Remitente.\r\nDirecciÃ³n Errada.\r\nDirecciÃ³n Incompleta.\r\nEn EnviÃ³.\r\nEntrega Exitosa.\r\nNo Desea Recibir.\r\nNo Desea Recibir.\r\nZona De EnviÃ³.', 'Aeropostal.\r\nBici Mail.\r\nCoordinadora.\r\nTCC.\r\nInterrapÃ­disimo.\r\nDHL.\r\nEnvÃ­a.\r\n4/72.\r\nDeprisa.\r\nFedex.\r\nServientrega.', 'True'),
 (4, 'prueba', 'sebastian', 'ventas', 'Activa', 30, 's', 'as', 's', 's', 'True');
 
 -- --------------------------------------------------------
@@ -1529,7 +1530,7 @@ CREATE TABLE `ventas` (
 --
 
 INSERT INTO `ventas` (`Numero`, `Afiliado`, `Usuario`, `Campana`, `Estado`, `Estado_Campana`, `Fecha`, `Seguimiento`, `Transportadora`, `NumeroNip`, `DataCreditoTipo`, `Servicio`, `Canal`, `NumeroCelular`, `OperadorVenta`, `OperadorDonante`, `NumeroSim`) VALUES
-(0, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-06', 'Devuelto Al Remitente.', 'Aeropostal.', '', '1', '', '', '', '', '', '0'),
+(0, '1112492933', '1112492933', 1, 'Aprobada', 'Pendientes', '2019-02-19', 'Devuelto Al Remitente.', 'Aeropostal.', '', '', '', '', '', '', '', ''),
 (1, '1112492933', '1112492933', 3, 'Pendiente', 'Pendientes', '0000-00-00', '', '', '', '', '', '', '', '', '', '0'),
 (2, '1112492933', '1112492933', 3, 'Rechazada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '1', '2', '1', 'Movil', '1', 'Claro', 'Avantel', '1'),
 (3, '1112492933', '1112492933', 2, 'Pendiente', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0'),

@@ -38,8 +38,13 @@
 							<div class="form-group row">
 							<div class="col-md-3">		
 									<select class='form-control' id="Filtro" name ="Filtro" placeholder="Estado" onchange='load(1);'>
-										<option value="Afiliado">Afiliado</option>
+										<option value="Nombre">Nombre</option>
+										<option value="Cedula">Cedula</option>
+										<option value="Telefono">Telefono</option>
+										<option value="Campaña">Campaña</option>
+										<option value="Usuario">Usuario</option>
 										<option value="Numero">Numero</option>
+										<option value="Estado">Estado</option>
 										
 									</select>
 								</div>		

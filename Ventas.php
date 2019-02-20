@@ -15,7 +15,7 @@
 	$Campana ="";
 	$Estado ="";
 	$Estado_Campana ="";
-	$Fecha ="";
+	$Fecha =date("Y-m-d");
 	$Nombre="";
 	$Correo="";
 	$Transportadora="";
@@ -151,7 +151,7 @@
 									</div>	
 									<div class="col-md-4">
 										<label for="tel2" class="control-label">Fecha</label>
-										<input type="DAte" class="form-control" id="fecha" name="fecha" value="<?php echo date("Y-m-d");?>"readonly>
+										<input type="Date" class="form-control" id="fecha" name="fecha" value="<?php echo $Fecha?>"readonly>
 									</div>	
 									<div class="col-md-4">
 										<label for="email" class="control-label">Campaña</label>

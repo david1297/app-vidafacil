@@ -32,7 +32,7 @@
 		if($Estado<>"Todos"){
 			$sWhere.= " and Estado ='".$Estado."'";	
 		} 
-		$sWhere.=" order by Campanas.Nombre desc";
+		$sWhere.=" order by Campanas.Numero ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 10;
@@ -51,7 +51,7 @@
 			<div class="table-responsive">
 			  <table class="table table-hover">
 				<tr  class="warning">
-					<th>Numero</th>
+					<th class="text-center">Numero</th>
 					<th>Nombre</th>
 					<th>Contacto</th>
 					<th>Area</th>
@@ -72,7 +72,7 @@
 						
 					?>
 					<tr>
-						<td><?php echo $Numero; ?></td>
+						<td class="text-center"><?php echo $Numero; ?></td>
 						<td><?php echo $Nombre; ?></td>
 						<td><?php echo $Contacto; ?></td>
 						<td><?php echo $Area; ?></td>

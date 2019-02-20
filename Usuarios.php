@@ -284,11 +284,11 @@
 											<?php
 												if($_SESSION['Rol'] == '2'){
 											?>
-											<input type="text" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje; ?> " <?php echo $Read; ?>>
+											<input type="Number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>" min="1" max="100" step="0.5" <?php echo $Read; ?> onchange="UpdatePorcentaje()" >
 											<?php
 												}else{
 											?>
-											<input type="text" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje; ?>  " <?php echo $Read; ?> > 
+											<input type="Number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>" min="1" max="100" step="0.5" onchange="UpdatePorcentaje()"> 
 											<?php
 												}
 											?>
@@ -453,7 +453,7 @@
 									<div class=" pull-right col-sm-8">
 									
 										<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
-										<button type="submit" class="btn btn-primary">Guardar datos</button>
+										<button type="button" class="btn btn-primary" id="GUsuario">Guardar datos</button>
 		  							</div>				
 								</form>	
 							</div>
@@ -495,6 +495,13 @@
 	<script type="text/javascript" src="Componentes/JavaScript/Campanas_Usuario.js"></script>
 	<script>
 
+function UpdatePorcentaje(){
+if($("#Porcentaje").val()< 0){
+	var p = $("#Porcentaje").val();
+	document.getElementById('Porcentaje').value = p* (-1);
+
+}
+}
 $( "#Cancelar" ).click(function( event ) {
 	if (document.getElementById('EstadoU').value == 'Editando') {
 		location.reload(true);
@@ -506,10 +513,21 @@ $( "#Cancelar" ).click(function( event ) {
 $( "#Consultar" ).click(function( event ) {
 		location.href='Consultar-Usuarios.php';
 })
-	$( "#Guardar_Usuario" ).submit(function( event ) {
- var parametros = $(this).serialize();
 
-	 $.ajax({
+$("#GUsuario").click(function( event ) {
+		if(document.getElementById('EstadoU').value== 'Editando'){
+			var r = confirm("Confirmas Actualizacion de Usuario");
+  		if (r == true) {
+				$( "#Guardar_Usuario" ).submit();
+  		} 
+		}else{
+			$( "#Guardar_Usuario" ).submit();
+		}
+})
+
+	$( "#Guardar_Usuario" ).submit(function( event ) {
+ 		var parametros = $(this).serialize();
+	 	$.ajax({
 			type: "POST",
 			url: "Componentes/Ajax/Guardar_Usuario.php",
 			data: parametros,

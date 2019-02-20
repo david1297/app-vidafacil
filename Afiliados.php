@@ -30,6 +30,7 @@
 	$Horario="";
 	$Estado="";
 	$Correo="";
+	$Fecha_Expedicion="";
 
 
 	if (isset($_GET['Identificacion'])) {
@@ -59,6 +60,7 @@
 		$Horario=$rw_Admin['Horario'];
 		$Estado=$rw_Admin['Estado'];
 		$Correo=$rw_Admin['Correo'];
+		$Fecha_Expedicion=$rw_Admin['Fecha_Expedicion'];
 		$EstadoC="Editando";
 		$Read= "readonly='readonly'";
 	}else{
@@ -134,6 +136,12 @@
 											</select>
 										</div>
 									</div>
+									<div class="form-group">
+				  						<label for="Identificacion" class="col-sm-3  control-label">Fecha de Expedicion</label>
+				  						<div class="col-sm-8 ">
+				   							<input type="date" class="form-control" id="Fecha_Expedicion" name="Fecha_Expedicion" placeholder="Fecha de Expedicion" value="<?php echo $Fecha_Expedicion;?>" >
+				  						</div>
+			   						</div>
 									<div class="form-group" >
 										<label for="Nombres"  class="col-sm-3 control-label">Nombres</label>
 				  						<div class="col-sm-4">
@@ -155,7 +163,7 @@
 									<div class="form-group">
 										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Fecha de Nacimiento</label>
 										<div class="col-sm-8">
-											<input type="date" class="form-control" id="Fecha_Nacimiento" name="Fecha_Nacimiento" required placeholder="Fecha de Nacimiento" value="<?php echo $Fecha_Nacimiento;?>" step="2">
+											<input type="date" class="form-control" id="Fecha_Nacimiento" name="Fecha_Nacimiento" required placeholder="Fecha de Nacimiento" value="<?php echo $Fecha_Nacimiento;?>" >
 										</div>
 									</div>
 									<div class="form-group">
@@ -343,7 +351,7 @@
 									<div class="form-group">
 										<label for="Fecha_Firma" class="col-sm-3 control-label">Fecha de Firma</label>
 										<div class="col-sm-8">
-											<input type="date" class="form-control" id="Fecha_Firma" name="Fecha_Firma" required placeholder="Fecha de Firma" value="<?php echo $Fecha_Firma;?>" step="2">
+											<input type="date" class="form-control" id="Fecha_Firma" name="Fecha_Firma" required placeholder="Fecha de Firma" value="<?php echo $Fecha_Firma;?>" >
 										</div>
 									</div>
 									<div class="form-group">

@@ -17,9 +17,31 @@
 				
 				$sWhere.= " and  (Ventas.Numero like '%$q%' )";	
 			}else{
-				if ($Filtro =="Afiliado"){
-					$sWhere.= " and  ((Ventas.Afiliado like '%$q%') OR (AFILIADOS.Primer_Nombre like '%$q%') OR (AFILIADOS.Segundo_Nombre like '%$q%')OR (AFILIADOS.Primer_Apellido like '%$q%') OR (AFILIADOS.Segundo_Apellido like '%$q%'))";	
+				if ($Filtro =="Nombre"){
+					$sWhere.= " and  ((AFILIADOS.Primer_Nombre like '%$q%') OR (AFILIADOS.Segundo_Nombre like '%$q%')OR (AFILIADOS.Primer_Apellido like '%$q%') OR (AFILIADOS.Segundo_Apellido like '%$q%'))";	
+				}else {
+					if ($Filtro =="Cedula"){
+						$sWhere.= " and  (AFILIADOS.Identificacion like '%$q%' )";	
+					}else{
+						if($Filtro =="Telefono"){
+							$sWhere.= " and  (AFILIADOS.Telefono like '%$q%' )";	
+						}else{
+							if($Filtro =="Campaña"){
+								$sWhere.= " and  (Campanas.Nombre like '%$q%' )";	
+							}else{
+								if($Filtro =="Usuario"){
+									$sWhere.= " and  (Usuarios.Razon_Social like '%$q%' )";
+								}else{
+									if($Filtro =="Estado"){
+										$sWhere.= " and  (Ventas.Estado_Campana like '%$q%' )";
+									}
+								}
+							}
+						}
+					}
+
 				}
+
 			}
 			
 		}
@@ -48,7 +70,7 @@
 			<div class="table-responsive">
 			  <table class="table table-hover">
 				<tr  class="warning">
-					<th>Numero</th>
+					<th class="text-center">Numero</th>
 					<th>Afiliado</th>
 					<th>Fecha</th>
 					<th>Usuario</th>
@@ -71,7 +93,7 @@
 						
 					?>
 					<tr>
-						<td><?php echo $Numero; ?></td>
+						<td class="text-center"><?php echo $Numero; ?></td>
 						<td><?php echo $Afiliado; ?></td>
 						<td><?php echo $Fecha; ?></td>
 						<td><?php echo $Usuario; ?></td>

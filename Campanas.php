@@ -130,7 +130,7 @@
 				  					<div class="form-group col-sm-8">
 										<label for="Porcentaje" class="col-sm-3 control-label">Porcentaje</label>
 										<div class="col-sm-8">
-											<input type="text" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje; ?> ">
+											<input type="number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>"  min="1" max="100" step="0.5" onchange="UpdatePorcentaje()">
 										</div>
 									</div>
 									<div class="form-group col-sm-8">
@@ -213,7 +213,13 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script>
+function UpdatePorcentaje(){
+if($("#Porcentaje").val()< 0){
+	var p = $("#Porcentaje").val();
+	document.getElementById('Porcentaje').value = p* (-1);
 
+}
+}
 $( "#Cancelar" ).click(function( event ) {
 	if (document.getElementById('EstadoC').value == 'Editando') {
 		location.reload(true);

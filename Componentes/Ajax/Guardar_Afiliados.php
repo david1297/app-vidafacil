@@ -9,6 +9,8 @@ if (empty($_POST['Identificacion'])){
 	$errors[] = "El Numero de Identificacion Se Encuentra Vacio";
 } elseif (empty($_POST['Primer_Nombre'])){
 	$errors[] = "El Primer Nombre Se Encuentra Vacio";
+}elseif (empty($_POST['Fecha_Expedicion'])){
+	$errors[] = "La Fecha de Expedicion Se Encuentra Vacia";
 }elseif (empty($_POST['Primer_Apellido'])){
 	$errors[] = "El Primer Apellido Se Encuentra Vacio";
 }elseif (empty($_POST['Tipo_Identificacion'])){
@@ -55,6 +57,7 @@ elseif (
 			!empty($_POST['Identificacion'])
 			&& !empty($_POST['Primer_Nombre'])
 			&& !empty($_POST['Primer_Apellido'])
+			&& !empty($_POST['Fecha_Expedicion'])
 			&& !empty($_POST['Tipo_Identificacion'])
 			&& !empty($_POST['Fecha_Nacimiento'])
 			&& !empty($_POST['Nacionalidad'])
@@ -99,25 +102,26 @@ elseif (
 				$Horario = mysqli_real_escape_string($con,(strip_tags($_POST["Horario"],ENT_QUOTES)));
 				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 				$Correo = mysqli_real_escape_string($con,(strip_tags($_POST["Correo"],ENT_QUOTES)));
+				$Fecha_Expedicion = mysqli_real_escape_string($con,(strip_tags($_POST["Fecha_Expedicion"],ENT_QUOTES)));
 				
 				
 				$sql =  "INSERT INTO  Afiliados(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,
 												Tipo_Identificacion,Fecha_Nacimiento,Nacionalidad,Ciudad,Departamento,
 												Direccion,Direccion_Adicional,Estrato,Nivel_Educacion,Ocupacion,
 												Forma_Pago,Rango_Ingresos,Telefono,Direccion_Firma,Fecha_Firma,
-												Horario,Estado,Correo) VALUES
+												Horario,Estado,Correo,Fecha_Expedicion) VALUES
 
 				('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
 				'".$Tipo_Identificacion."', '".$Fecha_Nacimiento."', '".$Nacionalidad."', '".$Ciudad."', '".$Departamento."', 
 				'".$Direccion."', '".$Direccion_Adicional."', '".$Estrato."', '".$Nivel_Educacion."', '".$Ocupacion."', 
 				'".$Forma_Pago."', '".$Rango_Ingresos."', '".$Telefono."', '".$Direccion_Firma."', '".$Fecha_Firma."', 
-				'".$Horario."', '".$Estado."', '".$Correo."'
+				'".$Horario."', '".$Estado."', '".$Correo."', '".$Fecha_Expedicion."'
 				) ON DUPLICATE  KEY UPDATE
 				Identificacion = '".$Identificacion."',Primer_Nombre ='".$Primer_Nombre."',Segundo_Nombre='".$Segundo_Nombre."',Primer_Apellido='".$Primer_Apellido."',Segundo_Apellido='".$Segundo_Apellido."',
 				Tipo_Identificacion = '".$Tipo_Identificacion."',Fecha_Nacimiento ='".$Fecha_Nacimiento."',Nacionalidad='".$Nacionalidad."',Ciudad='".$Ciudad."',Departamento='".$Departamento."',
 				Direccion = '".$Direccion."',Direccion_Adicional ='".$Direccion_Adicional."',Estrato='".$Estrato."',Nivel_Educacion='".$Nivel_Educacion."',Ocupacion='".$Ocupacion."',
 				Forma_Pago = '".$Forma_Pago."',Rango_Ingresos ='".$Rango_Ingresos."',Telefono='".$Telefono."',Direccion_Firma='".$Direccion_Firma."',Fecha_Firma='".$Fecha_Firma."',
-				Horario='".$Horario."',Estado='".$Estado."',Correo='".$Correo."';";
+				Horario='".$Horario."',Estado='".$Estado."',Correo='".$Correo."',Fecha_Expedicion='".$Fecha_Expedicion."';";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
                         $messages[] = "Los Datos Se Han Modificado Con Exito.";
