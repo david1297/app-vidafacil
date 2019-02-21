@@ -59,6 +59,10 @@ elseif (
 				$Estado_Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Estado_Campana"],ENT_QUOTES)));
 				$Seguimiento = mysqli_real_escape_string($con,(strip_tags($_POST["Seguimiento"],ENT_QUOTES)));
 				$Transportadora = mysqli_real_escape_string($con,(strip_tags($_POST["Transportadora"],ENT_QUOTES)));
+				$Valor1 = mysqli_real_escape_string($con,(strip_tags($_POST["Valor"],ENT_QUOTES)));
+				$sig=',';
+				$Valor = str_replace($sig,'',$Valor1);
+
 				if($_POST['Telefonica']=='True'){
 					$NumeroNip = mysqli_real_escape_string($con,(strip_tags($_POST["NumeroNip"],ENT_QUOTES)));
 					$DataCreditoTipo = mysqli_real_escape_string($con,(strip_tags($_POST["DataCreditoTipo"],ENT_QUOTES)));
@@ -93,17 +97,19 @@ elseif (
 				
 
 				$sql =  "INSERT INTO  Ventas(Numero,Afiliado,Usuario,fecha,Campana,Estado,Estado_Campana,Seguimiento,Transportadora,
-											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim
+											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,Valor
 											) VALUES
 
 				('".$numero_VEnta."','".$Afiliado."', '".$Usuario."', '".$fecha."', '".$Campana."', '".$Estado."'
 				, '".$Estado_Campana."', '".$Seguimiento."', '".$Transportadora."'
-				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."', '".$NumeroSim."'
+				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
+				, '".$NumeroSim."', '".$Valor."'
 				) ON DUPLICATE  KEY UPDATE
 				Afiliado = '".$Afiliado."',Usuario ='".$Usuario."',fecha='".$fecha."',Campana='".$Campana."',Estado='".$Estado."'
 				,Estado_Campana='".$Estado_Campana."',Seguimiento='".$Seguimiento."',Transportadora='".$Transportadora."'
 				,NumeroNip='".$NumeroNip."',DataCreditoTipo='".$DataCreditoTipo."',Servicio='".$Servicio."',Canal='".$Canal."'
-				,NumeroCelular='".$NumeroCelular."',OperadorVenta='".$OperadorVenta."',OperadorDonante='".$OperadorDonante."',NumeroSim='".$NumeroSim."'
+				,NumeroCelular='".$NumeroCelular."',OperadorVenta='".$OperadorVenta."',OperadorDonante='".$OperadorDonante."'
+				,NumeroSim='".$NumeroSim."',Valor='".$Valor."'
 				
 				
 				;";
@@ -111,7 +117,7 @@ elseif (
                     if ($query_update) {
                         $messages[] = "La Venta Se Guardo Con Exito.";
                     } else {
-                        $errors[] = "Lo sentimos , El Registro de la Venta Fallo. Por favor, regrese y vuelva a intentarlo.<br>";
+                        $errors[] = $sql;
 					}
 					if (isset($_POST['Observaciones'])) {
 						$User=$_SESSION['Nit'];

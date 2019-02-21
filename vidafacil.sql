@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-02-2019 a las 23:32:54
+-- Tiempo de generación: 21-02-2019 a las 23:35:54
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -1522,23 +1522,24 @@ CREATE TABLE `ventas` (
   `NumeroCelular` varchar(20) NOT NULL,
   `OperadorVenta` varchar(80) NOT NULL,
   `OperadorDonante` varchar(80) NOT NULL,
-  `NumeroSim` varchar(20) NOT NULL
+  `NumeroSim` varchar(20) NOT NULL,
+  `Valor` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `ventas`
 --
 
-INSERT INTO `ventas` (`Numero`, `Afiliado`, `Usuario`, `Campana`, `Estado`, `Estado_Campana`, `Fecha`, `Seguimiento`, `Transportadora`, `NumeroNip`, `DataCreditoTipo`, `Servicio`, `Canal`, `NumeroCelular`, `OperadorVenta`, `OperadorDonante`, `NumeroSim`) VALUES
-(0, '1112492933', '1112492933', 1, 'Aprobada', 'Pendientes', '2019-02-19', 'Devuelto Al Remitente.', 'Aeropostal.', '', '', '', '', '', '', '', ''),
-(1, '1112492933', '1112492933', 3, 'Pendiente', 'Pendientes', '0000-00-00', '', '', '', '', '', '', '', '', '', '0'),
-(2, '1112492933', '1112492933', 3, 'Rechazada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '1', '2', '1', 'Movil', '1', 'Claro', 'Avantel', '1'),
-(3, '1112492933', '1112492933', 2, 'Pendiente', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0'),
-(4, '1112492933', '1112492933', 2, 'Rechazada', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0'),
-(5, '1112492933', '1112492933', 1, 'Aprobada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '', '', '', '', '', '', '', ''),
-(6, '1112492933', '1112492933', 2, 'Pendiente', 'Estado3', '2019-02-06', '', '', '', '', '', '', '', '', '', '0'),
-(7, '1112492933', '1112492933', 3, 'Aprobada', 'Pagado', '2019-02-06', 'En EnviÃ³.', 'DHL.', '', '', '', '', '', '', '', '0'),
-(8, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-06', 'Devuelto Al Remitente.', 'Bici Mail.', '', '', '', '', '', '', '', '0');
+INSERT INTO `ventas` (`Numero`, `Afiliado`, `Usuario`, `Campana`, `Estado`, `Estado_Campana`, `Fecha`, `Seguimiento`, `Transportadora`, `NumeroNip`, `DataCreditoTipo`, `Servicio`, `Canal`, `NumeroCelular`, `OperadorVenta`, `OperadorDonante`, `NumeroSim`, `Valor`) VALUES
+(0, '1112492933', '1112492933', 1, 'Aprobada', 'Pendientes', '2019-02-19', 'Devuelto Al Remitente.', 'Aeropostal.', '', '', '', '', '', '', '', '', 0),
+(1, '1112492933', '1112492933', 3, 'Pendiente', 'Pendientes', '0000-00-00', '', '', '', '', '', '', '', '', '', '0', 0),
+(2, '1112492933', '1112492933', 3, 'Rechazada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '1', '2', '1', 'Movil', '1', 'Claro', 'Avantel', '1', 0),
+(3, '1112492933', '1112492933', 2, 'Pendiente', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0', 0),
+(4, '1112492933', '1112492933', 2, 'Rechazada', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0', 0),
+(5, '1112492933', '1112492933', 1, 'Aprobada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '', '', '', '', '', '', '', '', 0),
+(6, '1112492933', '1112492933', 2, 'Pendiente', 'Estado3', '2019-02-06', '', '', '', '', '', '', '', '', '', '0', 0),
+(7, '1112492933', '1112492933', 3, 'Aprobada', 'Pagado', '2019-02-06', 'En EnviÃ³.', 'DHL.', '', '', '', '', '', '', '', '0', 0),
+(8, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-06', 'Devuelto Al Remitente.', 'Bici Mail.', '', '', '', '', '', '', '', '0', 0);
 
 --
 -- Índices para tablas volcadas

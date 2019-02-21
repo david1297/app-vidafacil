@@ -17,7 +17,7 @@
 	$Ajustes="";
 ?>
 <!doctype html>
-<html lang="es">
+<html lang="ES">
 
 <head>
 <?php include("head.php");?>
@@ -45,41 +45,362 @@
 					</div>
 					<div class="panel-content">
 						<div class="row">
-							<div class="col-md-4 col-sm-6">
+							<div class="col-md-6 col-sm-6">
 								<div class="number-chart">
 									<div class="mini-stat">
-										<div id="number-chart1" class="inlinesparkline">23,80,20,32,67,38,63,12,34,22</div>
-										<p class="text-muted"><i class="fa fa-caret-up text-success"></i> 19% en comparación con la semana pasada</p>
+										<div id="number-chart1" class="inlinesparkline">
+										<?PHP	
+										$Total_Semana_Ant=0;
+											$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR  FROM VENTAS WHERE WEEK(ventas.fecha) =WEEK(NOW())-1;");
+											$rw_Admin1=mysqli_fetch_array($query1);
+											$Total_Semana_Ant=$rw_Admin1['VALOR'];
+											$Total_Semana=0;
+											$query1=mysqli_query($con, "SELECT SUM(VALOR) VALOR,day(ventas.fecha) AS DIA  FROM VENTAS WHERE WEEK(ventas.fecha) =WEEK(NOW()) group by DIA;");
+											$h=0;
+											while($rw_Admin1=mysqli_fetch_array($query1)){
+												if ($h==0){
+													ECHO $rw_Admin1['VALOR'];
+													$h=1;
+												}else{
+													ECHO ','.$rw_Admin1['VALOR'];
+												}
+												$Total_Semana = $Total_Semana +$rw_Admin1['VALOR']; 
+											}
+											echo'</div>';
+											$Incremento= (($Total_Semana/$Total_Semana_Ant)-1)*100;
+											if ($Incremento <0 ){
+												echo '<p class="text-muted"><i class="fa fa-caret-down text-danger"></i> '.number_format($Incremento).'% en comparación con la semana pasada </p>';
+											}else{
+												echo '<p class="text-muted"><i class="fa fa-caret-up text-success"></i>'.number_format($Incremento).'% en comparación con la semana pasada</p>';
+											}
+											?>
+										
 									</div>
-									<div class="number"><span>$22,500</span> <span>Ganancias</span></div>
+									<div class="number"><span><?php echo '$ '.number_format($Total_Semana);?></span> <span>Ventas</span></div>
 								</div>
 							</div>
-							<div class="col-md-4 col-sm-6">
+							<div class="col-md-6 col-sm-6">
 								<div class="number-chart">
 									<div class="mini-stat">
-										<div id="number-chart2" class="inlinesparkline">77,44,10,80,88,87,19,59,83,88</div>
-										<p class="text-muted"><i class="fa fa-caret-up text-success"></i>24% en comparación con la semana pasada</p>
+										<div id="number-chart2" class="inlinesparkline">
+										<?PHP	
+										$Total_Semana_Ant=0;
+											$query1=mysqli_query($con, "SELECT SUM((ventas.valor*usuarios.Porcentaje)/100) VALOR  FROM VENTAS 
+											INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
+											WHERE WEEK(ventas.fecha) =WEEK(NOW())-1 ;");
+											$rw_Admin1=mysqli_fetch_array($query1);
+											$Total_Semana_Ant=$rw_Admin1['VALOR'];
+											$Total_Semana=0;
+											$query1=mysqli_query($con, "SELECT SUM((ventas.valor*usuarios.Porcentaje)/100) VALOR,day(ventas.fecha) AS DIA  FROM VENTAS 
+											INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
+											WHERE WEEK(ventas.fecha) =WEEK(NOW()) group by DIA;");
+											$h=0;
+											while($rw_Admin1=mysqli_fetch_array($query1)){
+												if ($h==0){
+													ECHO $rw_Admin1['VALOR'];
+													$h=1;
+												}else{
+													ECHO ','.$rw_Admin1['VALOR'];
+												}
+												$Total_Semana = $Total_Semana +$rw_Admin1['VALOR']; 
+											}
+											echo'</div>';
+											$Incremento= (($Total_Semana/$Total_Semana_Ant)-1)*100;
+											if ($Incremento <0 ){
+												echo '<p class="text-muted"><i class="fa fa-caret-down text-danger"></i> '.number_format($Incremento).'% en comparación con la semana pasada </p>';
+											}else{
+												echo '<p class="text-muted"><i class="fa fa-caret-up text-success"></i>'.number_format($Incremento).'% en comparación con la semana pasada</p>';
+											}
+											?>
+										
 									</div>
-									<div class="number"><span>$80,500</span> <span>Ventas</span></div>
+									<div class="number"><span><?php echo '$ '.number_format($Total_Semana);?></span> <span>Comisiones</span></div>
 								</div>
 							</div>
-							<div class="col-md-4 col-sm-6">
-								<div class="number-chart">
-									<div class="mini-stat">
-										<div id="number-chart4" class="inlinesparkline">28,44,70,21,86,54,90,25,83,42</div>
-										<p class="text-muted"><i class="fa fa-caret-down text-danger"></i> 6% en comparación con la semana pasada </p>
+							
+						</div>
+					</div>
+					<br>
+					<br>
+					<div class="row">
+						<div class="section-heading clearfix">
+							<h2 class="section-title"><i class="fa fa-shopping-cart"></i> Resumen de ventas</h2>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="panel-content">
+									<h3 class="heading"><i class="fa fa-square"></i> Hoy</h3>
+									<ul class="list-unstyled list-justify large-number">
+										<li class="clearfix">Ingresos
+											<span>
+											<?php
+												$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM((ventas.valor*usuarios.Porcentaje)/100)Comision FROM vidafacil.ventas 
+												INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
+												where fecha=CURDATE()  ; ");
+																			$rw_Admin1=mysqli_fetch_array($query1);
+												echo '$ '.number_format($rw_Admin1['VALOR']).'</span></li>
+												<li class="clearfix">Comisiones <span>$ '.number_format($rw_Admin1['Comision']).'</span></li>
+												<li class="clearfix">Ventas <span>'.$rw_Admin1['NVentas'].'</span></li>		
+												';		
+											?>
+									</ul>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="panel-content">
+									<h3 class="heading"><i class="fa fa-square"></i> Rendimiento de las ventas</h3>
+									<table class="table">
+										<?php
+										$Total_Semana_Ant=0;
+										$NVentas_Semana_Ant=0;
+										$Comision_Semana_Ant=0;
+										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM((ventas.valor*usuarios.Porcentaje)/100)Comision FROM vidafacil.ventas 
+										INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
+										where WEEK(ventas.fecha) =WEEK(NOW())-1; ");
+										$rw_Admin1=mysqli_fetch_array($query1);
+										$Total_Semana_Ant=$rw_Admin1['VALOR'];
+										$NVentas_Semana_Ant=$rw_Admin1['NVentas'];
+										$Comision_Semana_Ant=$rw_Admin1['Comision'];
+
+										$Total_Semana=0;
+										$NVentas_Semana=0;
+										$Comision_Semana=0;
+										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM((ventas.valor*usuarios.Porcentaje)/100)Comision FROM vidafacil.ventas 
+										INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
+										where WEEK(ventas.fecha) =WEEK(NOW()); ");
+										$rw_Admin1=mysqli_fetch_array($query1);
+										$Total_Semana=$rw_Admin1['VALOR'];
+										$NVentas_Semana=$rw_Admin1['NVentas'];
+										$Comision_Semana=$rw_Admin1['Comision'];
+
+										?>
+										<thead>
+											<tr>
+												<th>&nbsp;</th>
+												<th>La semana pasada</th>
+												<th>Esta semana</th>
+												<th>Cambio</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th>Ingresos</th>
+												<td>$ <?php echo number_format($Total_Semana_Ant);?></td>
+												<td><span class="text-info">$ <?php echo number_format($Total_Semana);?></span></td>
+												<td>
+												<?php
+													$Incremento= (($Total_Semana/$Total_Semana_Ant)-1)*100;
+													if ($Incremento <0 ){
+														echo '<span class="text-danger">'.number_format($Incremento).'%</span>';
+													}else{
+														echo '<span class="text-success">'.number_format($Incremento).'%</span>';
+
+													}
+												?>
+												</td>
+											</tr>
+											<tr>
+												<th>Comisiones</th>
+												<td>$ <?php echo number_format($Comision_Semana_Ant);?></td>
+												<td>
+													<div class="text-info">$ <?php echo number_format($Comision_Semana);?></div>
+												</td>
+												<td>
+												<?php
+													$Incremento= (($Comision_Semana/$Comision_Semana_Ant)-1)*100;
+													if ($Incremento <0 ){
+														echo '<span class="text-danger">'.number_format($Incremento).'%</span>';
+													}else{
+														echo '<span class="text-success">'.number_format($Incremento).'%</span>';
+
+													}
+												?>
+												</td>
+											</tr>
+											<tr>
+												<th>Ventas</th>
+												<td><?php echo $NVentas_Semana_Ant;?></td>
+												<td>
+													<div class="text-info"><?php echo $NVentas_Semana;?></div>
+												</td>
+												<td>
+												<?php
+													$Incremento= (($NVentas_Semana/$NVentas_Semana_Ant)-1)*100;
+													if ($Incremento <0 ){
+														echo '<span class="text-danger">'.number_format($Incremento).'%</span>';
+													}else{
+														echo '<span class="text-success">'.number_format($Incremento).'%</span>';
+
+													}
+												?>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="section-heading clearfix">
+								<h2 class="section-title"><i class="fa fa-bullhorn"></i> Resumen de Campañas</h2>
+							</div>
+							<div class="col-md-6">
+								<div class="panel-content">
+									<h2 class="heading"><i class="fa fa-square"></i> Hoy</h2>
+									<div class="table-responsive">
+										<table class="table no-margin">
+											<thead>
+												<tr>
+													<th>Campaña</th>
+													<th>Ventas</th>
+													<th>Ingresos</th>
+													<th>Comisiones</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php
+													$query1=mysqli_query($con, "SELECT campanas.Nombre, SUM(VALOR)VALOR,count(valor)as NVentas,SUM((ventas.valor*usuarios.Porcentaje)/100)Comision FROM vidafacil.ventas 
+													INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
+													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
+													where fecha=CURDATE() group by campanas.Nombre;");
+													$h=0;
+													while($rw_Admin1=mysqli_fetch_array($query1)){
+														echo '
+														<tr>
+															<td>'.$rw_Admin1['Nombre'].'</td>
+															<td>'.$rw_Admin1['NVentas'].'</td>
+															<td>$ '.number_format($rw_Admin1['VALOR']).'</td>
+															<td>$ '.number_format($rw_Admin1['Comision']).'</td>
+														
+														</tr>';
+													}	
+												?>
+
+
+												
+											</tbody>
+										</table>
 									</div>
-									<div class="number"><span>$30,500</span> <span>Gastos</span></div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="panel-content">
+									<h2 class="heading"><i class="fa fa-square"></i> Rendimiento de las Campañas</h2>
+									<div class="table-responsive">
+										<table class="table no-margin">
+											<thead>
+												<tr>
+												<th>Campaña</th>
+												<th>&nbsp;</th>
+												<th>La semana pasada</th>
+												<th>Esta semana</th>
+												<th>Cambio</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php
+													$query1=mysqli_query($con, "SELECT campanas.Nombre,Campanas.Numero, SUM(VALOR)VALOR,count(valor)as NVentas,SUM((ventas.valor*usuarios.Porcentaje)/100)Comision FROM vidafacil.ventas 
+													INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
+													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
+													where WEEK(ventas.fecha) =WEEK(NOW()) group by campanas.Nombre,Campanas.Numero;");
+													$h=0;
+													while($rw_Admin1=mysqli_fetch_array($query1)){
+														$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,count(valor)as NVentas,SUM((ventas.valor*usuarios.Porcentaje)/100)Comision FROM vidafacil.ventas 
+													INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
+													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
+													where WEEK(ventas.fecha) =WEEK(NOW())-1 and Campanas.Numero=".$rw_Admin1['Numero'].";");
+														$rw_Admin=mysqli_fetch_array($query);
+														echo '
+														<tr>
+															<td>'.$rw_Admin1['Nombre'].'</td>
+															<th>Ingresos</th>
+															<td>$ '.number_format($rw_Admin['VALOR']).'</td>
+															<td><div class="text-info">$ '.number_format($rw_Admin1['VALOR']).'</div></td>
+															<td>';												
+															if (($rw_Admin1['VALOR']<>0)and($rw_Admin['VALOR']<>0)){
+															$Incremento= (($rw_Admin1['VALOR']/$rw_Admin['VALOR'])-1)*100;
+																
+															}else{
+																$Incremento= 0;
+															}
+										
+															if ($Incremento <=0 ){
+																echo '<span class="text-danger">'.number_format($Incremento).'%</span>';
+															}else{
+																echo '<span class="text-success">'.number_format($Incremento).'%</span>';
+															}
+														echo '</td>
+														</tr>';
+														echo '
+														<tr>
+															<td></td>
+															<th>Comisiones</th>
+															<td>$ '.number_format($rw_Admin['Comision']).'</td>
+															<td><div class="text-info">$ '.number_format($rw_Admin1['Comision']).'</div></td>
+															<td>';												
+															if (($rw_Admin1['Comision']<>0)and($rw_Admin['Comision']<>0)){
+															$Incremento= (($rw_Admin1['Comision']/$rw_Admin['Comision'])-1)*100;
+																
+															}else{
+																$Incremento= 0;
+															}
+										
+															if ($Incremento <=0 ){
+																echo '<span class="text-danger">'.number_format($Incremento).'%</span>';
+															}else{
+																echo '<span class="text-success">'.number_format($Incremento).'%</span>';
+															}
+														echo '</td>
+														</tr>';
+														echo '
+														<tr>
+															<td></td>
+															<th>Ventas</th>
+															<td>$ '.number_format($rw_Admin['NVentas']).'</td>
+															<td><div class="text-info">$ '.number_format($rw_Admin1['NVentas']).'</div></td>
+															<td>';												
+															if (($rw_Admin1['NVentas']<>0)and($rw_Admin['NVentas']<>0)){
+															$Incremento= (($rw_Admin1['NVentas']/$rw_Admin['NVentas'])-1)*100;
+																
+															}else{
+																$Incremento= 0;
+															}
+										
+															if ($Incremento <=0 ){
+																echo '<span class="text-danger">'.number_format($Incremento).'%</span>';
+															}else{
+																echo '<span class="text-success">'.number_format($Incremento).'%</span>';
+															}
+														echo '</td>
+														</tr>';
+													}	
+												?>
+
+
+												
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="row">
+						<div class="dashboard-section">
+							<div class="section-heading clearfix">
+								<h2 class="section-title"><i class="fa fa-flag-checkered"></i> Recorrido</h2>
+							</div>
+							<div class="ct-chart" id="demo-line-chart"></div>
+						</div>
+					</div>
+
+					
+					<div class="row">
 						<div class="col-md-4">
 							<!-- TRAFFIC SOURCES -->
 							<div class="panel-content">
 								<h2 class="heading"><i class="fa fa-square"></i> Fuentas de ingreso</h2>
-								<div id="demo-pie-chart" class="ct-chart"></div>
+								<canvas id="myChart" width="400" height="400"></canvas>
 							</div>
 							<!-- END TRAFFIC SOURCES -->
 						</div>
@@ -173,63 +494,11 @@
 						</div>
 					</div>
 				</div>
-				<!-- END WEBSITE ANALYTICS -->
-				<!-- SALES SUMMARY -->
+				
 				<div class="dashboard-section">
-					<div class="section-heading clearfix">
-						<h2 class="section-title"><i class="fa fa-shopping-basket"></i> Resumen de ventas</h2>
-					</div>
+					
 					<div class="row">
-						<div class="col-md-3">
-							<div class="panel-content">
-								<h3 class="heading"><i class="fa fa-square"></i> Hoy</h3>
-								<ul class="list-unstyled list-justify large-number">
-									<li class="clearfix">Ingresos <span>$215</span></li>
-									<li class="clearfix">Ventas <span>47</span></li>
-								</ul>
-							</div>
-						</div>
-						<div class="col-md-9">
-							<div class="panel-content">
-								<h3 class="heading"><i class="fa fa-square"></i> Rendimiento de las ventas</h3>
-								<div class="row">
-									<div class="col-md-6">
-										<table class="table">
-											<thead>
-												<tr>
-													<th>&nbsp;</th>
-													<th>La semana pasada</th>
-													<th>Esta semana</th>
-													<th>Cambio</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<th>Ganancias</th>
-													<td>$2752</td>
-													<td><span class="text-info">$3854</span></td>
-													<td><span class="text-success">40.04%</span></td>
-												</tr>
-												<tr>
-													<th>Ventas</th>
-													<td>243</td>
-													<td>
-														<div class="text-info">322</div>
-													</td>
-													<td><span class="text-success">32.51%</span></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<div class="col-md-6">
-										<div id="chart-sales-performance">Cargando...</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-8">
+						<div class="col-md-12">
 							<div class="panel-content">
 								<h3 class="heading"><i class="fa fa-square"></i> Compras recientes</h3>
 								<div class="table-responsive">
@@ -284,52 +553,125 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4">
-							<div class="panel-content">
-								<h3 class="heading"><i class="fa fa-square"></i> Productos principales</h3>
-								<div id="chart-top-products" class="chartist"></div>
-							</div>
-						</div>
+						
 					</div>
 				</div>
-				<!-- END SALES SUMMARY -->
-				<!-- CAMPAIGN -->
-				<div class="dashboard-section">
-					<div class="section-heading clearfix">
-						<h2 class="section-title"><i class="fa fa-flag-checkered"></i> Recorrido</h2>
-						<!--<a href="#" class="right">View All Campaigns</a>-->
-					</div>
-					<div class="panel-content">
-						<div class="row margin-bottom-15">
-							<div class="col-md-12 col-sm-12 left">
-								<div id="demo-line-chart" class="ct-chart"></div>
-							</div>
-							
-						</div>
-						<div class="action-buttons">
-							<a href="#" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add Budget</a> <a href="#" class="btn btn-default"><i class="fa fa-file-text-o"></i> View Campaign Details</a>
-						</div> 
-					</div>
-				</div>
-				<!-- END CAMPAIGN -->
-				<!-- SOCIAL -->
+				
 				<div class="dashboard-section no-margin">
 					<div class="section-heading clearfix">
-						<h2 class="section-title"><i class="fa fa-user-circle"></i> Asociados <span class="section-subtitle">(1 days report)</span></h2>
+						<h2 class="section-title"><i class="fa fa-user-circle"></i> Asociados <span class="section-subtitle">(Actualizado)</span></h2>
 						
 					</div>
 					<div class="panel-content">
 						<div class="row">
 							<div class="col-md-4 col-sm-6">
-								<p class="metric-inline"><i class="far fa-id-card"></i>+636 <span>CLIENTES</span></p>
+								<p class="metric-inline"><i class="far fa-id-card"></i>
+								<?php
+									$query=mysqli_query($con, "SELECT COUNT(*)Afiliados FROM afiliados");
+										$rw_Admin=mysqli_fetch_array($query);
+								echo '+'.$rw_Admin['Afiliados'];		
+								?> <span>AFILIADOS</span></p>
 							</div>
 							<div class="col-md-4 col-sm-6">
-								<p class="metric-inline"><i class="far fa-handshake"></i> +528 <span>PROVEEDORES</span></p>
+								<p class="metric-inline"><i class="far fa-handshake"></i>
+								<?php
+									$query=mysqli_query($con, "SELECT  COUNT(*)Distribuidores FROM Usuarios where tipo='Distribuidor';   ");
+										$rw_Admin=mysqli_fetch_array($query);
+								echo '+'.$rw_Admin['Distribuidores'];		
+								?>  <span>DISTRIBUIDORES</span></p>
 							</div>
 							<div class="col-md-4 col-sm-6">
-								<p class="metric-inline"><i class="fas fa-users"></i> +1065 <span>USUARIOS</span></p>
+								<p class="metric-inline"><i class="fas fa-users"></i> 
+								<?php
+									$query=mysqli_query($con, "SELECT  COUNT(*)Operarios FROM Usuarios where tipo='Operador';      ");
+										$rw_Admin=mysqli_fetch_array($query);
+								echo '+'.$rw_Admin['Operarios'];		
+								?>  <span>OPERARIOS</span></p>
 							</div>
+							<canvas id="myChart1"></canvas>
 							
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ["Distribuidores", "Operarios"],
+        datasets: [{
+            label: 'Valor de Ventas',
+            data: [<?PHP
+				$Dis=0;
+				$Ope=0;
+				$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,usuarios.Tipo FROM vidafacil.ventas 
+				INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
+
+				where  WEEK(ventas.fecha) =WEEK(NOW()) group by usuarios.Tipo;  ");
+				while($rw_Admin=mysqli_fetch_array($query)){
+				if ($rw_Admin['Tipo']=='Distribuidor'){
+					$Dis=$rw_Admin['VALOR'];
+				}else{
+					if ($rw_Admin['Tipo']=='Operador'){
+						$Ope=$rw_Admin['VALOR'];
+					}
+				}
+			}
+				echo $Dis.','.$Ope;?>],
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)'
+                
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)'
+            ],
+			borderWidth: 1
+			
+        }]
+    },
+    options: {
+		responsive: true
+    }
+});
+var ctx = document.getElementById('myChart1').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: 'rgba(255, 99, 132,0.2)',
+            borderColor: 'rgba(255, 99, 132,1)',
+            data: [0, 10, 5, 2, 20, 30, 45],
+        },{
+            label: "My First dataset2",
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            data: [0, 50, 3, 5, 20, 30, 45],
+        }]
+    },
+
+    // Configuration options go here
+     options: {
+        tooltips: {
+            callbacks: {
+                label: function(tooltipItem, data) {
+                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                    if (label) {
+                        label += ': ';
+                    }
+                    label += Math.round(tooltipItem.yLabel * 100) / 100;
+                    return label;
+                }
+            }
+        }
+    }
+});
+</script>
+
 						</div>
 					</div>
 				</div>
@@ -348,16 +690,123 @@
 	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="assets/vendor/jquery-sparkline/js/jquery.sparkline.min.js"></script>
 	<script src="assets/vendor/bootstrap-progressbar/js/bootstrap-progressbar.min.js"></script>
-	<script src="assets/vendor/chartist/js/chartist.min.js"></script>
-	<script src="assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js"></script>
-	<script src="assets/vendor/chartist-plugin-axistitle/chartist-plugin-axistitle.min.js"></script>
-	<script src="assets/vendor/chartist-plugin-legend-latest/chartist-plugin-legend.js"></script>
 	<script src="assets/vendor/toastr/toastr.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script>
 	$(function() {
+		// line chart
+		var responsiveOptions = [
+  			['screen and (min-width: 641px) and (max-width: 1024px)', {
+    			showPoint: true,
+    			axisX: {
+      				labelInterpolationFnc: function(value) {
+        				return value.slice(0, 3);
+      				}
+    			}
+  			}],
+  			['screen and (max-width: 640px)', {
+    			showLine: true,
+    			axisX: {
+      				labelInterpolationFnc: function(value) {
+						return value.slice(0, 3);
+      				}
+    			}
+  			}]
+		];
 
-		// sparkline charts
+		new Chartist.Line('#demo-line-chart', {
+  			labels: ['Enero', 'Febrero','Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+  			series: [
+				[<?php
+				$Ene=0;
+				$Feb=0;
+				$Mar=0;
+				$Abr=0;
+				$May=0;
+				$Jun=0;
+				$Jul=0;
+				$Ago=0;
+				$Sep=0;
+				$Oct=0;
+				$Nov=0;
+				$Dic=0;
+					$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,month(ventas.fecha) mes FROM VENTAS WHERE year(ventas.fecha) =year(NOW()) group by mes;  ");
+					while($rw_Admin1=mysqli_fetch_array($query1)){
+						if($rw_Admin1['mes']=='1'){
+							$Ene=$rw_Admin1['VALOR'];
+						}else{
+							if($rw_Admin1['mes']=='2'){
+								$Feb=$rw_Admin1['VALOR'];
+							}else{
+								if($rw_Admin1['mes']=='3'){
+									$Mar=$rw_Admin1['VALOR'];
+								}else{
+									if($rw_Admin1['mes']=='4'){
+										$Abr=$rw_Admin1['VALOR'];
+									}else{
+										if($rw_Admin1['mes']=='5'){
+											$May=$rw_Admin1['VALOR'];
+										}else{
+											if($rw_Admin1['mes']=='6'){
+												$Jun=$rw_Admin1['VALOR'];
+											}else{
+												if($rw_Admin1['mes']=='7'){
+													$Jul=$rw_Admin1['VALOR'];
+												}else{
+													if($rw_Admin1['mes']=='8'){
+														$Ago=$rw_Admin1['VALOR'];
+													}else{
+														if($rw_Admin1['mes']=='9'){
+															$Sep=$rw_Admin1['VALOR'];
+														}else{
+															if($rw_Admin1['mes']=='10'){
+																$Oct=$rw_Admin1['VALOR'];
+															}else{
+																if($rw_Admin1['mes']=='11'){
+																	$Nov=$rw_Admin1['VALOR'];
+																}else{
+																	if($rw_Admin1['mes']=='12'){
+																		$Dic=$rw_Admin1['VALOR'];
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					echo $Ene.','.$Feb.','.$Mar.','.$Abr.','.$May.','.$Jun.','.$Jul.','.$Ago.','.$Sep.','.$Oct.','.$Nov.','.$Dic;
+					?>
+					
+					]
+  			]
+		}, 
+		{
+  			fullWidth: true,
+  			chartPadding: {
+				right: 40, left: 20
+			},
+			showArea: true,  
+  			axisY: {
+				position: 'end',
+				showLabel: true,
+				showGrid: true,
+				labelInterpolationFnc: function(value) {
+      				return new Intl.NumberFormat().format(value)
+    			}
+  			}
+		},responsiveOptions);
+
+
+
+
+
+		
 		var sparklineNumberChart = function() {
 
 			var params = {
@@ -384,10 +833,26 @@
 
 		// traffic sources
 		var dataPie = {
-			series: [45, 25, 30]
+			series: [<?PHP
+				$Dis=0;
+				$Ope=0;
+				$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,usuarios.Tipo FROM vidafacil.ventas 
+				INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
+
+				where  WEEK(ventas.fecha) =WEEK(NOW()) group by usuarios.Tipo;  ");
+				while($rw_Admin=mysqli_fetch_array($query)){
+				if ($rw_Admin['Tipo']=='Distribuidor'){
+					$Dis=$rw_Admin['VALOR'];
+				}else{
+					if ($rw_Admin['Tipo']=='Operador'){
+						$Ope=$rw_Admin['VALOR'];
+					}
+				}
+			}
+				echo $Dis.','.$Ope;?>]
 		};
 
-		var labels = ['Directas', 'Organicas', 'Referencias'];
+		var labels = ['Distribuidores', 'Operarios'];
 		var sum = function(a, b) {
 			return a + b;
 		};
@@ -406,135 +871,7 @@
 			display_text: 'none'
 		});
 
-		// line chart
-		var data = {
-			labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio','Agosto','Septiembre'],
-			series: [
-				[200, 380, 350, 480, 410, 450, 550],
-			]
-		};
-
-		var options = {
-			height: "300px",
-			showPoint: true,
-			showArea: true,
-			axisX: {
-				showGrid: false
-			},
-			lineSmooth: false,
-			chartPadding: {
-				top: 30,
-				right: 30,
-				bottom: 30,
-				left: 30
-			},
-			plugins: [
-				Chartist.plugins.tooltip({
-					appendToBody: true
-				}),
-				Chartist.plugins.ctAxisTitle({
-					axisX: {
-						axisTitle: 'Meses',
-						axisClass: 'ct-axis-title',
-						offset: {
-							x: 0,
-							y: 50
-						},
-						textAnchor: 'middle'
-					},
-					axisY: {
-						axisTitle: 'Valor',
-						axisClass: 'ct-axis-title',
-						offset: {
-							x: 0,
-							y: -10
-						},
-					}
-				})
-			]
-		};
-
-		new Chartist.Line('#demo-line-chart', data, options);
-
-
-		// sales performance chart
-		var sparklineSalesPerformance = function() {
-
-			var lastWeekData = [142, 164, 298, 384, 232, 269, 211];
-			var currentWeekData = [352, 267, 373, 222, 533, 111, 60];
-
-			$('#chart-sales-performance').sparkline(lastWeekData, {
-				fillColor: 'rgba(90, 90, 90, 0.1)',
-				lineColor: '#5A5A5A',
-				width: '' + $('#chart-sales-performance').innerWidth() + '',
-				height: '100px',
-				lineWidth: '2',
-				spotColor: false,
-				minSpotColor: false,
-				maxSpotColor: false,
-				chartRangeMin: 0,
-				chartRangeMax: 1000
-			});
-
-			$('#chart-sales-performance').sparkline(currentWeekData, {
-				composite: true,
-				fillColor: 'rgba(60, 137, 218, 0.1)',
-				lineColor: '#3C89DA',
-				lineWidth: '2',
-				spotColor: false,
-				minSpotColor: false,
-				maxSpotColor: false,
-				chartRangeMin: 0,
-				chartRangeMax: 1000
-			});
-		}
-
-		sparklineSalesPerformance();
-
-		var sparkResize;
-		$(window).on('resize', function() {
-			clearTimeout(sparkResize);
-			sparkResize = setTimeout(sparklineSalesPerformance, 200);
-		});
-
-
-		// top products
-		var dataStackedBar = {
-			labels: ['Q1', 'Q2', 'Q3'],
-			series: [
-				[800000, 1200000, 1400000],
-				[200000, 400000, 500000],
-				[100000, 200000, 400000]
-			]
-		};
-
-		new Chartist.Bar('#chart-top-products', dataStackedBar, {
-			height: "250px",
-			stackBars: true,
-			axisX: {
-				showGrid: false
-			},
-			axisY: {
-				labelInterpolationFnc: function(value) {
-					return (value / 1000) + 'k';
-				}
-			},
-			plugins: [
-				Chartist.plugins.tooltip({
-					appendToBody: true
-				}),
-				Chartist.plugins.legend({
-					legendNames: ['Telefono', 'Laptop', 'PC']
-				})
-			]
-		}).on('draw', function(data) {
-			if (data.type === 'bar') {
-				data.element.attr({
-					style: 'stroke-width: 30px'
-				});
-			}
-		});
-
+		
 
 		// notification popup
 		toastr.options.closeButton = true;

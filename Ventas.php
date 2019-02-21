@@ -29,6 +29,7 @@
 	$OperadorVenta="";
 	$OperadorDonante="";
 	$NumeroSim="";
+	$Valor="";
 
 	if (isset($_GET['Numero'])) {
 
@@ -51,7 +52,7 @@
 		$OperadorVenta=$rw_Admin['OperadorVenta'];
 		$OperadorDonante=$rw_Admin['OperadorDonante'];
 		$NumeroSim=$rw_Admin['NumeroSim'];
-
+		$Valor=$rw_Admin['Valor'];
 
 		$query=mysqli_query($con, "select * from Afiliados where Identificacion ='".$Afiliado."' ");
 		$rw_Admin=mysqli_fetch_array($query);
@@ -206,6 +207,10 @@
 										}
 									?>
 									</div>
+									<div class="col-md-4">
+										<label for="empresa" class="control-label">Valor</label>
+									 <input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" >
+									</div>
 									
 									<div  class="" id="Form_Telefonica">
 										<div class="col-sm-12">
@@ -328,7 +333,21 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src="Componentes/JavaScript/Modal_Buscar_Afiliados.js"></script>
 	<script src="assets/scripts/common.js"></script>
+	
 	<script>
+	$("#Valor").on({
+    "focus": function (event) {
+        $(event.target).select();
+    },
+    "keyup": function (event) {
+        $(event.target).val(function (index, value ) {
+            return value.replace(/\D/g, "")
+                        
+                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+        });
+    }
+});
+
 
 $( "#Cancelar" ).click(function( event ) {
 	if (document.getElementById('EstadoV').value == 'Editando') {
@@ -385,6 +404,7 @@ function CargarEstados(){
 
 		function Cargar() {
 			CargarEstados();
+			$("#Valor").keyup();
 		}
 
 
