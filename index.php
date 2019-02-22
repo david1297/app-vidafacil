@@ -390,7 +390,7 @@
 							<div class="section-heading clearfix">
 								<h2 class="section-title"><i class="fa fa-flag-checkered"></i> Recorrido</h2>
 							</div>
-							<div class="ct-chart" id="demo-line-chart"></div>
+							<canvas id="Recorrido" height='100px' ></canvas>	
 						</div>
 					</div>
 
@@ -588,9 +588,33 @@
 								echo '+'.$rw_Admin['Operarios'];		
 								?>  <span>OPERARIOS</span></p>
 							</div>
-							<canvas id="myChart1"></canvas>
 							
-<script>
+							
+
+						</div>
+					</div>
+				</div>
+				<!-- END SOCIAL -->
+			</div>
+		</div>
+		<!-- END MAIN CONTENT -->
+		
+	</div>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<script src="assets/vendor/jquery/jquery.min.js"></script>
+	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/vendor/metisMenu/metisMenu.js"></script>
+	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="assets/vendor/jquery-sparkline/js/jquery.sparkline.min.js"></script>
+	<script src="assets/vendor/bootstrap-progressbar/js/bootstrap-progressbar.min.js"></script>
+	<script src="assets/vendor/toastr/toastr.js"></script>
+	<script src="assets/scripts/common.js"></script>
+	<script>
+	$(function() {
+		
+// grafica de Torta Usuarios Chartjs
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'doughnut',
@@ -632,141 +656,68 @@ var myChart = new Chart(ctx, {
 		responsive: true
     }
 });
-var ctx = document.getElementById('myChart1').getContext('2d');
+// grafica recorrido Chartjs
+var ctx = document.getElementById('Recorrido').getContext('2d');
 var chart = new Chart(ctx, {
-    // The type of chart we want to create
     type: 'line',
-
-    // The data for our dataset
     data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        labels: ['Enero', 'Febrero','Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
         datasets: [{
-            label: "My First dataset",
-            backgroundColor: 'rgba(255, 99, 132,0.2)',
-            borderColor: 'rgba(255, 99, 132,1)',
-            data: [0, 10, 5, 2, 20, 30, 45],
-        },{
-            label: "My First dataset2",
+            label: "Valor de Ventas",
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            data: [0, 50, 3, 5, 20, 30, 45],
-        }]
-    },
-
-    // Configuration options go here
-     options: {
-        tooltips: {
-            callbacks: {
-                label: function(tooltipItem, data) {
-                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
-
-                    if (label) {
-                        label += ': ';
-                    }
-                    label += Math.round(tooltipItem.yLabel * 100) / 100;
-                    return label;
-                }
-            }
-        }
-    }
-});
-</script>
-
-						</div>
-					</div>
-				</div>
-				<!-- END SOCIAL -->
-			</div>
-		</div>
-		<!-- END MAIN CONTENT -->
-		
-	</div>
-	</div>
-	<!-- END WRAPPER -->
-	<!-- Javascript -->
-	<script src="assets/vendor/jquery/jquery.min.js"></script>
-	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="assets/vendor/metisMenu/metisMenu.js"></script>
-	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="assets/vendor/jquery-sparkline/js/jquery.sparkline.min.js"></script>
-	<script src="assets/vendor/bootstrap-progressbar/js/bootstrap-progressbar.min.js"></script>
-	<script src="assets/vendor/toastr/toastr.js"></script>
-	<script src="assets/scripts/common.js"></script>
-	<script>
-	$(function() {
-		// line chart
-		var responsiveOptions = [
-  			['screen and (min-width: 641px) and (max-width: 1024px)', {
-    			showPoint: true,
-    			axisX: {
-      				labelInterpolationFnc: function(value) {
-        				return value.slice(0, 3);
-      				}
-    			}
-  			}],
-  			['screen and (max-width: 640px)', {
-    			showLine: true,
-    			axisX: {
-      				labelInterpolationFnc: function(value) {
-						return value.slice(0, 3);
-      				}
-    			}
-  			}]
-		];
-
-		new Chartist.Line('#demo-line-chart', {
-  			labels: ['Enero', 'Febrero','Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-  			series: [
-				[<?php
-				$Ene=0;
-				$Feb=0;
-				$Mar=0;
-				$Abr=0;
-				$May=0;
-				$Jun=0;
-				$Jul=0;
-				$Ago=0;
-				$Sep=0;
-				$Oct=0;
-				$Nov=0;
-				$Dic=0;
-					$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,month(ventas.fecha) mes FROM VENTAS WHERE year(ventas.fecha) =year(NOW()) group by mes;  ");
-					while($rw_Admin1=mysqli_fetch_array($query1)){
-						if($rw_Admin1['mes']=='1'){
-							$Ene=$rw_Admin1['VALOR'];
-						}else{
-							if($rw_Admin1['mes']=='2'){
-								$Feb=$rw_Admin1['VALOR'];
-							}else{
-								if($rw_Admin1['mes']=='3'){
-									$Mar=$rw_Admin1['VALOR'];
+            borderColor: 'rgba(54, 162, 235,1)',
+            data: [<?php
+						$Ene=0;
+						$Feb=0;
+						$Mar=0;
+						$Abr=0;
+						$May=0;
+						$Jun=0;
+						$Jul=0;
+						$Ago=0;
+						$Sep=0;
+						$Oct=0;
+						$Nov=0;
+						$Dic=0;
+							$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,month(ventas.fecha) mes FROM VENTAS WHERE year(ventas.fecha) =year(NOW()) group by mes;  ");
+							while($rw_Admin1=mysqli_fetch_array($query1)){
+								if($rw_Admin1['mes']=='1'){
+									$Ene=$rw_Admin1['VALOR'];
 								}else{
-									if($rw_Admin1['mes']=='4'){
-										$Abr=$rw_Admin1['VALOR'];
+									if($rw_Admin1['mes']=='2'){
+										$Feb=$rw_Admin1['VALOR'];
 									}else{
-										if($rw_Admin1['mes']=='5'){
-											$May=$rw_Admin1['VALOR'];
+										if($rw_Admin1['mes']=='3'){
+											$Mar=$rw_Admin1['VALOR'];
 										}else{
-											if($rw_Admin1['mes']=='6'){
-												$Jun=$rw_Admin1['VALOR'];
+											if($rw_Admin1['mes']=='4'){
+												$Abr=$rw_Admin1['VALOR'];
 											}else{
-												if($rw_Admin1['mes']=='7'){
-													$Jul=$rw_Admin1['VALOR'];
+												if($rw_Admin1['mes']=='5'){
+													$May=$rw_Admin1['VALOR'];
 												}else{
-													if($rw_Admin1['mes']=='8'){
-														$Ago=$rw_Admin1['VALOR'];
+													if($rw_Admin1['mes']=='6'){
+														$Jun=$rw_Admin1['VALOR'];
 													}else{
-														if($rw_Admin1['mes']=='9'){
-															$Sep=$rw_Admin1['VALOR'];
+														if($rw_Admin1['mes']=='7'){
+															$Jul=$rw_Admin1['VALOR'];
 														}else{
-															if($rw_Admin1['mes']=='10'){
-																$Oct=$rw_Admin1['VALOR'];
+															if($rw_Admin1['mes']=='8'){
+																$Ago=$rw_Admin1['VALOR'];
 															}else{
-																if($rw_Admin1['mes']=='11'){
-																	$Nov=$rw_Admin1['VALOR'];
+																if($rw_Admin1['mes']=='9'){
+																	$Sep=$rw_Admin1['VALOR'];
 																}else{
-																	if($rw_Admin1['mes']=='12'){
-																		$Dic=$rw_Admin1['VALOR'];
+																	if($rw_Admin1['mes']=='10'){
+																		$Oct=$rw_Admin1['VALOR'];
+																	}else{
+																		if($rw_Admin1['mes']=='11'){
+																			$Nov=$rw_Admin1['VALOR'];
+																		}else{
+																			if($rw_Admin1['mes']=='12'){
+																				$Dic=$rw_Admin1['VALOR'];
+																			}
+																		}
 																	}
 																}
 															}
@@ -778,31 +729,51 @@ var chart = new Chart(ctx, {
 									}
 								}
 							}
-						}
+							echo $Ene.','.$Feb.','.$Mar.','.$Abr.','.$May.','.$Jun.','.$Jul.','.$Ago.','.$Sep.','.$Oct.','.$Nov.','.$Dic;
+			
+			?>],
+				pointRadius: 5,
+				pointHoverRadius: 10,
+        },]
+    },options: {
+		responsive: true,
+		height: '300px',
+		elements: {
+			point: {
+				pointStyle: 'circle'
+			}
+		},tooltips: {
+        	callbacks: {
+                label: function(tooltipItem, data) {
+                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                    if (label) {
+                        label += ': ';
+                    }
+                    label +=  new Intl.NumberFormat().format(tooltipItem.yLabel) ;
+                    return label;
+                }
+            }
+        },scales: {
+			xAxes: [{
+				display: true,
+			}],
+			yAxes: [{
+				display: true,
+				position: 'right',
+				type: 'linear',
+				scaleLabel: {
+					display: true,
+					labelString: 'Valor de Venta($)'
+				},
+				ticks: {
+					callback: function(value, index, values) {
+						return '$' + new Intl.NumberFormat().format(value) ;
 					}
-					echo $Ene.','.$Feb.','.$Mar.','.$Abr.','.$May.','.$Jun.','.$Jul.','.$Ago.','.$Sep.','.$Oct.','.$Nov.','.$Dic;
-					?>
-					
-					]
-  			]
-		}, 
-		{
-  			fullWidth: true,
-  			chartPadding: {
-				right: 40, left: 20
-			},
-			showArea: true,  
-  			axisY: {
-				position: 'end',
-				showLabel: true,
-				showGrid: true,
-				labelInterpolationFnc: function(value) {
-      				return new Intl.NumberFormat().format(value)
-    			}
-  			}
-		},responsiveOptions);
-
-
+				}
+			}]
+		}
+    }
+});
 
 
 

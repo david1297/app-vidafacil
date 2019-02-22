@@ -30,6 +30,7 @@
 	$OperadorDonante="";
 	$NumeroSim="";
 	$Valor="";
+	
 
 	if (isset($_GET['Numero'])) {
 
@@ -53,6 +54,9 @@
 		$OperadorDonante=$rw_Admin['OperadorDonante'];
 		$NumeroSim=$rw_Admin['NumeroSim'];
 		$Valor=$rw_Admin['Valor'];
+		$Porcentaje_Comision=$rw_Admin['Porcentaje_Comision']; 
+
+
 
 		$query=mysqli_query($con, "select * from Afiliados where Identificacion ='".$Afiliado."' ");
 		$rw_Admin=mysqli_fetch_array($query);
@@ -88,6 +92,7 @@
 		}
 
 	}else{
+		$Porcentaje_Comision=$_SESSION['Porcentaje'];
 		$EstadoV="Nuevo";
 		$Read= "";
 		$Numero_venta="Nueva Venta";
@@ -210,6 +215,10 @@
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Valor</label>
 									 <input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" >
+									</div>
+									<div class="col-md-4">
+										<label for="empresa" class="control-label">Porcentaje_Comision</label>
+									 <input type="text" class="form-control" id="Porcentaje_Comision" Name="Porcentaje_Comision" placeholder="Porcentaje_Comision" value="<?php echo $Porcentaje_Comision;?>" >
 									</div>
 									
 									<div  class="" id="Form_Telefonica">

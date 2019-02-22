@@ -502,14 +502,14 @@ if($("#Porcentaje").val()< 0){
 
 }
 }
-$( "#Cancelar" ).click(function( event ) {
-	if (document.getElementById('EstadoU').value == 'Editando') {
-		location.reload(true);
-	}
-	else{
-		location.href='Consultar-Usuarios.php';
-	}
-})
+	$( "#Cancelar" ).click(function( event ) {
+		if (document.getElementById('EstadoU').value == 'Editando') {
+			location.reload(true);
+		}
+		else{
+			location.href='Consultar-Usuarios.php';
+		}
+	})
 $( "#Consultar" ).click(function( event ) {
 		location.href='Consultar-Usuarios.php';
 })
