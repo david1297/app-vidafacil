@@ -212,7 +212,7 @@
 									 <input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" >
 									</div>
 									<div class="col-md-4">
-										<label for="empresa" class="control-label">Porcentaje_Comision</label>
+										
 									 <input type="text" class="form-control hidden" id="Porcentaje_Comision" Name="Porcentaje_Comision" placeholder="Porcentaje_Comision" value="<?php echo $Porcentaje_Comision;?>" >
 									</div>
 									
