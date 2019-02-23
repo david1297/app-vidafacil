@@ -30,9 +30,7 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 	$errors[] = "El Celular de Contacto Se Encuentra vacío";
 } elseif (!filter_var($_POST['Correo_C'], FILTER_VALIDATE_EMAIL)) {
 	$errors[] = "La dirección de correo electrónico de Notificacion no está en un formato de correo electrónico válida";
-} elseif (empty($_POST['Porcentaje'])) {
-	$errors[] = "El Porcentaje Se Encuentra vacío";	
-} elseif (empty($_POST['Rep_Legal'])){
+}  elseif (empty($_POST['Rep_Legal'])){
 	$errors[] = "El Representante Legal Se Encuentra Vacio";
 } elseif (empty($_POST['CC'])){
 	$errors[] = "El Numero de Documento Representante Legal Se Encuentra Vacio";
@@ -55,7 +53,6 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 			&& filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)
 			&& !empty($_POST['Cel_C'])
 			&& filter_var($_POST['Correo_C'], FILTER_VALIDATE_EMAIL)
-			&& !empty($_POST['Porcentaje'])
 			&& !empty($_POST['Rep_Legal'])
 			&& !empty($_POST['CC'])
 			&& !empty($_POST['Nombre_R1'])

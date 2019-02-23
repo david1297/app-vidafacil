@@ -31,10 +31,15 @@
 	$NumeroSim="";
 	$Valor="";
 	
+	
 
 	if (isset($_GET['Numero'])) {
 
-		$query=mysqli_query($con, "select * from Ventas where Numero ='".$_GET['Numero']."' ");
+		$query=mysqli_query($con, "select Ventas.Numero,Ventas.Afiliado,Ventas.Usuario,Ventas.Campana,Ventas.Estado,
+		Ventas.Estado_Campana,Ventas.Fecha,Ventas.Transportadora,Ventas.Seguimiento,Ventas.NumeroNip,Ventas.DataCreditoTipo,
+		Ventas.Servicio,Ventas.Canal,Ventas.NumeroCelular,Ventas.OperadorVenta,Ventas.OperadorDonante,Ventas.NumeroSim,
+		Ventas.Valor,Ventas.Porcentaje_Comision,usuarios.Nit,usuarios.Razon_Social
+			from Ventas inner join Usuarios on Ventas.Usuario=usuarios.Nit  where Numero ='".$_GET['Numero']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 		$Numero =$rw_Admin['Numero'];
 		$Afiliado =$rw_Admin['Afiliado'];
@@ -55,7 +60,8 @@
 		$NumeroSim=$rw_Admin['NumeroSim'];
 		$Valor=$rw_Admin['Valor'];
 		$Porcentaje_Comision=$rw_Admin['Porcentaje_Comision']; 
-
+		$Nit=$rw_Admin['Nit'];
+		$Razon_Social =$rw_Admin['Razon_Social'];
 
 
 		$query=mysqli_query($con, "select * from Afiliados where Identificacion ='".$Afiliado."' ");
@@ -92,6 +98,8 @@
 		}
 
 	}else{
+		$Nit=$_SESSION['Nit'];
+		$Razon_Social =$_SESSION['Razon_Social'];
 		$Porcentaje_Comision=$_SESSION['Porcentaje'];
 		$EstadoV="Nuevo";
 		$Read= "";
@@ -152,8 +160,8 @@
 									
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Usuario</label>
-										<input type="text" class="form-control" id="Usuario_N" placeholder="Usuario" value="<?php echo $_SESSION['Razon_Social'];?>" readonly>
-											<input type="text" class="form-control hidden" id="Usuario" name="Usuario" placeholder="Usuario" value="<?php echo $_SESSION['Nit'];?>" readonly>
+										<input type="text" class="form-control" id="Usuario_N" placeholder="Usuario" value="<?php echo $Razon_Social;?>" readonly>
+											<input type="text" class="form-control hidden" id="Usuario" name="Usuario" placeholder="Usuario" value="<?php echo $Nit;?>" readonly>
 									</div>	
 									<div class="col-md-4">
 										<label for="tel2" class="control-label">Fecha</label>
@@ -190,23 +198,10 @@
 											echo '
 											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Pendiente" >';
 										} else {
-											if($_SESSION['Rol']<>'2'){
-												echo '
-												<label for="Estado" class="control-label">Estado</label>
-												
-													<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
-													if($Estado == 'Aprobada'){
-														echo '<option value="Aprobada">Aprobada</option>';
-														echo '<option value="Rechazada">Rechazada</option>';
-													}else{
-														echo '<option value="Rechazada">Rechazada</option>';
-														echo '<option value="Aprobada">Aprobada</option>';
-													}
-													echo '
-													</select>
-												
-											';
-											}
+											
+											echo '
+											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="'.$Estado.'" >';
+
 											
 											
 										}
@@ -218,7 +213,7 @@
 									</div>
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Porcentaje_Comision</label>
-									 <input type="text" class="form-control" id="Porcentaje_Comision" Name="Porcentaje_Comision" placeholder="Porcentaje_Comision" value="<?php echo $Porcentaje_Comision;?>" >
+									 <input type="text" class="form-control hidden" id="Porcentaje_Comision" Name="Porcentaje_Comision" placeholder="Porcentaje_Comision" value="<?php echo $Porcentaje_Comision;?>" >
 									</div>
 									
 									<div  class="" id="Form_Telefonica">

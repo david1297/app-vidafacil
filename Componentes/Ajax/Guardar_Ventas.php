@@ -60,6 +60,7 @@ elseif (
 				$Seguimiento = mysqli_real_escape_string($con,(strip_tags($_POST["Seguimiento"],ENT_QUOTES)));
 				$Transportadora = mysqli_real_escape_string($con,(strip_tags($_POST["Transportadora"],ENT_QUOTES)));
 				$Valor1 = mysqli_real_escape_string($con,(strip_tags($_POST["Valor"],ENT_QUOTES)));
+				$Porcentaje_Comision = mysqli_real_escape_string($con,(strip_tags($_POST["Porcentaje_Comision"],ENT_QUOTES)));
 				$sig=',';
 				$Valor = str_replace($sig,'',$Valor1);
 
@@ -97,19 +98,20 @@ elseif (
 				
 
 				$sql =  "INSERT INTO  Ventas(Numero,Afiliado,Usuario,fecha,Campana,Estado,Estado_Campana,Seguimiento,Transportadora,
-											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,Valor
+											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
+											Valor,Porcentaje_Comision,Liquidada
 											) VALUES
 
 				('".$numero_VEnta."','".$Afiliado."', '".$Usuario."', '".$fecha."', '".$Campana."', '".$Estado."'
 				, '".$Estado_Campana."', '".$Seguimiento."', '".$Transportadora."'
 				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
-				, '".$NumeroSim."', '".$Valor."'
+				, '".$NumeroSim."', '".$Valor."', '".$Porcentaje_Comision."', 'False'
 				) ON DUPLICATE  KEY UPDATE
 				Afiliado = '".$Afiliado."',Usuario ='".$Usuario."',fecha='".$fecha."',Campana='".$Campana."',Estado='".$Estado."'
 				,Estado_Campana='".$Estado_Campana."',Seguimiento='".$Seguimiento."',Transportadora='".$Transportadora."'
 				,NumeroNip='".$NumeroNip."',DataCreditoTipo='".$DataCreditoTipo."',Servicio='".$Servicio."',Canal='".$Canal."'
 				,NumeroCelular='".$NumeroCelular."',OperadorVenta='".$OperadorVenta."',OperadorDonante='".$OperadorDonante."'
-				,NumeroSim='".$NumeroSim."',Valor='".$Valor."'
+				,NumeroSim='".$NumeroSim."',Valor='".$Valor."',Porcentaje_Comision='".$Porcentaje_Comision."',Liquidada='False'
 				
 				
 				;";

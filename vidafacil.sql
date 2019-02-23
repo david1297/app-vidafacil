@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-02-2019 a las 23:35:10
+-- Tiempo de generación: 23-02-2019 a las 17:31:55
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -1277,6 +1277,21 @@ INSERT INTO `ciudades` (`Codigo`, `Departamento`, `Nombre`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `cuenta_virtual`
+--
+
+CREATE TABLE `cuenta_virtual` (
+  `Numero` int(11) NOT NULL,
+  `Usuario` varchar(30) NOT NULL,
+  `Venta` int(11) NOT NULL,
+  `Valor` double NOT NULL,
+  `Porcentaje` double NOT NULL,
+  `Comision` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `departamentos`
 --
 
@@ -1533,7 +1548,7 @@ CREATE TABLE `ventas` (
 --
 
 INSERT INTO `ventas` (`Numero`, `Afiliado`, `Usuario`, `Campana`, `Estado`, `Estado_Campana`, `Fecha`, `Seguimiento`, `Transportadora`, `NumeroNip`, `DataCreditoTipo`, `Servicio`, `Canal`, `NumeroCelular`, `OperadorVenta`, `OperadorDonante`, `NumeroSim`, `Valor`, `Porcentaje_Comision`, `Liquidada`) VALUES
-(0, '1112492933', '1112492933', 1, 'Aprobada', 'Pendientes', '2019-02-19', 'Devuelto Al Remitente.', 'Aeropostal.', '', '', '', '', '', '', '', '', 0, 0, ''),
+(0, '1112492933', '1112492933', 1, 'Aprobada', 'Pendientes', '2019-01-01', 'Devuelto Al Remitente.', 'Aeropostal.', '', '', '', '', '', '', '', '', 9000000, 0, 'False'),
 (1, '1112492933', '1112492933', 3, 'Pendiente', 'Pendientes', '0000-00-00', '', '', '', '', '', '', '', '', '', '0', 0, 0, ''),
 (2, '1112492933', '1112492933', 3, 'Rechazada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '1', '2', '1', 'Movil', '1', 'Claro', 'Avantel', '1', 0, 0, ''),
 (3, '1112492933', '1112492933', 2, 'Pendiente', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0', 0, 0, ''),
@@ -1581,6 +1596,13 @@ ALTER TABLE `campanas`
 ALTER TABLE `ciudades`
   ADD PRIMARY KEY (`Codigo`),
   ADD KEY `Departamento` (`Departamento`);
+
+--
+-- Indices de la tabla `cuenta_virtual`
+--
+ALTER TABLE `cuenta_virtual`
+  ADD PRIMARY KEY (`Numero`),
+  ADD KEY `Usuario` (`Usuario`);
 
 --
 -- Indices de la tabla `departamentos`
@@ -1654,6 +1676,12 @@ ALTER TABLE `bancos`
 --
 ALTER TABLE `ciudades`
   MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1127;
+
+--
+-- AUTO_INCREMENT de la tabla `cuenta_virtual`
+--
+ALTER TABLE `cuenta_virtual`
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `departamentos`

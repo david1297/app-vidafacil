@@ -25,7 +25,9 @@ function NuevaVenta(){
 function obtener_datos(Numero){
 	location.href='Ventas.php?Numero='+Numero;
 }
-
+function BaseGeneral(){
+	location.href='Consultar-BaseGeneral.php';
+}
 	
 		
 		
