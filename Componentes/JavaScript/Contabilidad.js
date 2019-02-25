@@ -4,19 +4,19 @@
 
 		function load(page){
 			var q= $("#q").val();
+			var Pest =$("#Pestana").val();
 			var Filtro = $("#Filtro").val();
 			var Estado = $("#FEstado").val();
 			var fechaIni = $("#fechaIni").val();
 			var fechaFin = $("#fechaFin").val();
-		
 			$("#loader").fadeIn('slow');
 			$.ajax({
-				url:'Componentes/Ajax/Buscar_BaseGeneral.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin,
+				url:'Componentes/Ajax/Buscar_Contabilidad.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&Pest='+Pest,
 				 beforeSend: function(objeto){
 				 $('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			  },
 				success:function(data){
-					$(".outer_div").html(data).fadeIn('slow');
+					$("."+Pest).html(data).fadeIn('slow');
 					$('#loader').html('');
 					
 				}
@@ -25,6 +25,20 @@
 function NuevaVenta(){
 	//location.href='Ventas.php';
 }
+$( "#ExportarExcel" ).click(function( event ) {
+	var q= $("#q").val();
+			var Pest =$("#Pestana").val();
+			var Filtro = $("#Filtro").val();
+			var Estado = $("#FEstado").val();
+			var fechaIni = $("#fechaIni").val();
+			var fechaFin = $("#fechaFin").val();
+			location.href='Componentes/Ajax/Exportar_Contabilidad.php?action=ajax&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&Pest='+Pest;
+			
+
+})
+
+
+
 $( "#Consultar" ).click(function( event ) {
 	
 	location.href='Consultar-Ventas.php';

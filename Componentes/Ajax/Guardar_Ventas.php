@@ -13,8 +13,6 @@ if (empty($_POST['Afiliado'])){
 	$errors[] = "La fecha Se Encuentra Vacio";
 }elseif (empty($_POST['Campana'])){
 	$errors[] = "La Campaña Se Encuentra Vacia";
-}elseif (empty($_POST['Estado'])){
-	$errors[] = "El Estado  Se Encuentra Vacio";
 }elseif (empty($_POST['Estado_Campana'])){
 	$errors[] = "El Estado de la Campaña Se Encuentra Vacio";
 }elseif (empty($_POST['Seguimiento'])){
@@ -44,7 +42,6 @@ elseif (
 		&& !empty($_POST['Usuario'])
 		&& !empty($_POST['fecha'])
 		&& !empty($_POST['Campana'])
-		&& !empty($_POST['Estado'])
 		&& !empty($_POST['Estado_Campana'])
 		&& !empty($_POST['Seguimiento'])
 		&& !empty($_POST['Transportadora'])
@@ -55,7 +52,6 @@ elseif (
 				$Usuario = mysqli_real_escape_string($con,(strip_tags($_POST["Usuario"],ENT_QUOTES)));
 				$fecha = mysqli_real_escape_string($con,(strip_tags($_POST["fecha"],ENT_QUOTES)));
 				$Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Campana"],ENT_QUOTES)));
-				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 				$Estado_Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Estado_Campana"],ENT_QUOTES)));
 				$Seguimiento = mysqli_real_escape_string($con,(strip_tags($_POST["Seguimiento"],ENT_QUOTES)));
 				$Transportadora = mysqli_real_escape_string($con,(strip_tags($_POST["Transportadora"],ENT_QUOTES)));
@@ -97,23 +93,21 @@ elseif (
 
 				
 
-				$sql =  "INSERT INTO  Ventas(Numero,Afiliado,Usuario,fecha,Campana,Estado,Estado_Campana,Seguimiento,Transportadora,
+				$sql =  "INSERT INTO  Ventas(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Seguimiento,Transportadora,
 											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
 											Valor,Porcentaje_Comision,Liquidada
 											) VALUES
 
-				('".$numero_VEnta."','".$Afiliado."', '".$Usuario."', '".$fecha."', '".$Campana."', '".$Estado."'
+				('".$numero_VEnta."','".$Afiliado."', '".$Usuario."', '".$fecha."', '".$Campana."'
 				, '".$Estado_Campana."', '".$Seguimiento."', '".$Transportadora."'
 				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
 				, '".$NumeroSim."', '".$Valor."', '".$Porcentaje_Comision."', 'False'
 				) ON DUPLICATE  KEY UPDATE
-				Afiliado = '".$Afiliado."',Usuario ='".$Usuario."',fecha='".$fecha."',Campana='".$Campana."',Estado='".$Estado."'
+				Afiliado = '".$Afiliado."',Usuario ='".$Usuario."',fecha='".$fecha."',Campana='".$Campana."'
 				,Estado_Campana='".$Estado_Campana."',Seguimiento='".$Seguimiento."',Transportadora='".$Transportadora."'
 				,NumeroNip='".$NumeroNip."',DataCreditoTipo='".$DataCreditoTipo."',Servicio='".$Servicio."',Canal='".$Canal."'
 				,NumeroCelular='".$NumeroCelular."',OperadorVenta='".$OperadorVenta."',OperadorDonante='".$OperadorDonante."'
 				,NumeroSim='".$NumeroSim."',Valor='".$Valor."',Porcentaje_Comision='".$Porcentaje_Comision."',Liquidada='False'
-				
-				
 				;";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
@@ -136,7 +130,22 @@ elseif (
 						}
 					
 					}
+						$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  Venta='".$numero_VEnta."'");
 
+
+						$Comision = 0;
+						if ($Porcentaje_Comision <> 0){
+							$Comision = ($Valor*$Porcentaje_Comision)/100;	
+							$sql = "INSERT INTO Cuenta_Virtual(Usuario,Venta,Valor,Porcentaje,Comision)
+									VALUES('".$Usuario."','".$numero_VEnta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."')";
+							$query_update = mysqli_query($con,$sql);
+							if ($query_update) {
+								$messages[] = "La Cuanta Virtual Se Registro Correctamente,";
+							} else {
+								$errors[] = $sql;
+							}
+						}
+					
 
 
         } else {

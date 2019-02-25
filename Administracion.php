@@ -36,7 +36,7 @@
 					<li><a href="#Bancos" role="tab" data-toggle="tab" id="ClickBancos">Bancos</a></li>
 				</ul>				
 				<div class="tab-content content-profile">
-					<div class="tab-pane fade in active" id="General">
+					<div class="tab-pane fade active in" id="General">
 						<form id="Administracion" name="Administracion" method="post">
 							<div class="tab-content content-profile">	
 								<div class="profile-section">		

@@ -13,7 +13,6 @@
 	$Afiliado ="";
 	$Usuario ="";
 	$Campana ="";
-	$Estado ="";
 	$Estado_Campana ="";
 	$Fecha =date("Y-m-d");
 	$Nombre="";
@@ -35,7 +34,7 @@
 
 	if (isset($_GET['Numero'])) {
 
-		$query=mysqli_query($con, "select Ventas.Numero,Ventas.Afiliado,Ventas.Usuario,Ventas.Campana,Ventas.Estado,
+		$query=mysqli_query($con, "select Ventas.Numero,Ventas.Afiliado,Ventas.Usuario,Ventas.Campana,
 		Ventas.Estado_Campana,Ventas.Fecha,Ventas.Transportadora,Ventas.Seguimiento,Ventas.NumeroNip,Ventas.DataCreditoTipo,
 		Ventas.Servicio,Ventas.Canal,Ventas.NumeroCelular,Ventas.OperadorVenta,Ventas.OperadorDonante,Ventas.NumeroSim,
 		Ventas.Valor,Ventas.Porcentaje_Comision,usuarios.Nit,usuarios.Razon_Social
@@ -45,7 +44,6 @@
 		$Afiliado =$rw_Admin['Afiliado'];
 		$Usuario =$rw_Admin['Usuario'];
 		$Campana =$rw_Admin['Campana'];
-		$Estado =$rw_Admin['Estado'];
 		$Estado_Campana =$rw_Admin['Estado_Campana'];
 		$Fecha =$rw_Admin['Fecha'];
 		$Transportadora=$rw_Admin['Transportadora'];
@@ -191,21 +189,6 @@
 									<div  id="Estados">
 										
 										
-									</div>
-									<div class="col-md-4">
-									<?php 
-										if($EstadoV == "Nuevo"){
-											echo '
-											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Pendiente" >';
-										} else {
-											
-											echo '
-											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="'.$Estado.'" >';
-
-											
-											
-										}
-									?>
 									</div>
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Valor</label>
@@ -367,20 +350,21 @@ $( "#Consultar" ).click(function( event ) {
 
 })
 $( "#Guardar_Ventas" ).submit(function( event ) {
-			var parametros = $(this).serialize();
-			$.ajax({
-				type: "POST",
-				url: "Componentes/Ajax/Guardar_Ventas.php",
-				data: parametros,
-				beforeSend: function(objeto){
-					$("#resultados_ajax2").html("Mensaje: Cargando...");
-				},
-				success: function(datos){
-					$("#resultados_ajax2").html(datos);
-				}
-			});
-			event.preventDefault();
-		})
+	var parametros = $(this).serialize();
+	$.ajax({
+		type: "POST",
+		url: "Componentes/Ajax/Guardar_Ventas.php",
+		data: parametros,
+		beforeSend: function(objeto){
+			$("#resultados_ajax2").html("Mensaje: Cargando...");
+		},
+		success: function(datos){
+			$("#resultados_ajax2").html(datos);
+		}
+	});
+	event.preventDefault();
+})
+
 function CargarEstados(){
 			var Campana = $("#Campana").val();
 			var Est_camp = $("#Est_camp").val();

@@ -8,10 +8,10 @@
 					
 				  </div>
 				  <div class="modal-body">
-					<form class="form-horizontal">
+					<form class="form-horizontal" method="post"  id="Actualizar_Ventas" name="Actualizar_Ventas">
 					  <div class="form-group">
 						<div class="col-md-3">		
-							<input type="hidden" id="Numero_Venta">
+							<input type="text"class="hidden" id="Numero_Venta"name="Numero_Venta">
 							<?php
 							if($_SESSION['Rol']<>'2'){
 								?>
@@ -31,13 +31,15 @@
 						
 						<!--<button type="button" class="btn btn-default" onclick="loadc(1)"><span class='glyphicon glyphicon-search'></span> Buscar</button>-->
 					  </div>
-					</form>
-					<div id="loaderc" style="position: absolute;	text-align: center;	top: 55px;	width: 100%;display:none;"></div><!-- Carga gif animado -->
+						<div id="resultados_ajax2"></div>
+						<div id="loaderc" style="position: absolute;	text-align: center;	top: 55px;	width: 100%;display:none;"></div><!-- Carga gif animado -->
 					<div class="outer_divc" ></div><!-- Datos ajax Final -->
 				  </div>
 				  <div class="modal-footer">
 					<button type="submit" class="btn btn-primary">Guardar datos</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+					
+					</form>
 					
 				  </div>
 				</div>

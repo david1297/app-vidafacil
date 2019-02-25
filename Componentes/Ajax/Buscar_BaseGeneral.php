@@ -65,8 +65,8 @@
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-BaseGeneral.php';
 		$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
-		VENTAS.Estado,
-		CAMPANAS.NOMBRE AS Campana,ventas.Valor,ventas.Porcentaje_Comision FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		VENTAS.Estado_Campana,
+		CAMPANAS.NOMBRE AS Campana,ventas.Valor,ventas.Porcentaje_Comision,Ventas.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
@@ -84,6 +84,7 @@
 					<th class="text-right">Comision</th>
 
 					<th class='text-right'>Editar</th>
+					<th class='text-right'></th>
 				</tr>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
@@ -93,11 +94,10 @@
 						$Valor=$row['Valor'];
 						$Usuario=$row['Razon_Social'];
 						$Campana=$row['Campana'];
-						$Estado=$row['Estado'];
+						$Estado=$row['Estado_Campana'];
 						$Porcentaje_Comision=$row['Porcentaje_Comision'];
-						if ($Estado=="Aprobada"){$label_class='label-success';}
-						if ($Estado=="Rechazada"){$label_class='label-danger';}
-						if ($Estado=="Pendiente"){$label_class='label-warning';}
+						$label_class='label-default';
+						$NCampana=$row['NCampana'];
 						
 					?>
 					<tr>
@@ -112,6 +112,23 @@
 
 						<td class="text-right">
 							<a href="#" class='btn btn-default' title='Editar Campañas' onclick="obtener_datos('<?php echo $Numero;?>','<?php echo $Estado;?>');"  data-toggle="modal" data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i></a> 
+						</td>
+						<td>
+						<?php
+						$query1=mysqli_query($con, "select * from Campanas where Numero ='".$NCampana."' ");
+						$rw_Admin=mysqli_fetch_array($query1);
+						$tuArray = explode("\r\n", $rw_Admin['Estados']);
+						
+						echo' <select class="form-control hidden" id="Estado_Campana'.$Numero.'" name ="Estado_Campana" placeholder="Estado Campaña">';
+						foreach($tuArray as  $indice => $palabra){
+							if ($Estado==$palabra){
+								echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
+							} else{
+								echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
+							}
+						}  
+						echo '</select>';
+						?>
 						</td>
 
 					</tr>

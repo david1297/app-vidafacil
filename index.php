@@ -51,11 +51,11 @@
 										<div id="number-chart1" class="inlinesparkline">
 										<?PHP	
 										$Total_Semana_Ant=0;
-											$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR  FROM VENTAS WHERE WEEK(ventas.fecha) =WEEK(NOW())-1 and ventas.Estado='Aprobada';");
+											$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR  FROM VENTAS WHERE WEEK(ventas.fecha) =WEEK(NOW())-1 ;");
 											$rw_Admin1=mysqli_fetch_array($query1);
 											$Total_Semana_Ant=$rw_Admin1['VALOR'];
 											$Total_Semana=0;
-											$query1=mysqli_query($con, "SELECT SUM(VALOR) VALOR,day(ventas.fecha) AS DIA  FROM VENTAS WHERE WEEK(ventas.fecha) =WEEK(NOW()) and ventas.Estado='Aprobada' group by DIA;");
+											$query1=mysqli_query($con, "SELECT SUM(VALOR) VALOR,day(ventas.fecha) AS DIA  FROM VENTAS WHERE WEEK(ventas.fecha) =WEEK(NOW())  group by DIA;");
 											$h=0;
 											while($rw_Admin1=mysqli_fetch_array($query1)){
 												if ($h==0){
@@ -87,13 +87,13 @@
 										$Total_Semana_Ant=0;
 											$query1=mysqli_query($con, "SELECT SUM((ventas.valor*ventas.Porcentaje_Comision)/100) VALOR  FROM VENTAS 
 								
-											WHERE WEEK(ventas.fecha) =WEEK(NOW())-1 and Porcentaje_Comision<>0 and ventas.Estado='Aprobada';");
+											WHERE WEEK(ventas.fecha) =WEEK(NOW())-1 and Porcentaje_Comision<>0 ;");
 											$rw_Admin1=mysqli_fetch_array($query1);
 											$Total_Semana_Ant=$rw_Admin1['VALOR'];
 											$Total_Semana=0;
 											$query1=mysqli_query($con, "SELECT SUM((ventas.valor*ventas.Porcentaje_Comision)/100) VALOR,day(ventas.fecha) AS DIA  FROM VENTAS 
 										
-											WHERE WEEK(ventas.fecha) =WEEK(NOW()) and Porcentaje_Comision<>0 and ventas.Estado='Aprobada' group by DIA;");
+											WHERE WEEK(ventas.fecha) =WEEK(NOW()) and Porcentaje_Comision<>0  group by DIA;");
 											$h=0;
 											while($rw_Admin1=mysqli_fetch_array($query1)){
 												if ($h==0){
@@ -140,7 +140,7 @@
 											<span>
 											<?php
 												$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
-												where fecha=CURDATE() and ventas.Estado='Aprobada' ; ");
+												where fecha=CURDATE()  ; ");
 																			$rw_Admin1=mysqli_fetch_array($query1);
 												echo '$ '.number_format($rw_Admin1['VALOR']).'</span></li>
 												<li class="clearfix">Comisiones <span>$ '.number_format($rw_Admin1['Comision']).'</span></li>
@@ -160,7 +160,7 @@
 										$Comision_Semana_Ant=0;
 										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
 									
-										where WEEK(ventas.fecha) =WEEK(NOW())-1 and ventas.Estado='Aprobada'; ");
+										where WEEK(ventas.fecha) =WEEK(NOW())-1 ; ");
 										$rw_Admin1=mysqli_fetch_array($query1);
 										$Total_Semana_Ant=$rw_Admin1['VALOR'];
 										$NVentas_Semana_Ant=$rw_Admin1['NVentas'];
@@ -171,7 +171,7 @@
 										$Comision_Semana=0;
 										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
 									
-										where WEEK(ventas.fecha) =WEEK(NOW()) and ventas.Estado='Aprobada'; ");
+										where WEEK(ventas.fecha) =WEEK(NOW()) ; ");
 										$rw_Admin1=mysqli_fetch_array($query1);
 										$Total_Semana=$rw_Admin1['VALOR'];
 										$NVentas_Semana=$rw_Admin1['NVentas'];
@@ -281,7 +281,7 @@
 													$query1=mysqli_query($con, "SELECT campanas.Nombre, SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
 													
 													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
-													where fecha=CURDATE() and ventas.Estado='Aprobada' group by campanas.Nombre;");
+													where fecha=CURDATE()  group by campanas.Nombre;");
 													$h=0;
 													while($rw_Admin1=mysqli_fetch_array($query1)){
 														echo '
@@ -320,12 +320,12 @@
 												<?php
 													$query1=mysqli_query($con, "SELECT campanas.Nombre,Campanas.Numero, SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
 													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
-													where WEEK(ventas.fecha) =WEEK(NOW()) and ventas.Estado='Aprobada' group by campanas.Nombre,Campanas.Numero;");
+													where WEEK(ventas.fecha) =WEEK(NOW())  group by campanas.Nombre,Campanas.Numero;");
 													$h=0;
 													while($rw_Admin1=mysqli_fetch_array($query1)){
 														$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
 													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
-													where WEEK(ventas.fecha) =WEEK(NOW())-1 and ventas.Estado='Aprobada' and Campanas.Numero=".$rw_Admin1['Numero'].";");
+													where WEEK(ventas.fecha) =WEEK(NOW())-1  and Campanas.Numero=".$rw_Admin1['Numero'].";");
 														$rw_Admin=mysqli_fetch_array($query);
 														echo '
 														<tr>
@@ -645,7 +645,7 @@ var myChart = new Chart(ctx, {
 				$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,usuarios.Tipo FROM vidafacil.ventas 
 				INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
 
-				where  WEEK(ventas.fecha) =WEEK(NOW()) and ventas.Estado='Aprobada'group by usuarios.Tipo;  ");
+				where  WEEK(ventas.fecha) =WEEK(NOW()) group by usuarios.Tipo;  ");
 				while($rw_Admin=mysqli_fetch_array($query)){
 				if ($rw_Admin['Tipo']=='Distribuidor'){
 					$Dis=$rw_Admin['VALOR'];
@@ -696,7 +696,7 @@ var chart = new Chart(ctx, {
 						$Oct=0;
 						$Nov=0;
 						$Dic=0;
-							$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,month(ventas.fecha) mes FROM VENTAS WHERE year(ventas.fecha) =year(NOW()) and ventas.Estado='Aprobada' group by mes;  ");
+							$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,month(ventas.fecha) mes FROM VENTAS WHERE year(ventas.fecha) =year(NOW())  group by mes;  ");
 							while($rw_Admin1=mysqli_fetch_array($query1)){
 								if($rw_Admin1['mes']=='1'){
 									$Ene=$rw_Admin1['VALOR'];
