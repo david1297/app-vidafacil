@@ -32,8 +32,52 @@ $( "#ExportarExcel" ).click(function( event ) {
 			var Estado = $("#FEstado").val();
 			var fechaIni = $("#fechaIni").val();
 			var fechaFin = $("#fechaFin").val();
-			location.href='Componentes/Ajax/Exportar_Contabilidad.php?action=ajax&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&Pest='+Pest;
-			
+			$("#loader").fadeIn('slow');
+			$.ajax({
+				url:'Componentes/Ajax/Exportar_Contabilidad.php?action=ajax&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&Pest='+Pest,
+				 beforeSend: function(objeto){
+				 $('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			  },
+				success:function(dataR){
+					var string ='{"user_id": "1", "auth_id": "1"}';
+
+					var data=JSON.parse('['+dataR+']');
+					var NombreXLS='';
+					$('#loader').html('');
+					if(Pest =='ResEgresos'){
+						NombreXLS="Egresos";
+					}else{
+						if(Pest =='ResIngresos'){
+							NombreXLS="Ingresos";
+							
+						}
+					}
+					
+	/* this line is only needed if you are not adding a script tag reference */
+	if(typeof XLSX == 'undefined') XLSX = require('xlsx');
+	
+	/* make the worksheet */
+	var ws = XLSX.utils.json_to_sheet(data);
+	
+	/* add to workbook */
+	var wb = XLSX.utils.book_new();
+	XLSX.utils.book_append_sheet(wb, ws, NombreXLS);
+	
+	/* generate an XLSX file */
+						var hoy = new Date();
+						y = hoy.getFullYear();
+//Mes
+m = hoy.getMonth() + 1;
+//Día
+d = hoy.getDate();
+						
+	XLSX.writeFile(wb, NombreXLS+" "+d + "-" + m + "-" + y+".xlsx");
+				}
+			})
+
+
+	
+	
 
 })
 

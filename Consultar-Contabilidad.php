@@ -100,6 +100,7 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script type="text/javascript" src="Componentes/JavaScript/Contabilidad.js"></script>
+	<script lang = "javascript"  src = "js-xlsx-master/dist/xlsx.full.min.js"> </script>
 
 	<script>
 	$("#ClickIngresos").click(function( event){

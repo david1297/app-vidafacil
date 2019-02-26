@@ -1,14 +1,4 @@
 <?php
-
-header('Content-type:application/xls');
-header('Content-Disposition: attachment; filename=usuarios.xls');
-
-$csv_filename = 'db_export_'.date('Y-m-d').'.csv';
-header("Content-type: text/x-csv");
-header("Content-Disposition: attachment; filename=".$csv_filename."");
-
-
-
 	include('is_logged.php');
 	require_once ("../../config/db.php");
 	require_once ("../../config/conexion.php");
@@ -116,21 +106,10 @@ header("Content-Disposition: attachment; filename=".$csv_filename."");
 			$query = mysqli_query($con, $sql);
 		
 				echo mysqli_error($con);
-				?>
-				<div class="table-responsive">
-				  <table class="table table-hover">
-					<tr  class="warning">
-						<th class="text-center">Numero</th>
-						<th>Afiliado</th>
-						<th>Usuario</th>
-						<th>Campaña</th>
-						<th>Fecha</th>
-						<th>Estado</th>
-						<th class="text-right">Valor</th>
-					</tr>
-					<?php
+				$Array="";
+				
 					while ($row=mysqli_fetch_array($query)){
-	
+						
 							$Numero=$row['Numero'];
 							$Afiliado=$row['Primer_Nombre'].' '.$row['Primer_Apellido'] ;
 							$Valor=$row['Valor'];
@@ -141,26 +120,15 @@ header("Content-Disposition: attachment; filename=".$csv_filename."");
 							$Porcentaje_Comision=$row['Porcentaje_Comision'];
 							$label_class='label-default';
 							$NCampana=$row['NCampana'];
-							
-						?>
-						<tr>
-							<td class="text-center"><?php echo $Numero; ?></td>
-							<td><?php echo $Afiliado; ?></td>
-							<td><?php echo $Usuario; ?></td>
-							<td><?php echo $Campana; ?></td>
-							<td><?php echo date("d-m-Y", strtotime($Fecha)); ?></td>
-							<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>
-							<td class="text-right"><?php echo '$'.number_format($Valor); ?></td>
-	
-	
-						</tr>
-						<?php
+							if($Array==''){
+								$Array.='{"Numero":"'.$Numero.'", "Afiliado": "'.$Afiliado.'", "Usuario": "'.$Usuario.'", "Campaña": "'.$Campana.'", "Fecha": "'.date("d-m-Y", strtotime($Fecha)).'", "Estado": "'.$Estado.'", "Valor": "'.$Valor.'"}';
+							}else{
+								$Array.=',{"Numero":"'.$Numero.'", "Afiliado": "'.$Afiliado.'", "Usuario": "'.$Usuario.'", "Campaña": "'.$Campana.'", "Fecha": "'.date("d-m-Y", strtotime($Fecha)).'", "Estado": "'.$Estado.'", "Valor": "'.$Valor.'"}';
+
+							}
+						
 					}
-					?>
 					
-				  </table>
-				</div>
-				<?php
 			
 		}else{
 			if($Pest=='ResEgresos'){
@@ -170,19 +138,9 @@ header("Content-Disposition: attachment; filename=".$csv_filename."");
 				$query = mysqli_query($con, $sql);
 				
 					echo mysqli_error($con);
-					?>
-					<div class="table-responsive">
-					  <table class="table table-hover">
-						<tr  class="warning">
-							<th class="text-center">Numero</th>
-							<th>Afiliado</th>
-							<th>Usuario</th>
-							<th>Campaña</th>
-							<th>Fecha</th>
-							<th class="text-right">Porcentaje</th>
-							<th class="text-right">Comision</th>
-						</tr>
-						<?php
+					
+					$Array="";
+					
 						while ($row=mysqli_fetch_array($query)){
 		
 								$Numero=$row['Numero'];
@@ -195,26 +153,15 @@ header("Content-Disposition: attachment; filename=".$csv_filename."");
 								$Porcentaje_Comision=$row['Porcentaje'];
 								$label_class='label-default';
 								$NCampana=$row['NCampana'];
-								
-							?>
-							<tr>
-								<td class="text-center"><?php echo $Numero; ?></td>
-								<td><?php echo $Afiliado; ?></td>
-								<td><?php echo $Usuario; ?></td>
-								<td><?php echo $Campana; ?></td>
-								<td><?php echo date("d-m-Y", strtotime($Fecha)); ?></td>
-								<td class="text-right"><?php echo $Porcentaje_Comision.'%'; ?></td>
-								<td class="text-right"><?php echo '$'.number_format($Valor); ?></td>
-		
-		
-							</tr>
-							<?php
+								if($Array==''){
+									$Array.='{"Numero":"'.$Numero.'", "Afiliado": "'.$Afiliado.'", "Usuario": "'.$Usuario.'", "Campaña": "'.$Campana.'", "Fecha": "'.date("d-m-Y", strtotime($Fecha)).'", "Porcentaje": "'.$Porcentaje_Comision.'", "Comision": "'.$Valor.'"}';
+								}else{
+									$Array.=',{"Numero":"'.$Numero.'", "Afiliado": "'.$Afiliado.'", "Usuario": "'.$Usuario.'", "Campaña": "'.$Campana.'", "Fecha": "'.date("d-m-Y", strtotime($Fecha)).'", "Porcentaje": "'.$Porcentaje_Comision.'", "Comision": "'.$Valor.'"}';
+	
+								}
+							
 						}
-						?>
 						
-					  </table>
-					</div>
-					<?php
 				}		
 		}
 
@@ -222,4 +169,5 @@ header("Content-Disposition: attachment; filename=".$csv_filename."");
 		
 		
 	}
+	echo $Array;
 ?>
