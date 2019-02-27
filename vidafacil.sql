@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-02-2019 a las 17:31:55
--- Versión del servidor: 10.1.34-MariaDB
--- Versión de PHP: 7.2.8
+-- Tiempo de generación: 27-02-2019 a las 03:17:24
+-- Versión del servidor: 10.1.36-MariaDB
+-- Versión de PHP: 7.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -70,16 +70,15 @@ CREATE TABLE `afiliados` (
   `Direccion_Firma` varchar(200) NOT NULL,
   `Fecha_Firma` date NOT NULL,
   `Horario` time NOT NULL,
-  `Estado` varchar(20) NOT NULL,
-  `Fecha_Expedicion` date NOT NULL
+  `Estado` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `afiliados`
 --
 
-INSERT INTO `afiliados` (`Identificacion`, `Primer_Nombre`, `Segundo_Nombre`, `Primer_Apellido`, `Segundo_Apellido`, `Tipo_Identificacion`, `Fecha_Nacimiento`, `Nacionalidad`, `Ciudad`, `Departamento`, `Direccion`, `Direccion_Adicional`, `Estrato`, `Nivel_Educacion`, `Ocupacion`, `Rango_Ingresos`, `Forma_Pago`, `Telefono`, `Correo`, `Direccion_Firma`, `Fecha_Firma`, `Horario`, `Estado`, `Fecha_Expedicion`) VALUES
-('1112492933', 'JUAN', 'DAVID', 'ANDRADE', 'VALENCIA', 'Cedula', '1997-12-17', 'NariÃ±o', 138, 2, 'CALLE 23 # 49A-16', 'SA', 2, 'Universitario', 'Empleado', 2, 5, '32231', 'l@gmail.com', '1', '2019-01-31', '12:00:00', 'Activo', '0000-00-00');
+INSERT INTO `afiliados` (`Identificacion`, `Primer_Nombre`, `Segundo_Nombre`, `Primer_Apellido`, `Segundo_Apellido`, `Tipo_Identificacion`, `Fecha_Nacimiento`, `Nacionalidad`, `Ciudad`, `Departamento`, `Direccion`, `Direccion_Adicional`, `Estrato`, `Nivel_Educacion`, `Ocupacion`, `Rango_Ingresos`, `Forma_Pago`, `Telefono`, `Correo`, `Direccion_Firma`, `Fecha_Firma`, `Horario`, `Estado`) VALUES
+('1112492933', 'JUAN', 'DAVID', 'ANDRADE', 'VALENCIA', 'Cedula', '1997-12-17', 'NariÃ±o', 138, 2, 'CALLE 23 # 49A-16', 'SA', 2, 'Universitario', 'Empleado', 2, 5, '32231', 'l@gmail.com', '1', '2019-01-31', '12:00:00', 'Activo');
 
 -- --------------------------------------------------------
 
@@ -98,10 +97,10 @@ CREATE TABLE `bancos` (
 
 INSERT INTO `bancos` (`Numero`, `Nombre`) VALUES
 (1, 'BANCOLOMBIA'),
-(2, 'BANCO FALABELLA'),
 (3, 'BANCO DE BOGOTA'),
 (4, 'DAVIVIENDA'),
-(5, 'NEQUI');
+(5, 'NEQUI'),
+(7, 'BANCO FALABELLA');
 
 -- --------------------------------------------------------
 
@@ -130,7 +129,7 @@ CREATE TABLE `campanas` (
 INSERT INTO `campanas` (`Numero`, `Nombre`, `Contacto`, `Area`, `Estado`, `Porcentaje`, `Observaciones`, `Estados`, `Seguimiento`, `Transportadoras`, `Telefonica`) VALUES
 (1, 'SVF', 'yo', 'Administrativa', 'Activa', 10, 'OBSERVACIONES DE LA CAMPAÃ‘A', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado', 'Devuelto Al Remitente.\r\nDirecciÃ³n Errada.\r\nDirecciÃ³n Incompleta.\r\nEn EnviÃ³.', 'Aeropostal.\r\nBici Mail.\r\nCoordinadora.', ''),
 (2, 'EMERMEDICA', 'yo', 'Administriva', 'Activa', 0, '', 'Estado1\r\nEstado3\r\nEjemplo', '', '', ''),
-(3, 'MOVISTAR', 'obvio yo', 'todas', 'Activa', 50, 'OBSERVACIONES DE LA CAMPAÃ‘A', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado\r\nEn Proceso\r\nPagado\r\nPor Pagar\r\nPara Descontar', 'Devuelto Al Remitente.\r\nDirecciÃ³n Errada.\r\nDirecciÃ³n Incompleta.\r\nEn EnviÃ³.\r\nEntrega Exitosa.\r\nNo Desea Recibir.\r\nNo Desea Recibir.\r\nZona De EnviÃ³.', 'Aeropostal.\r\nBici Mail.\r\nCoordinadora.\r\nTCC.\r\nInterrapÃ­disimo.\r\nDHL.\r\nEnvÃ­a.\r\n4/72.\r\nDeprisa.\r\nFedex.\r\nServientrega.', 'True'),
+(3, 'TELEFONIA', 'obvio yo', 'todas', 'Activa', 50, 'OBSERVACIONES DE LA CAMPAÃ‘A', 'Pendientes\r\nOk\r\nAprobado\r\nRechazado\r\nEn Proceso\r\nPagado\r\nPor Pagar\r\nPara Descontar', 'Devuelto Al Remitente.\r\nDirecciÃ³n Errada.\r\nDirecciÃ³n Incompleta.\r\nEn EnviÃ³.\r\nEntrega Exitosa.\r\nNo Desea Recibir.\r\nNo Desea Recibir.\r\nZona De EnviÃ³.', 'Aeropostal.\r\nBici Mail.\r\nCoordinadora.\r\nTCC.\r\nInterrapÃ­disimo.\r\nDHL.\r\nEnvÃ­a.\r\n4/72.\r\nDeprisa.\r\nFedex.\r\nServientrega.', 'True'),
 (4, 'prueba', 'sebastian', 'ventas', 'Activa', 30, 's', 'as', 's', 's', 'True');
 
 -- --------------------------------------------------------
@@ -1277,21 +1276,6 @@ INSERT INTO `ciudades` (`Codigo`, `Departamento`, `Nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cuenta_virtual`
---
-
-CREATE TABLE `cuenta_virtual` (
-  `Numero` int(11) NOT NULL,
-  `Usuario` varchar(30) NOT NULL,
-  `Venta` int(11) NOT NULL,
-  `Valor` double NOT NULL,
-  `Porcentaje` double NOT NULL,
-  `Comision` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `departamentos`
 --
 
@@ -1354,14 +1338,12 @@ CREATE TABLE `formas_pago` (
 --
 
 INSERT INTO `formas_pago` (`Codigo`, `Descripcion`) VALUES
+(1, 'Codensa1'),
 (2, 'Cheque'),
 (3, 'Contra-Entrega'),
 (4, 'Datafono'),
 (5, 'Efectivo'),
-(8, 'Tarjeta Credito'),
-(9, 'Tarjeta Debito'),
-(16, 'otro'),
-(17, 'jojo');
+(6, 'Tarjeta Credito');
 
 -- --------------------------------------------------------
 
@@ -1394,7 +1376,22 @@ INSERT INTO `observaciones_ventas` (`Numero`, `Venta`, `Fecha`, `Observacion`, `
 (10, 0, '2019-02-06', 'Observacion Usuario', '1112492933'),
 (11, 8, '2019-02-06', 'dxa', '9008211529'),
 (12, 8, '2019-02-06', 'holi que hace', '1112492933'),
-(13, 2, '2019-02-11', 'ejemplo observacion', '1112492933');
+(13, 2, '2019-02-11', 'ejemplo observacion', '1112492933'),
+(14, 0, '2019-02-16', 'ELMORREA', '1112492933');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `permisos`
+--
+
+CREATE TABLE `permisos` (
+  `Numero` int(11) NOT NULL,
+  `Modulo` varchar(50) DEFAULT NULL,
+  `Permiso` varchar(100) DEFAULT NULL,
+  `Estado` varchar(50) DEFAULT NULL,
+  `Usuario` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1482,7 +1479,7 @@ INSERT INTO `usuarios` (`Nit`, `Tipo_Persona`, `Tipo`, `Apellido`, `Nombre`, `Ra
 ('1112492933', 'Natural', 'Distribuidor', 'Andrade Valencia ', 'Juan David', 'Juan David Andrade Valencia ', '33', '1', 'juandavid.andrade1997@gmail.com', '1', 'fandacion@gmail.com', 'ANTHONY MONTERO RUIZ', '321654', 'juan david andrade', '3008930251', 'juan david andrade', '300', 1, '$2y$10$a9TM97e.oAPp0YBSj8OCi.gKSgQ.rCSsJFD5rBOidu9OnUcIWq5LG', 10, 'Activo', 'BANCOLOMBIA', 'Ahorros', '123', 'BANCO FALABELLA', 'Ahorros', '123', 'yo', 'obvio'),
 ('123456789', 'Juridica', 'Operador', '', '', 'ejemplo', '32165', 'calle', 'ejemplo@gmail.com', '32165', 'ejemplo@gmail.com', 'r', 'a', 'a', 'a', 'a', 'a', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 10, 'InActivo', 'NEQUI', 'Telefonica', '3106949631', 'BANCO DE BOGOTA', 'Corriente', '3214', 'ejemplo', 'el banco'),
 ('8000099734', 'Juridica', 'Distribuidor', '', '', 'LUVAGA CIA LTDA.', '665 25 09', 'Av 4B Norte # 37 A - 127', 'contabilidad@luvaga.com', '664 01 01', 'contabilidad@luvaga.com', 'LUIS ENRIQUE', '79589752', '1', '1', '1', '1', 2, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 10, 'InActivo', 'BANCOLOMBIA', 'Ahorros', '79589752', 'NEQUI', 'Telefonica', '79589752', 'LUIS ENRIQUE', 'LUIS ENRIQUE'),
-('9005104631', 'Juridica', 'Distribuidor', '', '', 'KUMBA INFLABLES SAS', '3008930251', 'Carrera 95# 2b1-86, 1', 'juandavid.andrade1997@gmail.com', '123456', 'juandavid.andrade@gmail.com', 'benito', '66901489', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 1, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 1, 'InActivo', '', '', '', '', '', '', '', ''),
+('9005104631', 'Juridica', 'Distribuidor', '', '', 'KUMBA INFLABLES SAS', '3008930251', 'Carrera 95# 2b1-86, 1', 'juandavid.andrade1997@gmail.com', '123456', 'juandavid.andrade@gmail.com', 'benito', '66901489', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 1, '$2y$10$1AtZ7bGgoOJ8r9TnZsYlmuBnfsGb91ePbjUg0CbbsX.p3U74oe5he', 1, 'InActivo', '', '', '', '', '', '', '', ''),
 ('9008211529', 'Juridica', 'Distribuidor', '', '', 'JGH PROYECTOS Y SERVICIOS S.A.S', '3008930251', 'Carrera 95# 2b1-86, 1', 'juandavid.andrade1997@gmail.com', '123456', 'juandavid.andrade1997@gmail.com', 'JHON ALEXANDER', '321654', 'juan david andrade', '3008930251', 'juan david andrade', '3008930251', 2, '$2y$10$QTAFO8CodSKEVi94BbHsyed1r/rC4RxTd8PVhhdHZwb9kLAETB.rS', 1, 'Activo', 'BANCOLOMBIA', 'Ahorros', '123', 'BANCOLOMBIA', 'Ahorros', '123', '', '');
 
 -- --------------------------------------------------------
@@ -1492,6 +1489,7 @@ INSERT INTO `usuarios` (`Nit`, `Tipo_Persona`, `Tipo`, `Apellido`, `Nombre`, `Ra
 --
 
 CREATE TABLE `usuario_camp` (
+  `Numero` int(11) NOT NULL,
   `Campana` int(11) NOT NULL,
   `Usuario` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1500,19 +1498,48 @@ CREATE TABLE `usuario_camp` (
 -- Volcado de datos para la tabla `usuario_camp`
 --
 
-INSERT INTO `usuario_camp` (`Campana`, `Usuario`) VALUES
-(1, '1112492933'),
-(1, '8000099734'),
-(1, '9005104631'),
-(1, '9008211529'),
-(2, '1112492933'),
-(2, '8000099734'),
-(2, '9008211529'),
-(3, '1112492933'),
-(3, '9008211529'),
-(4, '1112492933'),
-(4, '8000099734'),
-(4, '9008211529');
+INSERT INTO `usuario_camp` (`Numero`, `Campana`, `Usuario`) VALUES
+(105, 1, '9005104631'),
+(107, 1, '8000099734'),
+(122, 3, '9008211529'),
+(123, 1, '9008211529'),
+(124, 4, '9008211529'),
+(125, 2, '9008211529'),
+(126, 1, '1112492933'),
+(127, 4, '1112492933'),
+(128, 2, '1112492933'),
+(129, 3, '1112492933');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `u_camp_temp`
+--
+
+CREATE TABLE `u_camp_temp` (
+  `Numero_Temp` int(11) NOT NULL,
+  `Numero` int(11) NOT NULL,
+  `Nombre` varchar(80) NOT NULL,
+  `Porcentaje` float NOT NULL,
+  `session_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Nit` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `u_camp_temp`
+--
+
+INSERT INTO `u_camp_temp` (`Numero_Temp`, `Numero`, `Nombre`, `Porcentaje`, `session_id`, `Nit`) VALUES
+(360, 3, 'TELEFONIA', 50, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
+(361, 1, 'SVF', 10, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
+(362, 4, 'prueba', 30, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
+(363, 2, 'EMERMEDICA', 0, '9c7uavi731cupom6oss5pie6bu', '9008211529'),
+(400, 1, 'SVF', 10, '1pfi24isu2ivtbsg4n7dt9ud01', '8000099734'),
+(401, 1, 'SVF', 10, '1pfi24isu2ivtbsg4n7dt9ud01', '9005104631'),
+(402, 1, 'SVF', 10, '1pfi24isu2ivtbsg4n7dt9ud01', '1112492933'),
+(403, 4, 'prueba', 30, '1pfi24isu2ivtbsg4n7dt9ud01', '1112492933'),
+(404, 2, 'EMERMEDICA', 0, '1pfi24isu2ivtbsg4n7dt9ud01', '1112492933'),
+(405, 3, 'TELEFONIA', 50, '1pfi24isu2ivtbsg4n7dt9ud01', '1112492933');
 
 -- --------------------------------------------------------
 
@@ -1537,26 +1564,23 @@ CREATE TABLE `ventas` (
   `NumeroCelular` varchar(20) NOT NULL,
   `OperadorVenta` varchar(80) NOT NULL,
   `OperadorDonante` varchar(80) NOT NULL,
-  `NumeroSim` varchar(20) NOT NULL,
-  `Valor` double NOT NULL,
-  `Porcentaje_Comision` double NOT NULL,
-  `Liquidada` varchar(20) NOT NULL
+  `NumeroSim` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `ventas`
 --
 
-INSERT INTO `ventas` (`Numero`, `Afiliado`, `Usuario`, `Campana`, `Estado`, `Estado_Campana`, `Fecha`, `Seguimiento`, `Transportadora`, `NumeroNip`, `DataCreditoTipo`, `Servicio`, `Canal`, `NumeroCelular`, `OperadorVenta`, `OperadorDonante`, `NumeroSim`, `Valor`, `Porcentaje_Comision`, `Liquidada`) VALUES
-(0, '1112492933', '1112492933', 1, 'Aprobada', 'Pendientes', '2019-01-01', 'Devuelto Al Remitente.', 'Aeropostal.', '', '', '', '', '', '', '', '', 9000000, 0, 'False'),
-(1, '1112492933', '1112492933', 3, 'Pendiente', 'Pendientes', '0000-00-00', '', '', '', '', '', '', '', '', '', '0', 0, 0, ''),
-(2, '1112492933', '1112492933', 3, 'Rechazada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '1', '2', '1', 'Movil', '1', 'Claro', 'Avantel', '1', 0, 0, ''),
-(3, '1112492933', '1112492933', 2, 'Pendiente', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0', 0, 0, ''),
-(4, '1112492933', '1112492933', 2, 'Rechazada', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0', 0, 0, ''),
-(5, '1112492933', '1112492933', 1, 'Aprobada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '', '', '', '', '', '', '', '', 0, 0, ''),
-(6, '1112492933', '1112492933', 2, 'Pendiente', 'Estado3', '2019-02-06', '', '', '', '', '', '', '', '', '', '0', 0, 0, ''),
-(7, '1112492933', '1112492933', 3, 'Aprobada', 'Pagado', '2019-02-06', 'En EnviÃ³.', 'DHL.', '', '', '', '', '', '', '', '0', 0, 0, ''),
-(8, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-06', 'Devuelto Al Remitente.', 'Bici Mail.', '', '', '', '', '', '', '', '0', 0, 0, '');
+INSERT INTO `ventas` (`Numero`, `Afiliado`, `Usuario`, `Campana`, `Estado`, `Estado_Campana`, `Fecha`, `Seguimiento`, `Transportadora`, `NumeroNip`, `DataCreditoTipo`, `Servicio`, `Canal`, `NumeroCelular`, `OperadorVenta`, `OperadorDonante`, `NumeroSim`) VALUES
+(0, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-16', 'Devuelto Al Remitente.', 'Aeropostal.', '1', '1', '1', 'Movil', '00000411', 'Claro', 'Avantel', '0...21'),
+(1, '1112492933', '1112492933', 3, 'Pendiente', 'Pendientes', '0000-00-00', '', '', '', '', '', '', '', '', '', '0'),
+(2, '1112492933', '1112492933', 3, 'Rechazada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '1', '2', '1', 'Movil', '1', 'Claro', 'Avantel', '1'),
+(3, '1112492933', '1112492933', 2, 'Pendiente', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0'),
+(4, '1112492933', '1112492933', 2, 'Rechazada', 'Estado1', '2019-02-06', '', '', '', '', '', '', '', '', '', '0'),
+(5, '1112492933', '1112492933', 1, 'Aprobada', 'Pendientes', '2019-02-11', 'Devuelto Al Remitente.', 'Aeropostal.', '', '', '', '', '', '', '', ''),
+(6, '1112492933', '1112492933', 2, 'Pendiente', 'Estado3', '2019-02-06', '', '', '', '', '', '', '', '', '', '0'),
+(7, '1112492933', '1112492933', 3, 'Aprobada', 'Pagado', '2019-02-06', 'En EnviÃ³.', 'DHL.', '', '', '', '', '', '', '', '0'),
+(8, '1112492933', '1112492933', 3, 'Aprobada', 'Pendientes', '2019-02-06', 'Devuelto Al Remitente.', 'Bici Mail.', '', '', '', '', '', '', '', '0');
 
 --
 -- Índices para tablas volcadas
@@ -1598,13 +1622,6 @@ ALTER TABLE `ciudades`
   ADD KEY `Departamento` (`Departamento`);
 
 --
--- Indices de la tabla `cuenta_virtual`
---
-ALTER TABLE `cuenta_virtual`
-  ADD PRIMARY KEY (`Numero`),
-  ADD KEY `Usuario` (`Usuario`);
-
---
 -- Indices de la tabla `departamentos`
 --
 ALTER TABLE `departamentos`
@@ -1623,6 +1640,13 @@ ALTER TABLE `observaciones_ventas`
   ADD PRIMARY KEY (`Numero`),
   ADD KEY `Venta` (`Venta`),
   ADD KEY `Usuario` (`Usuario`);
+
+--
+-- Indices de la tabla `permisos`
+--
+ALTER TABLE `permisos`
+  ADD PRIMARY KEY (`Numero`),
+  ADD KEY `Permisos_ibfk_1` (`Usuario`);
 
 --
 -- Indices de la tabla `rango_ingresos`
@@ -1648,9 +1672,17 @@ ALTER TABLE `usuarios`
 -- Indices de la tabla `usuario_camp`
 --
 ALTER TABLE `usuario_camp`
-  ADD PRIMARY KEY (`Campana`,`Usuario`),
+  ADD PRIMARY KEY (`Numero`),
   ADD KEY `Campana` (`Campana`),
   ADD KEY `Usuario` (`Usuario`);
+
+--
+-- Indices de la tabla `u_camp_temp`
+--
+ALTER TABLE `u_camp_temp`
+  ADD PRIMARY KEY (`Numero_Temp`),
+  ADD KEY `Numero` (`Numero`),
+  ADD KEY `Nit` (`Nit`);
 
 --
 -- Indices de la tabla `ventas`
@@ -1669,19 +1701,13 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `bancos`
 --
 ALTER TABLE `bancos`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `ciudades`
 --
 ALTER TABLE `ciudades`
   MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1127;
-
---
--- AUTO_INCREMENT de la tabla `cuenta_virtual`
---
-ALTER TABLE `cuenta_virtual`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `departamentos`
@@ -1693,19 +1719,37 @@ ALTER TABLE `departamentos`
 -- AUTO_INCREMENT de la tabla `formas_pago`
 --
 ALTER TABLE `formas_pago`
-  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `observaciones_ventas`
 --
 ALTER TABLE `observaciones_ventas`
-  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT de la tabla `permisos`
+--
+ALTER TABLE `permisos`
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `rango_ingresos`
 --
 ALTER TABLE `rango_ingresos`
   MODIFY `Codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario_camp`
+--
+ALTER TABLE `usuario_camp`
+  MODIFY `Numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+
+--
+-- AUTO_INCREMENT de la tabla `u_camp_temp`
+--
+ALTER TABLE `u_camp_temp`
+  MODIFY `Numero_Temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=406;
 
 --
 -- Restricciones para tablas volcadas
@@ -1734,6 +1778,12 @@ ALTER TABLE `observaciones_ventas`
   ADD CONSTRAINT `observaciones_ventas_ibfk_2` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`Nit`);
 
 --
+-- Filtros para la tabla `permisos`
+--
+ALTER TABLE `permisos`
+  ADD CONSTRAINT `Permisos_ibfk_1` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`Nit`);
+
+--
 -- Filtros para la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -1745,6 +1795,13 @@ ALTER TABLE `usuarios`
 ALTER TABLE `usuario_camp`
   ADD CONSTRAINT `usuario_camp_ibfk_1` FOREIGN KEY (`Campana`) REFERENCES `campanas` (`Numero`),
   ADD CONSTRAINT `usuario_camp_ibfk_2` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`Nit`);
+
+--
+-- Filtros para la tabla `u_camp_temp`
+--
+ALTER TABLE `u_camp_temp`
+  ADD CONSTRAINT `u_camp_temp_ibfk_1` FOREIGN KEY (`Nit`) REFERENCES `usuarios` (`Nit`),
+  ADD CONSTRAINT `u_camp_temp_ibfk_2` FOREIGN KEY (`Numero`) REFERENCES `campanas` (`Numero`);
 
 --
 -- Filtros para la tabla `ventas`

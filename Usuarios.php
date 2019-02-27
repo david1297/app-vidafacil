@@ -119,7 +119,7 @@
 						?>
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="active"><a href="#Informacion" role="tab" data-toggle="tab">Informacion</a></li>
-							<li><a href="#Permisos" role="tab" data-toggle="tab">Permisos</a></li>
+							<li><a href="#Permisos" role="tab" data-toggle="tab" id="Click_Permisos">Permisos</a></li>
 							<li><a href="#Campanas" role="tab" data-toggle="tab">Campañas</a></li>
 						</ul>
 						<div class="tab-content content-profile">
@@ -458,8 +458,31 @@
 								</form>	
 							</div>
 							<div class="tab-pane fade" id="Permisos">
-								<!-- Permisos-->
-								Aqui Van Los Permisos 
+							<ul class="nav nav-tabs" role="tablist">
+							<li class="active"><a href="#Afiliados" class="Permisos"role="tab" data-toggle="tab" id="Click_Afiliados">Afiliados</a></li>
+							<li><a href="#Contabilidad"class="Permisos" role="tab" data-toggle="tab" id="Click_Contabilidad">Contabilidad</a></li>
+							<li><a href="#Ventas" class="Permisos" role="tab" data-toggle="tab" id="Click_Ventas">Ventas</a></li>
+							<li><a href="#Campanas" class="Permisos"role="tab" data-toggle="tab" id="Click_Campanas">Campañas</a></li>
+							<li><a href="#CuentaVirtual" class="Permisos" role="tab" data-toggle="tab" id="Click_CuentaVirtual">Cuenta Virtual</a></li>
+							<li><a href="#Transferencias" class="Permisos" role="tab" data-toggle="tab" id="Click_Transferencias">Transferencias</a></li>
+						</ul>
+						<div class="tab-content content-profile">
+							<div class="tab-pane fade in active" id="Afiliados">
+							</div>
+							<div class="tab-pane fade" id="Contabilidad">
+							</div>
+							<div class="tab-pane fade" id="Ventas">
+							</div>
+							<div class="tab-pane fade" id="Campanas">
+							</div>
+							<div class="tab-pane fade" id="CuentaVirtual">
+							</div>
+							<div class="tab-pane fade" id="Transferencias">
+							</div>
+						</div>				
+
+							
+								
 							</div>
 							<div class="tab-pane fade" id="Campanas">
 								<!-- Campañas-->
@@ -493,7 +516,35 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script type="text/javascript" src="Componentes/JavaScript/Campanas_Usuario.js"></script>
+
 	<script>
+   $('#Click_Permisos').click(function() {
+	
+		$('#Click_Afiliados').click();
+
+	 })
+
+		$('.Permisos').click(function() {
+	
+			var Id=$(this).attr("id");
+			var Cadena = Id.split("_");	
+			var Modulo = Cadena[1];
+			var Usuario = $("#Nit").val();
+			$.ajax({
+        type: "GET",
+				url: "Componentes/Ajax/Cargar_Permisos.php",
+        data: "Modulo="+Modulo+"&Usuario="+Usuario,
+			beforeSend: function(objeto){
+				
+			},success: function(datos){
+				$('#'+Modulo).html(datos);
+			
+			
+					
+			}
+		});
+			
+    })
 
 function UpdatePorcentaje(){
 if($("#Porcentaje").val()< 0){
@@ -584,6 +635,7 @@ function Cargar() {
 		$('#D_Razon_Social').removeClass("hidden");
 	}
 	CargarCampanas();
+	
 }
 function RazonSocial(){
 	document.getElementById('Razon_Social').value = document.getElementById('Nombre').value	 +' '+document.getElementById('Apellido').value;
