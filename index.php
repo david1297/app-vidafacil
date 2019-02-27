@@ -819,39 +819,7 @@ var chart = new Chart(ctx, {
 		sparklineNumberChart();
 
 
-		// traffic sources
-		var dataPie = {
-			series: [<?PHP
-				$Dis=0;
-				$Ope=0;
-				$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,usuarios.Tipo FROM vidafacil.ventas 
-				INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
-
-				where  WEEK(ventas.fecha) =WEEK(NOW()) group by usuarios.Tipo;  ");
-				while($rw_Admin=mysqli_fetch_array($query)){
-				if ($rw_Admin['Tipo']=='Distribuidor'){
-					$Dis=$rw_Admin['VALOR'];
-				}else{
-					if ($rw_Admin['Tipo']=='Operador'){
-						$Ope=$rw_Admin['VALOR'];
-					}
-				}
-			}
-				echo $Dis.','.$Ope;?>]
-		};
-
-		var labels = ['Distribuidores', 'Operarios'];
-		var sum = function(a, b) {
-			return a + b;
-		};
-
-		new Chartist.Pie('#demo-pie-chart', dataPie, {
-			height: "270px",
-			labelInterpolationFnc: function(value, idx) {
-				var percentage = Math.round(value / dataPie.series.reduce(sum) * 100) + '%';
-				return labels[idx] + ' (' + percentage + ')';
-			}
-		});
+	
 
 
 		// progress bars

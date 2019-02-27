@@ -519,7 +519,7 @@
 
 	<script>
    $('#Click_Permisos').click(function() {
-	
+	alert('d');
 		$('#Click_Afiliados').click();
 
 	 })

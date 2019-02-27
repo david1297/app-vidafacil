@@ -27,7 +27,7 @@ if ($login->isUserLoggedIn() == true) {
 				<div class="auth-box">
 					<div class="content">
 						<div class="header">
-							<div class="logo text-center"><img src="assets/img/logo-vida-facil2.jpg" style="height: 70px;" alt="DiffDash"></div>
+						<div class="text-center"><img src="assets/img/BP.png" class="img-fluid " alt="Responsive image" ></div>
 							<p class="lead">Ingrese a su cuenta</p>
 						</div>
 						<form method="post" accept-charset="utf-8" action="login.php" name="loginform" autocomplete="off" role="form" class="form-signin">

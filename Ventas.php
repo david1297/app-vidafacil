@@ -14,6 +14,7 @@
 	$Usuario ="";
 	$Campana ="";
 	$Estado_Campana ="";
+	$Estado ="";
 	$Fecha =date("Y-m-d");
 	$Nombre="";
 	$Correo="";
@@ -35,7 +36,7 @@
 	if (isset($_GET['Numero'])) {
 
 		$query=mysqli_query($con, "select Ventas.Numero,Ventas.Afiliado,Ventas.Usuario,Ventas.Campana,
-		Ventas.Estado_Campana,Ventas.Fecha,Ventas.Transportadora,Ventas.Seguimiento,Ventas.NumeroNip,Ventas.DataCreditoTipo,
+		Ventas.Estado_Campana,Ventas.Estado,Ventas.Fecha,Ventas.Transportadora,Ventas.Seguimiento,Ventas.NumeroNip,Ventas.DataCreditoTipo,
 		Ventas.Servicio,Ventas.Canal,Ventas.NumeroCelular,Ventas.OperadorVenta,Ventas.OperadorDonante,Ventas.NumeroSim,
 		Ventas.Valor,Ventas.Porcentaje_Comision,usuarios.Nit,usuarios.Razon_Social
 			from Ventas inner join Usuarios on Ventas.Usuario=usuarios.Nit  where Numero ='".$_GET['Numero']."' ");
@@ -44,6 +45,7 @@
 		$Afiliado =$rw_Admin['Afiliado'];
 		$Usuario =$rw_Admin['Usuario'];
 		$Campana =$rw_Admin['Campana'];
+		$Estado =$rw_Admin['Estado'];
 		$Estado_Campana =$rw_Admin['Estado_Campana'];
 		$Fecha =$rw_Admin['Fecha'];
 		$Transportadora=$rw_Admin['Transportadora'];
@@ -89,10 +91,6 @@
   				</div>
 			</div>
 		';
-
-
-
-			
 		}
 
 	}else{
@@ -190,6 +188,37 @@
 										
 										
 									</div>
+									<div class="col-md-4">
+									<?php 
+										if($EstadoV == "Nuevo"){
+											echo '
+											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Verificacion" >';
+										} else {
+											
+											if($_SESSION['Rol']<>'2'){
+												echo '
+												<label for="Estado" class="control-label">Estado</label>
+												
+													<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
+													if($Estado == 'Aprobada'){
+														echo '<option value="Aprobada">Aprobada</option>';
+														echo '<option value="Rechazada">Rechazada</option>';
+													}else{
+														echo '<option value="Rechazada">Rechazada</option>';
+														echo '<option value="Aprobada">Aprobada</option>';
+													}
+													echo '
+													</select>
+												
+											';
+											}
+											
+											
+										}
+									?>
+									</div>
+
+
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Valor</label>
 									 <input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" >

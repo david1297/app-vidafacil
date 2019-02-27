@@ -1,4 +1,4 @@
-	<title>Vida Facil</title>
+	<title>BP System</title>
 	<meta charset="utf-8">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
@@ -12,8 +12,8 @@
 	<link rel="stylesheet" href="assets/css/main.css">
 	<link rel="stylesheet" href="assets/css/demo.css">
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
-	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/Bp2.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/Bp2.png">
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	
 
