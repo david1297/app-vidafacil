@@ -6,6 +6,7 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 }
 require_once("config/db.php");
 require_once("classes/Login.php");
+require_once ("config/conexion.php");
 $login = new Login();
 if ($login->isUserLoggedIn() == true) {
    header("location: index.php");

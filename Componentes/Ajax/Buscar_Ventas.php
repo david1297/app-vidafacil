@@ -62,7 +62,7 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Ventas.php';
-		$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,VENTAS.Estado_Campana,CAMPANAS.NOMBRE AS Campana FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,VENTAS.Estado,CAMPANAS.NOMBRE AS Campana FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
@@ -86,8 +86,11 @@
 						$Fecha=$row['Fecha'];
 						$Usuario=$row['Razon_Social'];
 						$Campana=$row['Campana'];
-						$Estado=$row['Estado_Campana'];
-						$label_class='label-primary';
+						$Estado=$row['Estado'];
+						if ($Estado=="Aprobada"){$label_class='label-success';}
+						if ($Estado=="Rechazada"){$label_class='label-danger';}
+						if ($Estado=="Negada"){$label_class='label-danger';}
+						if ($Estado=="Sin Revisar"){$label_class='label-warning';}
 						
 						
 					?>

@@ -34,7 +34,8 @@ function obtener_datos(Numero,Estado){
 	document.getElementById('resultados_ajax2').innerText='';
 	document.getElementById('Titulo_Venta').innerText = 'Actualizar Venta N. '+ Numero;
 	document.getElementById('Numero_Venta').value = Numero;
-	$("#Estado").html($("#Estado_Campana"+Numero+"").html());	
+	$("#Estado_Campana").html($("#Estado_Campana"+Numero+"").html());	
+	$("#Estado").html($("#Estado"+Numero+"").html());	
 }
 
 $( "#Actualizar_Ventas" ).submit(function( event ) {

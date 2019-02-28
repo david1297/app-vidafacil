@@ -192,21 +192,30 @@
 									<?php 
 										if($EstadoV == "Nuevo"){
 											echo '
-											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Verificacion" >';
+											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Sin Revisar" >';
 										} else {
 											
-											if($_SESSION['Rol']<>'2'){
+											$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="Ventas" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
+										
+											$rw_Admin1=mysqli_fetch_array($query1);
+											
+
+											if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
+												
 												echo '
 												<label for="Estado" class="control-label">Estado</label>
 												
 													<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
-													if($Estado == 'Aprobada'){
-														echo '<option value="Aprobada">Aprobada</option>';
-														echo '<option value="Rechazada">Rechazada</option>';
-													}else{
-														echo '<option value="Rechazada">Rechazada</option>';
-														echo '<option value="Aprobada">Aprobada</option>';
+													$tuArray = explode("|", 'Sin Revisar|Aprobada|Rechazada|Negada');
+												foreach($tuArray as  $indice => $palabra){
+													if ($Estado==$palabra){
+														echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
+											
+													} else{
+														echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
+											
 													}
+												}  
 													echo '
 													</select>
 												

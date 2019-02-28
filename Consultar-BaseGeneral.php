@@ -58,11 +58,12 @@
 									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
 								</div>
 								<div class="col-md-2">		
-									<select class='form-control hidden' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
-										<option value="Todos">Todos</option>
-										<option value="Pendiente">Pendiente</option>
+									<select class='form-control ' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
+									<option value="Todos">Todos</option>
+										<option value="Sin Revisar">Sin Revisar</option>
 										<option value="Aprobada">Aprobada</option>
 										<option value="Rechazada">Rechazada</option>
+										<option value="Negada">Negada</option>
 									</select>
 								</div>
 								<div class="col-md-2">

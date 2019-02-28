@@ -1,4 +1,9 @@
+<?php
 
+require_once ("config/db.php");
+require_once ("config/conexion.php");
+
+?>
 
 <nav class="navbar navbar-default navbar-fixed-top">
 
@@ -39,17 +44,50 @@
 				</div>
 				<nav id="left-sidebar-nav" class="sidebar-nav">
 					<ul id="main-menu" class="metismenu">
+					<?php
+						if( $_SESSION['Rol']<>'1'){
+							
+							$query1=mysqli_query($con, 'SELECT Modulo,Estado FROM permisos where Permiso="Ingreso" ;');
+																				
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													//echo $rw_Admin1['Modulo'];
+												}
+						?>
 						<!--<i class="fas fa-cogs"></i> <i class="fas fa-dolly"></i> -->
 						<li class="<?php echo $Inicio;?>"><a href="index.php"><i class="fas fa-home"></i> <span>Inicio</span></a></li>
 						<li class="<?php echo $Administracion;?>"><a href="Administracion.php"><i class="fab fa-jedi-order"></i> <span>Administracion</span></a></li>
+					
 						<li class="<?php echo $Afiliados;?>"><a href="Consultar-Afiliados.php"><i class="fas fa-user-tie"></i><span>Afiliados</span></a></li>
+					
+						
+						
+						
 						<li class="<?php echo $Contabilidad;?>"><a href="Consultar-Contabilidad.php"><i class="fas fa-book"></i> <span>Contabilidad</span></a></li>
+						<li class="<?php echo $Cuenta;?>"><a href="Consultar-Cuenta.php"><i class="fas fa-credit-card"></i> <span>Cuenta Virtual</span></a></li>
 						<!--<li class="<?php echo $Transacciones;?>"><a href="#"><i class="fas fa-exchange-alt"></i>  <span>Transacciones</span></a></li>-->
 						<li class="<?php echo $Ventas;?>"><a href="Consultar-Ventas.php"><i class="fas fa-shopping-cart"></i>  <span>Ventas</span></a></li>
 						<li class="<?php echo $Campanas;?>"><a href="Consultar-Campanas.php"><i class="fas fa-bullhorn"></i>  <span>Campañas</span></a></li>
 						
 						
 						<li class="<?php echo $Usuarios;?>"><a href="Consultar-Usuarios.php"><i class="fas fa-users"></i>  <span>Usuarios</span></a></li>
+						
+						<?php
+						}else{
+						?>
+							<!--<i class="fas fa-cogs"></i> <i class="fas fa-dolly"></i> -->
+							<li class="<?php echo $Inicio;?>"><a href="index.php"><i class="fas fa-home"></i> <span>Inicio</span></a></li>
+							<li class="<?php echo $Administracion;?>"><a href="Administracion.php"><i class="fab fa-jedi-order"></i> <span>Administracion</span></a></li>
+							<li class="<?php echo $Afiliados;?>"><a href="Consultar-Afiliados.php"><i class="fas fa-user-tie"></i><span>Afiliados</span></a></li>
+							<li class="<?php echo $Contabilidad;?>"><a href="Consultar-Contabilidad.php"><i class="fas fa-book"></i> <span>Contabilidad</span></a></li>
+							<li class="<?php echo $Cuenta;?>"><a href="Consultar-Cuenta.php"><i class="fas fa-credit-card"></i> <span>Cuenta Virtual</span></a></li>
+							<!--<li class="<?php echo $Transacciones;?>"><a href="#"><i class="fas fa-exchange-alt"></i>  <span>Transacciones</span></a></li>-->
+							<li class="<?php echo $Ventas;?>"><a href="Consultar-Ventas.php"><i class="fas fa-shopping-cart"></i>  <span>Ventas</span></a></li>
+							<li class="<?php echo $Campanas;?>"><a href="Consultar-Campanas.php"><i class="fas fa-bullhorn"></i>  <span>Campañas</span></a></li>
+							<li class="<?php echo $Usuarios;?>"><a href="Consultar-Usuarios.php"><i class="fas fa-users"></i>  <span>Usuarios</span></a></li>
+						<?php	
+						}
+					?>
+
 						
 					</ul>
 				</nav>

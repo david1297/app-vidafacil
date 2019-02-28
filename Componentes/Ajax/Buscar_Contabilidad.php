@@ -92,9 +92,7 @@
 			if($_SESSION['Rol'] == '2'){
 				$sWhere.= " and  Ventas.Usuario='".$_SESSION['Nit']."' ";
 			}	
-			if($Estado<>"Todos"){
-				$sWhere.= " and VENTAS.Estado ='".$Estado."'";	
-			} 
+			
 			$sWhere.=" order by Ventas.Numero ";
 			}
 		}
@@ -111,7 +109,7 @@
 		$reload = './Consultar-Contabilidad.php';
 		if($Pest=='ResIngresos'){
 			$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,Ventas.Fecha,
-			VENTAS.Estado_Campana,
+			VENTAS.Estado,
 			CAMPANAS.NOMBRE AS Campana,ventas.Valor,ventas.Porcentaje_Comision,Ventas.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";	
 			$query = mysqli_query($con, $sql);
 			if ($numrows>0){
@@ -136,10 +134,14 @@
 							$Valor=$row['Valor'];
 							$Usuario=$row['Razon_Social'];
 							$Campana=$row['Campana'];
-							$Estado=$row['Estado_Campana'];
+							$Estado=$row['Estado'];
+							if ($Estado=="Aprobada"){$label_class='label-success';}
+						if ($Estado=="Rechazada"){$label_class='label-danger';}
+						if ($Estado=="Negada"){$label_class='label-danger';}
+						if ($Estado=="Sin Revisar"){$label_class='label-warning';}
 							$Fecha=$row['Fecha'];
 							$Porcentaje_Comision=$row['Porcentaje_Comision'];
-							$label_class='label-default';
+							
 							$NCampana=$row['NCampana'];
 							
 						?>

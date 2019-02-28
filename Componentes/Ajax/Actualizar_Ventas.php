@@ -5,18 +5,18 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 } else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
     require_once("../../libraries/password_compatibility_library.php");
 }		
-if (empty($_POST['Estado'])){
+if (empty($_POST['Estado_Campana'])){
 	$errors[] = "El Estado Se Encuentra Vacio";
 } elseif (
-		!empty($_POST['Estado'])
-	
+		!empty($_POST['Estado_Campana'])
         ){
             require_once ("../../config/db.php");
 			require_once ("../../config/conexion.php");
 				$Numero_Venta = mysqli_real_escape_string($con,(strip_tags($_POST["Numero_Venta"],ENT_QUOTES)));
-				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
+				
+				$Estado_Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Estado_Campana"],ENT_QUOTES)));
 
-				$sql =  "Update Ventas Set Estado_Campana='".$Estado."' where Numero =".$Numero_Venta.";";
+				$sql =  "Update Ventas Set Estado_Campana='".$Estado_Campana."' where Numero =".$Numero_Venta.";";
 
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
@@ -24,6 +24,47 @@ if (empty($_POST['Estado'])){
                     } else {
                         $errors[] = $sql;
 					}
+					if (isset($_POST['Estado'])){
+						$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
+						$sql =  "Update Ventas Set Estado='".$Estado."' where Numero =".$Numero_Venta.";";
+						
+						$query_update = mysqli_query($con,$sql);
+                    if ($query_update) {
+
+							$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  Venta=".$Numero_Venta." ");
+					
+
+						if ($Estado=='Aprobada'){
+							$query1=mysqli_query($con, 'SELECT Usuario,Valor,Porcentaje_Comision FROM Ventas where   Numero ='.$Numero_Venta.';');
+							$rw_Admin1=mysqli_fetch_array($query1);
+							if($rw_Admin1['Porcentaje_Comision']<>0){
+								$Porcentaje_Comision=$rw_Admin1['Porcentaje_Comision'];
+								$Usuario=$rw_Admin1['Usuario'];
+								$Valor=$rw_Admin1['Valor'];
+
+								$Comision = ($Valor*$Porcentaje_Comision)/100;	
+								$sql = "INSERT INTO Cuenta_Virtual(Usuario,Venta,Valor,Porcentaje,Comision)
+										VALUES('".$Usuario."',".$Numero_Venta.",'".$Valor."','".$Porcentaje_Comision."','".$Comision."')";
+								$query_update = mysqli_query($con,$sql);
+								if ($query_update) {
+									$messages[] = "La Cuanta Virtual Se Registro Correctamente,";
+								} else {
+									$errors[] = $sql;
+								}
+							}
+
+							
+						}
+
+
+
+
+                    } else {
+                        $errors[] = $sql;
+					}
+					}
+
+
 					if (isset($_POST['Observaciones'])) {
 						$User=$_SESSION['Nit'];
 						$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));	

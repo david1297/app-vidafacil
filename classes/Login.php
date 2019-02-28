@@ -41,6 +41,10 @@ class Login
                         $_SESSION['Porcentaje'] = $result_row->Porcentaje;
                         $_SESSION['user_login_status'] = 1;
 
+                      
+                        
+
+
                     } else {
                         $this->errors[] = "Usuario y/o contraseña no coinciden.";
                     }

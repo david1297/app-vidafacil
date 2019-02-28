@@ -15,6 +15,8 @@ if (empty($_POST['Afiliado'])){
 	$errors[] = "La Campaña Se Encuentra Vacia";
 }elseif (empty($_POST['Estado_Campana'])){
 	$errors[] = "El Estado de la Campaña Se Encuentra Vacio";
+}elseif (empty($_POST['Estado'])){
+	$errors[] = "El Estado  Se Encuentra Vacio";
 }elseif (empty($_POST['Seguimiento'])){
 	$errors[] = "El Seguimiento de la Campaña Se Encuentra Vacio";
 }elseif (empty($_POST['Transportadora'])){
@@ -43,6 +45,7 @@ elseif (
 		&& !empty($_POST['fecha'])
 		&& !empty($_POST['Campana'])
 		&& !empty($_POST['Estado_Campana'])
+		&& !empty($_POST['Estado'])
 		&& !empty($_POST['Seguimiento'])
 		&& !empty($_POST['Transportadora'])
         ){
@@ -53,6 +56,7 @@ elseif (
 				$fecha = mysqli_real_escape_string($con,(strip_tags($_POST["fecha"],ENT_QUOTES)));
 				$Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Campana"],ENT_QUOTES)));
 				$Estado_Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Estado_Campana"],ENT_QUOTES)));
+				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 				$Seguimiento = mysqli_real_escape_string($con,(strip_tags($_POST["Seguimiento"],ENT_QUOTES)));
 				$Transportadora = mysqli_real_escape_string($con,(strip_tags($_POST["Transportadora"],ENT_QUOTES)));
 				$Valor1 = mysqli_real_escape_string($con,(strip_tags($_POST["Valor"],ENT_QUOTES)));
@@ -93,18 +97,18 @@ elseif (
 
 				
 
-				$sql =  "INSERT INTO  Ventas(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Seguimiento,Transportadora,
+				$sql =  "INSERT INTO  Ventas(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
 											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
 											Valor,Porcentaje_Comision,Liquidada
 											) VALUES
 
 				('".$numero_VEnta."','".$Afiliado."', '".$Usuario."', '".$fecha."', '".$Campana."'
-				, '".$Estado_Campana."', '".$Seguimiento."', '".$Transportadora."'
+				, '".$Estado_Campana."', '".$Estado."', '".$Seguimiento."', '".$Transportadora."'
 				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
 				, '".$NumeroSim."', '".$Valor."', '".$Porcentaje_Comision."', 'False'
 				) ON DUPLICATE  KEY UPDATE
 				Afiliado = '".$Afiliado."',Usuario ='".$Usuario."',fecha='".$fecha."',Campana='".$Campana."'
-				,Estado_Campana='".$Estado_Campana."',Seguimiento='".$Seguimiento."',Transportadora='".$Transportadora."'
+				,Estado_Campana='".$Estado_Campana."',Estado='".$Estado."',Seguimiento='".$Seguimiento."',Transportadora='".$Transportadora."'
 				,NumeroNip='".$NumeroNip."',DataCreditoTipo='".$DataCreditoTipo."',Servicio='".$Servicio."',Canal='".$Canal."'
 				,NumeroCelular='".$NumeroCelular."',OperadorVenta='".$OperadorVenta."',OperadorDonante='".$OperadorDonante."'
 				,NumeroSim='".$NumeroSim."',Valor='".$Valor."',Porcentaje_Comision='".$Porcentaje_Comision."',Liquidada='False'
@@ -134,7 +138,7 @@ elseif (
 
 
 						$Comision = 0;
-						if ($Porcentaje_Comision <> 0){
+						if ($Porcentaje_Comision <> 0 and ($Estado=='Aprobada')){
 							$Comision = ($Valor*$Porcentaje_Comision)/100;	
 							$sql = "INSERT INTO Cuenta_Virtual(Usuario,Venta,Valor,Porcentaje,Comision)
 									VALUES('".$Usuario."','".$numero_VEnta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."')";

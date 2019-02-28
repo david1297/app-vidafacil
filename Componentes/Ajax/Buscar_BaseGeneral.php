@@ -65,7 +65,7 @@
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-BaseGeneral.php';
 		$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
-		VENTAS.Estado_Campana,
+		VENTAS.Estado,VENTAS.Estado_Campana,
 		CAMPANAS.NOMBRE AS Campana,ventas.Valor,ventas.Porcentaje_Comision,Ventas.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
@@ -85,6 +85,7 @@
 
 					<th class='text-right'>Editar</th>
 					<th class='text-right'></th>
+					<th class='text-right'></th>
 				</tr>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
@@ -94,9 +95,13 @@
 						$Valor=$row['Valor'];
 						$Usuario=$row['Razon_Social'];
 						$Campana=$row['Campana'];
-						$Estado=$row['Estado_Campana'];
+						$Estado=$row['Estado'];
+						$Estado_Campana=$row['Estado_Campana'];
 						$Porcentaje_Comision=$row['Porcentaje_Comision'];
-						$label_class='label-default';
+						if ($Estado=="Aprobada"){$label_class='label-success';}
+						if ($Estado=="Rechazada"){$label_class='label-danger';}
+						if ($Estado=="Negada"){$label_class='label-danger';}
+						if ($Estado=="Sin Revisar"){$label_class='label-warning';}
 						$NCampana=$row['NCampana'];
 						
 					?>
@@ -111,17 +116,18 @@
 						<td class="text-right"><?php echo '$'.number_format(($Valor*$Porcentaje_Comision)/100); ?></td>
 
 						<td class="text-right">
-							<a href="#" class='btn btn-default' title='Editar Campañas' onclick="obtener_datos('<?php echo $Numero;?>','<?php echo $Estado;?>');"  data-toggle="modal" data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i></a> 
+							<a href="#" class='btn btn-default' title='Editar Venta' onclick="obtener_datos('<?php echo $Numero;?>','<?php echo $Estado;?>');"  data-toggle="modal" data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i></a> 
 						</td>
 						<td>
+
 						<?php
 						$query1=mysqli_query($con, "select * from Campanas where Numero ='".$NCampana."' ");
 						$rw_Admin=mysqli_fetch_array($query1);
 						$tuArray = explode("\r\n", $rw_Admin['Estados']);
 						
-						echo' <select class="form-control hidden" id="Estado_Campana'.$Numero.'" name ="Estado_Campana" placeholder="Estado Campaña">';
+						echo' <select class="form-control hidden " id="Estado_Campana'.$Numero.'" name ="Estado_Campana" placeholder="Estado Campaña">';
 						foreach($tuArray as  $indice => $palabra){
-							if ($Estado==$palabra){
+							if ($Estado_Campana==$palabra){
 								echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
 							} else{
 								echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
@@ -130,13 +136,34 @@
 						echo '</select>';
 						?>
 						</td>
+						<td>
+						<?php
+echo '
+	<select class="form-control hidden" id="Estado'.$Numero.'" name ="Estado" placeholder="Estado"  >';
+	$tuArray = explode("|", 'Sin Revisar|Aprobada|Rechazada|Negada');
+foreach($tuArray as  $indice => $palabra){
+	if ($Estado==$palabra){
+		echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
+
+	} else{
+		echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
+
+	}
+}  
+	echo '
+	</select>
+
+';
+
+						?>
+						</td>
 
 					</tr>
 					<?php
 				}
 				?>
 				<tr>
-					<td colspan=7><span class="pull-right"><?php
+					<td colspan=11><span class="pull-right"><?php
 					 echo paginate($reload, $page, $total_pages, $adjacents);
 					?></span></td>
 				</tr>

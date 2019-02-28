@@ -28,7 +28,7 @@
 					<div class="btn-group pull-right">
 					<button class="btn btn-success" id="ExportarExcel" ><i class="fas fa-file-excel"></i>Exportar a Excel </button>
 			</div>
-						<h4><i class='glyphicon glyphicon-search'></i> &nbsp;Contabilidad</h4>
+						<h4><i class='glyphicon glyphicon-search'></i> &nbsp;Cuenta Virtual</h4>
 						
 					</div>
 					<div class="panel-body">
@@ -107,17 +107,10 @@
 	<script>
 	$("#ClickIngresos").click(function( event){
 		document.getElementById('Pestana').value= 'ResIngresos';
-
-		$('#FEstado').removeClass("hidden");
 	load(1);
 	})
 	$("#ClickEgresos").click(function( event){
-
 		document.getElementById('Pestana').value= 'ResEgresos';
-		$('#FEstado').addClass("hidden");
-	
-
-
 	load(1);
 	})
 	</script>

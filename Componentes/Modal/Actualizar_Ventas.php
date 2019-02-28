@@ -13,16 +13,22 @@
 						<div class="col-md-3">		
 							<input type="text"class="hidden" id="Numero_Venta"name="Numero_Venta">
 							<?php
-							if($_SESSION['Rol']<>'2'){
+							$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="Ventas" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
+										
+							$rw_Admin1=mysqli_fetch_array($query1);
+							if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
 								?>
 								<label for="Estado" class="control-label">Estado</label>
 									<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
-										<option value="Aprobada">Aprobada</option>';
-										<option value="Rechazada">Rechazada</option>';							
+															
 									</select>								
 								<?php
 							}
 							?>
+							<label for="Estado" class="control-label">Estado De Campaña </label>
+									<select class="form-control" id="Estado_Campana" name ="Estado_Campana" placeholder="Estado"  >';
+														
+									</select>	
 								</div>		
 								<div class="col-md-12">
   										<label for="Observaciones">Observaciones:</label>
