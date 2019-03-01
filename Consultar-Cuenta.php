@@ -7,7 +7,7 @@
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
 	
-	$Contabilidad="active";
+	$Cuenta="active";
 	
 ?>
 <!doctype html>
@@ -25,15 +25,20 @@
 			<div class="container-fluid">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-					<div class="btn-group pull-right">
-					<button class="btn btn-success" id="ExportarExcel" ><i class="fas fa-file-excel"></i>Exportar a Excel </button>
+
+					<div class=" pull-right">
+		
+					<button class="btn btn-default" id="SolicitarPago" data-toggle="modal" data-target="#Pago" onclick="CargarComisiones()"><i class="far fa-money-bill-alt"></i>Solicitar Pago</button>
+				
+
+					<button class="btn btn-success hidden" id="ExportarExcel" ><i class="fas fa-file-excel"></i>Exportar a Excel </button>
 			</div>
 						<h4><i class='glyphicon glyphicon-search'></i> &nbsp;Cuenta Virtual</h4>
 						
 					</div>
 					<div class="panel-body">
 					<?php 
-						include("Componentes/Modal/Actualizar_Ventas.php");
+						include("Componentes/Modal/Solicitar_Pago.php");
 					?>
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
@@ -59,30 +64,23 @@
 									
 									<select class='form-control ' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
 										<option value="Todos">Todos</option>
-										<option value="Sin Revisar">Sin Revisar</option>
-										<option value="Aprobada">Aprobada</option>
-										<option value="Rechazada">Rechazada</option>
-										<option value="Negada">Negada</option>
-									
+										<option value="Pagada">Pagadas</option>
+										<option value="Pendiente">Pendientes</option>
+										<option value="Solicitada">Solicitadas</option>
 									</select>
 								</div>
-								<input type="hidden" id="Pestana" value="ResIngresos">
+								<input type="hidden" id="Pestana" value="ResComisiones">
 								<div class="col-md-2">
 								<span id="loader"></span>
 								</div>
 							</div>
 						</form>
-						<ul class="nav nav-tabs" role="tablist" Id="Navegador">
-							<li class="active"><a href="#Ingresos" role="tab" data-toggle="tab" id="ClickIngresos">Ingresos</a></li>
-							<li>               <a href="#Egresos" role="tab" data-toggle="tab" id="ClickEgresos">Egresos</a></li>
-						</ul>	
+							
 						<div class="tab-content content-profile">
-							<div class="tab-pane fade in active" id="Ingresos">
-								<div class='ResIngresos'></div>
+							<div class="tab-pane fade in active" id="Comisiones">
+								<div class='ResComisiones'></div>
 							</div>
-							<div class="tab-pane fade" id="Egresos">
-								<div class='ResEgresos'></div>
-							</div>
+						
 						</div>
 						
 
@@ -101,16 +99,16 @@
 	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
-	<script type="text/javascript" src="Componentes/JavaScript/Contabilidad.js"></script>
+	<script type="text/javascript" src="Componentes/JavaScript/Cuenta.js"></script>
 	<script lang = "javascript"  src = "js-xlsx-master/dist/xlsx.full.min.js"> </script>
 
 	<script>
-	$("#ClickIngresos").click(function( event){
-		document.getElementById('Pestana').value= 'ResIngresos';
+	$("#ClickComisiones").click(function( event){
+		document.getElementById('Pestana').value= 'ResComisiones';
 	load(1);
 	})
-	$("#ClickEgresos").click(function( event){
-		document.getElementById('Pestana').value= 'ResEgresos';
+	$("#ClickPagos").click(function( event){
+		document.getElementById('Pestana').value= 'ResPagos';
 	load(1);
 	})
 	</script>

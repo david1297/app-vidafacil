@@ -108,7 +108,29 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
                         $messages[] = "Los Datos Se Han Guardado Con Exito.";
                     } else {
                         $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
-                    }
+					}
+					$EstadoU = mysqli_real_escape_string($con,(strip_tags($_POST["EstadoU"],ENT_QUOTES)));
+					if($EstadoU=='Nuevo'){
+						$sql =  "insert into  Permisos(Modulo,Permiso,Estado,Usuario,Descripcion)Value 
+						('Afiliados','Ingreso','false','".$Nit."','Ingreso al Modulo'),
+						('Afiliados','Crear','false','".$Nit."','Crear Afiliado'),
+						('Afiliados','Editar','false','".$Nit."','Editar Afiliado'),
+						('Campanas','Ingreso','false','".$Nit."','Ingreso al Modulo'),
+						('Contabilidad','Ingreso','false','".$Nit."','Ingreso al Modulo'),
+						('CuentaVirtual','Ingreso','false','".$Nit."','Ingreso al Modulo'),
+						('CuentaVirtual','ConsultarTodo','false','".$Nit."','Consultar cuenta Virtual General'),
+						('Transferencias','Ingreso','false','".$Nit."','Ingreso al Modulo'),
+						('Usuarios','Ingreso','false','".$Nit."','Ingreso al Modulo'),
+						('Ventas','Ingreso','false','".$Nit."','Ingreso al Modulo'),
+						('Ventas','CambiarEstado','false','".$Nit."','Cambiar Estados');";
+							$query_update = mysqli_query($con,$sql);
+							if ($query_update) {
+								$messages[] = "Los Datos Se Han Guardado Con Exito.";
+							} else {
+								$errors[] = $sql;
+							}
+					}
+				
         } else {
             $errors[] = "Un error desconocido ocurrió.";
         }

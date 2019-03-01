@@ -103,7 +103,7 @@
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
 							<?php
-								if ($Perfil <>'SI'){
+								if ($Perfil <>'Si'){
 									echo '
 									<button type="button" class="btn btn-default" id="Consultar">
 										<span class="fas fa-users"></span> Consultar Usuarios
@@ -466,6 +466,7 @@
 									<li><a href="#Campanas" class="Permisos"role="tab" data-toggle="tab" id="Click_Campanas">Campañas</a></li>
 									<li><a href="#CuentaVirtual" class="Permisos" role="tab" data-toggle="tab" id="Click_CuentaVirtual">Cuenta Virtual</a></li>
 									<li><a href="#Transferencias" class="Permisos" role="tab" data-toggle="tab" id="Click_Transferencias">Transferencias</a></li>
+									<li><a href="#Usuarios" class="Permisos" role="tab" data-toggle="tab" id="Click_Usuarios">Usuarios</a></li>
 								</ul>
 								<div class="tab-content">
 									<div class="tab-pane fade in active" id="Afiliados">
@@ -479,6 +480,8 @@
 									<div class="tab-pane fade" id="CuentaVirtual">
 									</div>
 									<div class="tab-pane fade" id="Transferencias">
+									</div>
+									<div class="tab-pane fade" id="Usuarios">
 									</div>
 								</div>
 								<!-- -->				

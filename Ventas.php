@@ -30,12 +30,13 @@
 	$OperadorDonante="";
 	$NumeroSim="";
 	$Valor="";
+	$Liquidada="";
 	
 	
 
 	if (isset($_GET['Numero'])) {
 
-		$query=mysqli_query($con, "select Ventas.Numero,Ventas.Afiliado,Ventas.Usuario,Ventas.Campana,
+		$query=mysqli_query($con, "select VEntas.Liquidada,Ventas.Numero,Ventas.Afiliado,Ventas.Usuario,Ventas.Campana,
 		Ventas.Estado_Campana,Ventas.Estado,Ventas.Fecha,Ventas.Transportadora,Ventas.Seguimiento,Ventas.NumeroNip,Ventas.DataCreditoTipo,
 		Ventas.Servicio,Ventas.Canal,Ventas.NumeroCelular,Ventas.OperadorVenta,Ventas.OperadorDonante,Ventas.NumeroSim,
 		Ventas.Valor,Ventas.Porcentaje_Comision,usuarios.Nit,usuarios.Razon_Social
@@ -62,7 +63,7 @@
 		$Porcentaje_Comision=$rw_Admin['Porcentaje_Comision']; 
 		$Nit=$rw_Admin['Nit'];
 		$Razon_Social =$rw_Admin['Razon_Social'];
-
+		$Liquidada=$rw_Admin['Liquidada'];
 
 		$query=mysqli_query($con, "select * from Afiliados where Identificacion ='".$Afiliado."' ");
 		$rw_Admin=mysqli_fetch_array($query);
@@ -135,7 +136,8 @@
 					?>
 					<form class="form-horizontal" method="post" id="Guardar_Ventas" name="Guardar_Ventas">
 					<input type="text" class="form-control hidden" id="EstadoV" name="EstadoV"  value="<?php echo $EstadoV; ?>" > 
-
+					<input type="text" class="form-control hidden" id="Liquidada" name="Liquidada"  value="<?php echo $Liquidada; ?>" > 
+					
 							<div class="form-group container-fluid">
 								<div class="row">
 									<div class="col-md-4">
@@ -366,8 +368,7 @@
     },
     "keyup": function (event) {
         $(event.target).val(function (index, value ) {
-            return value.replace(/\D/g, "")
-                        
+            return value.replace(/\D/g, "")       
                         .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
         });
     }
@@ -388,19 +389,27 @@ $( "#Consultar" ).click(function( event ) {
 
 })
 $( "#Guardar_Ventas" ).submit(function( event ) {
-	var parametros = $(this).serialize();
-	$.ajax({
-		type: "POST",
-		url: "Componentes/Ajax/Guardar_Ventas.php",
-		data: parametros,
-		beforeSend: function(objeto){
-			$("#resultados_ajax2").html("Mensaje: Cargando...");
-		},
-		success: function(datos){
-			$("#resultados_ajax2").html(datos);
-		}
-	});
-	event.preventDefault();
+	if($('#Liquidada').val()=='True'){
+		alert('La Venta ya fue Liquidada No se Puede Editar');
+	} else{
+		if($('#Liquidada').val()=='Pendiente'){
+			alert('La Venta Una Solicitud de Pago Pendiente No se Puede Editar');
+		}else {
+			var parametros = $(this).serialize();
+			$.ajax({
+				type: "POST",
+				url: "Componentes/Ajax/Guardar_Ventas.php",
+				data: parametros,
+				beforeSend: function(objeto){
+					$("#resultados_ajax2").html("Mensaje: Cargando...");
+				},
+				success: function(datos){
+					$("#resultados_ajax2").html(datos);
+				}
+			});
+			event.preventDefault();
+		}	
+	}
 })
 
 function CargarEstados(){

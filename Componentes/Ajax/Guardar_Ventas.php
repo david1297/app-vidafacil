@@ -140,8 +140,8 @@ elseif (
 						$Comision = 0;
 						if ($Porcentaje_Comision <> 0 and ($Estado=='Aprobada')){
 							$Comision = ($Valor*$Porcentaje_Comision)/100;	
-							$sql = "INSERT INTO Cuenta_Virtual(Usuario,Venta,Valor,Porcentaje,Comision)
-									VALUES('".$Usuario."','".$numero_VEnta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."')";
+							$sql = "INSERT INTO Cuenta_Virtual(Usuario,Venta,Valor,Porcentaje,Comision,Estado)
+									VALUES('".$Usuario."','".$numero_VEnta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente')";
 							$query_update = mysqli_query($con,$sql);
 							if ($query_update) {
 								$messages[] = "La Cuanta Virtual Se Registro Correctamente,";
