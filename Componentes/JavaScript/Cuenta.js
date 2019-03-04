@@ -2,8 +2,10 @@
 			load(1);
 		});
 		function CargarComisiones (Numero){
+			if(Numero==0){
+				$("#outer_divc").html('');
+			}
 			var q= $("#q").val();
-			var Pest =$("#Pestana").val();
 			var Filtro = $("#Filtro").val();
 			var Estado = $("#FEstado").val();
 			var fechaIni = $("#fechaIni").val();

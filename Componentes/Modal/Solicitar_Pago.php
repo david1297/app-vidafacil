@@ -8,16 +8,18 @@
 					
 				  </div>
 				  <div class="modal-body">
-					<form class="form-horizontal" method="post"ACTION="Pago.php"  >
+					<form class="form-horizontal" method="post"ACTION="Pago.php"  method="post" id="formPago" name="formPago" >
 					  
 						
 						<div id="resultados_ajax2"></div>
+						<div id="outer_divc" ></div>
 						<div id="loaderc" style="position: absolute;	text-align: center;	top: 55px;	width: 100%;display:none;"></div><!-- Carga gif animado -->
-					<div class="outer_divc" ></div><!-- Datos ajax Final -->
+					<!-- Datos ajax Final -->
 				  </div>
+					
 				  <div class="modal-footer">
-					<button type="button" class="btn btn-primary">Solicitar</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+					<button type="submit" class="btn btn-primary" id="Solicitar">Solicitar</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"  id ='Cerrar-Solicitud'>Cerrar</button>
 					
 					</form>
 					

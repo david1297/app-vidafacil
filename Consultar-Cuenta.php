@@ -28,7 +28,7 @@
 
 					<div class=" pull-right">
 		
-					<button class="btn btn-default" id="SolicitarPago" data-toggle="modal" data-target="#Pago" onclick="CargarComisiones()"><i class="far fa-money-bill-alt"></i>Solicitar Pago</button>
+					<button class="btn btn-default" id="SolicitarPago" data-toggle="modal" data-target="#Pago" onclick="CargarComisiones(0)"><i class="far fa-money-bill-alt"></i>Solicitar Pago</button>
 				
 
 					<button class="btn btn-success hidden" id="ExportarExcel" ><i class="fas fa-file-excel"></i>Exportar a Excel </button>
@@ -111,6 +111,33 @@
 		document.getElementById('Pestana').value= 'ResPagos';
 	load(1);
 	})
+	
+	$( "#Cerrar-Solicitud" ).submit(function( event ) {
+		$("#outer_divc").html('');
+	})
+
+	$( "#formPago" ).submit(function( event ) {
+
+
+			var parametros = $(this).serialize();
+			$.ajax({
+				type: "POST",
+				url: "Componentes/Ajax/Solicitar_Pago.php",
+				data: parametros,
+				beforeSend: function(objeto){
+					$('#outer_divc').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+				},
+				success: function(datos){
+				
+					$("#outer_divc").html(datos);
+				}
+			});
+			event.preventDefault();
+			CargarComisiones(1);
+			load(1);
+			
+})
+
 	</script>
   </body>
 </html>

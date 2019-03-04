@@ -67,7 +67,11 @@
 												$Total_Semana = $Total_Semana +$rw_Admin1['VALOR']; 
 											}
 											echo'</div>';
-											$Incremento= (($Total_Semana/$Total_Semana_Ant)-1)*100;
+											if (($Total_Semana<>0)and($Total_Semana_Ant<>0)){
+												$Incremento= (($Total_Semana/$Total_Semana_Ant)-1)*100;	
+											}else{
+												$Incremento=0;	
+											}
 											if ($Incremento <0 ){
 												echo '<p class="text-muted"><i class="fa fa-caret-down text-danger"></i> '.number_format($Incremento).'% en comparación con la semana pasada </p>';
 											}else{
