@@ -197,6 +197,7 @@
 							<th>Campaña</th>
 							<th>Fecha</th>
 							<th>Estado</th>
+							<th class="text-right">Valor</th>
 							<th class="text-right">Porcentaje</th>
 							<th class="text-right">Comision</th>
 						</tr>
@@ -205,7 +206,8 @@
 		
 								$Numero=$row['Numero'];
 								$Afiliado=$row['Primer_Nombre'].' '.$row['Primer_Apellido'] ;
-								$Valor=$row['Comision'];
+								$Valor=$row['Valor'];
+								$Comision=$row['Comision'];
 								$Usuario=$row['Razon_Social'];
 								$Campana=$row['Campana'];
 								$Estado=$row['Estado_Campana'];
@@ -237,14 +239,35 @@
 								<td><?php echo $Campana; ?></td>
 								<td><?php echo date("d-m-Y", strtotime($Fecha)); ?></td>
 								<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>
-								<td class="text-right"><?php echo $Porcentaje_Comision.'%'; ?></td>
 								<td class="text-right"><?php echo '$'.number_format($Valor); ?></td>
+								<td class="text-right"><?php echo $Porcentaje_Comision.'%'; ?></td>
+								<td class="text-right"><?php echo '$'.number_format($Comision); ?></td>
 		
 		
 							</tr>
 							<?php
 						}
 						?>
+						<tr>
+					<td colspan=6><b><span class="pull-right"><?php
+						 echo 'Total Pagina:'
+						?></span></b></td>
+						<td ><b><span class="pull-right"><?php
+					
+						 echo number_format($Valor);
+						?></span></b></td>
+					</tr>
+					<tr>
+					<tr>
+					<td colspan=6><h4><span class="pull-right"><?php
+						 echo 'Total General:'
+						?></span></h4></td>
+						<td ><h4><span class="pull-right"><?php
+						$query1=mysqli_query($con, "SELECT sum(Cuenta_Virtual.Valor) as valor,sum(Cuenta_Virtual.Comision)Comision FROM $sTable $sWhere $Condicion;");			
+						$rw_Admin1=mysqli_fetch_array($query1);
+						 echo number_format($rw_Admin1[0]);
+						?></span></h4></td>
+					</tr>
 						<tr>
 							<td colspan=9><span class="pull-right"><?php
 							 echo paginate($reload, $page, $total_pages, $adjacents);

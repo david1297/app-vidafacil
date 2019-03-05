@@ -99,7 +99,7 @@
 		
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 50;
+		$per_page = 10;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
 		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere");
@@ -127,6 +127,7 @@
 						<th class="text-right">Valor</th>
 					</tr>
 					<?php
+					$TValor=0;
 					while ($row=mysqli_fetch_array($query)){
 	
 							$Numero=$row['Numero'];
@@ -143,6 +144,7 @@
 							$Porcentaje_Comision=$row['Porcentaje_Comision'];
 							
 							$NCampana=$row['NCampana'];
+							$TValor= $TValor+$Valor;
 							
 						?>
 						<tr>
@@ -159,6 +161,26 @@
 						<?php
 					}
 					?>
+					<tr>
+					<td colspan=6><b><span class="pull-right"><?php
+						 echo 'Total Pagina:'
+						?></span></b></td>
+						<td ><b><span class="pull-right"><?php
+					
+						 echo number_format($TValor);
+						?></span></b></td>
+					</tr>
+					<tr>
+					<tr>
+					<td colspan=6><h4><span class="pull-right"><?php
+						 echo 'Total General:'
+						?></span></h4></td>
+						<td ><h4><span class="pull-right"><?php
+						$query1=mysqli_query($con, "SELECT sum(ventas.Valor) FROM $sTable $sWhere;");			
+						$rw_Admin1=mysqli_fetch_array($query1);
+						 echo number_format($rw_Admin1[0]);
+						?></span></h4></td>
+					</tr>
 					<tr>
 						<td colspan=7><span class="pull-right"><?php
 						 echo paginate($reload, $page, $total_pages, $adjacents);
