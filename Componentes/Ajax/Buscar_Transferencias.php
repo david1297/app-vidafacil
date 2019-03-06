@@ -97,7 +97,7 @@
 
             <td class="text-right">
                 <a href="#" class='btn btn-default' title='Editar Venta'
-                    onclick="obtener_datos('<?php echo $Numero;?>','<?php echo $Estado;?>');" data-toggle="modal"
+                    onclick="" data-toggle="modal"
                     data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i></a>
             </td>
 

@@ -202,6 +202,8 @@
 							<th class="text-right">Comision</th>
 						</tr>
 						<?php
+						$TValor=0;
+						$TComision=0;
 						while ($row=mysqli_fetch_array($query)){
 		
 								$Numero=$row['Numero'];
@@ -226,7 +228,8 @@
 										$label_class='label-warning';
 									}
 									
-										
+								$TComision=$TComision+$Comision;
+								$TValor=$TValor+$Valor;		
 							
 									
 								}
@@ -250,11 +253,18 @@
 						?>
 						<tr>
 					<td colspan=6><b><span class="pull-right"><?php
-						 echo 'Total Pagina:'
+						 echo 'Total Ventas:'
 						?></span></b></td>
 						<td ><b><span class="pull-right"><?php
 					
-						 echo number_format($Valor);
+						 echo number_format($TValor);
+						?></span></b></td>
+						<td ><b><span class="pull-right"><?php
+						 echo 'Total Comision:'
+						?></span></b></td>
+						<td ><b><span class="pull-right"><?php
+					
+						 echo number_format($TComision);
 						?></span></b></td>
 					</tr>
 					<tr>
@@ -267,6 +277,14 @@
 						$rw_Admin1=mysqli_fetch_array($query1);
 						 echo number_format($rw_Admin1[0]);
 						?></span></h4></td>
+					<td><h4><span class="pull-right"><?php
+						 echo 'Total General:'
+						?></span></h4></td>
+						<td ><h4><span class="pull-right"><?php
+						
+						 echo number_format($rw_Admin1[1]);
+						?></span></h4></td>
+						
 					</tr>
 						<tr>
 							<td colspan=9><span class="pull-right"><?php
