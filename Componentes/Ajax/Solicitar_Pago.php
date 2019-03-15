@@ -17,31 +17,47 @@ if (empty($_POST['NumeroVenta'])){
 	</div>
 	<?php
 }else{
-	foreach($_POST['NumeroVenta'] as $Numero){
-		$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from transacciones order by Numero desc limit 0,1 ");
-		$rw=mysqli_fetch_array($sql);
-		$numero_Transaccion=$rw['last']+1;
-		/*echo $Numero;*/
-		$query1=mysqli_query($con, 'SELECT Usuario FROM Ventas where   Numero ='.$Numero.';');
-		$rw_Admin1=mysqli_fetch_array($query1);
-		$Usuario=$rw_Admin1['Usuario'];
-		$sql = "INSERT INTO transacciones(Numero,Usuario,Venta,Fecha,Estado)
-				VALUES('".$numero_Transaccion."','".$Usuario."',".$Numero.",'".date("Y-m-d")."','Pendiente')";		
-		$query_update = mysqli_query($con,$sql);
-		if ($query_update) {
-			$sql =  "Update Cuenta_Virtual Set Estado='Solicitada' where Venta =".$Numero.";";				
-			$query_update = mysqli_query($con,$sql);
+	$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from TransaccionesE order by Numero desc limit 0,1 ");
+	$rw=mysqli_fetch_array($sql);
+	$numero_Transaccion=$rw['last']+1;
+	$Usuario = $_SESSION['Nit'];
+	$Fecha=date("Y-m-d"); 
+	$sql = "INSERT INTO transaccionesE(Numero,Usuario,Fecha_Creacion,Fecha_Revision,Valor_Aprovado,
+			Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,Titular_Cuenta,Estado)
+				VALUES('".$numero_Transaccion."','".$Usuario."','".$Fecha."','".$Fecha."',0,
+			0,NULL,NULL,NULL,NULL,'Pendiente')";				
+	$query_update = mysqli_query($con,$sql);
+	if ($query_update) {
+		$messages[] = "Encabezado Guardado Con Exito";
+		foreach($_POST['NumeroVenta'] as $Numero){
+			$query1=mysqli_query($con, 'SELECT Comision FROM cuenta_virtual where  Venta ='.$Numero.';');
+			$rw_Admin1=mysqli_fetch_array($query1);
+			$Valor=$rw_Admin1['Comision'];
+			$sql = "INSERT INTO transaccionesD(Numero,Estado,Venta,Valor)
+				VALUES(".$numero_Transaccion.",'Pendiente',".$Numero.",".$Valor.")";
+			$query_update = mysqli_query($con,$sql);	
 			if ($query_update) {
-				$messages[] = "La Solicitud se realizo Correctamente,";
-			}
-			$sql =  "Update Ventas Set Liquidada='Pendiente' where Numero =".$Numero.";";				
-			$query_update = mysqli_query($con,$sql);
-			if ($query_update) {
-				$messages[] = "La Solicitud se realizo Correctamente,";
-			}
-		} else {
-			$errors[] = $sql;
-		}
+				$messages[] = "Detalle Guardado Con Exito";
+				$sql =  "Update Cuenta_Virtual Set Estado='Solicitada' where Venta =".$Numero.";";				
+				$query_update = mysqli_query($con,$sql);
+				if ($query_update) {
+					$messages[] = "Estado de Cuenta Actualizado";
+					$sql =  "Update Ventas Set Liquidada='Pendiente' where Numero =".$Numero.";";				
+					$query_update = mysqli_query($con,$sql);
+					if ($query_update) {
+						$messages[] = "Estado de Venta";
+					}else{
+						$errors[] ="Error Al Actualizar Estado de }Venta <br>".$sql;		
+					}
+				}else{
+					$errors[] ="Error Al Actualizar Estado de Cuenta <br>".$sql;	
+				}
+			}else{
+				$errors[] ="Error Al Guardar Detalle <br>".$sql;	
+			}	
+		}	
+	}else{
+		$errors[] ="Error Al Guardar Encabezado <br>".$sql;
 	}
 }
 

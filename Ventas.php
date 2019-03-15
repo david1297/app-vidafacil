@@ -393,7 +393,7 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 		alert('La Venta ya fue Liquidada No se Puede Editar');
 	} else{
 		if($('#Liquidada').val()=='Pendiente'){
-			alert('La Venta Una Solicitud de Pago Pendiente No se Puede Editar');
+			alert('La Venta Tiene Una Solicitud de Pago Pendiente No se Puede Editar');
 		}else {
 			var parametros = $(this).serialize();
 			$.ajax({

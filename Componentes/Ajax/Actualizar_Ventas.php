@@ -90,7 +90,7 @@ if (isset($errors)){
 			?>
 			<div class="alert alert-success" role="modal">
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
-				<strong>¡Bien hecho! </strong>
+				<strong>¡Bien ss! </strong>
 				<?php
 					foreach ($messages as $message) {
 						echo $message;

@@ -53,13 +53,13 @@
 			$sWhere.=" order by Ventas.Numero ";
 		}else{
 			if($Pest=='ResEgresos'){
-				$sTable = "Cuenta_Virtual 
-							INNER JOIN VENTAS	On Ventas.Numero = 	Cuenta_Virtual.Venta
+				$sTable = "transaccionesd 
+							INNER JOIN VENTAS	On Ventas.Numero = 	transaccionesd.Venta
 							INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
 							inner join Usuarios on Usuarios.Nit=Ventas.Usuario
 							inner join Campanas on Campanas.Numero=Ventas.Campana
 						";
-			$sWhere = "where (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
+				$sWhere = "where (VENTAS.Fecha >= '$fechaIni' and VENTAS.Fecha <= '$fechaFin') ";
 			if ( $_GET['q'] != "" ){
 				if ($Filtro == "Numero"){	
 					$sWhere.= " and  (Ventas.Numero like '%$q%' )";	
@@ -90,10 +90,10 @@
 				}	
 			}
 			if($_SESSION['Rol'] == '2'){
-				$sWhere.= " and  Ventas.Usuario='".$_SESSION['Nit']."' ";
+				$sWhere.= "  Ventas.Usuario='".$_SESSION['Nit']."' ";
 			}	
 			
-			$sWhere.=" order by Ventas.Numero ";
+			$sWhere.=" and transaccionesd.Estado='Pagada'  order by Ventas.Numero ";
 			}
 		}
 		
@@ -194,7 +194,7 @@
 			if($Pest=='ResEgresos'){
 				$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,Ventas.Fecha,
 						VENTAS.Estado_Campana,
-						CAMPANAS.NOMBRE AS Campana,Cuenta_Virtual.Valor,Cuenta_Virtual.Porcentaje,Cuenta_Virtual.Comision,Ventas.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
+						CAMPANAS.NOMBRE AS Campana,VENTAS.Valor,VENTAS.Porcentaje_Comision,transaccionesd.Valor,Ventas.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
 				$query = mysqli_query($con, $sql);
 				if ($numrows>0){
 					echo mysqli_error($con);
@@ -211,19 +211,20 @@
 							<th class="text-right">Comision</th>
 						</tr>
 						<?php
+						$TValor= 0;
 						while ($row=mysqli_fetch_array($query)){
 		
 								$Numero=$row['Numero'];
 								$Afiliado=$row['Primer_Nombre'].' '.$row['Primer_Apellido'] ;
-								$Valor=$row['Comision'];
+								$Valor=$row['Valor'];
 								$Usuario=$row['Razon_Social'];
 								$Campana=$row['Campana'];
 								$Estado=$row['Estado_Campana'];
 								$Fecha=$row['Fecha'];
-								$Porcentaje_Comision=$row['Porcentaje'];
+								$Porcentaje_Comision=$row['Porcentaje_Comision'];
 								$label_class='label-default';
 								$NCampana=$row['NCampana'];
-								
+								$TValor= $TValor+$Valor;
 							?>
 							<tr>
 								<td class="text-center"><?php echo $Numero; ?></td>
@@ -239,6 +240,26 @@
 							<?php
 						}
 						?>
+						<tr>
+					<td colspan=6><b><span class="pull-right"><?php
+						 echo 'Total Pagina:'
+						?></span></b></td>
+						<td ><b><span class="pull-right"><?php
+					
+						 echo number_format($TValor);
+						?></span></b></td>
+					</tr>
+					<tr>
+					<tr>
+					<td colspan=6><h4><span class="pull-right"><?php
+						 echo 'Total General:'
+						?></span></h4></td>
+						<td ><h4><span class="pull-right"><?php
+						$query1=mysqli_query($con, "SELECT sum(transaccionesD.Valor) FROM $sTable $sWhere;");			
+						$rw_Admin1=mysqli_fetch_array($query1);
+						 echo number_format($rw_Admin1[0]);
+						?></span></h4></td>
+					</tr>
 						<tr>
 							<td colspan=7><span class="pull-right"><?php
 							 echo paginate($reload, $page, $total_pages, $adjacents);

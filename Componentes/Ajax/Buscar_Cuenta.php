@@ -172,13 +172,16 @@
 			if($Pest=='ResComisiones'){
 				$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="CuentaVirtual" and Permiso="ConsultarTodo" and  Usuario ="'.$_SESSION['Nit'].'";');
 										
-				$rw_Admin1=mysqli_fetch_array($query1);
+				$rw_Admin1=mysqli_fetch_array($query1);/*
 				if(($rw_Admin1['Estado']=='false') && ($_SESSION['Rol']<>'1')){
 					$Condicion=' and Ventas.Usuario = "'.$_SESSION['Nit'].'"';
 				}else{
 					$Condicion='';
+				}*/
+				if(($_SESSION['Rol']<>'1')){
+					$Condicion=' and Ventas.Usuario = "'.$_SESSION['Nit'].'"';
 				}
-											
+				$Condicion='';							
 
 				$sql="SELECT Cuenta_Virtual.Estado as EstadoCuenta,VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,Ventas.Fecha,
 						VENTAS.Estado_Campana,
@@ -225,7 +228,11 @@
 									if($Estado=='Solicitada'){
 										$label_class='label-info';
 									}else{
-										$label_class='label-warning';
+										if($Estado=='Rechazada'){
+											$label_class='label-danger';
+										}else{
+											$label_class='label-warning';
+										}
 									}
 									
 								$TComision=$TComision+$Comision;

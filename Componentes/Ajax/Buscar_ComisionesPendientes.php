@@ -59,11 +59,15 @@
 		$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="CuentaVirtual" and Permiso="ConsultarTodo" and  Usuario ="'.$_SESSION['Nit'].'";');
 										
 		$rw_Admin1=mysqli_fetch_array($query1);
-		if(($rw_Admin1['Estado']=='false') && ($_SESSION['Rol']<>'1')){
-			$Condicion=' and Ventas.Usuario = "'.$_SESSION['Nit'].'"';
-		}else{
-			$Condicion='';
-		}
+		/*
+				if(($rw_Admin1['Estado']=='false') && ($_SESSION['Rol']<>'1')){
+					$Condicion=' and Ventas.Usuario = "'.$_SESSION['Nit'].'"';
+				}else{
+					$Condicion='';
+				}*/
+		
+					$Condicion=' and Ventas.Usuario = "'.$_SESSION['Nit'].'"';
+							
 									
 
 		$sql="SELECT Cuenta_Virtual.Estado as EstadoCuenta,VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,Ventas.Fecha,

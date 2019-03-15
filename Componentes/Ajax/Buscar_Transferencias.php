@@ -10,14 +10,12 @@
 		$fechaIni = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaIni'], ENT_QUOTES)));
 		$fechaFin = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaFin'], ENT_QUOTES)));
 
-		$sTable = "transacciones
-		INNER JOIN VENTAS ON VENTAS.NUMERO= TRANSACCIONES.VENTA
-		INNER JOIN USUARIOS ON VENTAS.USUARIO = USUARIOS.NIT
-		INNER JOIN CUENTA_VIRTUAL ON CUENTA_VIRTUAL.VENTA = VENTAS.NUMERO";
-		$sWhere = "where (transacciones.Fecha >= '$fechaIni' and  transacciones.Fecha <= '$fechaFin') ";
+		$sTable = "TransaccionesE	
+		INNER JOIN USUARIOS ON TransaccionesE.USUARIO = USUARIOS.NIT";
+		$sWhere = "where (TransaccionesE.Fecha_Creacion >= '$fechaIni' and  TransaccionesE.Fecha_Creacion <= '$fechaFin') ";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Numero"){
-				$sWhere.= " and  (transacciones.Numero like '%$q%' )";	
+				$sWhere.= " and  (TransaccionesE.Numero like '%$q%' )";	
 			}else{
 				if ($Filtro =="Documento"){
 						$sWhere.= " and  (USUARIOS.NIT like '%$q%' )";	
@@ -29,9 +27,9 @@
 			}
 		}	
 		if($Estado<>"Todos"){
-			$sWhere.= " and transacciones.Estado ='".$Estado."'";	
+			$sWhere.= " and TransaccionesE.Estado ='".$Estado."'";	
 		} 
-		$order=" order by transacciones.Numero ";
+		$order=" order by TransaccionesE.Numero ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 50;
@@ -46,14 +44,14 @@
 										
 				$rw_Admin1=mysqli_fetch_array($query1);
 				if(($rw_Admin1['Estado']=='false') && ($_SESSION['Rol']<>'1')){
-					$Condicion=' and TRANSACCIONES.Usuario = "'.$_SESSION['Nit'].'"';
+					$Condicion=' and TransaccionesE.Usuario = "'.$_SESSION['Nit'].'"';
 				}else{
 					$Condicion='';
 				}
 
 
-		$sql="SELECT TRANSACCIONES.Numero,TRANSACCIONES.Usuario,USUARIOS.RAZON_SOCIAL,TRANSACCIONES.Fecha,TRANSACCIONES.ESTADO,SUM(CUENTA_VIRTUAL.COMISION)as VALOR FROM  $sTable $sWhere  $Condicion 
-		group by TRANSACCIONES.Usuario,TRANSACCIONES.Numero,TRANSACCIONES.Fecha
+		$sql="SELECT TransaccionesE.Numero,TransaccionesE.Usuario,USUARIOS.RAZON_SOCIAL,TransaccionesE.Fecha_Creacion,
+		TransaccionesE.ESTADO FROM  $sTable $sWhere  $Condicion 
 		$order LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
@@ -67,7 +65,6 @@
             <th>Usuario</th>
             <th>Fecha</th>
             <th>Estado</th>
-            <th class="text-right">Valor</th>
             <th class='text-right'>Editar</th>
         </tr>
         <?php
@@ -77,9 +74,9 @@
 						$Nit=$row['Usuario'];
 					
 						$Usuario=$row['RAZON_SOCIAL'];
-						$Fecha=$row['Fecha'];
+						$Fecha=$row['Fecha_Creacion'];
 						$Estado=$row['ESTADO'];
-						$Valor=$row['VALOR'];
+					
 						
 						if ($Estado=="Revisada"){$label_class='label-success';}
 						if ($Estado=="Pendiente"){$label_class='label-warning';}
@@ -92,12 +89,12 @@
             <td><?php echo $Usuario; ?></td>
             <td><?php echo $Fecha; ?></td>
             <td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>
-            <td class="text-right"><?php echo '$'.number_format($Valor); ?></td>
+            
 
 
             <td class="text-right">
-                <a href="#" class='btn btn-default' title='Editar Venta'
-                    onclick="" data-toggle="modal"
+                <a href="#" class='btn btn-default' title='Validar Transferencia'
+				onclick="obtener_datos('<?php echo $Numero;?>');" data-toggle="modal"
                     data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i></a>
             </td>
 

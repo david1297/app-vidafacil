@@ -29,7 +29,7 @@
   								<div class="card-body text-success">
 										<p class="card-text">
 											<?php
-												$query1=mysqli_query($con, "SELECT sum(Cuenta_Virtual.Comision) as valor FROM Cuenta_Virtual Where Usuario='".$_SESSION['Nit']."' and Estado<> 'Pagada';");			
+												$query1=mysqli_query($con, "SELECT sum(Cuenta_Virtual.Comision) as valor FROM Cuenta_Virtual Where Usuario='".$_SESSION['Nit']."' and (Estado<> 'Pagada' and Estado<> 'Rechazada' );");			
 												$rw_Admin1=mysqli_fetch_array($query1);
 												echo '$ '.number_format($rw_Admin1[0]);
 											?>
@@ -118,6 +118,7 @@
 										<option value="Todos">Todos</option>
 										<option value="Pagada">Pagadas</option>
 										<option value="Pendiente">Pendientes</option>
+										<option value="Rechazada">Rechazadas</option>
 										<option value="Solicitada">Solicitadas</option>
 									</select>
 								</div>
@@ -172,8 +173,6 @@
 	})
 
 	$( "#formPago" ).submit(function( event ) {
-
-
 			var parametros = $(this).serialize();
 			$.ajax({
 				type: "POST",

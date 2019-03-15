@@ -37,8 +37,7 @@
 							<div class="col-md-2">		
 									<select class='form-control ' id="Filtro" name ="Filtro" placeholder="Estado" onchange='load(1);'>
 										<option value="Documento">#.Documento</option>
-										<option value="Telefono">Telefono</option>
-										<option value="Campaña">Campaña</option>
+										<option value="Numero">Numero</option>
 										<option value="Usuario">Usuario</option>								
 									</select>
 								</div>
