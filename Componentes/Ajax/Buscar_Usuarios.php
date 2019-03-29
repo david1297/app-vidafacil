@@ -52,11 +52,8 @@
 			<div class="table-responsive">
 			  <table class="table table-hover">
 				<tr  class="warning">
-					<th>Nombre</th>
-					<th>Nit</th>
-					<th>Correo</th>
+					<th>Nombre o Razon Social</th>
 					<th>Tipo</th>
-					<th>Rol</th>
 					<th>Estado</th>
 					<th class='text-right'>Editar</th>
 				</tr>
@@ -81,10 +78,7 @@
 					?>
 					<tr>
 						<td><?php echo $Nombre; ?></td>
-						<td><?php echo $Nit; ?></td>
-						<td><?php echo $Correo; ?></td>
 						<td><?php echo $Tipo; ?></td>
-						<td><?php echo $Rol; ?></td>				
 						<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>			
 						<td class="text-right">
 							<a href="#" class='btn btn-default' title='Editar Usuarios' onclick="obtener_datos('<?php echo $Nit;?>');"><i class="glyphicon glyphicon-edit"></i></a> 

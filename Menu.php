@@ -107,18 +107,28 @@ require_once ("config/conexion.php");
                         <span>Inicio</span></a></li>
                 <li class="<?php echo $Administracion;?>"><a href="Administracion.php"><i class="fab fa-jedi-order"></i>
                         <span>Administracion</span></a></li>
+                <li class="<?php echo $Usuarios;?>">
+		        <a href="#uiElements" class="has-arrow" aria-expanded="false">
+                                <i class="fas fa-users"></i>
+                                <span>Usuarios</span>
+                        </a>				
+                        <ul aria-expanded="true">
+                                <li class=""><a href="Usuarios.php"><i class="fas fa-user-plus"></i>Nuevo</a></li>
+				<li class=""><a href="Consultar-Usuarios.php"><i class="fab fa-searchengin"></i>Consultar</a></li>
+				<li class=""><a href="#"><i class="fas fa-credit-card"></i>Cuenta Virtual</a></li>
+			</ul>
+		</li>                  
                 <li class="<?php echo $Afiliados;?>"><a href="Consultar-Afiliados.php"><i
                             class="fas fa-user-tie"></i><span>Afiliados</span></a></li>
                 <li class="<?php echo $Campanas;?>"><a href="Consultar-Campanas.php"><i class="fas fa-bullhorn"></i>
                         <span>Campañas</span></a></li>
                 <li class="<?php echo $Contabilidad;?>"><a href="Consultar-Contabilidad.php"><i class="fas fa-book"></i>
                         <span>Contabilidad</span></a></li>
-                <li class="<?php echo $Cuenta;?>"><a href="Consultar-Cuenta.php"><i class="fas fa-credit-card"></i>
-                        <span>Cuenta Virtual</span></a></li>
+                <li class="<?php echo $Cuenta;?>"><a href="Consultar-Cuenta.php"><i class="fas fa-id-card"></i>
+                        <span>Cuenta Virtual</span></a>
                 <li class="<?php echo $Transferencias;?>"><a href="Consultar-Transferencias.php"><i class="fas fa-exchange-alt"></i>
                         <span>Transferencias</span></a></li>
-                <li class="<?php echo $Usuarios;?>"><a href="Consultar-Usuarios.php"><i class="fas fa-users"></i>
-                        <span>Usuarios</span></a></li>
+                
                 <li class="<?php echo $Ventas;?>"><a href="Consultar-Ventas.php"><i class="fas fa-shopping-cart"></i>
                         <span>Ventas</span></a></li>
                 <?php	

@@ -34,6 +34,7 @@
 	$Numero_Cuenta_2="";
 	$Titular_1="";
 	$Titular_2="";
+	$Portafolio="";
 		
 	$Tipo ="";
 	$Estado ="";
@@ -53,6 +54,7 @@
 		$Estado =$rw_Admin['Estado'];
 		$Rol=$rw_Admin['Rol'];
 		$Porcentaje =$rw_Admin['Porcentaje'];
+		$Portafolio =$rw_Admin['Portafolio'];
 		$Tel_C =$rw_Admin['Tel_C'];
 		$Direccion =$rw_Admin['Direccion'];
 		$Correo =$rw_Admin['Correo'];
@@ -71,7 +73,7 @@
 		$Tipo_Banco_2=$rw_Admin['Tipo_Banco_2'];
 		$Numero_Cuenta_2=$rw_Admin['Numero_Cuenta_2'];
 		$Titular_1=$rw_Admin['Titular_1'];
-	$Titular_2=$rw_Admin['Titular_2'];
+		$Titular_2=$rw_Admin['Titular_2'];
 
 		$EstadoU="Editando";
 		$Read= "readonly='readonly'";
@@ -79,6 +81,7 @@
 	{
 		$EstadoU="Nuevo";
 		$Read= "";
+		$Rol="2";
 	}
 	if (isset($_GET['Perfil'])) {
 		$Perfil="Si";
@@ -128,13 +131,23 @@
 			   						<div id="resultados_ajax"></div>
 									   	<input type="text" class="form-control hidden" id="EstadoU" name="EstadoU"  value="<?php echo $EstadoU; ?>" > 
 										<input type="text" class="form-control hidden" id="Perfil" name="Perfil"  value="<?php echo $Perfil; ?>" > 
-
-									<div class="form-group col-sm-8">
-				  						<label for="Nit" class="col-sm-3  control-label">Nit</label>
-				  						<div class="col-sm-8 ">
-				   							<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" <?php echo $Read; ?> required>
-				  						</div>
-			   						</div>
+										<div class="form-group col-sm-8">
+										<label for="Tipo_Persona" class="col-sm-3 control-label">Tipo</label>
+										<div class="col-md-8 col-sm-8">
+											<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo ">
+												<?php 
+												if($Tipo == 'Operador'){
+													echo '<option value="Operador">Operador</option>';
+													echo '<option value="Distribuidor">Distribuidor</option>';
+												}else{
+													echo '<option value="Distribuidor">Distribuidor</option>';
+													echo '<option value="Operador">Operador</option>';
+												}
+							  					?>
+											</select>
+										</div>
+									</div> 
+									
 									<div class="form-group col-sm-8">
 										<label for="Tipo_Persona" class="col-sm-3 control-label">Tipo Persona</label>
 										<div class="col-md-8 col-sm-8">
@@ -151,6 +164,12 @@
 											</select>
 										</div>
 									</div>  
+									<div class="form-group col-sm-8">
+				  						<label for="Nit" class="col-sm-3  control-label" id="label-Nit">Nit</label>
+				  						<div class="col-sm-8 ">
+				   							<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" <?php echo $Read; ?> required>
+				  						</div>
+			   					</div>
 									<div class="form-group col-sm-8" id="D_Razon_Social">
 										<label for="Razon_Social"  class="col-sm-3 control-label">Razon Social</label>
 				  						<div class="col-sm-8">
@@ -169,47 +188,7 @@
 				  							<input type="text" class="form-control" id="Apellido" name="Apellido"  placeholder="Apellido" value="<?php echo $Apellido; ?>"  onkeyup="RazonSocial()">
 										</div>
 									</div>
-									<div class="form-group col-sm-8">
-										<label for="Rol" class="col-sm-3 control-label">Rol</label>
-										<div class="col-md-8 col-sm-8">
-											<?php 
-												if ($Perfil =='Si'){
-													echo'<input type="Text" class="form-control hidden" id="Rol" name="Rol" require value="'.$Rol.'" readonly="readonly">';
-													if ($Rol=="1"){
-														$Rol="Administrador";
-													}else{
-														$Rol="Usuario";
-													}									
-													echo '
-													<input type="Text" class="form-control" require value="'.$Rol.'" readonly="readonly">';
-												} else{
-													if($_SESSION['Rol'] == '2'){
-														echo'<input type="Text" class="form-control hidden" id="Rol" name="Rol" require value="'.$Rol.'" readonly="readonly">';
-														if ($Rol=="1"){
-															$Rol="Administrador";
-														}else{
-															$Rol="Usuario";
-														}									
-														echo '
-														<input type="Text" class="form-control" require value="'.$Rol.'" readonly="readonly">';
-													}else {											
-														echo '<select class="form-control" id="Rol" name ="Rol" placeholder="Rol"  >';
-														if($Rol == '2'){
-															echo '<option value="2">Usuario</option>';
-															echo '<option value="1">Administrador</option>';
-														}else{
-															echo '<option value="1">Administrador</option>';
-															echo '<option value="2">Usuario</option>';
-														}
-														echo '</select>';
-													}
-												}
-
-
-												
-											?>	
-										</div>
-									</div>
+									<input type="Text" class="form-control hidden" id="Rol" name="Rol" require value="<?php echo $Rol; ?>" readonly="readonly">
 									<?php 
 										if($EstadoU == "Nuevo"){
 											echo '
@@ -232,22 +211,7 @@
 											</div>';
 										}
 									?>
-									<div class="form-group col-sm-8">
-										<label for="Tipo_Persona" class="col-sm-3 control-label">Tipo</label>
-										<div class="col-md-8 col-sm-8">
-											<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo ">
-												<?php 
-												if($Tipo == 'Operador'){
-													echo '<option value="Operador">Operador</option>';
-													echo '<option value="Distribuidor">Distribuidor</option>';
-												}else{
-													echo '<option value="Distribuidor">Distribuidor</option>';
-													echo '<option value="Operador">Operador</option>';
-												}
-							  					?>
-											</select>
-										</div>
-									</div> 
+									
 									<div class="form-group col-sm-8">
 										<label for="Tel_C" class="col-sm-3 control-label">Telefono de Contacto</label>
 										<div class="col-sm-8">
@@ -279,7 +243,7 @@
 										</div>
 			  						</div>
 				  					<div class="form-group col-sm-8">
-										<label for="Porcentaje" class="col-sm-3 control-label">Porcentaje</label>
+										<label for="Porcentaje" class="col-sm-3 control-label">Porcentaje Comision</label>
 										<div class="col-sm-8">
 											<?php
 												if($_SESSION['Rol'] == '2'){
@@ -295,13 +259,29 @@
 										</div>
 									</div>
 									<div class="form-group col-sm-8">
-										<label for="Rep_Legal" class="col-sm-3 control-label">Representante Legal</label>
+										<label for="Portafolio" class="col-sm-3 control-label">Valor Portafolio</label>
+										<div class="col-sm-8">
+											<?php
+												if($_SESSION['Rol'] == '2'){
+											?>
+											<input type="Number" class="form-control" id="Portafolio" name="Portafolio" required placeholder="Portafolio" value="<?php echo $Portafolio;?>" min="100"  step="1000" <?php echo $Read; ?> onchange="UpdatePortafolio()" >
+											<?php
+												}else{
+											?>
+											<input type="Number" class="form-control" id="Portafolio" name="Portafolio" required placeholder="Portafolio" value="<?php echo $Portafolio;?>" min="100"  step="1000" onchange="UpdatePortafolio()"> 
+											<?php
+												}
+											?>
+										</div>
+									</div>
+									<div class="form-group col-sm-8">
+										<label for="Rep_Legal" class="col-sm-3 control-label" id="Label-Rep_Legal">Representante Legal</label>
 										<div class="col-sm-8">
 				  							<input type="text" class="form-control" id="Rep_Legal" name="Rep_Legal" required placeholder="Representante Legal" value="<?php echo $Rep_Legal; ?>">
 										</div>
 									</div>
 									<div class="form-group col-sm-8">
-										<label for="CC" class="col-sm-3 control-label">Numero de Documento</label>
+										<label for="CC" class="col-sm-3 control-label" id="Label-CC">Numero de Documento</label>
 										<div class="col-sm-8">
 				  							<input type="text" class="form-control" id="CC" name="CC" required placeholder="Numero de Documento" value="<?php echo $CC; ?>">
 										</div>
@@ -558,6 +538,18 @@ if($("#Porcentaje").val()< 0){
 	document.getElementById('Porcentaje').value = p* (-1);
 
 }
+document.getElementById('Portafolio').value =0;
+}
+
+function UpdatePortafolio(){
+if($("#Portafolio").val()< 0){
+	var p = $("#Portafolio").val();
+	document.getElementById('Portafolio').value = p* (-1);
+
+}
+document.getElementById('Porcentaje').value = 0;
+
+
 }
 	$( "#Cancelar" ).click(function( event ) {
 		if (document.getElementById('EstadoU').value == 'Editando') {
@@ -623,10 +615,23 @@ function TipoPersona(){
 		$('#D_Nombre').removeClass("hidden");
 		$('#D_Apellido').removeClass("hidden");
 		$('#D_Razon_Social').addClass("hidden");
+		$('#label-Nit').text('Numero de Documento');
+		$("#Nit").attr("placeholder", "Numero de Documento");
+		$('#Label-Rep_Legal').text('Nombre de Establecimiento');
+		$("#Rep_Legal").attr("placeholder", "Nombre de Establecimiento");
+		$('#Label-CC').text('Nit');
+		$("#CC").attr("placeholder", "Nit");
 	} else{
 		$('#D_Nombre').addClass("hidden");
 		$('#D_Apellido').addClass("hidden");
 		$('#D_Razon_Social').removeClass("hidden");
+		$('#label-Nit').text('Nit');
+		$("#Nit").attr("placeholder", "Nit");
+		$('#Label-Rep_Legal').text('Representante Legal');
+		$("#Rep_Legal").attr("placeholder", "Representante Legal");
+		$('#Label-CC').text('Numero de Documento');
+		$("#CC").attr("placeholder", "Numero de Documento");
+
 	}
 	
 }
