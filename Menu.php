@@ -115,7 +115,7 @@ require_once ("config/conexion.php");
                         <ul aria-expanded="true">
                                 <li class=""><a href="Usuarios.php"><i class="fas fa-user-plus"></i>Nuevo</a></li>
 				<li class=""><a href="Consultar-Usuarios.php"><i class="fab fa-searchengin"></i>Consultar</a></li>
-				<li class=""><a href="#"><i class="fas fa-credit-card"></i>Cuenta Virtual</a></li>
+				<li class=""><a href="Consultar-CuentaGeneral.php"><i class="fas fa-credit-card"></i>Cuenta Virtual</a></li>
 			</ul>
 		</li>                  
                 <li class="<?php echo $Afiliados;?>"><a href="Consultar-Afiliados.php"><i
