@@ -59,11 +59,16 @@
 									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
 								</div>
 								<div class="col-md-2">		
-									<select class='form-control' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
+									<select class='form-control' id="EFiltro" name ="EFiltro" placeholder="Filtro" onchange='CambioEFiltro();'>
 										<option value="Todos">Todos</option>
-										<option value="Pendiente">Pendiente</option>
-										<option value="Activo">Activo</option>
-										<option value="InActivo">InActivo</option>
+										<option value="Estado">Estado</option>
+										<option value="Tipo">Tipo</option>
+										<option value="Campana">Campaña</option>
+									</select>
+								</div>
+								<div class="col-md-2">		
+									<select class='form-control' id="VFiltro" name ="VFiltro" placeholder="Filtro" onchange='load(1);'>
+										<option value="Todos">Todos</option>
 									</select>
 								</div>
 								<div class="col-md-2">
@@ -89,7 +94,21 @@
 	<script type="text/javascript" src="Componentes/JavaScript/Usuarios.js"></script>
 
 	<script>
-	
+	function CambioEFiltro(){
+		var Filtro =  $("#EFiltro").val();
+		$("#loader").fadeIn('slow');
+			$.ajax({
+				url:'Componentes/Ajax/Filtros_Usuarios.php?Filtro='+Filtro,
+				 beforeSend: function(objeto){
+					$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			  },
+				success:function(data){
+					$('#loader').html('');
+					$("#VFiltro").html(data);
+					load(1);
+				}
+			})
+	}
 	</script>
   </body>
 </html>

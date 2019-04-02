@@ -6,8 +6,9 @@
 	if($action == 'ajax'){
 		$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
-		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
-		$sTable = "Usuarios";
+		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
+		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
+		$sTable = "Usuarios inner join usuario_camp on 	Nit =Usuario";
 		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Razon_Social"){
@@ -28,23 +29,38 @@
 			}
 			
 		}
-		if($Estado<>"Todos"){
-			$sWhere.= " and Estado ='".$Estado."'";	
+		if($EFiltro<>"Todos"){
+			if($EFiltro=='Estado'){
+				$sWhere.= " and Estado ='".$VFiltro."'";		
+			}else{
+				if($EFiltro=='Tipo'){
+					$sWhere.= " and Tipo ='".$VFiltro."'";		
+				}else{
+					if($EFiltro=='Campana'){
+						$sWhere.= " and Campana ='".$VFiltro."'";		
+					}
+				}
+
+			}
+
+			
 		} 
 
 
-		$sWhere.=" order by Usuarios.Razon_Social desc";
+		$Group=" group by Razon_Social,Tipo,Estado,Nit ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 10;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
-		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere");
+		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere $Group");
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Usuarios.php';
-		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		$sql="SELECT Razon_Social,Tipo,Estado,Nit FROM  $sTable $sWhere $Group  
+		order by Usuarios.Razon_Social desc
+		LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
@@ -62,14 +78,7 @@
 
 						$Nombre=$row['Razon_Social'];
 						$Nit=$row['Nit'];
-						$Correo=$row['Correo'];
 						$Tipo=$row['Tipo'];
-						$Rol=$row['Rol'];
-						if ($Rol == '1'){
-							$Rol='Administrador';
-						}else{
-							$Rol='Usuario';	
-						}
 						$Estado=$row['Estado'];
 						if ($Estado=="Activo"){$label_class='label-success';}
 						if ($Estado=="InActivo"){$label_class='label-danger';}
