@@ -9,6 +9,8 @@
 		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
 		$fechaIni = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaIni'], ENT_QUOTES)));
 		$fechaFin = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaFin'], ENT_QUOTES)));
+		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
+		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
 
 		$sTable = "Ventas INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
 		inner join Usuarios on Usuarios.Nit=Ventas.Usuario
@@ -16,29 +18,16 @@
 		$sWhere = "where (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Numero"){
-				
 				$sWhere.= " and  (Ventas.Numero like '%$q%' )";	
 			}else{
 				if ($Filtro =="Nombre"){
 					$sWhere.= " and  ((AFILIADOS.Primer_Nombre like '%$q%') OR (AFILIADOS.Segundo_Nombre like '%$q%')OR (AFILIADOS.Primer_Apellido like '%$q%') OR (AFILIADOS.Segundo_Apellido like '%$q%'))";	
 				}else {
-					if ($Filtro =="Cedula"){
+					if ($Filtro =="Identificacion"){
 						$sWhere.= " and  (AFILIADOS.Identificacion like '%$q%' )";	
 					}else{
 						if($Filtro =="Telefono"){
 							$sWhere.= " and  (AFILIADOS.Telefono like '%$q%' )";	
-						}else{
-							if($Filtro =="Campaña"){
-								$sWhere.= " and  (Campanas.Nombre like '%$q%' )";	
-							}else{
-								if($Filtro =="Usuario"){
-									$sWhere.= " and  (Usuarios.Razon_Social like '%$q%' )";
-								}else{
-									if($Filtro =="Estado"){
-										$sWhere.= " and  (Ventas.Estado_Campana like '%$q%' )";
-									}
-								}
-							}
 						}
 					}
 
@@ -47,12 +36,33 @@
 			}
 			
 		}
-		if($_SESSION['Rol'] == '2'){
-			$sWhere.= " and  Ventas.Usuario='".$_SESSION['Nit']."' ";
-		}	
-		if($Estado<>"Todos"){
-			$sWhere.= " and VENTAS.Estado ='".$Estado."'";	
+		if($EFiltro<>"Todos"){
+			if($EFiltro=='Usuario'){
+				$sWhere.= " and Ventas.Usuario ='".$VFiltro."'";		
+			}else{
+				if($EFiltro=='Estado'){
+					$sWhere.= " and Ventas.Estado ='".$VFiltro."'";		
+				}else{
+					if($EFiltro=='Campana'){
+						$sWhere.= " and Ventas.Campana ='".$VFiltro."'";		
+					}else{
+						if($EFiltro=='Departamento'){
+							$sWhere.= " and AFILIADOS.Departamento ='".$VFiltro."'";
+						}else{
+							if($EFiltro=='Ciudad'){
+								$sWhere.= " and AFILIADOS.Ciudad ='".$VFiltro."'";
+							}	
+						}
+
+					}
+				}
+
+			}
+
+			
 		} 
+
+		 
 		$sWhere.=" order by Ventas.Numero ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
@@ -78,10 +88,10 @@
 					<th>Afiliado</th>
 					<th>Usuario</th>
 					<th>Campaña</th>
-					<th>Estado</th>
 					<th class="text-right">Valor</th>
 					<th class="text-right">Porcentaje</th>
 					<th class="text-right">Comision</th>
+					<th class='text-right'>Estado</th>
 
 					<th class='text-right'>Editar</th>
 					<th class='text-right'></th>
@@ -110,13 +120,15 @@
 						<td><?php echo $Afiliado; ?></td>
 						<td><?php echo $Usuario; ?></td>
 						<td><?php echo $Campana; ?></td>
-						<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>
 						<td class="text-right"><?php echo '$'.number_format($Valor); ?></td>
 						<td class="text-right"><?php echo $Porcentaje_Comision.'%'; ?></td>
 						<td class="text-right"><?php echo '$'.number_format(($Valor*$Porcentaje_Comision)/100); ?></td>
-
 						<td class="text-right">
-							<a href="#" class='btn btn-default' title='Editar Venta' onclick="obtener_datos('<?php echo $Numero;?>','<?php echo $Estado;?>');"  data-toggle="modal" data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i></a> 
+						
+						<a href="#" class='btn btn-default' title='Editar Estado' onclick="obtener_datos('<?php echo $Numero;?>','<?php echo $Estado;?>');"  data-toggle="modal" data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i><?php echo $Estado; ?></a>
+						</td>
+						<td class="text-right">
+							<a href="#" class='btn btn-default' title='Editar Venta' onclick="obtener_datos1('<?php echo $Numero;?>');"><i class="glyphicon glyphicon-edit"></i></a> 
 						</td>
 						<td>
 

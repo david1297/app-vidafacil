@@ -5,6 +5,7 @@
 			if(Numero==0){
 				$("#outer_divc").html('');
 			}
+			var Nit =$("#Nit").val();
 			var q= $("#q").val();
 			var Filtro = $("#Filtro").val();
 			var Estado = $("#FEstado").val();
@@ -12,7 +13,7 @@
 			var fechaFin = $("#fechaFin").val();
 			$("#loader").fadeIn('slow');
 			$.ajax({
-				url:'Componentes/Ajax/Buscar_ComisionesPendientes.php?action=ajax&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin,
+				url:'Componentes/Ajax/Buscar_ComisionesPendientes.php?action=ajax&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&Nit='+Nit,
 				 beforeSend: function(objeto){
 				 $('#resultados_ajax2').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			  },

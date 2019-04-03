@@ -1,5 +1,9 @@
 <?php
 	session_start();
+	header("location: Consultar-BaseGeneral.php");
+
+/*
+
 	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
         header("location: login.php");
 		exit;
@@ -88,4 +92,4 @@
 	
 	</script>
   </body>
-</html>
+</html>*/	?>

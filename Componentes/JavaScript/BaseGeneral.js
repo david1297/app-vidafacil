@@ -8,10 +8,12 @@
 			var Estado = $("#FEstado").val();
 			var fechaIni = $("#fechaIni").val();
 			var fechaFin = $("#fechaFin").val();
+			var EFiltro = $("#EFiltro").val();
+			var VFiltro = $("#VFiltro").val();
 		
 			$("#loader").fadeIn('slow');
 			$.ajax({
-				url:'Componentes/Ajax/Buscar_BaseGeneral.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin,
+				url:'Componentes/Ajax/Buscar_BaseGeneral.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&EFiltro='+EFiltro+'&VFiltro='+VFiltro,
 				 beforeSend: function(objeto){
 				 $('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			  },
@@ -37,7 +39,9 @@ function obtener_datos(Numero,Estado){
 	$("#Estado_Campana").html($("#Estado_Campana"+Numero+"").html());	
 	$("#Estado").html($("#Estado"+Numero+"").html());	
 }
-
+function obtener_datos1(Numero){
+	location.href='Ventas.php?Numero='+Numero;
+}
 $( "#Actualizar_Ventas" ).submit(function( event ) {
 	var parametros = $(this).serialize();
 	$.ajax({

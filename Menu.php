@@ -112,7 +112,7 @@ require_once ("config/conexion.php");
                                 <i class="fas fa-users"></i>
                                 <span>Usuarios</span>
                         </a>				
-                        <ul aria-expanded="true">
+                        <ul aria-expanded="">
                                 <li class=""><a href="Usuarios.php"><i class="fas fa-user-plus"></i>Nuevo</a></li>
 				<li class=""><a href="Consultar-Usuarios.php"><i class="fab fa-searchengin"></i>Consultar</a></li>
 				<li class=""><a href="Consultar-CuentaGeneral.php"><i class="fas fa-credit-card"></i>Cuenta Virtual</a></li>
@@ -123,7 +123,7 @@ require_once ("config/conexion.php");
                                 <i class="fas fa-shopping-cart"></i>
                                 <span>Trasacciones</span>
                         </a>				
-                        <ul aria-expanded="true">
+                        <ul aria-expanded="">
                                 <li class=""><a href="Ventas.php"><i class="fas fa-cart-arrow-down"></i>Nueva</a></li>
 				<li class=""><a href="Consultar-Ventas.php"><i class="fab fa-searchengin"></i>Consultar</a></li>
 			</ul>
