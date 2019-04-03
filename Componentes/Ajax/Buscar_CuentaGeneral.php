@@ -9,8 +9,8 @@
 		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
 		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
 		$sTable = "Usuarios 
-		inner join usuario_camp on 	Usuarios.Nit =usuario_camp.Usuario 
-inner join cuenta_virtual on cuenta_virtual.Usuario= Usuarios.Nit";
+		
+		inner join cuenta_virtual on cuenta_virtual.Usuario= Usuarios.Nit";
 		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Razon_Social"){
@@ -39,7 +39,7 @@ inner join cuenta_virtual on cuenta_virtual.Usuario= Usuarios.Nit";
 					$sWhere.= " and Tipo ='".$VFiltro."'";		
 				}else{
 					if($EFiltro=='Campana'){
-						$sWhere.= " and Campana ='".$VFiltro."'";		
+						$sWhere.= " and Usuarios.Nit in(select Usuario from usuario_camp where Campana ='".$VFiltro."')";		
 					}
 				}
 
@@ -58,7 +58,7 @@ inner join cuenta_virtual on cuenta_virtual.Usuario= Usuarios.Nit";
 		$sql="SELECT Usuarios.Razon_Social,Usuarios.Tipo,Usuarios.Estado,Usuarios.Nit,sum(Comision) Saldo FROM  $sTable $sWhere $Group  
 		order by Usuarios.Razon_Social desc
 		LIMIT $offset,$per_page";
-		
+	
 		$query = mysqli_query($con, $sql);
 		$numrows= 	mysqli_num_rows($query);
 		$total_pages = ceil($numrows/$per_page);

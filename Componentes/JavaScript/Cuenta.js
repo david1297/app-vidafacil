@@ -24,19 +24,20 @@
 		}
 		function load(page){
 			var q= $("#q").val();
-			var Pest =$("#Pestana").val();
+			var Nit =$("#Nit").val();
+		
 			var Filtro = $("#Filtro").val();
 			var Estado = $("#FEstado").val();
 			var fechaIni = $("#fechaIni").val();
 			var fechaFin = $("#fechaFin").val();
 			$("#loader").fadeIn('slow');
 			$.ajax({
-				url:'Componentes/Ajax/Buscar_Cuenta.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&Pest='+Pest,
+				url:'Componentes/Ajax/Buscar_Cuenta.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&Nit='+Nit,
 				 beforeSend: function(objeto){
 				 $('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			  },
 				success:function(data){
-					$("."+Pest).html(data).fadeIn('slow');
+					$(".ResComisiones").html(data).fadeIn('slow');
 					$('#loader').html('');
 					
 				}

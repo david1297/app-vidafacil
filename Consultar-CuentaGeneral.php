@@ -30,6 +30,8 @@
 		?>
 		<div id="main-content">
 			<div class="container-fluid">
+			<div class="Cuenta_Cart" ></div>
+			<br>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    			
