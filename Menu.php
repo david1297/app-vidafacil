@@ -131,12 +131,12 @@ require_once ("config/conexion.php");
                 <li class="<?php echo $Afiliados;?>"><a href="Consultar-Afiliados.php"><i
                             class="fas fa-user-tie"></i><span>Afiliados</span></a></li>
                              
-                
+                            
                 <li class="<?php echo $Campanas;?>"><a href="Consultar-Campanas.php"><i class="fas fa-bullhorn"></i>
                         <span>Campañas</span></a></li>
                 <li class="<?php echo $Contabilidad;?>"><a href="Consultar-Contabilidad.php"><i class="fas fa-book"></i>
                         <span>Contabilidad</span></a></li>
-                <li class="<?php echo $Cuenta;?>"><a href="Consultar-Cuenta.php"><i class="fas fa-id-card"></i>
+                <li class="<?php echo $Cuenta;?>"><a href="Consultar-Cuenta.php?Nit=<?php echo $_SESSION['Nit'];?>"><i class="fas fa-id-card"></i>
                         <span>Cuenta Virtual</span></a>
                 <li class="<?php echo $Transferencias;?>"><a href="Consultar-Transferencias.php"><i class="fas fa-exchange-alt"></i>
                         <span>Transferencias</span></a></li>
