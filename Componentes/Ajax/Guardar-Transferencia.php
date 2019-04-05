@@ -70,6 +70,22 @@ require_once ("../../config/db.php");
 		$query_update = mysqli_query($con,$sql);
 	
 		}
+		if (isset($_POST['Observaciones'])) {
+			$User=$_SESSION['Nit'];
+			$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));	
+			if ($Observaciones<>''){
+				$Fecha =date("Y-m-d");
+				$sql =  "INSERT INTO  observaciones_Transferencias(Transferencia,Fecha,Observacion,Usuario) VALUES
+				('".$Numero."', '".$Fecha."', '".$Observaciones."', '".$User."')";
+			 $query_update = mysqli_query($con,$sql);
+			 if ($query_update) {
+				 $messages[] = "Los Datos Se Han Modificado Con Exito.";
+			 } else {
+				 $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
+			 }	
+			}
+		
+		}
 		
 
 

@@ -5,7 +5,7 @@
 		function load(page){
 			var q= $("#q").val();
 			var Filtro = $("#Filtro").val();
-			var Estado = $("#FEstado").val();
+			
 			var fechaIni = $("#fechaIni").val();
 			var fechaFin = $("#fechaFin").val();
 			var EFiltro = $("#EFiltro").val();
@@ -13,7 +13,7 @@
 		
 			$("#loader").fadeIn('slow');
 			$.ajax({
-				url:'Componentes/Ajax/Buscar_BaseGeneral.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&EFiltro='+EFiltro+'&VFiltro='+VFiltro,
+				url:'Componentes/Ajax/Buscar_BaseGeneral.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&EFiltro='+EFiltro+'&VFiltro='+VFiltro,
 				 beforeSend: function(objeto){
 				 $('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			  },

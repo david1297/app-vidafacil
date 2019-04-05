@@ -33,10 +33,10 @@
 		}
 		if($EFiltro<>"Todos"){
 			if($EFiltro=='Estado'){
-				$sWhere.= " and Estado ='".$VFiltro."'";		
+				$sWhere.= " and Usuarios.Estado ='".$VFiltro."'";		
 			}else{
 				if($EFiltro=='Tipo'){
-					$sWhere.= " and Tipo ='".$VFiltro."'";		
+					$sWhere.= " and Usuarios.Tipo ='".$VFiltro."'";		
 				}else{
 					if($EFiltro=='Campana'){
 						$sWhere.= " and Usuarios.Nit in(select Usuario from usuario_camp where Campana ='".$VFiltro."')";		

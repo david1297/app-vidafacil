@@ -20,7 +20,7 @@
 	$Tipo_Cuenta="";
 	$Numero_Cuenta="";
 	$Titular_Cuenta="";
-
+    $Observaciones_Cargadas="";
 
 	if (isset($_GET['Numero'])) {
 
@@ -46,7 +46,22 @@
 		$Numero_Cuenta=$rw_Admin['Numero_Cuenta'];
 		$Titular_Cuenta=$rw_Admin['Titular_Cuenta'];
 
-		$Transferencia="Transferencia Numero: ".$Numero;
+        $Transferencia="Transferencia Numero: ".$Numero;
+        $sql="SELECT * FROM observaciones_Transferencias inner join Usuarios on Usuarios.Nit=observaciones_Transferencias.Usuario WHERE Transferencia=".$Numero."";
+
+		$query = mysqli_query($con, $sql);
+		while ($row=mysqli_fetch_array($query)){
+			$Observaciones_Cargadas.=
+				
+			'<br>
+			<div class="card border-secondary mb-3">
+  				<div class="card-header">'.$row['Razon_Social'].'<em>&nbsp;&nbsp;&nbsp;&nbsp;('.$row['Fecha'].')</em></div>
+  				<div class="card-body text-secondary">
+    				<p class="card-text">'.$row['Observacion'].'</p>
+  				</div>
+			</div>
+		';
+		}
 	}
 ?>
 <!doctype html>
@@ -183,6 +198,10 @@
                                             Name="Titular_Cuenta" placeholder="Titular de la Cuenta"
                                             value="<?php echo $Titular_Cuenta;?>">
                                     </div>
+                                    <div class="col-md-12">
+  										<label for="Observaciones">Observaciones:</label>
+  										<textarea class="form-control" rows="5" id="Observaciones" name="Observaciones"></textarea>
+									</div>	
 
                                     <?php
 							$sql="select Venta,Valor,Estado from TransaccionesD where Numero=".$Numero." ";
@@ -252,6 +271,10 @@
                                 </div>
                                 <br>
                             </div>
+                            <div class="col-md-12"><br>
+									<?php echo $Observaciones_Cargadas ?>
+  										
+									</div>
                             <div id="resultados_ajax2"></div>
                             <div class="modal-footer ">
                                 <button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>

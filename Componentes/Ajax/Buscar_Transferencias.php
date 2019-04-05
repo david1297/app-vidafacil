@@ -6,28 +6,25 @@
 	if($action == 'ajax'){
 		$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
-		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
 		$fechaIni = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaIni'], ENT_QUOTES)));
 		$fechaFin = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaFin'], ENT_QUOTES)));
+		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
+		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
 
 		$sTable = "TransaccionesE	
 		INNER JOIN USUARIOS ON TransaccionesE.USUARIO = USUARIOS.NIT";
 		$sWhere = "where (TransaccionesE.Fecha_Creacion >= '$fechaIni' and  TransaccionesE.Fecha_Creacion <= '$fechaFin') ";
 		if ( $_GET['q'] != "" ){
-			if ($Filtro == "Numero"){
-				$sWhere.= " and  (TransaccionesE.Numero like '%$q%' )";	
-			}else{
-				if ($Filtro =="Documento"){
-						$sWhere.= " and  (USUARIOS.NIT like '%$q%' )";	
-				}else{
-					if($Filtro =="Usuario"){
-						$sWhere.= " and  (Usuarios.Razon_Social like '%$q%' )";
-					}
-				}
-			}
+			$sWhere.= " and  (TransaccionesE.Numero like '%$q%' )";	
 		}	
-		if($Estado<>"Todos"){
-			$sWhere.= " and TransaccionesE.Estado ='".$Estado."'";	
+		if($EFiltro<>"Todos"){
+			if($EFiltro=='Usuario'){
+				$sWhere.= " and TransaccionesE.Usuario ='".$VFiltro."'";		
+			}else{
+				if($EFiltro=='Estado'){
+					$sWhere.= " and TransaccionesE.Estado ='".$VFiltro."'";		
+				}
+			}	
 		} 
 		$order=" order by TransaccionesE.Numero ";
 		include 'pagination.php';
@@ -42,16 +39,11 @@
 		$reload = './Consultar-Transferencias.php';
 		$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="Transferencias" and Permiso="ConsultarTodo" and  Usuario ="'.$_SESSION['Nit'].'";');
 										
-				$rw_Admin1=mysqli_fetch_array($query1);
-				if(($rw_Admin1['Estado']=='false') && ($_SESSION['Rol']<>'1')){
-					$Condicion=' and TransaccionesE.Usuario = "'.$_SESSION['Nit'].'"';
-				}else{
-					$Condicion='';
-				}
+				
 
 
 		$sql="SELECT TransaccionesE.Numero,TransaccionesE.Usuario,USUARIOS.RAZON_SOCIAL,TransaccionesE.Fecha_Creacion,
-		TransaccionesE.ESTADO FROM  $sTable $sWhere  $Condicion 
+		TransaccionesE.Fecha_Revision,TransaccionesE.ESTADO FROM  $sTable $sWhere   
 		$order LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
@@ -61,9 +53,10 @@
     <table class="table table-hover">
         <tr class="warning">
             <th class="text-center">Numero</th>
-            <th>Nit</th>
             <th>Usuario</th>
-            <th>Fecha</th>
+            <th>Fecha de Solicitud</th>
+            <th>Fecha de Revision</th>
+            <th>Valor</th>
             <th>Estado</th>
             <th class='text-right'>Editar</th>
         </tr>
@@ -74,7 +67,8 @@
 						$Nit=$row['Usuario'];
 					
 						$Usuario=$row['RAZON_SOCIAL'];
-						$Fecha=$row['Fecha_Creacion'];
+						$FechaCreacion=$row['Fecha_Creacion'];
+						$FechaRevision=$row['Fecha_Revision'];
 						$Estado=$row['ESTADO'];
 					
 						
@@ -85,9 +79,16 @@
 					?>
         <tr>
             <td class="text-center"><?php echo $Numero; ?></td>
-            <td><?php echo $Nit; ?></td>
             <td><?php echo $Usuario; ?></td>
-            <td><?php echo $Fecha; ?></td>
+            <td><?php echo $FechaCreacion; ?></td>
+            <td><?php echo $FechaRevision; ?></td>
+					<?php
+					$Sql1="SELECT Sum(VAlor) FROM transaccionesd where Numero ='".$Numero."';";
+			$query1 = mysqli_query($con, $Sql1);
+			$row1=mysqli_fetch_array($query1)
+?>
+            <td><?php echo '$'.number_format($row1[0]); ?></td>
+
             <td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>
             
 

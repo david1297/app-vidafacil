@@ -27,7 +27,7 @@ class Login
             }
             if (!$this->db_connection->connect_errno) {
                 $user_name = $this->db_connection->real_escape_string($_POST['user_name']);
-                $sql = "select Razon_Social,Correo,Clave,Tipo,Rol,Nit,Porcentaje from Usuarios
+                $sql = "select Razon_Social,Correo,Clave,Tipo,Rol,Nit,Porcentaje,Portafolio from Usuarios
                         WHERE Estado='Activo' and ( Correo = '" . $user_name . "' OR Nit = '" . $user_name . "' );";
                 $result_of_login_check = $this->db_connection->query($sql);
                 if ($result_of_login_check->num_rows == 1) {
@@ -39,6 +39,7 @@ class Login
                         $_SESSION['Tipo'] = $result_row->Nombre;
                         $_SESSION['Rol'] = $result_row->Rol;
                         $_SESSION['Porcentaje'] = $result_row->Porcentaje;
+                        $_SESSION['Portafolio'] = $result_row->Portafolio;
                         $_SESSION['user_login_status'] = 1;
 
                       

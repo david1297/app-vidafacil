@@ -34,13 +34,7 @@
 					<div class="panel-body">
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
-							<div class="col-md-2">		
-									<select class='form-control ' id="Filtro" name ="Filtro" placeholder="Estado" onchange='load(1);'>
-										<option value="Documento">#.Documento</option>
-										<option value="Numero">Numero</option>
-										<option value="Usuario">Usuario</option>								
-									</select>
-								</div>
+							
 								<div class="col-md-2">		
 									<input type="Date" class="form-control" id="fechaIni" name="fechaIni" value="<?php echo date("Y-m-d",strtotime("-1 month"))?>" onchange='load(1);'>
 								</div>
@@ -48,13 +42,19 @@
 									<input type="Date" class="form-control" id="fechaFin" name="fechaFin" value="<?php echo date("Y-m-d")?>" onchange='load(1);'>
 								</div>
 								<div class="col-md-4">
-									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
+									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Numero de Transferencia" onkeyup='load(1);'>
+								</div>
+							
+								<div class="col-md-2">		
+									<select class='form-control ' id="EFiltro" name ="EFiltro" placeholder="EFiltro" onchange='CambioEFiltro();'>
+									<option value="Todos">Todos</option>
+										<option value="Usuario">Usuario</option>
+										<option value="Estado">Estado</option>
+									</select>
 								</div>
 								<div class="col-md-2">		
-									<select class='form-control ' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
-									<option value="Todos">Todos</option>
-										<option value="Pendiente">Pendiente</option>
-										<option value="Revisada">Revisada</option>
+									<select class='form-control' id="VFiltro" name ="VFiltro" placeholder="Filtro" onchange='load(1);'>
+										<option value="Todos">Todos</option>
 									</select>
 								</div>
 								<div class="col-md-2">
@@ -78,5 +78,22 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script type="text/javascript" src="Componentes/JavaScript/Transferencias.js"></script>
+	<script>
+	function CambioEFiltro(){
+		var Filtro =  $("#EFiltro").val();
+		$("#loader").fadeIn('slow');
+			$.ajax({
+				url:'Componentes/Ajax/Filtros_Transferencias.php?Filtro='+Filtro,
+				 beforeSend: function(objeto){
+					$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			  },
+				success:function(data){
+					$('#loader').html('');
+					$("#VFiltro").html(data);
+					load(1);
+				}
+			})
+	}
+	</script>
   </body>
 </html>

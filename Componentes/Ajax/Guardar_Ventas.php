@@ -123,6 +123,7 @@ elseif (
 						$User=$_SESSION['Nit'];
 						$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));	
 						if ($Observaciones<>''){
+							$Fecha =date("Y-m-d");
 							$sql =  "INSERT INTO  observaciones_ventas(Venta,Fecha,Observacion,Usuario) VALUES
 							('".$numero_VEnta."', '".$fecha."', '".$Observaciones."', '".$User."')";
 						 $query_update = mysqli_query($con,$sql);
@@ -140,7 +141,7 @@ elseif (
 						$Comision = 0;
 						if ($Porcentaje_Comision <> 0 and ($Estado=='Aprobada')){
 							$Comision = ($Valor*$Porcentaje_Comision)/100;	
-							$sql = "INSERT INTO Cuenta_Virtual(Usuario,Venta,Valor,Porcentaje,Comision,Estado)
+							$sql = "INSERT INTO Cuenta_Virtual(Usuario,Venta,Credito,Porcentaje,Comision,Estado)
 									VALUES('".$Usuario."','".$numero_VEnta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente')";
 							$query_update = mysqli_query($con,$sql);
 							if ($query_update) {

@@ -98,6 +98,8 @@
 		$Nit=$_SESSION['Nit'];
 		$Razon_Social =$_SESSION['Razon_Social'];
 		$Porcentaje_Comision=$_SESSION['Porcentaje'];
+
+		$Portafolio=$_SESSION['Portafolio'];
 		$EstadoV="Nuevo";
 		$Read= "";
 		$Numero_venta="Nueva Venta";
@@ -235,8 +237,9 @@
 									 <input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" >
 									</div>
 									<div class="col-md-4">
-										
+									
 									 <input type="text" class="form-control hidden" id="Porcentaje_Comision" Name="Porcentaje_Comision" placeholder="Porcentaje_Comision" value="<?php echo $Porcentaje_Comision;?>" >
+									 <input type="text" class="form-control hidden" id="Portafolio" Name="Portafolio" placeholder="Portafolio" value="<?php echo $Portafolio;?>" >
 									</div>
 									
 									<div  class="" id="Form_Telefonica">
