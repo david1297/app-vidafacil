@@ -127,13 +127,18 @@ require_once ("config/conexion.php");
                                 <li class=""><a href="Ventas.php"><i class="fas fa-cart-plus"></i>Nueva</a></li>
 				<li class=""><a href="Consultar-Ventas.php"><i class="fab fa-searchengin"></i>Consultar</a></li>
 			</ul>
+		</li> 
+                <li class="<?php echo $Ajustes;?>">
+		        <a href="#uiElements" class="has-arrow" aria-expanded="false">
+                        <i class="fas fa-cogs"></i> 
+                                <span>Ajustes</span>
+                        </a>				
+                        <ul aria-expanded="">
+                                <li class=""><a href="Ajustes.php"><i class="fas fa-cart-plus"></i>Nuevo</a></li>
+				<li class=""><a href="Consultar-Ajustes.php"><i class="fab fa-searchengin"></i>Consultar</a></li>
+			</ul>
 		</li>  
-                <li class="<?php echo $Afiliados;?>"><a href="Consultar-Afiliados.php"><i
-                            class="fas fa-user-tie"></i><span>Afiliados</span></a></li>
-                             
-   
-
-                        <li class="<?php echo $Campanas;?>">
+                <li class="<?php echo $Campanas;?>">
 		        <a href="#uiElements" class="has-arrow" aria-expanded="false">
                                 <i class="fas fa-bullhorn"></i>
                                 <span>Campañas</span>
@@ -143,15 +148,25 @@ require_once ("config/conexion.php");
 				<li class=""><a href="Consultar-Campanas.php"><i class="fab fa-searchengin"></i>Consultar</a></li>
 			</ul>
 		</li>  
+                <li class="<?php echo $Afiliados;?>"><a href="Consultar-Afiliados.php"><i
+                            class="fas fa-user-tie"></i><span>Afiliados</span></a></li>
+                             
+   
+
+                        
 
 
                 <li class="<?php echo $Contabilidad;?>"><a href="Consultar-Contabilidad.php"><i class="fas fa-book"></i>
                         <span>Contabilidad</span></a></li>
                 <li class="<?php echo $Cuenta;?>"><a href="Consultar-Cuenta.php?Nit=<?php echo $_SESSION['Nit'];?>"><i class="fas fa-id-card"></i>
                         <span>Cuenta Virtual</span></a>
-                <li class="<?php echo $Transferencias;?>"><a href="Consultar-Transferencias.php"><i class="fas fa-exchange-alt"></i>
+                        <li class="<?php echo $Transferencias;?>"><a href="Consultar-Transferencias.php"><i class="fas fa-exchange-alt"></i>
                         <span>Transferencias</span></a></li>
-                
+                        
+                                                      
+
+
+                        
                 
                 <?php	
 						}

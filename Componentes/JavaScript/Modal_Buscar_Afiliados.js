@@ -4,9 +4,11 @@
 
 		function load(page){
 			var Busc_Afiliado= $("#Busc_Afiliado").val();
+			var Filtro= $("#Filtro").val();
+
 			$("#loaderc").fadeIn('slow');
 			$.ajax({
-				url:'Componentes/Ajax/Modal_Buscar_Afiliados.php?action=ajax&page='+page+'&Busc_Afiliado='+Busc_Afiliado,
+				url:'Componentes/Ajax/Modal_Buscar_Afiliados.php?action=ajax&page='+page+'&Busc_Afiliado='+Busc_Afiliado+'&Filtro='+Filtro,
 				 beforeSend: function(objeto){
 				 $('#loaderc').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			  },

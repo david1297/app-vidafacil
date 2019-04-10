@@ -4,7 +4,9 @@
 	require_once ("../../config/conexion.php");
 	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 	if($action == 'ajax'){
-         $Busc_Afiliado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Busc_Afiliado'], ENT_QUOTES)));
+		 $Busc_Afiliado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Busc_Afiliado'], ENT_QUOTES)));
+		 $Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
+		 
 		
 		 $sTable = "afiliados inner join Departamentos on Afiliados.Departamento = Departamentos.Codigo
 		 inner join ciudades on Afiliados.Ciudad =ciudades.Codigo and   Departamentos.Codigo = ciudades.Departamento		";
