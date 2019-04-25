@@ -13,9 +13,11 @@ if (empty($_POST['Estado_Campana'])){
 	$Numero_Venta = mysqli_real_escape_string($con,(strip_tags($_POST["Numero_Venta"],ENT_QUOTES)));			
 	$Estado_Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Estado_Campana"],ENT_QUOTES)));
 
-	$query1=mysqli_query($con, 'SELECT Usuario,Valor,Porcentaje_Comision,Liquidada FROM Ventas where   Numero ='.$Numero_Venta.';');
+	$query1=mysqli_query($con, 'SELECT Usuario,Valor,Porcentaje_Comision,Liquidada,Portafolio,Fecha FROM Ventas where   Numero ='.$Numero_Venta.';');
 	$rw_Admin1=mysqli_fetch_array($query1);
 	$Porcentaje_Comision=$rw_Admin1['Porcentaje_Comision'];
+	$Portafolio=$rw_Admin1['Portafolio'];
+	$Fecha=$rw_Admin1['Fecha'];
 	$Usuario=$rw_Admin1['Usuario'];
 	$Valor=$rw_Admin1['Valor'];
 	$Liquidada=$rw_Admin1['Liquidada'];
@@ -37,19 +39,38 @@ if (empty($_POST['Estado_Campana'])){
 				$sql =  "Update Ventas Set Estado='".$Estado."' where Numero =".$Numero_Venta.";";				
 				$query_update = mysqli_query($con,$sql);
         		if ($query_update) {
-					$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  Venta=".$Numero_Venta." ");					
-					if ($Estado=='Aprobada'){						
-						if($Porcentaje_Comision<>0){
+					$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  NDocumento=".$Numero_Venta." ");					
+					if ($Estado=='Aprobada'){	
+
+				
+						
+						$Comision = 0;
+						if ($Porcentaje_Comision <> 0 ){
+						
 							$Comision = ($Valor*$Porcentaje_Comision)/100;	
-							$sql = "INSERT INTO Cuenta_Virtual(Usuario,Venta,Valor,Porcentaje,Comision,Estado)
-								VALUES('".$Usuario."',".$Numero_Venta.",'".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente')";
+							$sql = "INSERT INTO Cuenta_Virtual(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
+									VALUES('".$Usuario."','V','".$Numero_Venta."','V','".$Numero_Venta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$Fecha."')";
 							$query_update = mysqli_query($con,$sql);
 							if ($query_update) {
 								$messages[] = "La Cuanta Virtual Se Registro Correctamente,";
 							} else {
 								$errors[] = $sql;
 							}
-						}			
+						}else{
+							
+							if ($Portafolio > 0 and ($Estado=='Aprobada')){
+								
+								$Comision = ($Portafolio);	
+								$sql = "INSERT INTO Cuenta_Virtual(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
+									VALUES('".$Usuario."','V','".$Numero_Venta."','V','".$Numero_Venta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$Fecha."')";
+							$query_update = mysqli_query($con,$sql);
+								if ($query_update) {
+									$messages[] = "La Cuanta Virtual Se Registro Correctamente,";
+								} else {
+									$errors[] = $sql;
+								}
+							}	
+						}		
 					}
         		} else {
             		$errors[] = $sql;

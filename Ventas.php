@@ -36,7 +36,7 @@
 
 	if (isset($_GET['Numero'])) {
 
-		$query=mysqli_query($con, "select VEntas.Liquidada,Ventas.Numero,Ventas.Afiliado,Ventas.Usuario,Ventas.Campana,
+		$query=mysqli_query($con, "select VEntas.Liquidada,Ventas.Portafolio,Ventas.Numero,Ventas.Afiliado,Ventas.Usuario,Ventas.Campana,
 		Ventas.Estado_Campana,Ventas.Estado,Ventas.Fecha,Ventas.Transportadora,Ventas.Seguimiento,Ventas.NumeroNip,Ventas.DataCreditoTipo,
 		Ventas.Servicio,Ventas.Canal,Ventas.NumeroCelular,Ventas.OperadorVenta,Ventas.OperadorDonante,Ventas.NumeroSim,
 		Ventas.Valor,Ventas.Porcentaje_Comision,usuarios.Nit,usuarios.Razon_Social
@@ -61,6 +61,7 @@
 		$NumeroSim=$rw_Admin['NumeroSim'];
 		$Valor=$rw_Admin['Valor'];
 		$Porcentaje_Comision=$rw_Admin['Porcentaje_Comision']; 
+		$Portafolio=$rw_Admin['Portafolio']; 
 		$Nit=$rw_Admin['Nit'];
 		$Razon_Social =$rw_Admin['Razon_Social'];
 		$Liquidada=$rw_Admin['Liquidada'];
@@ -130,7 +131,7 @@
 								<span class="fa fa-shopping-cart"></span> Consultar Ventas
 							</button>
 						</div>
-						<h4><i class="fas fa-shopping-cart"></i>   <?php echo $Numero_venta;?></h4>
+						<h4><i class="fas fa-shopping-cart"></i>   <?php echo $Numero_venta; ?></h4>
 					</div>
 					<div class="panel-body">
 					<?php 

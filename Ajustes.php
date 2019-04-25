@@ -87,7 +87,7 @@
 					<?php 
 						include("Componentes/Modal/Buscar_Usuarios.php");
 					?>
-					<form class="form-horizontal" method="post" id="Guardar_Ventas" name="Guardar_Ventas">
+					<form class="form-horizontal" method="post" id="Guardar_Ajuste" name="Guardar_Ajuste">
 					<input type="text" class="form-control hidden" id="EstadoA" name="EstadoA"  value="<?php echo $EstadoA; ?>" > 
 					<input type="text" class="form-control hidden" id="Liquidada" name="Liquidada"  value="<?php echo $Liquidada; ?>" > 
 					
@@ -112,7 +112,7 @@
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Creador</label>
 										<input type="text" class="form-control" id="NombreC" placeholder="NombreC" value="<?php echo $NombreC;?>" readonly>
-											<input type="text" class="form-control hidden" id="UsuarioC" name="UsuarioC" placeholder="UsuarioC" value="<?php echo $UsuarioC;?>" readonly>
+											<input type="text" class="form-control " id="UsuarioC" name="UsuarioC" placeholder="UsuarioC" value="<?php echo $UsuarioC;?>" readonly>
 									</div>	
 									
 									<div class="col-md-4">
@@ -132,7 +132,7 @@
 											?>	
 									</div>
 									
-									<div class="col-md-4">
+									
 									<?php 
 										if($EstadoA == "Nuevo"){
 											echo '
@@ -143,111 +143,25 @@
 											
 										}
 									?>
-									</div>
+									
 
 
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Valor</label>
 									 <input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" >
 									</div>
-									<div class="col-md-4">
 									
-									 <input type="text" class="form-control hidden" id="Porcentaje_Comision" Name="Porcentaje_Comision" placeholder="Porcentaje_Comision" value="<?php echo $Porcentaje_Comision;?>" >
-									 <input type="text" class="form-control hidden" id="Portafolio" Name="Portafolio" placeholder="Portafolio" value="<?php echo $Portafolio;?>" >
-									</div>
 									
-									<div  class="" id="Form_Telefonica">
-										<div class="col-sm-12">
-											<hr class="style1">
-										</div>
-										<div class="col-md-4">
-											<label for="NumeroNip" class="control-label">Numero de NIP</label>
-											<input type="text" class="form-control" name="NumeroNip" id="NumeroNip"VALUE="<?php echo $NumeroNip;?>" placeholder="Numero de NIP" >
-										</div>
-										<div class="col-md-4">
-											<label for="DataCreditoTipo" class="control-label">Data Crédito Tipo</label>
-											<input type="text" class="form-control" name="DataCreditoTipo" id="DataCreditoTipo"VALUE="<?php echo $DataCreditoTipo;?>" placeholder="Data Crédito Tipo" >
-										</div>
-										<div class="col-md-4">
-											<label for="Servicio" class="control-label">Servicio Ofrecido </label>
-											<input type="text" class="form-control" name="Servicio" id="Servicio"VALUE="<?php echo $Servicio;?>" placeholder="Servicio Ofrecido " >
-										</div>
-										<div class="col-md-4">
-											<label for="Servicio" class="control-label">Canal </label>
-											<?php
-												echo '	
-													<select class="form-control" id="Canal" name ="Canal" placeholder="Canal"  >';
-													if($Canal == 'Hogar'){
-														echo '<option value="Hogar">Hogar</option>';
-														echo '<option value="Movil">Movil</option>';
-													}else{
-														echo '<option value="Movil">Movil</option>';
-														echo '<option value="Hogar">Hogar</option>';
-													}
-													echo '</select>';
-											?>
-										</div>
-										<div class="col-md-4">
-											<label for="NumeroCelular" class="control-label">Numero Celular </label>
-											<input type="text" class="form-control" name="NumeroCelular" id="NumeroCelular"VALUE="<?php echo $NumeroCelular;?>" placeholder="Numero Celular " >
-										</div>		
-										<div class="col-md-4">
-											<label for="OperadorVenta" class="control-label">Operador Venta </label>
-											<?PHP
-												$query=mysqli_query($con, "select * from administracion");
-												echo' <select class="form-control" id="OperadorVenta" name ="OperadorVenta" placeholder="OperadorVenta">';
-												$rw_Admin=mysqli_fetch_array($query);
-												$tuArray = explode("\r\n", $rw_Admin['Operador_Venta']);
-												foreach($tuArray as  $indice => $palabra){
-													if ($OperadorVenta==$palabra){
-														echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
-											
-													} else{
-														echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
-											
-													}
-												}  	
-												echo '</select>';
-											?>	
-										</div>
-										<div class="col-md-4">
-											<label for="OperadorDonante" class="control-label">Operador Donante </label>
-											<?PHP
-												echo' <select class="form-control" id="OperadorDonante" name ="OperadorDonante" placeholder="OperadorDonante">';
-											
-												$tuArray = explode("\r\n", $rw_Admin['Operador_Donante']);
-												foreach($tuArray as  $indice => $palabra){
-													if ($OperadorDonante==$palabra){
-														echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
-											
-													} else{
-														echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
-											
-													}
-												}  	
-												echo '</select>';
-											?>	
-										</div>
-										<div class="col-md-4">
-											<label for="NumeroSim" class="control-label">Número de Sim Card </label>
-											<input type="text" class="form-control" name="NumeroSim" id="NumeroSim"VALUE="<?php echo $NumeroSim;?>" placeholder="Número de Sim Card " >
-										</div>
-										<div class="col-sm-12">
-											<hr class="style1">	
-										</div>
-									</div>
+									
 											
 											
 										
 									</div>
 									<div class="col-md-12">
   										<label for="Observaciones">Observaciones:</label>
-  										<textarea class="form-control" rows="5" id="Observaciones" name="Observaciones"></textarea>
+  										<textarea class="form-control" rows="5" id="Observacion" name="Observacion"><?PHP ECHO $Observacion;?></textarea>
 									</div>	
-									<div class="col-md-12"><br>
-									<?php echo $Observaciones_Cargadas ?>
-  										
-									</div>									
+																		
 								</div>
 								<br>
 								
@@ -297,25 +211,22 @@ $( "#Cancelar" ).click(function( event ) {
 		location.reload(true);
 	}
 	else{
-		location.href='Consultar-Ventas.php';
+		location.href='Consultar-Ajustes.php';
 	}
 })
 $( "#Consultar" ).click(function( event ) {
 	
-		location.href='Consultar-Ventas.php';
+		location.href='Consultar-Ajustes.php';
 
 })
-$( "#Guardar_Ventas" ).submit(function( event ) {
-	if($('#Liquidada').val()=='True'){
-		alert('La Venta ya fue Liquidada No se Puede Editar');
+$( "#Guardar_Ajuste" ).submit(function( event ) {
+	if($('#Estado').val()=='False'){
+		alert('El Ajuste se Anulo por lo cual no se puede editar');
 	} else{
-		if($('#Liquidada').val()=='Pendiente'){
-			alert('La Venta Tiene Una Solicitud de Pago Pendiente No se Puede Editar');
-		}else {
 			var parametros = $(this).serialize();
 			$.ajax({
 				type: "POST",
-				url: "Componentes/Ajax/Guardar_Ventas.php",
+				url: "Componentes/Ajax/Guardar_Ajuste.php",
 				data: parametros,
 				beforeSend: function(objeto){
 					$("#resultados_ajax2").html("Mensaje: Cargando...");
@@ -326,36 +237,17 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 			});
 			event.preventDefault();
 		}	
-	}
+
 })
 
-function CargarEstados(){
-			var Campana = $("#Campana").val();
-			var Est_camp = $("#Est_camp").val();
-			var Seg_camp = $("#Seg_camp").val();
-			var Tran_camp = $("#Tran_camp").val();
-			$.ajax({
-				type: "POST",
-				url: "Componentes/Ajax/Cargar_Estados_Campana.php",
-				data: "Campana="+Campana+"&Est_camp="+Est_camp+"&Seg_camp="+Seg_camp+"&Tran_camp="+Tran_camp,
-				beforeSend: function(objeto){
-				},success: function(datos){
-					$("#Estados").html(datos);
-					if(document.getElementById('Telefonica').value=='True'){
-						$('#Form_Telefonica').removeClass("hidden");
-					}else{
-						$('#Form_Telefonica').addClass("hidden");
-					}
-				}	
-			});
 		
 
 			
 
-		}
+
 
 		function Cargar() {
-			CargarEstados();
+		
 			$("#Valor").keyup();
 		}
 
