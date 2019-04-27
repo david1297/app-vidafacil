@@ -99,7 +99,6 @@
 		$Nit=$_SESSION['Nit'];
 		$Razon_Social =$_SESSION['Razon_Social'];
 		$Porcentaje_Comision=$_SESSION['Porcentaje'];
-
 		$Portafolio=$_SESSION['Portafolio'];
 		$EstadoV="Nuevo";
 		$Read= "";
@@ -130,6 +129,7 @@
 							<button type="button" class="btn btn-default" id="Consultar">
 								<span class="fa fa-shopping-cart"></span> Consultar Ventas
 							</button>
+							
 						</div>
 						<h4><i class="fas fa-shopping-cart"></i>   <?php echo $Numero_venta; ?></h4>
 					</div>
