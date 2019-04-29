@@ -68,6 +68,19 @@ require_once ("../../config/db.php");
 				} else {
 					$errors[] = $sql;
 				}
+			}else{
+				
+					$Credito = $Valor;
+					$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  NDocumento='".$Numero_Ajuste."'");
+					$sql = "INSERT INTO Cuenta_Virtual(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
+							VALUES('".$UsuarioA."','A','".$Numero_Ajuste."','A','".$Numero_Ajuste."','".$Valor."','0','".$Credito."','Pendiente','".$Fecha_Creacion."')";
+					$query_update = mysqli_query($con,$sql);
+					if ($query_update) {
+						$messages[] = "La Cuanta Virtual Se Registro Correctamente,";
+					} else {
+						$errors[] = $sql;
+					}
+				
 			}
 
 

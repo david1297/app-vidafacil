@@ -83,24 +83,14 @@
 					?>
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
-							<div class="col-md-2">		
-									<select class='form-control ' id="Filtro" name ="Filtro" placeholder="Estado" onchange='load(1);'>
-										<option value="Nombre">Nombre</option>
-										<option value="Cedula">Cedula</option>
-										<option value="Telefono">Telefono</option>
-										<option value="Campaña">Campaña</option>
-										<option value="Usuario">Usuario</option>								
-									</select>
-								</div>
+							
 								<div class="col-md-2">		
 									<input type="Date" class="form-control" id="fechaIni" name="fechaIni" value="<?php echo date("Y-m-d",strtotime("-1 month"))?>" onchange='load(1);'>
 								</div>
 								<div class="col-md-2">		
 									<input type="Date" class="form-control" id="fechaFin" name="fechaFin" value="<?php echo date("Y-m-d")?>" onchange='load(1);'>
 								</div>
-								<div class="col-md-4">
-									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
-								</div>
+							
 								<div class="col-md-2">		
 									
 									<select class='form-control ' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>

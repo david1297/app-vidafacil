@@ -4,8 +4,6 @@
 	require_once ("../../config/conexion.php");
 	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 	if($action == 'ajax'){
-		$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
-		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
 		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
 		$fechaIni = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaIni'], ENT_QUOTES)));
 		$fechaFin = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaFin'], ENT_QUOTES)));
@@ -18,35 +16,7 @@
 							inner join Campanas on Campanas.Numero=Ventas.Campana
 						";
 				$sWhere = "where (Cuenta_Virtual.Fecha >= '$fechaIni' and  Cuenta_Virtual.Fecha <= '$fechaFin') ";
-				if ( $_GET['q'] != "" ){
-					if ($Filtro == "Numero"){	
-						$sWhere.= " and  (Ventas.Numero like '%$q%' )";	
-					}else{
-						if ($Filtro =="Nombre"){
-							$sWhere.= " and  ((AFILIADOS.Primer_Nombre like '%$q%') OR (AFILIADOS.Segundo_Nombre like '%$q%')OR (AFILIADOS.Primer_Apellido like '%$q%') OR (AFILIADOS.Segundo_Apellido like '%$q%'))";	
-						}else {
-							if ($Filtro =="Cedula"){
-								$sWhere.= " and  (AFILIADOS.Identificacion like '%$q%' )";	
-							}else{
-								if($Filtro =="Telefono"){
-									$sWhere.= " and  (AFILIADOS.Telefono like '%$q%' )";	
-								}else{
-									if($Filtro =="Campaña"){
-										$sWhere.= " and  (Campanas.Nombre like '%$q%' )";	
-									}else{
-										if($Filtro =="Usuario"){
-											$sWhere.= " and  (Usuarios.Razon_Social like '%$q%' )";
-										}else{
-											if($Filtro =="Estado"){
-												$sWhere.= " and  (Ventas.Estado_Campana like '%$q%' )";
-											}
-										}
-									}
-								}
-							}
-						}
-					}	
-				}
+				
 				if($Estado<>"Todos"){
 					$sWhere.= " and Cuenta_Virtual.Estado ='".$Estado."'";	
 				} 
