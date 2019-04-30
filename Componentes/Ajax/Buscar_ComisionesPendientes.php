@@ -11,13 +11,12 @@
 		$fechaFin = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaFin'], ENT_QUOTES)));
 		$Nit = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Nit'], ENT_QUOTES)));
 		$sTable = "Cuenta_Virtual
-		inner join Usuarios on cuenta_virtual.Usuario = Usuarios.Nit
+		inner join Usuarios on cuenta_virtual.Usuario = Usuarios.Nit";
 		
-	";
-		
-		$sWhere = " Where Cuenta_Virtual.Usuario = '".$Nit."'";	
-		$Group=" Group by Cuenta_Virtual.Cruce,Cuenta_Virtual.NCruce,Cuenta_Virtual.Usuario,Usuarios.Razon_Social,Cuenta_Virtual.Fecha
-		having sum(Credito-Debito)<>0";
+		$sWhere = " Where Cuenta_Virtual.Usuario = '".$Nit."' and  Cuenta_Virtual.Estado ='Pendiente'";	
+		$Group=" Group by Cuenta_Virtual.Cruce,Cuenta_Virtual.NCruce,Cuenta_Virtual.Usuario,
+				Usuarios.Razon_Social,Cuenta_Virtual.Fecha
+		";
 
 
 		$order=" order by Cuenta_Virtual.NCruce ";
@@ -32,13 +31,9 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Solicitar_Pago.php';
-	
-		
-				
-							
-									
-
-		$sql="SELECT Cuenta_Virtual.Cruce,Cuenta_Virtual.NCruce,Cuenta_Virtual.Fecha,Usuarios.Razon_Social,Cuenta_Virtual.Usuario,sum(Credito-Debito) as Valor  FROM  $sTable $sWhere  $order LIMIT $offset,$per_page";
+		$sql="SELECT Cuenta_Virtual.Cruce,Cuenta_Virtual.NCruce,Cuenta_Virtual.Fecha,
+		Usuarios.Razon_Social,Cuenta_Virtual.Usuario,sum(Credito-Debito) as Valor  FROM 
+		 $sTable $sWhere $Group $order LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		
 		if ($numrows>0){
@@ -77,7 +72,10 @@
 						<td><?php echo $Usuario; ?></td>
 						<td><?php echo date("d-m-Y", strtotime($Fecha)); ?></td>
 						<td class="text-right"><?php echo '$'.number_format($Valor); ?></td>
-						<td ><input type="checkbox" class="form-control" name="NumeroVenta[]" id="NumeroVenta[]" value="<?php echo $Numero;?>" checked></td>
+						
+						<td ><input type="checkbox" class="form-control" name="NumeroVenta[]" id="NumeroVenta[]" value="<?php echo $Tipo.'-'.$Numero;?>" checked <?php if($Tipo == 'A'){
+							echo ' onclick="return false;" ';	
+						}?>></td>
 					</tr>
 					<?php
 				}	

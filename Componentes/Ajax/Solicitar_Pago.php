@@ -30,19 +30,24 @@ if (empty($_POST['NumeroVenta'])){
 	if ($query_update) {
 		$messages[] = "Encabezado Guardado Con Exito";
 		foreach($_POST['NumeroVenta'] as $Numero){
-			$query1=mysqli_query($con, 'SELECT Comision FROM cuenta_virtual where  Venta ='.$Numero.';');
+			$porciones = explode("-", $Numero);
+			$query1=mysqli_query($con, "SELECT Comision FROM cuenta_virtual where  Tipo ='".$porciones[0]."' and  NDocumento =".$porciones[1].";");
 			$rw_Admin1=mysqli_fetch_array($query1);
 			$Valor=$rw_Admin1['Comision'];
-			$sql = "INSERT INTO transaccionesD(Numero,Estado,Venta,Valor)
-				VALUES(".$numero_Transaccion.",'Pendiente',".$Numero.",".$Valor.")";
+			
+			
+
+
+			$sql = "INSERT INTO transaccionesD(Numero,Tipo,NDocumento,Estado,Valor)
+				VALUES(".$numero_Transaccion.",'".$porciones[0]."','".$porciones[1]."','Pendiente',".$Valor.")";
 			$query_update = mysqli_query($con,$sql);	
 			if ($query_update) {
 				$messages[] = "Detalle Guardado Con Exito";
-				$sql =  "Update Cuenta_Virtual Set Estado='Solicitada' where Venta =".$Numero.";";				
+				$sql =  "Update Cuenta_Virtual Set Estado='Solicitada' where Tipo ='".$porciones[0]."' and  NDocumento =".$porciones[1].";";				
 				$query_update = mysqli_query($con,$sql);
 				if ($query_update) {
 					$messages[] = "Estado de Cuenta Actualizado";
-					$sql =  "Update Ventas Set Liquidada='Pendiente' where Numero =".$Numero.";";				
+					$sql =  "Update Ventas Set Liquidada='Pendiente' where Numero =".$porciones[1].";";				
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {
 						$messages[] = "Estado de Venta";

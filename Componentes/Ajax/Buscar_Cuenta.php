@@ -10,18 +10,13 @@
 		$Nit = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Nit'], ENT_QUOTES)));
 			
 				$sTable = "Cuenta_Virtual 
-							INNER JOIN VENTAS On Ventas.Numero = Cuenta_Virtual.NCruce 
-							INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
-							inner join Usuarios on Usuarios.Nit=Ventas.Usuario
-							inner join Campanas on Campanas.Numero=Ventas.Campana
+							inner join Usuarios on Usuarios.Nit=Cuenta_Virtual.Usuario
 						";
 				$sWhere = "where (Cuenta_Virtual.Fecha >= '$fechaIni' and  Cuenta_Virtual.Fecha <= '$fechaFin') ";
-				
 				if($Estado<>"Todos"){
 					$sWhere.= " and Cuenta_Virtual.Estado ='".$Estado."'";	
 				} 
-				
-				$order=" order by Ventas.Numero ";
+				$order=" order by Cuenta_Virtual.Tipo,Cuenta_Virtual.NDocumento ";
 			
 		}
 		$sWhere.='and Cuenta_Virtual.Usuario = "'.$Nit.'" and Cuenta_Virtual.Estado <>"Pagada" ';
@@ -36,14 +31,9 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Cuenta.php';
-		
-			
-				
-				$Condicion='';							
-
-				$sql="SELECT Cuenta_Virtual.Tipo,Cuenta_Virtual.Estado as EstadoCuenta,VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,Ventas.Fecha,
-						VENTAS.Estado_Campana,
-						CAMPANAS.NOMBRE AS Campana,(Credito-Debito)Valor,Cuenta_Virtual.Porcentaje,Cuenta_Virtual.Comision,Ventas.Campana as NCampana FROM  $sTable $sWhere $Condicion $order LIMIT $offset,$per_page";
+		$Condicion='';							
+		$sql="SELECT Cuenta_Virtual.NDocumento as Numero,Cuenta_Virtual.Tipo,Cuenta_Virtual.Estado as EstadoCuenta,USUARIOS.Razon_Social,Cuenta_Virtual.Fecha,
+				(Credito-Debito)Valor,Cuenta_Virtual.Porcentaje,Cuenta_Virtual.Comision FROM  $sTable $sWhere $Condicion $order LIMIT $offset,$per_page";
 				
 				$query = mysqli_query($con, $sql);
 				if ($numrows>0){
@@ -54,9 +44,7 @@
 						<tr  class="warning">
 							<th class="text-center">Tipo</th>
 							<th class="text-center">Numero</th>
-							<th>Afiliado</th>
 							<th>Usuario</th>
-							<th>Campaña</th>
 							<th>Fecha</th>
 							<th>Estado</th>
 							<th class="text-right">Valor</th>
@@ -70,16 +58,12 @@
 		
 								$Numero=$row['Numero'];
 								$Tipo=$row['Tipo'];
-								$Afiliado=$row['Primer_Nombre'].' '.$row['Primer_Apellido'] ;
 								$Valor=$row['Valor'];
 								$Comision=$row['Comision'];
 								$Usuario=$row['Razon_Social'];
-								$Campana=$row['Campana'];
-								$Estado=$row['Estado_Campana'];
 								$Fecha=$row['Fecha'];
 								$Porcentaje_Comision=$row['Porcentaje'];
 								$label_class='label-default';
-								$NCampana=$row['NCampana'];
 								$Estado=$row['EstadoCuenta'];
 								if ($Estado=='Pagada'){
 									
@@ -113,9 +97,7 @@
 							<tr>
 								<td class="text-center"><?php echo $Tipo; ?></td>
 								<td class="text-center"><?php echo $Numero; ?></td>
-								<td><?php echo $Afiliado; ?></td>
 								<td><?php echo $Usuario; ?></td>
-								<td><?php echo $Campana; ?></td>
 								<td><?php echo date("d-m-Y", strtotime($Fecha)); ?></td>
 								<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>
 								<td class="text-right"><span class="<?php echo $Spam_Class;?>"><?php echo '$'.number_format($Valor); ?></span></td>
@@ -128,8 +110,8 @@
 						}
 						?>
 						<tr>
-					<td colspan=7><b><span class="pull-right"><?php
-						 echo 'Total Ventas:'
+					<td colspan=5><b><span class="pull-right"><?php
+						 echo 'Total Movimiento:'
 						?></span></b></td>
 						<td ><b><span class="pull-right"><?php
 					
@@ -145,11 +127,12 @@
 					</tr>
 					<tr>
 					<tr>
-					<td colspan=7><h4><span class="pull-right"><?php
+					<td colspan=5><h4><span class="pull-right"><?php
 						 echo 'Total General:'
 						?></span></h4></td>
 						<td ><h4><span class="pull-right"><?php
-						$query1=mysqli_query($con, "SELECT sum(Credito-Debito) as valor,sum(Cuenta_Virtual.Comision)Comision FROM $sTable $sWhere $Condicion;");			
+						$query1=mysqli_query($con, "SELECT sum(Credito-Debito) as valor,sum(Cuenta_Virtual.Comision)Comision 
+						FROM $sTable $sWhere $Condicion;");			
 						$rw_Admin1=mysqli_fetch_array($query1);
 						 echo number_format($rw_Admin1[0]);
 						?></span></h4></td>
