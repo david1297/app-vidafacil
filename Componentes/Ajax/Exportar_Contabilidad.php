@@ -12,7 +12,7 @@
 		if($Pest=='ResIngresos'){
 			$sTable = "cuenta_virtual 
 			Inner Join Usuarios on Usuarios.Nit =cuenta_virtual.Usuario";
-			$sWhere = "where cuenta_virtual.Estado= 'Pagada' and cuenta_virtual.Credito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
+			$sWhere = "where cuenta_virtual.Credito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 			if($EFiltro<>"Todos"){
 				if($EFiltro=='Usuario'){
 					$sWhere.= " and cuenta_virtual.Usuario ='".$VFiltro."'";		
@@ -28,7 +28,7 @@
 			if($Pest=='ResEgresos'){
 				$sTable = "cuenta_virtual 
 			Inner Join Usuarios on Usuarios.Nit =cuenta_virtual.Usuario";
-			$sWhere = "where cuenta_virtual.Estado= 'Pagada' and cuenta_virtual.Debito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
+			$sWhere = "where cuenta_virtual.Debito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 			if($EFiltro<>"Todos"){
 				if($EFiltro=='Usuario'){
 					$sWhere.= " and cuenta_virtual.Usuario ='".$VFiltro."'";		

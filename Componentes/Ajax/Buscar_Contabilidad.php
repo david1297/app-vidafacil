@@ -12,7 +12,7 @@
 		if($Pest=='ResIngresos'){
 			$sTable = "cuenta_virtual 
 			Inner Join Usuarios on Usuarios.Nit =cuenta_virtual.Usuario";
-			$sWhere = "where cuenta_virtual.Estado= 'Pagada' and cuenta_virtual.Credito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
+			$sWhere = "where cuenta_virtual.Credito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 			if($EFiltro<>"Todos"){
 				if($EFiltro=='Usuario'){
 					$sWhere.= " and cuenta_virtual.Usuario ='".$VFiltro."'";		
@@ -27,7 +27,7 @@
 		}else{
 			$sTable = "cuenta_virtual 
 			Inner Join Usuarios on Usuarios.Nit =cuenta_virtual.Usuario";
-			$sWhere = "where cuenta_virtual.Estado= 'Pagada' and cuenta_virtual.Debito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
+			$sWhere = "where cuenta_virtual.Debito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 			if($EFiltro<>"Todos"){
 				if($EFiltro=='Usuario'){
 					$sWhere.= " and cuenta_virtual.Usuario ='".$VFiltro."'";		
@@ -83,9 +83,8 @@
 							$Estado=$row['Estado'];
 							$Fecha=$row['Fecha'];
 							if ($Estado=="Pagada"){$label_class='label-success';}
-							if ($Estado=="Rechazada"){$label_class='label-danger';}
-							if ($Estado=="Negada"){$label_class='label-danger';}
-							if ($Estado=="Sin Revisar"){$label_class='label-warning';}
+							if ($Estado=="Solicitada"){$label_class='label-info';}
+							if ($Estado=="Pendiente"){$label_class='label-warning';}
 							
 							
 							$TValor= $TValor+$Valor;
@@ -161,9 +160,8 @@
 							$Usuario=$row['Razon_Social'];
 							$Estado=$row['Estado'];
 							if ($Estado=="Pagada"){$label_class='label-danger';}
-							if ($Estado=="Rechazada"){$label_class='label-danger';}
-							if ($Estado=="Negada"){$label_class='label-danger';}
-							if ($Estado=="Sin Revisar"){$label_class='label-warning';}
+							if ($Estado=="Solicitada"){$label_class='label-info';}
+							if ($Estado=="Pendiente"){$label_class='label-warning';}
 							$Fecha=$row['Fecha'];
 							
 							$TValor= $TValor+$Valor;
