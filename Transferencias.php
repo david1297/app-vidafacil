@@ -24,7 +24,9 @@
 
 	if (isset($_GET['Numero'])) {
 
-		$query=mysqli_query($con, "select Numero,Usuario,usuarios.Razon_Social, Fecha_Creacion,Fecha_Revision,Valor_Aprovado,Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,Titular_Cuenta from TransaccionesE 
+        $query=mysqli_query($con, "select Numero,Usuario,usuarios.Razon_Social,
+         Fecha_Creacion,Fecha_Revision,Valor_Aprovado,Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,
+         Titular_Cuenta from TransaccionesE 
 		inner join usuarios on transaccionese.Usuario = usuarios.Nit
 		where Numero='".$_GET['Numero']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
@@ -47,7 +49,8 @@
 		$Titular_Cuenta=$rw_Admin['Titular_Cuenta'];
 
         $Transferencia="Transferencia Numero: ".$Numero;
-        $sql="SELECT * FROM observaciones_Transferencias inner join Usuarios on Usuarios.Nit=observaciones_Transferencias.Usuario WHERE Transferencia=".$Numero."";
+        $sql="SELECT * FROM observaciones_Transferencias 
+        inner join Usuarios on Usuarios.Nit=observaciones_Transferencias.Usuario WHERE Transferencia=".$Numero."";
 
 		$query = mysqli_query($con, $sql);
 		while ($row=mysqli_fetch_array($query)){
@@ -204,7 +207,7 @@
 									</div>	
 
                                     <?php
-							$sql="select Venta,Valor,Estado from TransaccionesD where Numero=".$Numero." ";
+							$sql="select NDocumento,Tipo,Valor,Estado from TransaccionesD where Numero=".$Numero." ";
 							$query = mysqli_query($con, $sql);
 							?>
 
@@ -212,15 +215,17 @@
                                         <br>
                                         <table class="table table-hover">
                                             <tr class="warning">
-                                                <th class="text-center">Numero de Venta</th>
+                                                <th class="text-center">Tipo</th>
+                                                <th class="text-center">Numero</th>
                                                 <th class="text-right">Valor</th>
                                                 <th class="text-center">Estado</th>
-                                                <th class="text-right">Seleccion</th>
+                                                <th class="text-center">Seleccion</th>
                                             </tr>
                                             <?php
 											$Total=0;
 											while ($row=mysqli_fetch_array($query)){
-												$Venta=$row['Venta'];
+												$NDocumento=$row['NDocumento'];
+												$Tipo=$row['Tipo'];
 						
 						$Valor=$row['Valor'];
 					$CHE="";
@@ -243,7 +248,8 @@
 					
 					?>
                                             <tr>
-                                                <td class="text-center"><?php echo $Venta; ?></td>
+                                                <td class="text-center"><?php echo $Tipo; ?></td>
+                                                <td class="text-center"><?php echo $NDocumento; ?></td>
                                                 <td class="text-right"><?php echo '$'.number_format($Valor); ?></td>
 
 
@@ -253,9 +259,9 @@
 
 
                                                 <td><input type="checkbox" class="form-control" name="NumeroVenta[]"
-                                                        id="Venta_<?php echo $Venta;?>" value="<?php echo $Venta;?>"
+                                                        id="<?php echo $Tipo.'-'.$NDocumento;?>" value="<?php echo $Tipo.'-'.$NDocumento;?>"
                                                         <?php echo $CHE;?>
-                                                        onclick="OnVenta(<?php echo $Valor;?>,'Venta_<?php echo $Venta;?>')">
+                                                        onclick="OnVenta(<?php echo $Valor;?>,'<?php echo $Tipo.'-'.$NDocumento;?>')">
                                                 </td>
                                             </tr>
                                             <?php
@@ -329,7 +335,6 @@
         var recha = parseFloat(document.getElementById('Valor_Rechazado').value);
         ch = ('-' + ch + '-');
         if (ch == '-true-') {
-
             document.getElementById('Valor_Aprovado1').value = apro + Valor;
             document.getElementById('Valor_Aprovado').value = apro + Valor;
             CambioAprovado();

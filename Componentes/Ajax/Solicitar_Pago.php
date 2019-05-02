@@ -20,7 +20,7 @@ if (empty($_POST['NumeroVenta'])){
 	$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from TransaccionesE order by Numero desc limit 0,1 ");
 	$rw=mysqli_fetch_array($sql);
 	$numero_Transaccion=$rw['last']+1;
-	$Usuario = $_SESSION['Nit'];
+	$Usuario = $_POST['Nit'];
 	$Fecha=date("Y-m-d"); 
 	$sql = "INSERT INTO transaccionesE(Numero,Usuario,Fecha_Creacion,Fecha_Revision,Valor_Aprovado,
 			Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,Titular_Cuenta,Estado)

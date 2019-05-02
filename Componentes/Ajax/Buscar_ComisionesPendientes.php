@@ -72,7 +72,7 @@
 						<td><?php echo $Usuario; ?></td>
 						<td><?php echo date("d-m-Y", strtotime($Fecha)); ?></td>
 						<td class="text-right"><?php echo '$'.number_format($Valor); ?></td>
-						
+						<input type="hidden" id="Nit" Name="Nit"value="<?php echo $Nit;?>">
 						<td ><input type="checkbox" class="form-control" name="NumeroVenta[]" id="NumeroVenta[]" value="<?php echo $Tipo.'-'.$Numero;?>" checked <?php if($Tipo == 'A'){
 							echo ' onclick="return false;" ';	
 						}?>></td>

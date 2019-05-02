@@ -48,8 +48,9 @@ require_once ("../../config/db.php");
 			$query_update = mysqli_query($con,$sql);
 			if ($query_update) {
 				foreach($_POST['NumeroVenta'] as $Venta){
-				
-					$sql =  "Update TransaccionesD Set Estado='Pagada' where Numero =".$Numero." and Venta=".$Venta."; ";				
+					$porciones = explode("-", $Venta);
+					$sql =  "Update TransaccionesD Set Estado='Pagada' where Numero =".$Numero." and Tipo='".$porciones[0]."'
+					and NDocumento=".$porciones[1]."; ";			
 					$query_update = mysqli_query($con,$sql);
 				}	
 				$messages[] = "Estado de Venta";
@@ -57,14 +58,34 @@ require_once ("../../config/db.php");
 				$errors[] ="Error Al Actualizar Estado de Venta <br>".$sql;		
 			}
 		}
-	
-		$sql="select Venta,Estado from TransaccionesD where Numero=".$Numero." ";
+		$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  NDocumento=".$Numero." and Tipo ='T' ");
+		$sql="select TransaccionesE.Usuario,TransaccionesD.NDocumento,TransaccionesD.Tipo,TransaccionesD.Estado,TransaccionesD.Valor from TransaccionesE
+		inner join TransaccionesD on TransaccionesD.Numero = TransaccionesE.Numero where TransaccionesE.Numero=".$Numero." ";
+		
 		$query = mysqli_query($con, $sql);
+
 		while ($row=mysqli_fetch_array($query)){
-		$Venta=$row['Venta'];
+		$Usuario=$row['Usuario'];
+		$Tipo=$row['Tipo'];
+		$Valor=$row['Valor'];
+		$NDocumento=$row['NDocumento'];
 		$Estado=$row['Estado'];
-		$sql =  "Update cuenta_virtual Set Estado='".$Estado."' where Venta =".$Venta.";";				
+		$sql =  "Update cuenta_virtual Set Estado='".$Estado."' where NDocumento =".$NDocumento." and Tipo ='".$Tipo."';";				
 		$query_update = mysqli_query($con,$sql);
+		$Debito=0;			
+		$Credito=0;
+		if ($Valor > 0){
+			$Debito = $Valor;
+			$Valor = $Valor*(-1);
+		}else{
+			$Valor = $Valor*(-1);
+			$Credito = $Valor;
+		}
+		;					
+
+		$sql = "INSERT INTO Cuenta_Virtual(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
+									VALUES('".$Usuario."','T','".$Numero."','".$Tipo."','".$NDocumento."','".$Credito."','".$Debito."','0','".$Valor."','Pagada','".date("Y-m-d")."')";
+		$query_update = mysqli_query($con,$sql);						
 
 		$sql =  "Update Ventas Set Liquidada='True' where Numero =".$Venta.";";				
 		$query_update = mysqli_query($con,$sql);

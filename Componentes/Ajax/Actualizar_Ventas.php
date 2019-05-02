@@ -39,7 +39,7 @@ if (empty($_POST['Estado_Campana'])){
 				$sql =  "Update Ventas Set Estado='".$Estado."' where Numero =".$Numero_Venta.";";				
 				$query_update = mysqli_query($con,$sql);
         		if ($query_update) {
-					$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  NDocumento=".$Numero_Venta." ");					
+					$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  NDocumento=".$Numero_Venta." and Tipo ='V' ");					
 					if ($Estado=='Aprobada'){	
 
 				

@@ -63,7 +63,6 @@
 		$numrows= 	mysqli_num_rows($query);
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-CuentaGeneral.php';
-
 		if ($numrows>0){
 			echo mysqli_error($con);
 			?>

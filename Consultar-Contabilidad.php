@@ -37,33 +37,24 @@
 					?>
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
-							<div class="col-md-2">		
-									<select class='form-control ' id="Filtro" name ="Filtro" placeholder="Estado" onchange='load(1);'>
-										<option value="Nombre">Nombre</option>
-										<option value="Cedula">Cedula</option>
-										<option value="Telefono">Telefono</option>
-										<option value="Campaña">Campaña</option>
-										<option value="Usuario">Usuario</option>								
-									</select>
-								</div>
+							
 								<div class="col-md-2">		
 									<input type="Date" class="form-control" id="fechaIni" name="fechaIni" value="<?php echo date("Y-m-d",strtotime("-1 month"))?>" onchange='load(1);'>
 								</div>
 								<div class="col-md-2">		
 									<input type="Date" class="form-control" id="fechaFin" name="fechaFin" value="<?php echo date("Y-m-d")?>" onchange='load(1);'>
 								</div>
-								<div class="col-md-4">
-									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
+							
+								<div class="col-md-2">		
+									<select class='form-control ' id="EFiltro" name ="EFiltro" placeholder="EFiltro" onchange='CambioEFiltro();'>
+									<option value="Todos">Todos</option>
+										<option value="Usuario">Usuario</option>
+										<option value="Tipo">Tipo</option>
+									</select>
 								</div>
 								<div class="col-md-2">		
-									
-									<select class='form-control ' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
+									<select class='form-control' id="VFiltro" name ="VFiltro" placeholder="Filtro" onchange='load(1);'>
 										<option value="Todos">Todos</option>
-										<option value="Sin Revisar">Sin Revisar</option>
-										<option value="Aprobada">Aprobada</option>
-										<option value="Rechazada">Rechazada</option>
-										<option value="Negada">Negada</option>
-									
 									</select>
 								</div>
 								<input type="hidden" id="Pestana" value="ResIngresos">
@@ -120,6 +111,22 @@
 
 	load(1);
 	})
+
+	function CambioEFiltro(){
+		var Filtro =  $("#EFiltro").val();
+		$("#loader").fadeIn('slow');
+			$.ajax({
+				url:'Componentes/Ajax/Filtros_Contabilidad.php?Filtro='+Filtro,
+				 beforeSend: function(objeto){
+					$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			  },
+				success:function(data){
+					$('#loader').html('');
+					$("#VFiltro").html(data);
+					load(1);
+				}
+			})
+	}
 	</script>
   </body>
 </html>

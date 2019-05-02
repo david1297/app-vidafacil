@@ -3,15 +3,14 @@
 		});
 
 		function load(page){
-			var q= $("#q").val();
 			var Pest =$("#Pestana").val();
-			var Filtro = $("#Filtro").val();
-			var Estado = $("#FEstado").val();
+			var EFiltro = $("#EFiltro").val();
+			var VFiltro = $("#VFiltro").val();
 			var fechaIni = $("#fechaIni").val();
 			var fechaFin = $("#fechaFin").val();
 			$("#loader").fadeIn('slow');
 			$.ajax({
-				url:'Componentes/Ajax/Buscar_Contabilidad.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&Pest='+Pest,
+				url:'Componentes/Ajax/Buscar_Contabilidad.php?action=ajax&page='+page+'&EFiltro='+EFiltro+'&VFiltro='+VFiltro+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&Pest='+Pest,
 				 beforeSend: function(objeto){
 				 $('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			  },
@@ -22,63 +21,42 @@
 				}
 			})
 		}
-function NuevaVenta(){
-	//location.href='Ventas.php';
-}
+
 $( "#ExportarExcel" ).click(function( event ) {
-	var q= $("#q").val();
-			var Pest =$("#Pestana").val();
-			var Filtro = $("#Filtro").val();
-			var Estado = $("#FEstado").val();
-			var fechaIni = $("#fechaIni").val();
-			var fechaFin = $("#fechaFin").val();
-			$("#loader").fadeIn('slow');
-			$.ajax({
-				url:'Componentes/Ajax/Exportar_Contabilidad.php?action=ajax&q='+q+'&Filtro='+Filtro+'&Estado='+Estado+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&Pest='+Pest,
-				 beforeSend: function(objeto){
-				 $('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
-			  },
-				success:function(dataR){
-					var string ='{"user_id": "1", "auth_id": "1"}';
-
-					var data=JSON.parse('['+dataR+']');
-					var NombreXLS='';
-					$('#loader').html('');
-					if(Pest =='ResEgresos'){
-						NombreXLS="Egresos";
-					}else{
-						if(Pest =='ResIngresos'){
-							NombreXLS="Ingresos";
-							
-						}
-					}
-					
-	/* this line is only needed if you are not adding a script tag reference */
-	if(typeof XLSX == 'undefined') XLSX = require('xlsx');
-	
-	/* make the worksheet */
-	var ws = XLSX.utils.json_to_sheet(data);
-	
-	/* add to workbook */
-	var wb = XLSX.utils.book_new();
-	XLSX.utils.book_append_sheet(wb, ws, NombreXLS);
-	
-	/* generate an XLSX file */
-						var hoy = new Date();
-						y = hoy.getFullYear();
-//Mes
-m = hoy.getMonth() + 1;
-//Día
-d = hoy.getDate();
-						
-	XLSX.writeFile(wb, NombreXLS+" "+d + "-" + m + "-" + y+".xlsx");
+	var Pest =$("#Pestana").val();
+	var EFiltro = $("#EFiltro").val();
+	var VFiltro = $("#VFiltro").val();
+	var fechaIni = $("#fechaIni").val();
+	var fechaFin = $("#fechaFin").val();
+	$("#loader").fadeIn('slow');
+	$.ajax({
+		url:'Componentes/Ajax/Exportar_Contabilidad.php?action=ajax&EFiltro='+EFiltro+'&VFiltro='+VFiltro+'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&Pest='+Pest,
+		beforeSend: function(objeto){
+			$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+		},
+		success:function(dataR){
+			var string ='{"user_id": "1", "auth_id": "1"}';
+			var data=JSON.parse('['+dataR+']');
+			var NombreXLS='';
+			$('#loader').html('');
+			if(Pest =='ResEgresos'){
+				NombreXLS="Egresos";
+			}else{
+				if(Pest =='ResIngresos'){
+					NombreXLS="Ingresos";		
 				}
-			})
-
-
-	
-	
-
+			}
+			if(typeof XLSX == 'undefined') XLSX = require('xlsx');
+			var ws = XLSX.utils.json_to_sheet(data);
+			var wb = XLSX.utils.book_new();
+			XLSX.utils.book_append_sheet(wb, ws, NombreXLS);
+			var hoy = new Date();
+			y = hoy.getFullYear();
+			m = hoy.getMonth() + 1;
+			d = hoy.getDate();
+			XLSX.writeFile(wb, NombreXLS+" "+d + "-" + m + "-" + y+".xlsx");
+		}
+	})
 })
 
 
