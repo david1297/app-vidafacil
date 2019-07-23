@@ -112,18 +112,27 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 					}
 					$EstadoU = mysqli_real_escape_string($con,(strip_tags($_POST["EstadoU"],ENT_QUOTES)));
 					if($EstadoU=='Nuevo'){
-						$sql =  "insert into  Permisos(Modulo,Permiso,Estado,Usuario,Descripcion)Value 
-						('Afiliados','Ingreso','false','".$Nit."','Ingreso al Modulo'),
-						('Afiliados','Crear','false','".$Nit."','Crear Afiliado'),
-						('Afiliados','Editar','false','".$Nit."','Editar Afiliado'),
-						('Campanas','Ingreso','false','".$Nit."','Ingreso al Modulo'),
-						('Contabilidad','Ingreso','false','".$Nit."','Ingreso al Modulo'),
-						('CuentaVirtual','Ingreso','false','".$Nit."','Ingreso al Modulo'),
-						('CuentaVirtual','ConsultarTodo','false','".$Nit."','Consultar cuenta Virtual General'),
-						('Transferencias','Ingreso','false','".$Nit."','Ingreso al Modulo'),
-						('Usuarios','Ingreso','false','".$Nit."','Ingreso al Modulo'),
-						('Ventas','Ingreso','false','".$Nit."','Ingreso al Modulo'),
-						('Ventas','CambiarEstado','false','".$Nit."','Cambiar Estados');";
+						$sql =  "INSERT INTO permisos (Modulo, Permiso, Estado,Usuario, Descripcion) VALUES 
+						(Afiliados, 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
+						(Contabilidad, 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
+						(Transacciones, 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
+						(Campanas, 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
+						(CuentaVirtual, 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
+						(Transferencias, 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
+						(Usuarios, 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
+						(Ajustes, 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
+						(Ajustes, 'Crear', 'false', '".$Nit."', 'Crear Ajuste'),
+						(Ajustes, 'Consultar', 'false', '".$Nit."', 'Consultar'),
+						(Campanas, 'Crear', 'false', '".$Nit."', 'Crear Campaña'),
+						(Campanas, 'Consultar', 'false', '".$Nit."', 'Consultar Campañas'),
+						(Afiliados, 'Crear', 'false', '".$Nit."', 'Crear Afiliado'),
+						(Afiliados, 'Editar', 'false', '".$Nit."', 'Editar Afiliado'),
+						(Transacciones, 'CambiarEstado', 'false', '".$Nit."', 'Cambiar Estados'),
+						(Usuarios, 'Crear', 'false', '".$Nit."', 'Crear Usuario'),
+						(Usuarios, 'Editar', 'false', '".$Nit."', 'Editar Usuario'),
+						(Usuarios, 'CuentaVirtual', 'false', '".$Nit."', 'Ingreso Cuenta Virtual'),
+						(Transacciones, 'Crear', 'false', '".$Nit."', 'Crear Transaccion'),
+						(Transacciones, 'Consultar', 'false', '".$Nit."', 'Consultar Transacciones');";
 							$query_update = mysqli_query($con,$sql);
 							if ($query_update) {
 								$messages[] = "Los Datos Se Han Guardado Con Exito.";

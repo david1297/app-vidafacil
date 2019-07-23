@@ -67,7 +67,18 @@
 					$Nombre=$row['Primer_Nombre'].' '.$row['Primer_Apellido'];
 					$Correo=$row["Correo"];
 					$Telefono=$row["Telefono"];
+					$Forma_Pago=$row["Forma_Pago"];
+$Forma='';
+					$query1=mysqli_query($con, "select * from formas_pago");
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													if($Forma_Pago==$rw_Admin1['Codigo']){
+														$Forma.= "<option value='".$rw_Admin1["Codigo"]."' selected>".utf8_encode($rw_Admin1["Descripcion"])."</option>";	
 
+													}else{
+														$Forma.= "<option value='".$rw_Admin1["Codigo"]."'>".utf8_encode($rw_Admin1["Descripcion"])."</option>";	
+
+													}
+												}
 					?>
 					<tr>
 						<td><?php echo $Identificacion; ?></td>
@@ -76,7 +87,7 @@
 						<td><?php echo $Correo; ?></td>
 						
 						
-						<td class='text-center'><a class='btn btn-success'href="#" data-dismiss="modal" onclick="Seleccionar('<?php echo $Identificacion ?>','<?php echo $Nombre ?>','<?php echo $Correo ?>')"><i class="glyphicon glyphicon-ok"></i></a></td>
+						<td class='text-center'><a class='btn btn-success'href="#" data-dismiss="modal" onclick="Seleccionar('<?php echo $Identificacion ?>','<?php echo $Nombre ?>','<?php echo $Correo ?>','<?php echo $Forma_Pago ?>')"><i class="glyphicon glyphicon-ok"></i></a></td>
 					</tr>
 					<?php
 				}

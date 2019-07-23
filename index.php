@@ -89,15 +89,15 @@
 										<div id="number-chart2" class="inlinesparkline">
 										<?PHP	
 										$Total_Semana_Ant=0;
-											$query1=mysqli_query($con, "SELECT SUM((ventas.valor*ventas.Porcentaje_Comision)/100) VALOR  FROM VENTAS 
+											$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR  FROM cuenta_virtual 
 								
-											WHERE WEEK(ventas.fecha) =WEEK(NOW())-1 and Porcentaje_Comision<>0 ;");
+											WHERE WEEK(fecha) =WEEK(NOW())-1 ;");
 											$rw_Admin1=mysqli_fetch_array($query1);
 											$Total_Semana_Ant=$rw_Admin1['VALOR'];
 											$Total_Semana=0;
-											$query1=mysqli_query($con, "SELECT SUM((ventas.valor*ventas.Porcentaje_Comision)/100) VALOR,day(ventas.fecha) AS DIA  FROM VENTAS 
+											$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR,day(fecha) AS DIA  FROM cuenta_virtual 
 										
-											WHERE WEEK(ventas.fecha) =WEEK(NOW()) and Porcentaje_Comision<>0  group by DIA;");
+											WHERE WEEK(fecha) =WEEK(NOW())   group by DIA;");
 											$h=0;
 											while($rw_Admin1=mysqli_fetch_array($query1)){
 												if ($h==0){
@@ -143,8 +143,9 @@
 										<li class="clearfix">Ingresos
 											<span>
 											<?php
-												$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
-												where fecha=CURDATE()  ; ");
+												$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM(cuenta_virtual.Comision)Comision
+                                                FROM ventas left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
+												where ventas.fecha=CURDATE()  ; ");
 																			$rw_Admin1=mysqli_fetch_array($query1);
 												echo '$ '.number_format($rw_Admin1['VALOR']).'</span></li>
 												<li class="clearfix">Comisiones <span>$ '.number_format($rw_Admin1['Comision']).'</span></li>
@@ -162,7 +163,9 @@
 										$Total_Semana_Ant=0;
 										$NVentas_Semana_Ant=0;
 										$Comision_Semana_Ant=0;
-										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
+										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,
+										SUM(cuenta_virtual.Comision)Comision FROM ventas 
+										left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
 									
 										where WEEK(ventas.fecha) =WEEK(NOW())-1 ; ");
 										$rw_Admin1=mysqli_fetch_array($query1);
@@ -173,8 +176,9 @@
 										$Total_Semana=0;
 										$NVentas_Semana=0;
 										$Comision_Semana=0;
-										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
-									
+										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,
+										SUM(cuenta_virtual.Comision)Comision FROM ventas 
+										left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
 										where WEEK(ventas.fecha) =WEEK(NOW()) ; ");
 										$rw_Admin1=mysqli_fetch_array($query1);
 										$Total_Semana=$rw_Admin1['VALOR'];
@@ -282,10 +286,12 @@
 											</thead>
 											<tbody>
 												<?php
-													$query1=mysqli_query($con, "SELECT campanas.Nombre, SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
+													$query1=mysqli_query($con, "SELECT campanas.Nombre, SUM(VALOR)VALOR,count(valor)as NVentas,
 													
+													SUM(cuenta_virtual.Comision)Comision FROM vidafacil.ventas 
+													left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
 													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
-													where fecha=CURDATE()  group by campanas.Nombre;");
+													where ventas.fecha=CURDATE()  group by campanas.Nombre;");
 													$h=0;
 													while($rw_Admin1=mysqli_fetch_array($query1)){
 														echo '
@@ -322,13 +328,18 @@
 											</thead>
 											<tbody>
 												<?php
-													$query1=mysqli_query($con, "SELECT campanas.Nombre,Campanas.Numero, SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
+													$query1=mysqli_query($con, "SELECT campanas.Nombre,Campanas.Numero, SUM(VALOR)VALOR,count(valor)as NVentas,
+													
+													SUM(cuenta_virtual.Comision)Comision FROM vidafacil.ventas 
 													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
+													left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
 													where WEEK(ventas.fecha) =WEEK(NOW())  group by campanas.Nombre,Campanas.Numero;");
 													$h=0;
 													while($rw_Admin1=mysqli_fetch_array($query1)){
-														$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,count(valor)as NVentas,SUM(if(ventas.Porcentaje_Comision<>0,((ventas.valor*ventas.Porcentaje_Comision)/100),0))Comision FROM vidafacil.ventas 
+														$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,count(valor)as NVentas,
+														SUM(cuenta_virtual.Comision)Comision FROM vidafacil.ventas 
 													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
+													left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
 													where WEEK(ventas.fecha) =WEEK(NOW())-1  and Campanas.Numero=".$rw_Admin1['Numero'].";");
 														$rw_Admin=mysqli_fetch_array($query);
 														echo '
@@ -423,10 +434,10 @@
 								<h2 class="heading"><i class="fa fa-square"></i> Fuentas de ingreso</h2>
 								<canvas id="myChart" width="400" height="400"></canvas>
 							</div>
-							<!-- END TRAFFIC SOURCES -->
+							<!-- END TRAFFIC SOURCES 
 						</div>
 						<div class="col-md-4">
-							<!-- REFERRALS -->
+						
 							<div class="panel-content">
 								<h2 class="heading"><i class="fa fa-square"></i> Visitas</h2>
 								<ul class="list-unstyled list-referrals">
@@ -456,11 +467,11 @@
 									</li>
 								</ul>
 							</div>
-							<!-- END REFERRALS -->
+							
 						</div>
 						<div class="col-md-4">
 							<div class="panel-content">
-								<!-- BROWSERS -->
+								
 								<h2 class="heading"><i class="fa fa-square"></i> Navegadores</h2>
 								<div class="table-responsive">
 									<table class="table no-margin">
@@ -510,13 +521,10 @@
 										</tbody>
 									</table>
 								</div>
-								<!-- END BROWSERS -->
+								
 							</div>
 						</div>
-					</div>
-				</div>
-				
-				<div class="dashboard-section">
+						<div class="dashboard-section">
 					
 					<div class="row">
 						<div class="col-md-12">
@@ -577,6 +585,11 @@
 						
 					</div>
 				</div>
+						-->
+					</div>
+				</div>
+				
+				
 				
 				<div class="dashboard-section no-margin">
 					<div class="section-heading clearfix">

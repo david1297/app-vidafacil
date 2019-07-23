@@ -440,20 +440,28 @@
 							<div class="tab-pane fade" id="Permisos">
 								<!-- -->
 								<ul class="nav nav-tabs" role="tablist">
-									<li class="active"><a href="#Afiliados" class="Permisos" role="tab" data-toggle="tab" id="Click_Afiliados">Afiliados</a></li>
-									<li><a href="#Contabilidad"class="Permisos" role="tab" data-toggle="tab" id="Click_Contabilidad">Contabilidad</a></li>
-									<li><a href="#Ventas" class="Permisos" role="tab" data-toggle="tab" id="Click_Ventas">Ventas</a></li>
+									<li class="active"><a href="#Usuarios" class="Permisos" role="tab" data-toggle="tab" id="Click_Usuarios">Usuarios</a></li>
+									<li><a href="#Transacciones" class="Permisos" role="tab" data-toggle="tab" id="Click_Transacciones">Transacciones</a></li>
+									<li><a href="#Ajustes" class="Permisos" role="tab" data-toggle="tab" id="Click_Ajustes">Ajustes</a></li>
 									<li><a href="#Campanas" class="Permisos"role="tab" data-toggle="tab" id="Click_Campanas">Campañas</a></li>
+									<li><a href="#Afiliados" class="Permisos" role="tab" data-toggle="tab" id="Click_Afiliados">Afiliados</a></li>
+									<li><a href="#Contabilidad"class="Permisos" role="tab" data-toggle="tab" id="Click_Contabilidad">Contabilidad</a></li>
+									
+									
 									<li><a href="#CuentaVirtual" class="Permisos" role="tab" data-toggle="tab" id="Click_CuentaVirtual">Cuenta Virtual</a></li>
 									<li><a href="#Transferencias" class="Permisos" role="tab" data-toggle="tab" id="Click_Transferencias">Transferencias</a></li>
-									<li><a href="#Usuarios" class="Permisos" role="tab" data-toggle="tab" id="Click_Usuarios">Usuarios</a></li>
+									
 								</ul>
 								<div class="tab-content">
-									<div class="tab-pane fade in active" id="Afiliados">
+								<div class="tab-pane fade in active" id="Usuarios">
+									</div>
+									<div class="tab-pane fade" id="Afiliados">
 									</div>
 									<div class="tab-pane fade" id="Contabilidad">
 									</div>
-									<div class="tab-pane fade" id="Ventas">
+									<div class="tab-pane fade" id="Ajustes">
+									</div>
+									<div class="tab-pane fade" id="Transacciones">
 									</div>
 									<div class="tab-pane fade" id="Campanas">
 									</div>
@@ -461,8 +469,7 @@
 									</div>
 									<div class="tab-pane fade" id="Transferencias">
 									</div>
-									<div class="tab-pane fade" id="Usuarios">
-									</div>
+									
 								</div>
 								<!-- -->				
 							</div>
