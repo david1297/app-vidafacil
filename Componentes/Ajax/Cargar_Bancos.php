@@ -10,7 +10,7 @@ require_once ("../../config/db.php");
 require_once ("../../config/conexion.php");
 if (isset($_GET['Numero'])){
 	$Numero=intval($_GET['Numero']);	
-	$delete="DELETE FROM Bancos WHERE Numero=".$Numero."; ";
+	$delete="DELETE FROM BANCOS WHERE Numero=".$Numero."; ";
 	$query_update = mysqli_query($con,$delete);
 	if ($query_update) {
 		$messages[] = "Los Datos Se Han Modificado Con Exito.";
@@ -30,7 +30,7 @@ if (!isset($errors)){
 </tr>
 <?php
 	$sumador_total=0;
-	$sql=mysqli_query($con, "select distinct Numero,Nombre from Bancos ");
+	$sql=mysqli_query($con, "select distinct Numero,Nombre from BANCOS ");
 	while ($row=mysqli_fetch_array($sql))
 	{
   

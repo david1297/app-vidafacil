@@ -6,28 +6,28 @@
 	if($action == 'ajax'){
          $Busc_Usuario = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Busc_Usuario'], ENT_QUOTES)));
 		 $Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
-		 $sTable = "Usuarios";
+		 $sTable = "USUARIOS";
 		$sWhere = "where 1=1 ";
 		if ( $_GET['Busc_Usuario'] != "" ){
 			if ($Filtro == "Razon_Social"){
 				
-				$sWhere.= " and   (Usuarios.Nombre like '%$Busc_Usuario%' or Usuarios.Apellido like '%$Busc_Usuario%' or Usuarios.Razon_Social like '%$Busc_Usuario%')";	
+				$sWhere.= " and   (USUARIOS.Nombre like '%$Busc_Usuario%' or USUARIOS.Apellido like '%$Busc_Usuario%' or USUARIOS.Razon_Social like '%$Busc_Usuario%')";	
 			}else{
 				if ($Filtro =="Nit"){
-					$sWhere.= " and  (Usuarios.Nit like '%$Busc_Usuario%')";	
+					$sWhere.= " and  (USUARIOS.Nit like '%$Busc_Usuario%')";	
 				}else{
 					if ($Filtro =="Telefono"){
-						$sWhere.= " and  (Usuarios.Tel_C like '%$Busc_Usuario%' or Usuarios.Cel_C like '%$Busc_Usuario%')";
+						$sWhere.= " and  (USUARIOS.Tel_C like '%$Busc_Usuario%' or USUARIOS.Cel_C like '%$Busc_Usuario%')";
 					}else{
 						if ($Filtro=="Correo"){
-							$sWhere.= " and  (Usuarios.Correo_C like '%$Busc_Usuario%' or Usuarios.Correo like '%$Busc_Usuario%')";
+							$sWhere.= " and  (USUARIOS.Correo_C like '%$Busc_Usuario%' or USUARIOS.Correo like '%$Busc_Usuario%')";
 						}
 					}
 				}
 			}
 		}
 		$sWhere.= " and Estado ='Activo'";	
-		$sWhere.=" order by Usuarios.Razon_Social desc";
+		$sWhere.=" order by USUARIOS.Razon_Social desc";
 		include 'pagination.php'; 
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 5; 

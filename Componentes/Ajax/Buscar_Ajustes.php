@@ -11,22 +11,22 @@
 		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
 		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
 
-		$sTable = "ajustes	
-		INNER JOIN USUARIOS ON ajustes.USUARIOA = USUARIOS.NIT";
-		$sWhere = "where (ajustes.Fecha_Creacion >= '$fechaIni' and  ajustes.Fecha_Creacion <= '$fechaFin') ";
+		$sTable = "AJUSTES	
+		INNER JOIN USUARIOS ON AJUSTES.USUARIOA = USUARIOS.NIT";
+		$sWhere = "where (AJUSTES.Fecha_Creacion >= '$fechaIni' and  AJUSTES.Fecha_Creacion <= '$fechaFin') ";
 		if ( $_GET['q'] != "" ){
-			$sWhere.= " and  (ajustes.Numero like '%$q%' )";	
+			$sWhere.= " and  (AJUSTES.Numero like '%$q%' )";	
 		}	
 		if($EFiltro<>"Todos"){
 			if($EFiltro=='Usuario'){
-				$sWhere.= " and ajustes.UsuarioA ='".$VFiltro."'";		
+				$sWhere.= " and AJUSTES.UsuarioA ='".$VFiltro."'";		
 			}else{
 				if($EFiltro=='Estado'){
-					$sWhere.= " and ajustes.Estado ='".$VFiltro."'";		
+					$sWhere.= " and AJUSTES.Estado ='".$VFiltro."'";		
 				}
 			}	
 		} 
-		$order=" order by ajustes.Numero ";
+		$order=" order by AJUSTES.Numero ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 50;
@@ -37,13 +37,13 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-ajustes.php';
-		$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="ajustes" and Permiso="ConsultarTodo" and  Usuario ="'.$_SESSION['Nit'].'";');
+		$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="ajustes" and Permiso="ConsultarTodo" and  Usuario ="'.$_SESSION['Nit'].'";');
 										
 				
 
 
-		$sql="SELECT ajustes.Numero,ajustes.UsuarioA,USUARIOS.RAZON_SOCIAL,ajustes.Fecha_Creacion,
-		ajustes.ESTADO,ajustes.Valor,ajustes.Tipo FROM  $sTable $sWhere   
+		$sql="SELECT AJUSTES.Numero,AJUSTES.UsuarioA,USUARIOS.RAZON_SOCIAL,AJUSTES.Fecha_Creacion,
+		AJUSTES.ESTADO,AJUSTES.Valor,AJUSTES.Tipo FROM  $sTable $sWhere   
 		$order LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){

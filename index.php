@@ -51,11 +51,11 @@
 										<div id="number-chart1" class="inlinesparkline">
 										<?PHP	
 										$Total_Semana_Ant=0;
-											$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR  FROM VENTAS WHERE WEEK(ventas.fecha) =WEEK(NOW())-1 ;");
+											$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR  FROM VENTAS WHERE WEEK(VENTAS.fecha) =WEEK(NOW())-1 ;");
 											$rw_Admin1=mysqli_fetch_array($query1);
 											$Total_Semana_Ant=$rw_Admin1['VALOR'];
 											$Total_Semana=0;
-											$query1=mysqli_query($con, "SELECT SUM(VALOR) VALOR,day(ventas.fecha) AS DIA  FROM VENTAS WHERE WEEK(ventas.fecha) =WEEK(NOW())  group by DIA;");
+											$query1=mysqli_query($con, "SELECT SUM(VALOR) VALOR,day(VENTAS.fecha) AS DIA  FROM VENTAS WHERE WEEK(VENTAS.fecha) =WEEK(NOW())  group by DIA;");
 											$h=0;
 											while($rw_Admin1=mysqli_fetch_array($query1)){
 												if ($h==0){
@@ -89,13 +89,13 @@
 										<div id="number-chart2" class="inlinesparkline">
 										<?PHP	
 										$Total_Semana_Ant=0;
-											$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR  FROM cuenta_virtual 
+											$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR  FROM CUENTA_VIRTUAL 
 								
 											WHERE WEEK(fecha) =WEEK(NOW())-1 ;");
 											$rw_Admin1=mysqli_fetch_array($query1);
 											$Total_Semana_Ant=$rw_Admin1['VALOR'];
 											$Total_Semana=0;
-											$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR,day(fecha) AS DIA  FROM cuenta_virtual 
+											$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR,day(fecha) AS DIA  FROM CUENTA_VIRTUAL 
 										
 											WHERE WEEK(fecha) =WEEK(NOW())   group by DIA;");
 											$h=0;
@@ -143,9 +143,9 @@
 										<li class="clearfix">Ingresos
 											<span>
 											<?php
-												$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM(cuenta_virtual.Comision)Comision
-                                                FROM ventas left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
-												where ventas.fecha=CURDATE()  ; ");
+												$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM(CUENTA_VIRTUAL.Comision)Comision
+                                                FROM VENTAS left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
+												where VENTAS.fecha=CURDATE()  ; ");
 																			$rw_Admin1=mysqli_fetch_array($query1);
 												echo '$ '.number_format($rw_Admin1['VALOR']).'</span></li>
 												<li class="clearfix">Comisiones <span>$ '.number_format($rw_Admin1['Comision']).'</span></li>
@@ -164,10 +164,10 @@
 										$NVentas_Semana_Ant=0;
 										$Comision_Semana_Ant=0;
 										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,
-										SUM(cuenta_virtual.Comision)Comision FROM ventas 
-										left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
+										SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
+										left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
 									
-										where WEEK(ventas.fecha) =WEEK(NOW())-1 ; ");
+										where WEEK(VENTAS.fecha) =WEEK(NOW())-1 ; ");
 										$rw_Admin1=mysqli_fetch_array($query1);
 										$Total_Semana_Ant=$rw_Admin1['VALOR'];
 										$NVentas_Semana_Ant=$rw_Admin1['NVentas'];
@@ -177,9 +177,9 @@
 										$NVentas_Semana=0;
 										$Comision_Semana=0;
 										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,
-										SUM(cuenta_virtual.Comision)Comision FROM ventas 
-										left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
-										where WEEK(ventas.fecha) =WEEK(NOW()) ; ");
+										SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
+										left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
+										where WEEK(VENTAS.fecha) =WEEK(NOW()) ; ");
 										$rw_Admin1=mysqli_fetch_array($query1);
 										$Total_Semana=$rw_Admin1['VALOR'];
 										$NVentas_Semana=$rw_Admin1['NVentas'];
@@ -286,12 +286,12 @@
 											</thead>
 											<tbody>
 												<?php
-													$query1=mysqli_query($con, "SELECT campanas.Nombre, SUM(VALOR)VALOR,count(valor)as NVentas,
+													$query1=mysqli_query($con, "SELECT CAMPANAS.Nombre, SUM(VALOR)VALOR,count(valor)as NVentas,
 													
-													SUM(cuenta_virtual.Comision)Comision FROM vidafacil.ventas 
-													left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
-													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
-													where ventas.fecha=CURDATE()  group by campanas.Nombre;");
+													SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
+													left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
+													INNER JOIN CAMPANAS ON CAMPANAS.Numero = VENTAS.Campana
+													where VENTAS.fecha=CURDATE()  group by CAMPANAS.Nombre;");
 													$h=0;
 													while($rw_Admin1=mysqli_fetch_array($query1)){
 														echo '
@@ -328,19 +328,19 @@
 											</thead>
 											<tbody>
 												<?php
-													$query1=mysqli_query($con, "SELECT campanas.Nombre,Campanas.Numero, SUM(VALOR)VALOR,count(valor)as NVentas,
+													$query1=mysqli_query($con, "SELECT CAMPANAS.Nombre,CAMPANAS.Numero, SUM(VALOR)VALOR,count(valor)as NVentas,
 													
-													SUM(cuenta_virtual.Comision)Comision FROM vidafacil.ventas 
-													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
-													left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
-													where WEEK(ventas.fecha) =WEEK(NOW())  group by campanas.Nombre,Campanas.Numero;");
+													SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
+													INNER JOIN CAMPANAS ON CAMPANAS.Numero = VENTAS.Campana
+													left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
+													where WEEK(VENTAS.fecha) =WEEK(NOW())  group by CAMPANAS.Nombre,CAMPANAS.Numero;");
 													$h=0;
 													while($rw_Admin1=mysqli_fetch_array($query1)){
 														$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,count(valor)as NVentas,
-														SUM(cuenta_virtual.Comision)Comision FROM vidafacil.ventas 
-													INNER JOIN Campanas ON campanas.Numero = ventas.Campana
-													left join cuenta_virtual on cuenta_virtual.tipo ='V' and cuenta_virtual.NDocumento = ventas.numero
-													where WEEK(ventas.fecha) =WEEK(NOW())-1  and Campanas.Numero=".$rw_Admin1['Numero'].";");
+														SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
+													INNER JOIN CAMPANAS ON CAMPANAS.Numero = VENTAS.Campana
+													left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
+													where WEEK(VENTAS.fecha) =WEEK(NOW())-1  and CAMPANAS.Numero=".$rw_Admin1['Numero'].";");
 														$rw_Admin=mysqli_fetch_array($query);
 														echo '
 														<tr>
@@ -601,7 +601,7 @@
 							<div class="col-md-4 col-sm-6">
 								<p class="metric-inline"><i class="far fa-id-card"></i>
 								<?php
-									$query=mysqli_query($con, "SELECT COUNT(*)Afiliados FROM afiliados");
+									$query=mysqli_query($con, "SELECT COUNT(*)Afiliados FROM AFILIADOS");
 										$rw_Admin=mysqli_fetch_array($query);
 								echo '+'.$rw_Admin['Afiliados'];		
 								?> <span>AFILIADOS</span></p>
@@ -609,7 +609,7 @@
 							<div class="col-md-4 col-sm-6">
 								<p class="metric-inline"><i class="far fa-handshake"></i>
 								<?php
-									$query=mysqli_query($con, "SELECT  COUNT(*)Distribuidores FROM Usuarios where tipo='Distribuidor';   ");
+									$query=mysqli_query($con, "SELECT  COUNT(*)Distribuidores FROM USUARIOS where tipo='Distribuidor';   ");
 										$rw_Admin=mysqli_fetch_array($query);
 								echo '+'.$rw_Admin['Distribuidores'];		
 								?>  <span>DISTRIBUIDORES</span></p>
@@ -617,7 +617,7 @@
 							<div class="col-md-4 col-sm-6">
 								<p class="metric-inline"><i class="fas fa-users"></i> 
 								<?php
-									$query=mysqli_query($con, "SELECT  COUNT(*)Operarios FROM Usuarios where tipo='Operador';      ");
+									$query=mysqli_query($con, "SELECT  COUNT(*)Operarios FROM USUARIOS where tipo='Operador';      ");
 										$rw_Admin=mysqli_fetch_array($query);
 								echo '+'.$rw_Admin['Operarios'];		
 								?>  <span>OPERARIOS</span></p>
@@ -659,10 +659,10 @@ var myChart = new Chart(ctx, {
             data: [<?PHP
 				$Dis=0;
 				$Ope=0;
-				$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,usuarios.Tipo FROM vidafacil.ventas 
-				INNER JOIN Usuarios ON usuarios.Nit = ventas.Usuario 
+				$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,USUARIOS.Tipo FROM vidafacil.ventas 
+				INNER JOIN USUARIOS ON USUARIOS.Nit = ventas.Usuario 
 
-				where  WEEK(ventas.fecha) =WEEK(NOW()) group by usuarios.Tipo;  ");
+				where  WEEK(ventas.fecha) =WEEK(NOW()) group by USUARIOS.Tipo;  ");
 				while($rw_Admin=mysqli_fetch_array($query)){
 				if ($rw_Admin['Tipo']=='Distribuidor'){
 					$Dis=$rw_Admin['VALOR'];
@@ -713,7 +713,7 @@ var chart = new Chart(ctx, {
 						$Oct=0;
 						$Nov=0;
 						$Dic=0;
-							$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,month(ventas.fecha) mes FROM VENTAS WHERE year(ventas.fecha) =year(NOW())  group by mes;  ");
+							$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,month(VENTAS.fecha) mes FROM VENTAS WHERE year(VENTAS.fecha) =year(NOW())  group by mes;  ");
 							while($rw_Admin1=mysqli_fetch_array($query1)){
 								if($rw_Admin1['mes']=='1'){
 									$Ene=$rw_Admin1['VALOR'];

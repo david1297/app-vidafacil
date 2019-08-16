@@ -20,7 +20,7 @@ if (empty($_POST['Numero'])){
 				$Descripcion = mysqli_real_escape_string($con,(strip_tags($_POST["Descripcion"],ENT_QUOTES)));
 				
 				
-				$sql =  "Update Bancos Set Nombre='".$Descripcion."' where Numero=".$Numero."; ";
+				$sql =  "Update BANCOS Set Nombre='".$Descripcion."' where Numero=".$Numero."; ";
 
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {

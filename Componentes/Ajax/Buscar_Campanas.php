@@ -8,21 +8,21 @@
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
 		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
 
-		$sTable = "Campanas";
+		$sTable = "CAMPANAS";
 		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Numero"){
 				
-				$sWhere.= " and  (Campanas.Numero like '%$q%' )";	
+				$sWhere.= " and  (CAMPANAS.Numero like '%$q%' )";	
 			}else{
 				if ($Filtro =="Nombre"){
-					$sWhere.= " and  (Campanas.Nombre like '%$q%')";	
+					$sWhere.= " and  (CAMPANAS.Nombre like '%$q%')";	
 				}else{
 					if ($Filtro =="Area"){
-						$sWhere.= " and  (Campanas.Area like '%$q%')";
+						$sWhere.= " and  (CAMPANAS.Area like '%$q%')";
 					}else{
 						if ($Filtro=="Contacto"){
-							$sWhere.= " and  (Campanas.Contacto like '%$q%')";
+							$sWhere.= " and  (CAMPANAS.Contacto like '%$q%')";
 						}
 					}
 				}
@@ -32,7 +32,7 @@
 		if($Estado<>"Todos"){
 			$sWhere.= " and Estado ='".$Estado."'";	
 		} 
-		$sWhere.=" order by Campanas.Numero ";
+		$sWhere.=" order by CAMPANAS.Numero ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 10;

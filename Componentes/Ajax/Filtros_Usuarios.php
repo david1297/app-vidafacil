@@ -33,7 +33,7 @@ if($Filtro== 'Estado'){
 			<?php
 		}else{
 			if($Filtro== 'Campana'){
-				$query1=mysqli_query($con, "SELECT Numero,Nombre FROM campanas where estado='Activa';");
+				$query1=mysqli_query($con, "SELECT Numero,Nombre FROM CAMPANAS where estado='Activa';");
 				echo' <select class="form-contro" id="FEstado" name ="FEstado" placeholder="Estado" onchange="load(1);">';
 				while($rw_Admin1=mysqli_fetch_array($query1)){
 						echo  '<option value="'.$rw_Admin1['Numero'].'">'.$rw_Admin1['Nombre'].'</option>';

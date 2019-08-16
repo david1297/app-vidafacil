@@ -12,7 +12,7 @@ require_once ("../../config/conexion.php");
 
 if (!empty($Numero) )
 {
-	$insert_tmp=mysqli_query($con, "INSERT INTO usuario_camp (Campana,	Usuario) VALUES ('$Numero','$Nit')");
+	$insert_tmp=mysqli_query($con, "INSERT INTO USUARIO_CAMP (Campana,	Usuario) VALUES ('$Numero','$Nit')");
 
 }
 
@@ -22,7 +22,7 @@ if (isset($_GET['Campana']))//codigo elimina un elemento del array
 {
 $Campana=intval($_GET['Campana']);	
 $Nit=intval($_GET['Nit']);
-$delete=mysqli_query($con, "DELETE FROM usuario_camp WHERE Campana='".$Campana."' and Usuario='".$Nit."' ");
+$delete=mysqli_query($con, "DELETE FROM USUARIO_CAMP WHERE Campana='".$Campana."' and Usuario='".$Nit."' ");
 }
 
 ?>
@@ -36,9 +36,9 @@ $delete=mysqli_query($con, "DELETE FROM usuario_camp WHERE Campana='".$Campana."
 </tr>
 <?php
 	$sumador_total=0;
-	$sql=mysqli_query($con, "select Campanas.Numero,Campanas.Nombre,Campanas.Porcentaje  from  usuario_camp 
-	inner join Campanas on Campanas.Numero = usuario_camp.Campana
-	where  usuario_camp.Usuario='".$Nit."'");
+	$sql=mysqli_query($con, "select Campanas.Numero,Campanas.Nombre,Campanas.Porcentaje  from  USUARIO_CAMP 
+	inner join Campanas on Campanas.Numero = USUARIO_CAMP.Campana
+	where  USUARIO_CAMP.Usuario='".$Nit."'");
 	while ($row=mysqli_fetch_array($sql))
 	{
 

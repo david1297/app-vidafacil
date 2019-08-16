@@ -8,14 +8,14 @@
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
 		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
 
-		$sTable = "Ventas INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
-		inner join Usuarios on Usuarios.Nit=Ventas.Usuario
-		inner join Campanas on Campanas.Numero=Ventas.Campana";
+		$sTable = "VENTAS INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
+		inner join USUARIOS on USUARIOS.Nit=VENTAS.Usuario
+		inner join CAMPANAS on CAMPANAS.Numero=VENTAS.Campana";
 		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Numero"){
 				
-				$sWhere.= " and  (Ventas.Numero like '%$q%' )";	
+				$sWhere.= " and  (VENTAS.Numero like '%$q%' )";	
 			}else{
 				if ($Filtro =="Nombre"){
 					$sWhere.= " and  ((AFILIADOS.Primer_Nombre like '%$q%') OR (AFILIADOS.Segundo_Nombre like '%$q%')OR (AFILIADOS.Primer_Apellido like '%$q%') OR (AFILIADOS.Segundo_Apellido like '%$q%'))";	
@@ -27,13 +27,13 @@
 							$sWhere.= " and  (AFILIADOS.Telefono like '%$q%' )";	
 						}else{
 							if($Filtro =="Campaña"){
-								$sWhere.= " and  (Campanas.Nombre like '%$q%' )";	
+								$sWhere.= " and  (CAMPANAS.Nombre like '%$q%' )";	
 							}else{
 								if($Filtro =="Usuario"){
-									$sWhere.= " and  (Usuarios.Razon_Social like '%$q%' )";
+									$sWhere.= " and  (USUARIOS.Razon_Social like '%$q%' )";
 								}else{
 									if($Filtro =="Estado"){
-										$sWhere.= " and  (Ventas.Estado_Campana like '%$q%' )";
+										$sWhere.= " and  (VENTAS.Estado_Campana like '%$q%' )";
 									}
 								}
 							}
@@ -46,12 +46,12 @@
 			
 		}
 		if($_SESSION['Rol'] == '2'){
-			$sWhere.= " and  Ventas.Usuario='".$_SESSION['Nit']."' ";
+			$sWhere.= " and  VENTAS.Usuario='".$_SESSION['Nit']."' ";
 		}	
 		if($Estado<>"Todos"){
 			$sWhere.= " and VENTAS.Estado ='".$Estado."'";	
 		} 
-		$sWhere.=" order by Ventas.Numero ";
+		$sWhere.=" order by VENTAS.Numero ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 10;

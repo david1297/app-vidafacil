@@ -15,7 +15,7 @@ require_once ("../../config/conexion.php");
 
 echo' <select class="form-control" id="Ciudad" name ="Ciudad" placeholder="Ciudad">';
 
-$sql=mysqli_query($con, "select * from Ciudades where  Departamento=".$Depto."");
+$sql=mysqli_query($con, "select * from CIUDADES where  Departamento=".$Depto."");
 while ($row=mysqli_fetch_array($sql)){
 	
 	if ($Ciu ==$row['Codigo']){

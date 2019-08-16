@@ -7,7 +7,7 @@
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
   $Administracion="active";
-	$query=mysqli_query($con, "Select Operador_Venta,Operador_Donante from Administracion ;");
+	$query=mysqli_query($con, "Select Operador_Venta,Operador_Donante from ADMINISTRACION ;");
 	$rw_Admin=mysqli_fetch_array($query);
 
 

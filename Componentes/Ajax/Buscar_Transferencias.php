@@ -11,22 +11,22 @@
 		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
 		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
 
-		$sTable = "TransaccionesE	
-		INNER JOIN USUARIOS ON TransaccionesE.USUARIO = USUARIOS.NIT";
-		$sWhere = "where (TransaccionesE.Fecha_Creacion >= '$fechaIni' and  TransaccionesE.Fecha_Creacion <= '$fechaFin') ";
+		$sTable = "TRANSACCIONESE	
+		INNER JOIN USUARIOS ON TRANSACCIONESE.USUARIO = USUARIOS.NIT";
+		$sWhere = "where (TRANSACCIONESE.Fecha_Creacion >= '$fechaIni' and  TRANSACCIONESE.Fecha_Creacion <= '$fechaFin') ";
 		if ( $_GET['q'] != "" ){
-			$sWhere.= " and  (TransaccionesE.Numero like '%$q%' )";	
+			$sWhere.= " and  (TRANSACCIONESE.Numero like '%$q%' )";	
 		}	
 		if($EFiltro<>"Todos"){
 			if($EFiltro=='Usuario'){
-				$sWhere.= " and TransaccionesE.Usuario ='".$VFiltro."'";		
+				$sWhere.= " and TRANSACCIONESE.Usuario ='".$VFiltro."'";		
 			}else{
 				if($EFiltro=='Estado'){
-					$sWhere.= " and TransaccionesE.Estado ='".$VFiltro."'";		
+					$sWhere.= " and TRANSACCIONESE.Estado ='".$VFiltro."'";		
 				}
 			}	
 		} 
-		$order=" order by TransaccionesE.Numero ";
+		$order=" order by TRANSACCIONESE.Numero ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 50;
@@ -37,13 +37,13 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Transferencias.php';
-		$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="Transferencias" and Permiso="ConsultarTodo" and  Usuario ="'.$_SESSION['Nit'].'";');
+		$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Transferencias" and Permiso="ConsultarTodo" and  Usuario ="'.$_SESSION['Nit'].'";');
 										
 				
 
 
-		$sql="SELECT TransaccionesE.Numero,TransaccionesE.Usuario,USUARIOS.RAZON_SOCIAL,TransaccionesE.Fecha_Creacion,
-		TransaccionesE.Fecha_Revision,TransaccionesE.ESTADO FROM  $sTable $sWhere   
+		$sql="SELECT TRANSACCIONESE.Numero,TRANSACCIONESE.Usuario,USUARIOS.RAZON_SOCIAL,TRANSACCIONESE.Fecha_Creacion,
+		TRANSACCIONESE.Fecha_Revision,TRANSACCIONESE.ESTADO FROM  $sTable $sWhere   
 		$order LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
@@ -83,7 +83,7 @@
             <td><?php echo $FechaCreacion; ?></td>
             <td><?php echo $FechaRevision; ?></td>
 					<?php
-					$Sql1="SELECT Sum(VAlor) FROM transaccionesd where Numero ='".$Numero."';";
+					$Sql1="SELECT Sum(VAlor) FROM TRANSACCIONESD where Numero ='".$Numero."';";
 			$query1 = mysqli_query($con, $Sql1);
 			$row1=mysqli_fetch_array($query1)
 ?>

@@ -18,7 +18,7 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
                 $Operador_Donante = mysqli_real_escape_string($con,(strip_tags($_POST["Operador_Donante"],ENT_QUOTES)));
 				$Operador_Venta = mysqli_real_escape_string($con,(strip_tags($_POST["Operador_Venta"],ENT_QUOTES)));
 
-$sql =  "UPDATE Administracion SET Operador_Donante='".$Operador_Donante."', Operador_Venta='".$Operador_Venta."'
+$sql =  "UPDATE ADMINISTRACION SET Operador_Donante='".$Operador_Donante."', Operador_Venta='".$Operador_Venta."'
                             WHERE Numero=1;";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {

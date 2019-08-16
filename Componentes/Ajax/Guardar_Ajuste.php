@@ -42,13 +42,13 @@ require_once ("../../config/db.php");
 			if ($Numero<>''){
 			$Numero_Ajuste = $Numero;	
 			}else{
-				$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from ajustes order by Numero desc limit 0,1 ");
+				$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from AJUSTES order by Numero desc limit 0,1 ");
 				$rw=mysqli_fetch_array($sql);
 				$Numero_Ajuste=$rw['last']+1;
 			}
 		}
 
-		$sql =  "INSERT INTO  ajustes(Numero,UsuarioC,UsuarioA,Estado,Fecha_Creacion,Valor,Tipo,Observacion) VALUES
+		$sql =  "INSERT INTO  AJUSTES(Numero,UsuarioC,UsuarioA,Estado,Fecha_Creacion,Valor,Tipo,Observacion) VALUES
 		('".$Numero_Ajuste."', '".$UsuarioC."', '".$UsuarioA."', '".$Estado."', '".$Fecha_Creacion."', '".$Valor."', '".$Tipo."', 
 		'".$Observacion."') 
 		 ON DUPLICATE  KEY UPDATE UsuarioC = '".$UsuarioC."',UsuarioA = '".$UsuarioA."',
@@ -59,8 +59,8 @@ require_once ("../../config/db.php");
 			$messages[] = "Ajuste Almacenado con Exito";
 			if ($Tipo =='Debito'){
 				$Debito = $Valor * (-1);
-				$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  NDocumento='".$Numero_Ajuste."'");
-				$sql = "INSERT INTO Cuenta_Virtual(Usuario,Tipo,NDocumento,Cruce,NCruce,Debito,Porcentaje,Comision,Estado,Fecha)
+				$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento='".$Numero_Ajuste."'");
+				$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Debito,Porcentaje,Comision,Estado,Fecha)
 						VALUES('".$UsuarioA."','A','".$Numero_Ajuste."','A','".$Numero_Ajuste."','".$Valor."','0','".$Debito."','Pendiente','".$Fecha_Creacion."')";
 				$query_update = mysqli_query($con,$sql);
 				if ($query_update) {
@@ -71,8 +71,8 @@ require_once ("../../config/db.php");
 			}else{
 				
 					$Credito = $Valor;
-					$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  NDocumento='".$Numero_Ajuste."'");
-					$sql = "INSERT INTO Cuenta_Virtual(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
+					$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento='".$Numero_Ajuste."'");
+					$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
 							VALUES('".$UsuarioA."','A','".$Numero_Ajuste."','A','".$Numero_Ajuste."','".$Valor."','0','".$Credito."','Pendiente','".$Fecha_Creacion."')";
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {

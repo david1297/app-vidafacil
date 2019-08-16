@@ -29,7 +29,7 @@
   					<div class="card-body text-success">
 							<p class="card-text">
 								<?php
-								$query1=mysqli_query($con, "SELECT sum(Cuenta_Virtual.Comision) as valor FROM Cuenta_Virtual Where Usuario='".$Nit."' and (Estado<> 'Pagada' and Estado<> 'Rechazada' );");			
+								$query1=mysqli_query($con, "SELECT sum(CUENTA_VIRTUAL.Comision) as valor FROM CUENTA_VIRTUAL Where Usuario='".$Nit."' and (Estado<> 'Pagada' and Estado<> 'Rechazada' );");			
 								$rw_Admin1=mysqli_fetch_array($query1);
 								echo '$ '.number_format($rw_Admin1[0]);
 								?>
@@ -41,7 +41,7 @@
 						<div class="card-body text-info">
 							<p class="card-text">
 								<?php
-								$query1=mysqli_query($con, "SELECT sum(Cuenta_Virtual.Comision) as valor FROM Cuenta_Virtual Where Usuario='".$Nit."' and Estado= 'Solicitada';");			
+								$query1=mysqli_query($con, "SELECT sum(CUENTA_VIRTUAL.Comision) as valor FROM CUENTA_VIRTUAL Where Usuario='".$Nit."' and Estado= 'Solicitada';");			
 								$rw_Admin1=mysqli_fetch_array($query1);
 								echo '$ '.number_format($rw_Admin1[0]);
 								?>
@@ -54,7 +54,7 @@
 						<div class="card-body text-warning  ">
 							<p class="card-text">
 								<?php
-								$query1=mysqli_query($con, "SELECT sum(Cuenta_Virtual.Comision) as valor FROM Cuenta_Virtual Where Usuario='".$Nit."' and Estado= 'Pendiente';");			
+								$query1=mysqli_query($con, "SELECT sum(CUENTA_VIRTUAL.Comision) as valor FROM CUENTA_VIRTUAL Where Usuario='".$Nit."' and Estado= 'Pendiente';");			
 								$rw_Admin1=mysqli_fetch_array($query1);
 								echo '$ '.number_format($rw_Admin1[0]);
 								?>

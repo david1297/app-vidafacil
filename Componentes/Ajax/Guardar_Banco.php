@@ -14,7 +14,7 @@ if (!empty($Descripcion)){
 	
 
 
-	$sql =  "INSERT INTO Bancos (Nombre) VALUES ('$Descripcion');";
+	$sql =  "INSERT INTO BANCOS (Nombre) VALUES ('$Descripcion');";
 	$query_update = mysqli_query($con,$sql);
     if ($query_update) {
         $messages = "Los Datos Se Han Guardado Con Exito.";

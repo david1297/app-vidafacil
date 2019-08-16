@@ -10,42 +10,42 @@
 		$fechaFin = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaFin'], ENT_QUOTES)));
 		$Pest = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Pest'], ENT_QUOTES)));
 		if($Pest=='ResIngresos'){
-			$sTable = "cuenta_virtual 
-			Inner Join Usuarios on Usuarios.Nit =cuenta_virtual.Usuario";
-			$sWhere = "where cuenta_virtual.Credito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
+			$sTable = "CUENTA_VIRTUAL 
+			Inner Join USUARIOS on USUARIOS.Nit =CUENTA_VIRTUAL.Usuario";
+			$sWhere = "where CUENTA_VIRTUAL.Credito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 			if($EFiltro<>"Todos"){
 				if($EFiltro=='Usuario'){
-					$sWhere.= " and cuenta_virtual.Usuario ='".$VFiltro."'";		
+					$sWhere.= " and CUENTA_VIRTUAL.Usuario ='".$VFiltro."'";		
 				}else{
 					if($EFiltro=='Tipo'){
-						$sWhere.= " and cuenta_virtual.Tipo ='".$VFiltro."'";		
+						$sWhere.= " and CUENTA_VIRTUAL.Tipo ='".$VFiltro."'";		
 					}
 				}	
 			} 
-			$Order =" order by usuarios.Razon_Social ";
-			$Group = "group by cuenta_virtual.Tipo,cuenta_virtual.NDocumento,cuenta_virtual.Fecha,usuarios.Razon_Social,cuenta_virtual.Estado";
+			$Order =" order by USUARIOS.Razon_Social ";
+			$Group = "group by CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado";
 		}else{
 			if($Pest=='ResEgresos'){
-				$sTable = "cuenta_virtual 
-			Inner Join Usuarios on Usuarios.Nit =cuenta_virtual.Usuario";
-			$sWhere = "where cuenta_virtual.Debito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
+				$sTable = "CUENTA_VIRTUAL 
+			Inner Join USUARIOS on USUARIOS.Nit =CUENTA_VIRTUAL.Usuario";
+			$sWhere = "where CUENTA_VIRTUAL.Debito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 			if($EFiltro<>"Todos"){
 				if($EFiltro=='Usuario'){
-					$sWhere.= " and cuenta_virtual.Usuario ='".$VFiltro."'";		
+					$sWhere.= " and CUENTA_VIRTUAL.Usuario ='".$VFiltro."'";		
 				}else{
 					if($EFiltro=='Tipo'){
-						$sWhere.= " and cuenta_virtual.Tipo ='".$VFiltro."'";		
+						$sWhere.= " and CUENTA_VIRTUAL.Tipo ='".$VFiltro."'";		
 					}
 				}	
 			} 
-			$Order =" order by usuarios.Razon_Social ";
-			$Group = "group by cuenta_virtual.Tipo,cuenta_virtual.NDocumento,cuenta_virtual.Fecha,usuarios.Razon_Social,cuenta_virtual.Estado";
+			$Order =" order by USUARIOS.Razon_Social ";
+			$Group = "group by CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado";
 			}
 		}
 		
 		if($Pest=='ResIngresos'){
-			$sql="SELECT cuenta_virtual.Tipo,cuenta_virtual.NDocumento,cuenta_virtual.Fecha,cuenta_virtual.Credito,
-			usuarios.Razon_Social,cuenta_virtual.Estado FROM $sTable $sWhere $Group $Order ";	
+			$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,CUENTA_VIRTUAL.Credito,
+			USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado FROM $sTable $sWhere $Group $Order ";	
 			$query = mysqli_query($con, $sql);
 			echo mysqli_error($con);
 			$Array="";	
@@ -64,8 +64,8 @@
 			}
 		}else{
 			if($Pest=='ResEgresos'){
-				$sql="SELECT cuenta_virtual.Tipo,cuenta_virtual.NDocumento,cuenta_virtual.Fecha,cuenta_virtual.Debito,
-				usuarios.Razon_Social,cuenta_virtual.Estado FROM $sTable $sWhere $Group $Order ";	
+				$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,CUENTA_VIRTUAL.Debito,
+				USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado FROM $sTable $sWhere $Group $Order ";	
 				$query = mysqli_query($con, $sql);
 				echo mysqli_error($con);
 				$Array="";	

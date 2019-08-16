@@ -14,7 +14,7 @@ if (!empty($Descripcion)){
 	
 
 
-	$sql =  "INSERT INTO formas_pago (Descripcion) VALUES ('$Descripcion');";
+	$sql =  "INSERT INTO FORMAS_PAGO (Descripcion) VALUES ('$Descripcion');";
 	$query_update = mysqli_query($con,$sql);
     if ($query_update) {
         $messages = "Los Datos Se Han Guardado Con Exito.";

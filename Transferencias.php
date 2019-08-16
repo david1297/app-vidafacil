@@ -24,10 +24,10 @@
 
 	if (isset($_GET['Numero'])) {
 
-        $query=mysqli_query($con, "select Numero,Usuario,usuarios.Razon_Social,
+        $query=mysqli_query($con, "select Numero,Usuario,USUARIOS.Razon_Social,
          Fecha_Creacion,Fecha_Revision,Valor_Aprovado,Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,
-         Titular_Cuenta from TransaccionesE 
-		inner join usuarios on transaccionese.Usuario = usuarios.Nit
+         Titular_Cuenta from TRANSACCIONESE 
+		inner join USUARIOS on TRANSACCIONESE.Usuario = USUARIOS.Nit
 		where Numero='".$_GET['Numero']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 
@@ -49,8 +49,8 @@
 		$Titular_Cuenta=$rw_Admin['Titular_Cuenta'];
 
         $Transferencia="Transferencia Numero: ".$Numero;
-        $sql="SELECT * FROM observaciones_Transferencias 
-        inner join Usuarios on Usuarios.Nit=observaciones_Transferencias.Usuario WHERE Transferencia=".$Numero."";
+        $sql="SELECT * FROM OBSERVACIONES_TRANSFERENCIAS 
+        inner join Usuarios on Usuarios.Nit=OBSERVACIONES_TRANSFERENCIAS.Usuario WHERE Transferencia=".$Numero."";
 
 		$query = mysqli_query($con, $sql);
 		while ($row=mysqli_fetch_array($query)){
@@ -139,7 +139,7 @@
                                     <div class="col-md-4">
                                         <label for="email" class="control-label">Banco</label>
                                         <?PHP
-												$query1=mysqli_query($con, "SELECT Banco_1,Tipo_Banco_1,Numero_Cuenta_1,Titular_1,Banco_2,Tipo_Banco_2,Numero_Cuenta_2,Titular_2 FROM usuarios where Nit ='".$Usuario."'");
+												$query1=mysqli_query($con, "SELECT Banco_1,Tipo_Banco_1,Numero_Cuenta_1,Titular_1,Banco_2,Tipo_Banco_2,Numero_Cuenta_2,Titular_2 FROM USUARIOS where Nit ='".$Usuario."'");
 												echo' <select class="form-control" id="Banco" name ="Banco" placeholder="Banco" onchange="CambioBanco()">';
 												$rw_Admin1=mysqli_fetch_array($query1);
 													if($Banco==$rw_Admin1['Banco_1']){
@@ -207,7 +207,7 @@
 									</div>	
 
                                     <?php
-							$sql="select NDocumento,Tipo,Valor,Estado from TransaccionesD where Numero=".$Numero." ";
+							$sql="select NDocumento,Tipo,Valor,Estado from TRANSACCIONESD where Numero=".$Numero." ";
 							$query = mysqli_query($con, $sql);
 							?>
 

@@ -34,7 +34,7 @@
 
 
 	if (isset($_GET['Identificacion'])) {
-		$query=mysqli_query($con, "select * from Afiliados where Identificacion ='".$_GET['Identificacion']."' ");
+		$query=mysqli_query($con, "select * from AFILIADOS where Identificacion ='".$_GET['Identificacion']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 		$Identificacion=$rw_Admin['Identificacion'];
 		$Primer_Nombre=$rw_Admin['Primer_Nombre'];
@@ -176,7 +176,7 @@
 										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Departamento</label>
 										<div class="col-sm-8">
 										<?PHP
-												$query1=mysqli_query($con, "select * from Departamentos order by Nombre");
+												$query1=mysqli_query($con, "select * from DEPARTAMENTOS order by Nombre");
 												echo' <select class="form-control" id="Departamento" name ="Departamento" placeholder="Departamento" onchange="CargarCiudades()">';
 																				
 												while($rw_Admin1=mysqli_fetch_array($query1)){
@@ -300,7 +300,7 @@
 										<label for="Rango_Ingresos" class="col-sm-3 control-label">Ingresos</label>
 										<div class="col-sm-8">
 											<?PHP
-												$query1=mysqli_query($con, "SELECT * FROM rango_ingresos ");
+												$query1=mysqli_query($con, "SELECT * FROM RANGO_INGRESOS ");
 												echo' <select class="form-control" id="Rango_Ingresos" name ="Rango_Ingresos" placeholder="Rango de Ingresos">';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Rango_Ingresos ==$rw_Admin1['Codigo']){
@@ -317,7 +317,7 @@
 										<label for="Forma_Pago" class="col-sm-3 control-label">Forma De Pago</label>
 										<div class="col-sm-8">
 											<?PHP
-												$query1=mysqli_query($con, "SELECT * FROM Formas_Pago ");
+												$query1=mysqli_query($con, "SELECT * FROM FORMAS_PAGO ");
 												echo' <select class="form-control" id="Forma_Pago" name ="Forma_Pago" placeholder="Forma de Pago">';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Forma_Pago ==$rw_Admin1['Codigo']){

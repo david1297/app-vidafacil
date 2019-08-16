@@ -8,23 +8,23 @@
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
 		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
 		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
-		$sTable = "Usuarios 
+		$sTable = "USUARIOS 
 		
-		inner join cuenta_virtual on cuenta_virtual.Usuario= Usuarios.Nit";
+		inner join CUENTA_VIRTUAL on CUENTA_VIRTUAL.Usuario= USUARIOS.Nit";
 		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Razon_Social"){
 				
-				$sWhere.= " and   (Usuarios.Nombre like '%$q%' or Usuarios.Apellido like '%$q%' or Usuarios.Razon_Social like '%$q%')";	
+				$sWhere.= " and   (USUARIOS.Nombre like '%$q%' or USUARIOS.Apellido like '%$q%' or USUARIOS.Razon_Social like '%$q%')";	
 			}else{
 				if ($Filtro =="Nit"){
-					$sWhere.= " and  (Usuarios.Nit like '%$q%')";	
+					$sWhere.= " and  (USUARIOS.Nit like '%$q%')";	
 				}else{
 					if ($Filtro =="Telefono"){
-						$sWhere.= " and  (Usuarios.Tel_C like '%$q%' or Usuarios.Cel_C like '%$q%')";
+						$sWhere.= " and  (USUARIOS.Tel_C like '%$q%' or USUARIOS.Cel_C like '%$q%')";
 					}else{
 						if ($Filtro=="Correo"){
-							$sWhere.= " and  (Usuarios.Correo_C like '%$q%' or Usuarios.Correo like '%$q%')";
+							$sWhere.= " and  (USUARIOS.Correo_C like '%$q%' or USUARIOS.Correo like '%$q%')";
 						}
 					}
 				}
@@ -33,13 +33,13 @@
 		}
 		if($EFiltro<>"Todos"){
 			if($EFiltro=='Estado'){
-				$sWhere.= " and Usuarios.Estado ='".$VFiltro."'";		
+				$sWhere.= " and USUARIOS.Estado ='".$VFiltro."'";		
 			}else{
 				if($EFiltro=='Tipo'){
-					$sWhere.= " and Usuarios.Tipo ='".$VFiltro."'";		
+					$sWhere.= " and USUARIOS.Tipo ='".$VFiltro."'";		
 				}else{
 					if($EFiltro=='Campana'){
-						$sWhere.= " and Usuarios.Nit in(select Usuario from usuario_camp where Campana ='".$VFiltro."')";		
+						$sWhere.= " and USUARIOS.Nit in(select Usuario from USUARIO_CAMP where Campana ='".$VFiltro."')";		
 					}
 				}
 
@@ -49,14 +49,14 @@
 		} 
 
 
-		$Group=" group by Usuarios.Razon_Social,Usuarios.Tipo,Usuarios.Estado,Usuarios.Nit ";
+		$Group=" group by USUARIOS.Razon_Social,USUARIOS.Tipo,USUARIOS.Estado,USUARIOS.Nit ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 10;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
-		$sql="SELECT Usuarios.Razon_Social,Usuarios.Tipo,Usuarios.Estado,Usuarios.Nit,sum(Comision) Saldo FROM  $sTable $sWhere $Group  
-		order by Usuarios.Razon_Social desc
+		$sql="SELECT USUARIOS.Razon_Social,USUARIOS.Tipo,USUARIOS.Estado,USUARIOS.Nit,sum(Comision) Saldo FROM  $sTable $sWhere $Group  
+		order by USUARIOS.Razon_Social desc
 		LIMIT $offset,$per_page";
 	
 		$query = mysqli_query($con, $sql);
@@ -126,7 +126,7 @@
 						 echo 'Total General:'
 						?></span></h4></td>
 						<td ><h4><span class="pull-right"><?php
-						$query1=mysqli_query($con, "SELECT sum(Cuenta_Virtual.Comision)Comision FROM $sTable $sWhere  ;");			
+						$query1=mysqli_query($con, "SELECT sum(CUENTA_VIRTUAL.Comision)Comision FROM $sTable $sWhere  ;");			
 						$rw_Admin1=mysqli_fetch_array($query1);
 						 echo number_format($rw_Admin1[0]);
 						?></span></h4></td>

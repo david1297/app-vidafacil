@@ -37,19 +37,19 @@ require_once ("../../config/db.php");
 		$Valor_Aprovado = mysqli_real_escape_string($con,(strip_tags($_POST["Valor_Aprovado"],ENT_QUOTES)));
 		$Numero_Cuenta = mysqli_real_escape_string($con,(strip_tags($_POST["Numero_Cuenta"],ENT_QUOTES)));
 		$Titular_Cuenta = mysqli_real_escape_string($con,(strip_tags($_POST["Titular_Cuenta"],ENT_QUOTES)));
-		$sql =  "Update TransaccionesE Set Fecha_Revision='".$Fecha_Revision."',Valor_Rechazado=".$Valor_Rechazado.",
+		$sql =  "Update TRANSACCIONESE Set Fecha_Revision='".$Fecha_Revision."',Valor_Rechazado=".$Valor_Rechazado.",
 		Banco='".$Banco."',Tipo_Cuenta='".$Tipo_Cuenta."',Valor_Aprovado=".$Valor_Aprovado.",Numero_Cuenta='".$Numero_Cuenta."',
 		Titular_Cuenta='".$Titular_Cuenta."',Estado='Revisada' where Numero =".$Numero.";";				
 		$query_update = mysqli_query($con,$sql);
 		if ($query_update) {
 			
 			$messages[] = "Encabezado Actualizado";
-			$sql =  "Update TransaccionesD Set Estado='Rechazada' where Numero =".$Numero.";";				
+			$sql =  "Update TRANSACCIONESD Set Estado='Rechazada' where Numero =".$Numero.";";				
 			$query_update = mysqli_query($con,$sql);
 			if ($query_update) {
 				foreach($_POST['NumeroVenta'] as $Venta){
 					$porciones = explode("-", $Venta);
-					$sql =  "Update TransaccionesD Set Estado='Pagada' where Numero =".$Numero." and Tipo='".$porciones[0]."'
+					$sql =  "Update TRANSACCIONESD Set Estado='Pagada' where Numero =".$Numero." and Tipo='".$porciones[0]."'
 					and NDocumento=".$porciones[1]."; ";			
 					$query_update = mysqli_query($con,$sql);
 				}	
@@ -58,9 +58,9 @@ require_once ("../../config/db.php");
 				$errors[] ="Error Al Actualizar Estado de Venta <br>".$sql;		
 			}
 		}
-		$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  NDocumento=".$Numero." and Tipo ='T' ");
-		$sql="select TransaccionesE.Usuario,TransaccionesD.NDocumento,TransaccionesD.Tipo,TransaccionesD.Estado,TransaccionesD.Valor from TransaccionesE
-		inner join TransaccionesD on TransaccionesD.Numero = TransaccionesE.Numero where TransaccionesE.Numero=".$Numero." ";
+		$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento=".$Numero." and Tipo ='T' ");
+		$sql="select TRANSACCIONESE.Usuario,TransaccionesD.NDocumento,TransaccionesD.Tipo,TransaccionesD.Estado,TransaccionesD.Valor from TRANSACCIONESE
+		inner join TransaccionesD on TransaccionesD.Numero = TRANSACCIONESE.Numero where TRANSACCIONESE.Numero=".$Numero." ";
 		
 		$query = mysqli_query($con, $sql);
 
@@ -70,7 +70,7 @@ require_once ("../../config/db.php");
 		$Valor=$row['Valor'];
 		$NDocumento=$row['NDocumento'];
 		$Estado=$row['Estado'];
-		$sql =  "Update cuenta_virtual Set Estado='".$Estado."' where NDocumento =".$NDocumento." and Tipo ='".$Tipo."';";				
+		$sql =  "Update CUENTA_VIRTUAL Set Estado='".$Estado."' where NDocumento =".$NDocumento." and Tipo ='".$Tipo."';";				
 		$query_update = mysqli_query($con,$sql);
 		$Debito=0;			
 		$Credito=0;
@@ -83,7 +83,7 @@ require_once ("../../config/db.php");
 		}
 		;					
 
-		$sql = "INSERT INTO Cuenta_Virtual(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
+		$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
 									VALUES('".$Usuario."','T','".$Numero."','".$Tipo."','".$NDocumento."','".$Credito."','".$Debito."','0','".$Valor."','Pagada','".date("Y-m-d")."')";
 		$query_update = mysqli_query($con,$sql);						
 
@@ -96,7 +96,7 @@ require_once ("../../config/db.php");
 			$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));	
 			if ($Observaciones<>''){
 				$Fecha =date("Y-m-d");
-				$sql =  "INSERT INTO  observaciones_Transferencias(Transferencia,Fecha,Observacion,Usuario) VALUES
+				$sql =  "INSERT INTO  OBSERVACIONES_TRANSFERENCIAS(Transferencia,Fecha,Observacion,Usuario) VALUES
 				('".$Numero."', '".$Fecha."', '".$Observaciones."', '".$User."')";
 			 $query_update = mysqli_query($con,$sql);
 			 if ($query_update) {

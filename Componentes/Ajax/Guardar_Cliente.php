@@ -69,7 +69,7 @@ if (empty($_POST['Nit'])){
 				$Nombre_R2 = mysqli_real_escape_string($con,(strip_tags($_POST["Nombre_R2"],ENT_QUOTES)));
 				$Tel_R2 = mysqli_real_escape_string($con,(strip_tags($_POST["Tel_R2"],ENT_QUOTES)));
 
-				$sql =  " INSERT INTO  clientes(Nit, Razon_Social,Tipo,Tel_C,Direccion,Correo_N,Cel_C,Correo_C,Rep_Legal,CC,Nombre_R1,Tel_R1,Nombre_R2,Tel_R2) VALUES
+				$sql =  " INSERT INTO  CLIENTES(Nit, Razon_Social,Tipo,Tel_C,Direccion,Correo_N,Cel_C,Correo_C,Rep_Legal,CC,Nombre_R1,Tel_R1,Nombre_R2,Tel_R2) VALUES
 ('".$Nit."', '".$Razon_Social."', '".$Tipo."', '".$Tel_C."', '".$Direccion."', '".$Correo_N."', '".$Cel_C."', '".$Correo_C."','".$Rep_Legal."', '".$CC."', '".$Nombre_R1."','".$Nombre_R1."', '".$Nombre_R2."', '".$Tel_R2."') ON DUPLICATE KEY UPDATE
 Razon_Social = '".$Razon_Social."',Tipo ='".$Tipo."',Tel_C='".$Tel_C."',Direccion='".$Direccion."',Correo_N='".$Correo_N."',Cel_C='".$Cel_C."',Correo_C='".$Correo_C."',
 Rep_Legal='".$Rep_Legal."',CC='".$CC."',Nombre_R1='".$Nombre_R1."',Tel_R1='".$Tel_R1."',Nombre_R2='".$Nombre_R2."',Tel_R2='".$Tel_R2."';";

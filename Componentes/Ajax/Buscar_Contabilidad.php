@@ -10,35 +10,35 @@
 		$fechaFin = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaFin'], ENT_QUOTES)));
 		$Pest = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Pest'], ENT_QUOTES)));
 		if($Pest=='ResIngresos'){
-			$sTable = "cuenta_virtual 
-			Inner Join Usuarios on Usuarios.Nit =cuenta_virtual.Usuario";
-			$sWhere = "where cuenta_virtual.Credito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
+			$sTable = "CUENTA_VIRTUAL 
+			Inner Join USUARIOS on USUARIOS.Nit =CUENTA_VIRTUAL.Usuario";
+			$sWhere = "where CUENTA_VIRTUAL.Credito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 			if($EFiltro<>"Todos"){
 				if($EFiltro=='Usuario'){
-					$sWhere.= " and cuenta_virtual.Usuario ='".$VFiltro."'";		
+					$sWhere.= " and CUENTA_VIRTUAL.Usuario ='".$VFiltro."'";		
 				}else{
 					if($EFiltro=='Tipo'){
-						$sWhere.= " and cuenta_virtual.Tipo ='".$VFiltro."'";		
+						$sWhere.= " and CUENTA_VIRTUAL.Tipo ='".$VFiltro."'";		
 					}
 				}	
 			} 
-			$Order =" order by usuarios.Razon_Social ";
-			$Group = "group by cuenta_virtual.Tipo,cuenta_virtual.NDocumento,cuenta_virtual.Fecha,usuarios.Razon_Social,cuenta_virtual.Estado";
+			$Order =" order by USUARIOS.Razon_Social ";
+			$Group = "group by CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado";
 		}else{
-			$sTable = "cuenta_virtual 
-			Inner Join Usuarios on Usuarios.Nit =cuenta_virtual.Usuario";
-			$sWhere = "where cuenta_virtual.Debito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
+			$sTable = "CUENTA_VIRTUAL 
+			Inner Join USUARIOS on USUARIOS.Nit =CUENTA_VIRTUAL.Usuario";
+			$sWhere = "where CUENTA_VIRTUAL.Debito <>0 and (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 			if($EFiltro<>"Todos"){
 				if($EFiltro=='Usuario'){
-					$sWhere.= " and cuenta_virtual.Usuario ='".$VFiltro."'";		
+					$sWhere.= " and CUENTA_VIRTUAL.Usuario ='".$VFiltro."'";		
 				}else{
 					if($EFiltro=='Tipo'){
-						$sWhere.= " and cuenta_virtual.Tipo ='".$VFiltro."'";		
+						$sWhere.= " and CUENTA_VIRTUAL.Tipo ='".$VFiltro."'";		
 					}
 				}	
 			} 
-			$Order =" order by usuarios.Razon_Social ";
-			$Group = "group by cuenta_virtual.Tipo,cuenta_virtual.NDocumento,cuenta_virtual.Fecha,usuarios.Razon_Social,cuenta_virtual.Estado";
+			$Order =" order by USUARIOS.Razon_Social ";
+			$Group = "group by CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado";
 			
 				
 			
@@ -56,7 +56,7 @@
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Contabilidad.php';
 		if($Pest=='ResIngresos'){
-			$sql="SELECT cuenta_virtual.Tipo,cuenta_virtual.NDocumento,cuenta_virtual.Fecha,cuenta_virtual.Credito,usuarios.Razon_Social,cuenta_virtual.Estado FROM
+			$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,CUENTA_VIRTUAL.Credito,usuarios.Razon_Social,CUENTA_VIRTUAL.Estado FROM
 			  $sTable $sWhere $Group $Order LIMIT $offset,$per_page";	
 			$query = mysqli_query($con, $sql);
 			if ($numrows>0){
@@ -118,7 +118,7 @@
 						 echo 'Total General:'
 						?></span></h4></td>
 						<td ><h4><span class="pull-right"><?php
-						$query1=mysqli_query($con, "SELECT sum(cuenta_virtual.Credito) FROM $sTable $sWhere;");			
+						$query1=mysqli_query($con, "SELECT sum(CUENTA_VIRTUAL.Credito) FROM $sTable $sWhere;");			
 						$rw_Admin1=mysqli_fetch_array($query1);
 						 echo number_format($rw_Admin1[0]);
 						?></span></h4></td>
@@ -134,7 +134,7 @@
 			}
 		}else{
 			if($Pest=='ResEgresos'){
-				$sql="SELECT cuenta_virtual.Tipo,cuenta_virtual.NDocumento,cuenta_virtual.Fecha,cuenta_virtual.Debito,usuarios.Razon_Social,cuenta_virtual.Estado FROM
+				$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,CUENTA_VIRTUAL.Debito,usuarios.Razon_Social,CUENTA_VIRTUAL.Estado FROM
 			  $sTable $sWhere $Group $Order LIMIT $offset,$per_page";	
 			$query = mysqli_query($con, $sql);
 			if ($numrows>0){
@@ -195,7 +195,7 @@
 						 echo 'Total General:'
 						?></span></h4></td>
 						<td ><h4><span class="pull-right"><?php
-						$query1=mysqli_query($con, "SELECT sum(cuenta_virtual.Debito) FROM $sTable $sWhere;");			
+						$query1=mysqli_query($con, "SELECT sum(CUENTA_VIRTUAL.Debito) FROM $sTable $sWhere;");			
 						$rw_Admin1=mysqli_fetch_array($query1);
 						 echo number_format($rw_Admin1[0]);
 						?></span></h4></td>

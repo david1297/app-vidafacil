@@ -8,24 +8,24 @@
 		 $Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
 		 
 		
-		 $sTable = "afiliados inner join Departamentos on Afiliados.Departamento = Departamentos.Codigo
-		 inner join ciudades on Afiliados.Ciudad =ciudades.Codigo and   Departamentos.Codigo = ciudades.Departamento		";
+		 $sTable = "AFILIADOS inner join Departamentos on AFILIADOS.Departamento = Departamentos.Codigo
+		 inner join ciudades on AFILIADOS.Ciudad =ciudades.Codigo and   Departamentos.Codigo = ciudades.Departamento		";
 		$sWhere = "where 1=1";
 		if ( $_GET['Busc_Afiliado'] != "" ){
 			if ($Filtro == "Identificacion"){
-				$sWhere.= " and  (afiliados.Identificacion like '%$Busc_Afiliado%' )";	
+				$sWhere.= " and  (AFILIADOS.Identificacion like '%$Busc_Afiliado%' )";	
 			}else{
 				if ($Filtro =="Nombre"){
-					$sWhere.= " and  (afiliados.Primer_Nombre like '%$Busc_Afiliado%')  or (afiliados.Segundo_Nombre like '%$Busc_Afiliado%')  or (afiliados.Primer_Apellido like '%$Busc_Afiliado%') or (afiliados.Segundo_Apellido like '%$Busc_Afiliado%') ";	
+					$sWhere.= " and  (AFILIADOS.Primer_Nombre like '%$Busc_Afiliado%')  or (AFILIADOS.Segundo_Nombre like '%$Busc_Afiliado%')  or (AFILIADOS.Primer_Apellido like '%$Busc_Afiliado%') or (AFILIADOS.Segundo_Apellido like '%$Busc_Afiliado%') ";	
 				}else{
 					if ($Filtro =="Ciudad"){
 						$sWhere.= " and  (Ciudades.Nombre like '%$Busc_Afiliado%')";
 					}else{
 						if ($Filtro=="Departamento"){
-							$sWhere.= " and  (afiliados.Departamento like '%$Busc_Afiliado%')";
+							$sWhere.= " and  (AFILIADOS.Departamento like '%$Busc_Afiliado%')";
 						} else {
 							if ($Filtro=="Telefono"){
-								$sWhere.= " and  (afiliados.Telefono like '%$Busc_Afiliado%')";
+								$sWhere.= " and  (AFILIADOS.Telefono like '%$Busc_Afiliado%')";
 							}
 						}
 					}
@@ -33,7 +33,7 @@
 			}
 		}
 		$sWhere.= " and Estado ='Activo'";	
-		$sWhere.=" order by afiliados.Primer_Nombre desc";
+		$sWhere.=" order by AFILIADOS.Primer_Nombre desc";
 		include 'pagination.php'; 
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 5; 

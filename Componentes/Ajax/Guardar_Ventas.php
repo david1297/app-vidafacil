@@ -91,7 +91,7 @@ elseif (
 					if ($Numero<>''){
 					$numero_VEnta = $Numero;	
 					}else{
-						$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from Ventas order by Numero desc limit 0,1 ");
+						$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from VENTAS order by Numero desc limit 0,1 ");
 						$rw=mysqli_fetch_array($sql);
 						$numero_VEnta=$rw['last']+1;
 					}
@@ -99,7 +99,7 @@ elseif (
 
 				
 
-				$sql =  "INSERT INTO  Ventas(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
+				$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
 											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
 											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago
 											) VALUES
@@ -127,7 +127,7 @@ elseif (
 						$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));	
 						if ($Observaciones<>''){
 							$Fecha =date("Y-m-d");
-							$sql =  "INSERT INTO  observaciones_ventas(Venta,Fecha,Observacion,Usuario) VALUES
+							$sql =  "INSERT INTO  OBSERVACIONES_VENTAS(Venta,Fecha,Observacion,Usuario) VALUES
 							('".$numero_VEnta."', '".$Fecha."', '".$Observaciones."', '".$User."')";
 						 $query_update = mysqli_query($con,$sql);
 						 if ($query_update) {
@@ -138,14 +138,14 @@ elseif (
 						}
 					
 					}
-						$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  NDocumento='".$numero_VEnta."'");
+						$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento='".$numero_VEnta."'");
 
 
 						$Comision = 0;
 						if ($Porcentaje_Comision > 0 and ($Estado=='Aprobada')){
 						
 							$Comision = ($Valor*$Porcentaje_Comision)/100;	
-							$sql = "INSERT INTO Cuenta_Virtual(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
+							$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
 									VALUES('".$Usuario."','V','".$numero_VEnta."','V','".$numero_VEnta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$fecha."')";
 							$query_update = mysqli_query($con,$sql);
 							if ($query_update) {
@@ -158,7 +158,7 @@ elseif (
 							if ($Portafolio > 0 and ($Estado=='Aprobada')){
 								
 								$Comision = ($Portafolio);	
-								$sql = "INSERT INTO Cuenta_Virtual(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
+								$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
 									VALUES('".$Usuario."','V','".$numero_VEnta."','V','".$numero_VEnta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$fecha."')";
 							$query_update = mysqli_query($con,$sql);
 								if ($query_update) {

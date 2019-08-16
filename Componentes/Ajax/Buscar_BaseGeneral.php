@@ -11,13 +11,13 @@
 		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
 		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
 
-		$sTable = "Ventas INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
-		inner join Usuarios on Usuarios.Nit=Ventas.Usuario
-		inner join Campanas on Campanas.Numero=Ventas.Campana";
+		$sTable = "VENTAS INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
+		inner join Usuarios on Usuarios.Nit=VENTAS.Usuario
+		inner join Campanas on Campanas.Numero=VENTAS.Campana";
 		$sWhere = "where (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Numero"){
-				$sWhere.= " and  (Ventas.Numero like '%$q%' )";	
+				$sWhere.= " and  (VENTAS.Numero like '%$q%' )";	
 			}else{
 				if ($Filtro =="Nombre"){
 					$sWhere.= " and  ((AFILIADOS.Primer_Nombre like '%$q%') OR (AFILIADOS.Segundo_Nombre like '%$q%')OR (AFILIADOS.Primer_Apellido like '%$q%') OR (AFILIADOS.Segundo_Apellido like '%$q%'))";	
@@ -37,13 +37,13 @@
 		}
 		if($EFiltro<>"Todos"){
 			if($EFiltro=='Usuario'){
-				$sWhere.= " and Ventas.Usuario ='".$VFiltro."'";		
+				$sWhere.= " and VENTAS.Usuario ='".$VFiltro."'";		
 			}else{
 				if($EFiltro=='Estado'){
-					$sWhere.= " and Ventas.Estado ='".$VFiltro."'";		
+					$sWhere.= " and VENTAS.Estado ='".$VFiltro."'";		
 				}else{
 					if($EFiltro=='Campana'){
-						$sWhere.= " and Ventas.Campana ='".$VFiltro."'";		
+						$sWhere.= " and VENTAS.Campana ='".$VFiltro."'";		
 					}else{
 						if($EFiltro=='Departamento'){
 							$sWhere.= " and AFILIADOS.Departamento ='".$VFiltro."'";
@@ -60,7 +60,7 @@
 		} 
 
 		 
-		$sWhere.=" order by Ventas.Numero ";
+		$sWhere.=" order by VENTAS.Numero ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 50;
@@ -73,7 +73,7 @@
 		$reload = './Consultar-BaseGeneral.php';
 		$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
 		VENTAS.Estado,VENTAS.Estado_Campana,
-		CAMPANAS.NOMBRE AS Campana,ventas.Valor,ventas.Porcentaje_Comision,Ventas.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		CAMPANAS.NOMBRE AS Campana,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
@@ -130,7 +130,7 @@
 						<td>
 
 						<?php
-						$query1=mysqli_query($con, "select * from Campanas where Numero ='".$NCampana."' ");
+						$query1=mysqli_query($con, "select * from CAMPANAS where Numero ='".$NCampana."' ");
 						$rw_Admin=mysqli_fetch_array($query1);
 						$tuArray = explode("\r\n", $rw_Admin['Estados']);
 						

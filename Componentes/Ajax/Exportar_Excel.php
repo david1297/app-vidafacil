@@ -24,13 +24,13 @@ require_once ("../../config/conexion.php");
 
 			
 	if($Pest=='ResIngresos'){		
-			$sTable = "Ventas INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
-						inner join Usuarios on Usuarios.Nit=Ventas.Usuario
-						inner join Campanas on Campanas.Numero=Ventas.Campana";
+			$sTable = "VENTAS INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
+						inner join USUARIOS on USUARIOS.Nit=VENTAS.Usuario
+						inner join CAMPANAS on CAMPANAS.Numero=VENTAS.Campana";
 			$sWhere = "where (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 			if ( $_GET['q'] != "" ){
 				if ($Filtro == "Numero"){	
-					$sWhere.= " and  (Ventas.Numero like '%$q%' )";	
+					$sWhere.= " and  (VENTAS.Numero like '%$q%' )";	
 				}else{
 					if ($Filtro =="Nombre"){
 						$sWhere.= " and  ((AFILIADOS.Primer_Nombre like '%$q%') OR (AFILIADOS.Segundo_Nombre like '%$q%')OR (AFILIADOS.Primer_Apellido like '%$q%') OR (AFILIADOS.Segundo_Apellido like '%$q%'))";	
@@ -42,13 +42,13 @@ require_once ("../../config/conexion.php");
 								$sWhere.= " and  (AFILIADOS.Telefono like '%$q%' )";	
 							}else{
 								if($Filtro =="Campaña"){
-									$sWhere.= " and  (Campanas.Nombre like '%$q%' )";	
+									$sWhere.= " and  (CAMPANAS.Nombre like '%$q%' )";	
 								}else{
 									if($Filtro =="Usuario"){
-										$sWhere.= " and  (Usuarios.Razon_Social like '%$q%' )";
+										$sWhere.= " and  (USUARIOS.Razon_Social like '%$q%' )";
 									}else{
 										if($Filtro =="Estado"){
-											$sWhere.= " and  (Ventas.Estado_Campana like '%$q%' )";
+											$sWhere.= " and  (VENTAS.Estado_Campana like '%$q%' )";
 										}
 									}
 								}
@@ -58,23 +58,23 @@ require_once ("../../config/conexion.php");
 				}	
 			}
 			if($_SESSION['Rol'] == '2'){
-				$sWhere.= " and  Ventas.Usuario='".$_SESSION['Nit']."' ";
+				$sWhere.= " and  VENTAS.Usuario='".$_SESSION['Nit']."' ";
 			}	
 			if($Estado<>"Todos"){
 				$sWhere.= " and VENTAS.Estado ='".$Estado."'";	
 			} 
-			$sWhere.=" order by Ventas.Numero ";
+			$sWhere.=" order by VENTAS.Numero ";
 	}else{
 		if($Pest=='ResEgresos'){
 			$sTable = "Cuenta_Virtual 
-						INNER JOIN VENTAS	On Ventas.Numero = 	Cuenta_Virtual.Venta
+						INNER JOIN VENTAS	On VENTAS.Numero = 	Cuenta_Virtual.Venta
 						INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
-						inner join Usuarios on Usuarios.Nit=Ventas.Usuario
-						inner join Campanas on Campanas.Numero=Ventas.Campana";
+						inner join USUARIOS on USUARIOS.Nit=VENTAS.Usuario
+						inner join CAMPANAS on CAMPANAS.Numero=VENTAS.Campana";
 			$sWhere = "where (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 			if ( $_GET['q'] != "" ){
 				if ($Filtro == "Numero"){	
-					$sWhere.= " and  (Ventas.Numero like '%$q%' )";	
+					$sWhere.= " and  (VENTAS.Numero like '%$q%' )";	
 				}else{
 					if ($Filtro =="Nombre"){
 						$sWhere.= " and  ((AFILIADOS.Primer_Nombre like '%$q%') OR (AFILIADOS.Segundo_Nombre like '%$q%')OR (AFILIADOS.Primer_Apellido like '%$q%') OR (AFILIADOS.Segundo_Apellido like '%$q%'))";	
@@ -86,13 +86,13 @@ require_once ("../../config/conexion.php");
 								$sWhere.= " and  (AFILIADOS.Telefono like '%$q%' )";	
 							}else{
 								if($Filtro =="Campaña"){
-									$sWhere.= " and  (Campanas.Nombre like '%$q%' )";	
+									$sWhere.= " and  (CAMPANAS.Nombre like '%$q%' )";	
 								}else{
 									if($Filtro =="Usuario"){
-										$sWhere.= " and  (Usuarios.Razon_Social like '%$q%' )";
+										$sWhere.= " and  (USUARIOS.Razon_Social like '%$q%' )";
 									}else{
 										if($Filtro =="Estado"){
-											$sWhere.= " and  (Ventas.Estado_Campana like '%$q%' )";
+											$sWhere.= " and  (VENTAS.Estado_Campana like '%$q%' )";
 										}
 									}
 								}
@@ -102,18 +102,18 @@ require_once ("../../config/conexion.php");
 				}	
 			}
 			if($_SESSION['Rol'] == '2'){
-				$sWhere.= " and  Ventas.Usuario='".$_SESSION['Nit']."' ";
+				$sWhere.= " and  VENTAS.Usuario='".$_SESSION['Nit']."' ";
 			}	
 			if($Estado<>"Todos"){
 				$sWhere.= " and VENTAS.Estado ='".$Estado."'";	
 			} 
-			$sWhere.=" order by Ventas.Numero ";
+			$sWhere.=" order by VENTAS.Numero ";
 		}
 	}
 	if($Pest=='ResIngresos'){
-			$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,Ventas.Fecha,
+			$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,VENTAS.Fecha,
 			VENTAS.Estado_Campana,
-			CAMPANAS.NOMBRE AS Campana,ventas.Valor,ventas.Porcentaje_Comision,Ventas.Campana as NCampana FROM  $sTable $sWhere";	
+			CAMPANAS.NOMBRE AS Campana,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana FROM  $sTable $sWhere";	
 			$query = mysqli_query($con, $sql);
 			$objPHPExcel->getActiveSheet()->setCellValue('A1', 'Numero');
 			$objPHPExcel->getActiveSheet()->setCellValue('B1', 'Afiliado');
@@ -147,9 +147,9 @@ require_once ("../../config/conexion.php");
 				
 		}else{
 			if($Pest=='ResEgresos'){
-				$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,Ventas.Fecha,
+				$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,VENTAS.Fecha,
 						VENTAS.Estado_Campana,
-						CAMPANAS.NOMBRE AS Campana,Cuenta_Virtual.Valor,Cuenta_Virtual.Porcentaje,Cuenta_Virtual.Comision,Ventas.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
+						CAMPANAS.NOMBRE AS Campana,Cuenta_Virtual.Valor,Cuenta_Virtual.Porcentaje,Cuenta_Virtual.Comision,VENTAS.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
 				$query = mysqli_query($con, $sql);
 					?>
 					<div class="table-responsive">

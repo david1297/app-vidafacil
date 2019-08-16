@@ -9,17 +9,17 @@
 		$fechaFin = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaFin'], ENT_QUOTES)));
 		$Nit = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Nit'], ENT_QUOTES)));
 			
-				$sTable = "Cuenta_Virtual 
-							inner join Usuarios on Usuarios.Nit=Cuenta_Virtual.Usuario
+				$sTable = "CUENTA_VIRTUAL 
+							inner join USUARIOS on USUARIOS.Nit=CUENTA_VIRTUAL.Usuario
 						";
-				$sWhere = "where (Cuenta_Virtual.Fecha >= '$fechaIni' and  Cuenta_Virtual.Fecha <= '$fechaFin') ";
+				$sWhere = "where (CUENTA_VIRTUAL.Fecha >= '$fechaIni' and  CUENTA_VIRTUAL.Fecha <= '$fechaFin') ";
 				if($Estado<>"Todos"){
-					$sWhere.= " and Cuenta_Virtual.Estado ='".$Estado."'";	
+					$sWhere.= " and CUENTA_VIRTUAL.Estado ='".$Estado."'";	
 				} 
-				$order=" order by Cuenta_Virtual.Tipo,Cuenta_Virtual.NDocumento ";
+				$order=" order by CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento ";
 			
 		}
-		$sWhere.='and Cuenta_Virtual.Usuario = "'.$Nit.'" and Cuenta_Virtual.Estado <>"Pagada" ';
+		$sWhere.='and CUENTA_VIRTUAL.Usuario = "'.$Nit.'" and CUENTA_VIRTUAL.Estado <>"Pagada" ';
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 50;
@@ -32,8 +32,8 @@
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Cuenta.php';
 		$Condicion='';							
-		$sql="SELECT Cuenta_Virtual.NDocumento as Numero,Cuenta_Virtual.Tipo,Cuenta_Virtual.Estado as EstadoCuenta,USUARIOS.Razon_Social,Cuenta_Virtual.Fecha,
-				(Credito-Debito)Valor,Cuenta_Virtual.Porcentaje,Cuenta_Virtual.Comision FROM  $sTable $sWhere $Condicion $order LIMIT $offset,$per_page";
+		$sql="SELECT CUENTA_VIRTUAL.NDocumento as Numero,CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.Estado as EstadoCuenta,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Fecha,
+				(Credito-Debito)Valor,CUENTA_VIRTUAL.Porcentaje,CUENTA_VIRTUAL.Comision FROM  $sTable $sWhere $Condicion $order LIMIT $offset,$per_page";
 				
 				$query = mysqli_query($con, $sql);
 				if ($numrows>0){
@@ -131,7 +131,7 @@
 						 echo 'Total General:'
 						?></span></h4></td>
 						<td ><h4><span class="pull-right"><?php
-						$query1=mysqli_query($con, "SELECT sum(Credito-Debito) as valor,sum(Cuenta_Virtual.Comision)Comision 
+						$query1=mysqli_query($con, "SELECT sum(Credito-Debito) as valor,sum(CUENTA_VIRTUAL.Comision)Comision 
 						FROM $sTable $sWhere $Condicion;");			
 						$rw_Admin1=mysqli_fetch_array($query1);
 						 echo number_format($rw_Admin1[0]);

@@ -17,12 +17,12 @@ if (empty($_POST['NumeroVenta'])){
 	</div>
 	<?php
 }else{
-	$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from TransaccionesE order by Numero desc limit 0,1 ");
+	$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from TRANSACCIONESE order by Numero desc limit 0,1 ");
 	$rw=mysqli_fetch_array($sql);
 	$numero_Transaccion=$rw['last']+1;
 	$Usuario = $_POST['Nit'];
 	$Fecha=date("Y-m-d"); 
-	$sql = "INSERT INTO transaccionesE(Numero,Usuario,Fecha_Creacion,Fecha_Revision,Valor_Aprovado,
+	$sql = "INSERT INTO TRANSACCIONESE(Numero,Usuario,Fecha_Creacion,Fecha_Revision,Valor_Aprovado,
 			Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,Titular_Cuenta,Estado)
 				VALUES('".$numero_Transaccion."','".$Usuario."','".$Fecha."','".$Fecha."',0,
 			0,NULL,NULL,NULL,NULL,'Pendiente')";				
@@ -38,16 +38,16 @@ if (empty($_POST['NumeroVenta'])){
 			
 
 
-			$sql = "INSERT INTO transaccionesD(Numero,Tipo,NDocumento,Estado,Valor)
+			$sql = "INSERT INTO TRANSACCIONESD(Numero,Tipo,NDocumento,Estado,Valor)
 				VALUES(".$numero_Transaccion.",'".$porciones[0]."','".$porciones[1]."','Pendiente',".$Valor.")";
 			$query_update = mysqli_query($con,$sql);	
 			if ($query_update) {
 				$messages[] = "Detalle Guardado Con Exito";
-				$sql =  "Update Cuenta_Virtual Set Estado='Solicitada' where Tipo ='".$porciones[0]."' and  NDocumento =".$porciones[1].";";				
+				$sql =  "Update CUENTA_VIRTUAL Set Estado='Solicitada' where Tipo ='".$porciones[0]."' and  NDocumento =".$porciones[1].";";				
 				$query_update = mysqli_query($con,$sql);
 				if ($query_update) {
 					$messages[] = "Estado de Cuenta Actualizado";
-					$sql =  "Update Ventas Set Liquidada='Pendiente' where Numero =".$porciones[1].";";				
+					$sql =  "Update VENTAS Set Liquidada='Pendiente' where Numero =".$porciones[1].";";				
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {
 						$messages[] = "Estado de Venta";

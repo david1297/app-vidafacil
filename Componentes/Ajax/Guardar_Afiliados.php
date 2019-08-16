@@ -105,7 +105,7 @@ elseif (
 				$Fecha_Expedicion = mysqli_real_escape_string($con,(strip_tags($_POST["Fecha_Expedicion"],ENT_QUOTES)));
 				
 				
-				$sql =  "INSERT INTO  Afiliados(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,
+				$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,
 												Tipo_Identificacion,Fecha_Nacimiento,Nacionalidad,Ciudad,Departamento,
 												Direccion,Direccion_Adicional,Estrato,Nivel_Educacion,Ocupacion,
 												Forma_Pago,Rango_Ingresos,Telefono,Direccion_Firma,Fecha_Firma,

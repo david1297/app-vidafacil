@@ -11,14 +11,14 @@ require_once ("../../config/conexion.php");
     
 
 if (!empty($Usuario)){
-	$delete=mysqli_query($con, "DELETE FROM usuario_camp WHERE Usuario='".$Usuario."'");
+	$delete=mysqli_query($con, "DELETE FROM USUARIO_CAMP WHERE Usuario='".$Usuario."'");
 
 	$query1=mysqli_query($con, "select Numero from u_camp_temp where  u_camp_temp.session_id='".$session_id."'  and Nit='".$Usuario."'");
 while($row=mysqli_fetch_array($query1)){
 
 	$Campana=$row['Numero'];
 
-	$sql =  "INSERT INTO  usuario_camp(Campana,Usuario) VALUES ('".$Campana."', '".$Usuario."');";
+	$sql =  "INSERT INTO  USUARIO_CAMP(Campana,Usuario) VALUES ('".$Campana."', '".$Usuario."');";
 	$query_update = mysqli_query($con,$sql);
     if ($query_update) {
         $messages = "Los Datos Se Han Modificado Con Exito.";

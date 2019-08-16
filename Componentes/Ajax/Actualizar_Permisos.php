@@ -28,7 +28,7 @@ if (empty($_POST['Usuario'])){
 				$Valor = mysqli_real_escape_string($con,(strip_tags($_POST["Valor"],ENT_QUOTES)));
 				
 				
-				$sql =  "Update Permisos Set Estado='".$Valor."' where Usuario='".$Usuario."' 
+				$sql =  "Update PERMISOS Set Estado='".$Valor."' where Usuario='".$Usuario."' 
 						and Modulo='".$Modulo."' and Permiso='".$Permiso."'
 				; ";
 

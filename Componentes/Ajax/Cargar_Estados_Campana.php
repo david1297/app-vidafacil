@@ -12,7 +12,7 @@ if (isset($_POST['Tran_camp'])){$Tran_camp=$_POST['Tran_camp'];}
 require_once ("../../config/db.php");
 require_once ("../../config/conexion.php");
 
-$query=mysqli_query($con, "select * from Campanas where Numero ='".$Campana."' ");
+$query=mysqli_query($con, "select * from CAMPANAS where Numero ='".$Campana."' ");
         $rw_Admin=mysqli_fetch_array($query);
 										
 		echo '<input type="text" class="form-control hidden" id="Telefonica" name="Telefonica" VALUE="'.$rw_Admin['Telefonica'].'" placeholder="Telefonica" readonly>';

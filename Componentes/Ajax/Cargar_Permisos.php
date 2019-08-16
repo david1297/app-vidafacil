@@ -76,7 +76,7 @@ echo'
 	border-radius: 50%;
 	}
 </style> ';
-$query1=mysqli_query($con, "select * from Permisos where Usuario ='".$Usuario."' and Modulo='".$Modulo."' ");
+$query1=mysqli_query($con, "select * from PERMISOS where Usuario ='".$Usuario."' and Modulo='".$Modulo."' ");
 $h="";
 while($rw_Admin1=mysqli_fetch_array($query1)){										
 echo'   <div class="form-group row">

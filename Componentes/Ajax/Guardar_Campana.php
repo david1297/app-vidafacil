@@ -51,7 +51,7 @@ elseif (empty($_POST['Estados'])){
 				$Telefonica = mysqli_real_escape_string($con,(strip_tags(@$_POST["Telefonica"],ENT_QUOTES)));
 				
 				
-				$sql =  "INSERT INTO  Campanas(Numero,Nombre,Contacto,Area,Estado,Porcentaje,Observaciones,Estados,Seguimiento,Transportadoras,Telefonica) VALUES
+				$sql =  "INSERT INTO  CAMPANAS(Numero,Nombre,Contacto,Area,Estado,Porcentaje,Observaciones,Estados,Seguimiento,Transportadoras,Telefonica) VALUES
 
 				('".$Numero."', '".$Nombre."', '".$Contacto."', '".$Area."', '".$Estado."',".$Porcentaje.", '".$Observaciones."', '".$Estados."', '".$Seguimiento."', '".$Transportadoras."', '".$Telefonica."'
 				) ON DUPLICATE  KEY UPDATE

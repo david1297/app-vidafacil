@@ -26,7 +26,8 @@
 
 	if (isset($_GET['Nit'])) {
 
-		$query=mysqli_query($con, "select Nit,Razon_Social,Tipo,Tel_C,Direccion,Correo_N,Cel_C,Correo_C,Rep_Legal,CC,Nombre_R1,Tel_R1,Nombre_R2,Tel_R2 from Clientes where Nit ='".$_GET['Nit']."' ");
+		$query=mysqli_query($con, "select Nit,Razon_Social,Tipo,Tel_C,Direccion,Correo_N,Cel_C,Correo_C,
+		Rep_Legal,CC,Nombre_R1,Tel_R1,Nombre_R2,Tel_R2 from CLIENTES where Nit ='".$_GET['Nit']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 		$Nit =$rw_Admin['Nit'];
 		$Razon_Social =$rw_Admin['Razon_Social'];

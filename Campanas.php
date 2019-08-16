@@ -25,7 +25,7 @@
 	$Telefonica="";
 
 	if (isset($_GET['Numero'])) {
-		$query=mysqli_query($con, "select * from Campanas where Numero ='".$_GET['Numero']."' ");
+		$query=mysqli_query($con, "select * from CAMPANAS where Numero ='".$_GET['Numero']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 		
 		$Numero =$rw_Admin['Numero'];

@@ -21,11 +21,11 @@
 	$Observacion="";
 	if (isset($_GET['Numero'])) {
 
-		$query=mysqli_query($con, "Select Ajustes.Numero,Ajustes.Fecha_Creacion,Ajustes.Valor,Ajustes.
-		Tipo,Ajustes.Observacion,Ajustes.Estado,UC.Razon_Social as NombreC,UA.Razon_Social as NombreA,UsuarioC,UsuarioA
-		from Ajustes 
-		inner join Usuarios as UC on UC.Nit =  Ajustes.UsuarioC
-		inner join Usuarios as UA on UA.Nit =  Ajustes.UsuarioA
+		$query=mysqli_query($con, "Select AJUSTES.Numero,AJUSTES.Fecha_Creacion,AJUSTES.Valor,AJUSTES.
+		Tipo,AJUSTES.Observacion,AJUSTES.Estado,UC.Razon_Social as NombreC,UA.Razon_Social as NombreA,UsuarioC,UsuarioA
+		from AJUSTES 
+		inner join Usuarios as UC on UC.Nit =  AJUSTES.UsuarioC
+		inner join Usuarios as UA on UA.Nit =  AJUSTES.UsuarioA
 		where Numero = ".$_GET['Numero']." ");
 		$rw_Admin=mysqli_fetch_array($query);
 		$Numero =$rw_Admin['Numero'];

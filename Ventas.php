@@ -37,11 +37,11 @@
 
 	if (isset($_GET['Numero'])) {
 
-		$query=mysqli_query($con, "select Ventas.Forma_Pago,VEntas.Liquidada,Ventas.Portafolio,Ventas.Numero,Ventas.Afiliado,Ventas.Usuario,Ventas.Campana,
-		Ventas.Estado_Campana,Ventas.Estado,Ventas.Fecha,Ventas.Transportadora,Ventas.Seguimiento,Ventas.NumeroNip,Ventas.DataCreditoTipo,
-		Ventas.Servicio,Ventas.Canal,Ventas.NumeroCelular,Ventas.OperadorVenta,Ventas.OperadorDonante,Ventas.NumeroSim,
-		Ventas.Valor,Ventas.Porcentaje_Comision,usuarios.Nit,usuarios.Razon_Social
-			from Ventas inner join Usuarios on Ventas.Usuario=usuarios.Nit  where Numero ='".$_GET['Numero']."' ");
+		$query=mysqli_query($con, "select VENTAS.Forma_Pago,VENTAS.Liquidada,VENTAS.Portafolio,VENTAS.Numero,VENTAS.Afiliado,VENTAS.Usuario,VENTAS.Campana,
+		VENTAS.Estado_Campana,VENTAS.Estado,VENTAS.Fecha,VENTAS.Transportadora,VENTAS.Seguimiento,VENTAS.NumeroNip,VENTAS.DataCreditoTipo,
+		VENTAS.Servicio,VENTAS.Canal,VENTAS.NumeroCelular,VENTAS.OperadorVenta,VENTAS.OperadorDonante,VENTAS.NumeroSim,
+		VENTAS.Valor,VENTAS.Porcentaje_Comision,USUARIOS.Nit,USUARIOS.Razon_Social
+			from VENTAS inner join USUARIOS on VENTAS.Usuario=USUARIOS.Nit  where Numero ='".$_GET['Numero']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 		$Numero =$rw_Admin['Numero'];
 		$Afiliado =$rw_Admin['Afiliado'];
@@ -68,7 +68,7 @@
 		$Liquidada=$rw_Admin['Liquidada'];
 		$For_Pago = $rw_Admin['Forma_Pago'];
 
-		$query=mysqli_query($con, "select * from Afiliados where Identificacion ='".$Afiliado."' ");
+		$query=mysqli_query($con, "select * from AFILIADOS where Identificacion ='".$Afiliado."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 		$Nombre =$rw_Admin['Primer_Nombre'].' '.$rw_Admin['Primer_Apellido'];
 		$Correo=$rw_Admin['Correo'];
@@ -82,7 +82,7 @@
 
 		$Numero_venta="Venta Numero: ".$Numero;
 
-		$sql="SELECT * FROM observaciones_ventas inner join Usuarios on Usuarios.Nit=observaciones_ventas.Usuario WHERE VENTA=".$Numero."";
+		$sql="SELECT * FROM  OBSERVACIONES_VENTAS inner join USUARIOS on USUARIOS.Nit=OBSERVACIONES_VENTAS.Usuario WHERE VENTA=".$Numero."";
 
 		$query = mysqli_query($con, $sql);
 		while ($row=mysqli_fetch_array($query)){
@@ -174,7 +174,7 @@
 									<div class="col-md-4">
 										<label for="email" class="control-label">Campaña</label>
 										<?PHP
-												$query1=mysqli_query($con, "select Campanas.Nombre,Campanas.Numero from usuario_camp inner join Campanas on usuario_camp.Campana = Campanas.Numero where Usuario ='".$_SESSION['Nit']."' and Campanas.Estado ='Activa' order by Nombre");
+												$query1=mysqli_query($con, "select CAMPANAS.Nombre,CAMPANAS.Numero from USUARIO_CAMP inner join CAMPANAS on USUARIO_CAMP.Campana = CAMPANAS.Numero where Usuario ='".$_SESSION['Nit']."' and CAMPANAS.Estado ='Activa' order by Nombre");
 												echo' <select class="form-control" id="Campana" name ="Campana" placeholder="Campaña" onchange="CargarEstados()">';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if($Campana==$rw_Admin1['Numero']){
@@ -203,7 +203,7 @@
 											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Sin Revisar" >';
 										} else {
 											
-											$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="Ventas" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
+											$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Ventas" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
 										
 											$rw_Admin1=mysqli_fetch_array($query1);
 											
@@ -237,7 +237,7 @@
 									<div class="col-md-4">
 										<label for="email" class="control-label">Forma de Pago</label>
 										<?PHP
-												$query1=mysqli_query($con, "select * from formas_pago");
+												$query1=mysqli_query($con, "select * from FORMAS_PAGO");
 												echo' <select class="form-control" id="Forma_Pago" name ="Forma_Pago" placeholder="Forma_Pago"';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if($Forma_Pago==$rw_Admin1['Codigo']){
@@ -300,7 +300,7 @@
 										<div class="col-md-4">
 											<label for="OperadorVenta" class="control-label">Operador Venta </label>
 											<?PHP
-												$query=mysqli_query($con, "select * from administracion");
+												$query=mysqli_query($con, "select * from ADMINISTRACION");
 												echo' <select class="form-control" id="OperadorVenta" name ="OperadorVenta" placeholder="OperadorVenta">';
 												$rw_Admin=mysqli_fetch_array($query);
 												$tuArray = explode("\r\n", $rw_Admin['Operador_Venta']);

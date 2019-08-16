@@ -10,16 +10,16 @@
 		$fechaIni = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaIni'], ENT_QUOTES)));
 		$fechaFin = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaFin'], ENT_QUOTES)));
 		$Nit = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Nit'], ENT_QUOTES)));
-		$sTable = "Cuenta_Virtual
-		inner join Usuarios on cuenta_virtual.Usuario = Usuarios.Nit";
+		$sTable = "CUENTA_VIRTUAL
+		inner join USUARIOS on cuenta_virtual.Usuario = USUARIOS.Nit";
 		
-		$sWhere = " Where Cuenta_Virtual.Usuario = '".$Nit."' and  Cuenta_Virtual.Estado ='Pendiente'";	
-		$Group=" Group by Cuenta_Virtual.Cruce,Cuenta_Virtual.NCruce,Cuenta_Virtual.Usuario,
-				Usuarios.Razon_Social,Cuenta_Virtual.Fecha
+		$sWhere = " Where CUENTA_VIRTUAL.Usuario = '".$Nit."' and  CUENTA_VIRTUAL.Estado ='Pendiente'";	
+		$Group=" Group by CUENTA_VIRTUAL.Cruce,CUENTA_VIRTUAL.NCruce,CUENTA_VIRTUAL.Usuario,
+				USUARIOS.Razon_Social,CUENTA_VIRTUAL.Fecha
 		";
 
 
-		$order=" order by Cuenta_Virtual.NCruce ";
+		$order=" order by CUENTA_VIRTUAL.NCruce ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 50;
@@ -31,8 +31,8 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Solicitar_Pago.php';
-		$sql="SELECT Cuenta_Virtual.Cruce,Cuenta_Virtual.NCruce,Cuenta_Virtual.Fecha,
-		Usuarios.Razon_Social,Cuenta_Virtual.Usuario,sum(Credito-Debito) as Valor  FROM 
+		$sql="SELECT CUENTA_VIRTUAL.Cruce,CUENTA_VIRTUAL.NCruce,CUENTA_VIRTUAL.Fecha,
+		USUARIOS.Razon_Social,CUENTA_VIRTUAL.Usuario,sum(Credito-Debito) as Valor  FROM 
 		 $sTable $sWhere $Group $order LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		

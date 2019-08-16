@@ -13,7 +13,7 @@ if (empty($_POST['Estado_Campana'])){
 	$Numero_Venta = mysqli_real_escape_string($con,(strip_tags($_POST["Numero_Venta"],ENT_QUOTES)));			
 	$Estado_Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Estado_Campana"],ENT_QUOTES)));
 
-	$query1=mysqli_query($con, 'SELECT Usuario,Valor,Porcentaje_Comision,Liquidada,Portafolio,Fecha FROM Ventas where   Numero ='.$Numero_Venta.';');
+	$query1=mysqli_query($con, 'SELECT Usuario,Valor,Porcentaje_Comision,Liquidada,Portafolio,Fecha FROM VENTAS where   Numero ='.$Numero_Venta.';');
 	$rw_Admin1=mysqli_fetch_array($query1);
 	$Porcentaje_Comision=$rw_Admin1['Porcentaje_Comision'];
 	$Portafolio=$rw_Admin1['Portafolio'];
@@ -27,7 +27,7 @@ if (empty($_POST['Estado_Campana'])){
 		if($Liquidada == 'Pendiente'){
 			$errors[]='La Venta Una Solicitud de Pago Pendiente No se Puede Editar';
 		}else{
-			$sql =  "Update Ventas Set Estado_Campana='".$Estado_Campana."' where Numero =".$Numero_Venta.";";
+			$sql =  "Update VENTAS Set Estado_Campana='".$Estado_Campana."' where Numero =".$Numero_Venta.";";
     		$query_update = mysqli_query($con,$sql);
     		if ($query_update) {
         		$messages[] = "La Venta Se Actualizo Con Exito.";
@@ -36,10 +36,10 @@ if (empty($_POST['Estado_Campana'])){
 			}
 			if (isset($_POST['Estado'])){
 				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
-				$sql =  "Update Ventas Set Estado='".$Estado."' where Numero =".$Numero_Venta.";";				
+				$sql =  "Update VENTAS Set Estado='".$Estado."' where Numero =".$Numero_Venta.";";				
 				$query_update = mysqli_query($con,$sql);
         		if ($query_update) {
-					$delete=mysqli_query($con, "DELETE FROM  Cuenta_Virtual where  NDocumento=".$Numero_Venta." and Tipo ='V' ");					
+					$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento=".$Numero_Venta." and Tipo ='V' ");					
 					if ($Estado=='Aprobada'){	
 
 				
@@ -48,7 +48,7 @@ if (empty($_POST['Estado_Campana'])){
 						if ($Porcentaje_Comision <> 0 ){
 						
 							$Comision = ($Valor*$Porcentaje_Comision)/100;	
-							$sql = "INSERT INTO Cuenta_Virtual(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
+							$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
 									VALUES('".$Usuario."','V','".$Numero_Venta."','V','".$Numero_Venta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$Fecha."')";
 							$query_update = mysqli_query($con,$sql);
 							if ($query_update) {
@@ -61,7 +61,7 @@ if (empty($_POST['Estado_Campana'])){
 							if ($Portafolio > 0 and ($Estado=='Aprobada')){
 								
 								$Comision = ($Portafolio);	
-								$sql = "INSERT INTO Cuenta_Virtual(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
+								$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
 									VALUES('".$Usuario."','V','".$Numero_Venta."','V','".$Numero_Venta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$Fecha."')";
 							$query_update = mysqli_query($con,$sql);
 								if ($query_update) {
@@ -82,7 +82,7 @@ if (empty($_POST['Estado_Campana'])){
 		$User=$_SESSION['Nit'];
 		$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));	
 		if ($Observaciones<>''){
-			$sql =  "INSERT INTO  observaciones_ventas(Venta,Fecha,Observacion,Usuario) VALUES
+			$sql =  "INSERT INTO  OBSERVACIONES_VENTAS(Venta,Fecha,Observacion,Usuario) VALUES
 					('".$Numero_Venta."', '".date("Y-m-d")."', '".$Observaciones."', '".$User."')";
 			$query_update = mysqli_query($con,$sql);
 			if ($query_update) {

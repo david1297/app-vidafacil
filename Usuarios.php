@@ -41,7 +41,7 @@
 	$Porcentaje ="";
 	$Perfil="";
 	if (isset($_GET['Nit'])) {
-		$query=mysqli_query($con, "select * from Usuarios where Nit ='".$_GET['Nit']."' ");
+		$query=mysqli_query($con, "select * from USUARIOS where Nit ='".$_GET['Nit']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 
 		$Nit =$rw_Admin['Nit'];
@@ -295,7 +295,7 @@
 										<div class="col-sm-3">
 											<label for="Banco_1">Nombre</label>
 											<?PHP
-												$query1=mysqli_query($con, "select * from Bancos");
+												$query1=mysqli_query($con, "select * from BANCOS");
 												echo' <select class="form-control" id="Banco_1" name ="Banco_1" placeholder="Banco_1 " onchange="TipoBanco1()">';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Banco_1 ==$rw_Admin1['Nombre']){
@@ -343,7 +343,7 @@
 										<div class="col-sm-3">
 											<label for="Banco_2">Nombre</label>
 											<?PHP
-												$query1=mysqli_query($con, "select * from Bancos");
+												$query1=mysqli_query($con, "select * from BANCOS");
 												echo' <select class="form-control" id="Banco_2" name ="Banco_2" placeholder="Banco_2 " onchange="TipoBanco2()">';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Banco_2 ==$rw_Admin1['Nombre']){

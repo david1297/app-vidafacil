@@ -8,24 +8,24 @@
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
 		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
 
-		$sTable = "afiliados inner join Departamentos on Afiliados.Departamento = Departamentos.Codigo
-							 inner join ciudades on Afiliados.Ciudad =ciudades.Codigo and   Departamentos.Codigo = ciudades.Departamento		";
+		$sTable = "AFILIADOS inner join DEPARTAMENTOS on AFILIADOS.Departamento = DEPARTAMENTOS.Codigo
+							 inner join CIUDADES on AFILIADOS.Ciudad =CIUDADES.Codigo and   DEPARTAMENTOS.Codigo = CIUDADES.Departamento		";
 		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Identificacion"){
-				$sWhere.= " and  (afiliados.Identificacion like '%$q%' )";	
+				$sWhere.= " and  (AFILIADOS.Identificacion like '%$q%' )";	
 			}else{
 				if ($Filtro =="Nombre"){
-					$sWhere.= " and  (afiliados.Primer_Nombre like '%$q%')  or (afiliados.Segundo_Nombre like '%$q%')  or (afiliados.Primer_Apellido like '%$q%') or (afiliados.Segundo_Apellido like '%$q%') ";	
+					$sWhere.= " and  (AFILIADOS.Primer_Nombre like '%$q%')  or (AFILIADOS.Segundo_Nombre like '%$q%')  or (AFILIADOS.Primer_Apellido like '%$q%') or (AFILIADOS.Segundo_Apellido like '%$q%') ";	
 				}else{
 					if ($Filtro =="Ciudad"){
-						$sWhere.= " and  (Ciudades.Nombre like '%$q%')";
+						$sWhere.= " and  (CIUDADES.Nombre like '%$q%')";
 					}else{
 						if ($Filtro=="Departamento"){
-							$sWhere.= " and  (afiliados.Departamento like '%$q%')";
+							$sWhere.= " and  (AFILIADOS.Departamento like '%$q%')";
 						} else {
 							if ($Filtro=="Telefono"){
-								$sWhere.= " and  (afiliados.Telefono like '%$q%')";
+								$sWhere.= " and  (AFILIADOS.Telefono like '%$q%')";
 							}
 						}
 					}
@@ -36,7 +36,7 @@
 		if($Estado<>"Todos"){
 			$sWhere.= " and Estado ='".$Estado."'";	
 		} 
-		$sWhere.=" order by afiliados.Primer_Nombre desc";
+		$sWhere.=" order by AFILIADOS.Primer_Nombre desc";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 10;
@@ -47,7 +47,7 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Afiliados.php';
-		$sql="SELECT Identificacion,Primer_Nombre,Primer_Apellido,Departamentos.Nombre as Departamento,Ciudades.Nombre as Ciudad ,Direccion,Estado FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		$sql="SELECT Identificacion,Primer_Nombre,Primer_Apellido,DEPARTAMENTOS.Nombre as Departamento,CIUDADES.Nombre as Ciudad ,Direccion,Estado FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
