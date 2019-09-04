@@ -8,7 +8,7 @@
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
 		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
 		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
-		$sTable = "USUARIOS inner join USUARIO_CAMP on 	Nit =Usuario";
+		$sTable = "USUARIOS left join USUARIO_CAMP on 	Nit =Usuario";
 		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Razon_Social"){
@@ -61,6 +61,7 @@
 		$sql="SELECT Razon_Social,Tipo,Estado,Nit FROM  $sTable $sWhere $Group  
 		order by USUARIOS.Razon_Social desc
 		LIMIT $offset,$per_page";
+		
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);

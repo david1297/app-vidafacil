@@ -92,13 +92,14 @@
 <head>
 	<?php 
 		include("head.php"); 
-		include("componentes/modal/cambiar_password.php");
+		
 	?>
 </head>
 <body onload="Cargar()">
 	<div id="wrapper">
 		<?php
 			include("Menu.php");
+			
 		?>	
 		<div id="main-content">
 			<div class="container-fluid">
@@ -119,6 +120,7 @@
 					<div class="panel-body">
 					<?php 
 						include("Componentes/Modal/Buscar_Campanas.php");
+						include("Componentes/Modal/cambiar_password.php");
 						?>
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="active"><a href="#Informacion" role="tab" data-toggle="tab">Informacion</a></li>
@@ -419,7 +421,7 @@
 											?>
 											<div class="form-group col-sm-8">
 												<div class="col-sm-8 col-md-offset-3">
-													<button type="button"  class="btn btn-primary"  onclick="get_user_id('<?php echo $rw_user['Nit'];?>');" data-toggle="modal" data-target="#myModal3">Cambiar Contraseña</button>
+													<button type="button"  class="btn btn-primary"  data-toggle="modal" data-target="#CambiarPass">Cambiar Contraseña</button>
 												</div>
 											</div>
 											<?php
