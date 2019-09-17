@@ -26,9 +26,17 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
-						<button type="button" class="btn btn-default" onclick="NuevoAfiliado()">
+						<button type="button" class="btn btn-success" onclick='$("#Archivo").trigger("click");'>
+								<span class="fas fa-file-excel"></span> Importar xlsx
+							</button>
+							<button type="button" class="btn btn-default" onclick="NuevoAfiliado()">
 								<span class="fas fa-user-tie"></span> Nuevo Afiliado
 							</button>
+
+							<form class="form-horizontal" method='POST' enctype="multipart/form-data" id="CargarXlsx" name="CargarXlsx">	
+							<input type="file" class="form-control hidden" id="Archivo" name="Archivo"  onchange="SubirAfiliados()" accept=".xlsx">	
+							<button type="submit" class="btn btn-primary hidden" id="Cargar_Archivo">Guardar</button>
+							</form>
 						</div>
 						<h4><i class='glyphicon glyphicon-search'></i> Consultar Afiliados</h4>
 					</div>
@@ -79,7 +87,35 @@
 	<script type="text/javascript" src="Componentes/JavaScript/Afiliados.js"></script>
 
 	<script>
-	
+	function SubirAfiliados(){
+		var Archivo = document.getElementById('Archivo').files[0].name;
+		var txt;
+var r = confirm('Desea Importar el archivo: '+Archivo);
+if (r == true) {
+	$('#Cargar_Archivo').click();
+} else {
+ 
+}
+	}
+
+	$( "#CargarXlsx" ).submit(function( event ) { 
+  var parametros = $(this).serialize();
+	  $.ajax({
+		url: "Componentes/Ajax/CargarXlsx.php",
+		   type: "POST",
+		   data: new FormData(this),
+		   cache: false,
+    contentType: false,
+    processData: false,
+			  beforeSend: function(objeto){
+					
+			   },
+		   success: function(datos){ 
+		alert(datos);
+		 }	 
+   });
+   event.preventDefault();
+})
 	</script>
   </body>
 </html>
