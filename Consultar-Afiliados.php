@@ -67,7 +67,7 @@
 								</div>
 							</div>
 						</form>
-
+						<div id="ins"></div>
 						<div id="resultados"></div><!-- Carga los datos ajax -->
 						<div class='outer_div'></div><!-- Carga los datos ajax -->
 					</div>
@@ -111,7 +111,8 @@ if (r == true) {
 					
 			   },
 		   success: function(datos){ 
-		alert(datos);
+
+		$('#ins').html(datos);
 		 }	 
    });
    event.preventDefault();
