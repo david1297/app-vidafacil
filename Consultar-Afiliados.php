@@ -111,8 +111,14 @@ if (r == true) {
 					
 			   },
 		   success: function(datos){ 
-
-		$('#ins').html(datos);
+			
+			if(datos='Correcto'){
+				alert('Los Datos Se Cargaron Correctamente');
+				load(1);
+			}else{
+				alert(datos);
+			}
+		
 		 }	 
    });
    event.preventDefault();

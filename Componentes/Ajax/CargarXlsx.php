@@ -4,7 +4,7 @@ if(!empty($_FILES['Archivo']['name'])){
 	$Ruta=  dirname(__FILE__ );
 	$Ruta  = dirname($Ruta);
 	$Ruta =dirname($Ruta);
-	
+	$errors='';
 
 	$Ruta1= str_replace('\\',"/",$Ruta).'/';
 
@@ -117,20 +117,21 @@ if(!empty($_FILES['Archivo']['name'])){
 				Horario='".$Horario."',Estado='".$Estado."',Correo='".$Correo."',Fecha_Expedicion='".$Fecha_Expedicion."';";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
-                        $messages[] = "Los Datos Se Han Modificado Con Exito.";
+                        $messages='bien';
                     } else {
-                        $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
+                        $errors = 'Error en la Fila: '.$i;
 					}
-					echo $sql;
-		
-	
 	}
 	
 		
 	}else{
 		$errors = "Lo sentimos , no se Cargo la Archivo .<br>";
 	}
-		
+	if ($errors ==''){
+		echo 'Correcto';
+	}	else{
+		echo $errors;
+	}
 
 	
 }
