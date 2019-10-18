@@ -52,7 +52,7 @@
 		$Group=" group by USUARIOS.Razon_Social,USUARIOS.Tipo,USUARIOS.Estado,USUARIOS.Nit ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 10;
+		$per_page = 50;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
 		$sql="SELECT USUARIOS.Razon_Social,USUARIOS.Tipo,USUARIOS.Estado,USUARIOS.Nit,sum(Comision) Saldo FROM  $sTable $sWhere $Group  

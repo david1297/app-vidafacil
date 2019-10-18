@@ -9,42 +9,22 @@ if (empty($_POST['Identificacion'])){
 	$errors[] = "El Numero de Identificacion Se Encuentra Vacio";
 } elseif (empty($_POST['Primer_Nombre'])){
 	$errors[] = "El Primer Nombre Se Encuentra Vacio";
-}elseif (empty($_POST['Fecha_Expedicion'])){
-	$errors[] = "La Fecha de Expedicion Se Encuentra Vacia";
 }elseif (empty($_POST['Primer_Apellido'])){
 	$errors[] = "El Primer Apellido Se Encuentra Vacio";
 }elseif (empty($_POST['Tipo_Identificacion'])){
 	$errors[] = "El Tipo de Identificacion Encuentra Vacio";
-}elseif (empty($_POST['Fecha_Nacimiento'])){
-	$errors[] = "La Fecha de Nacimiento Se Encuentra Vacia";
-}elseif (empty($_POST['Nacionalidad'])){
-	$errors[] = "La Nacionalidad Se Encuentra Vacia";
 }elseif (empty($_POST['Ciudad'])){
 	$errors[] = "La Ciudad Se Encuentra Vacia";
 }elseif (empty($_POST['Departamento'])){
 	$errors[] = "El Departamento Se Encuentra Vacio";
 }elseif (empty($_POST['Direccion'])){
 	$errors[] = "La Direccion Se Encuentra Vacia";
-}elseif (empty($_POST['Direccion'])){
-	$errors[] = "La Direccion Se Encuentra Vacia";
-}elseif (empty($_POST['Estrato'])){
-	$errors[] = "El Estrato Se Encuentra Vacio";
-}elseif (empty($_POST['Nivel_Educacion'])){
-	$errors[] = "El Nivel de Educacion Se Encuentra Vacio";
-}elseif (empty($_POST['Ocupacion'])){
-	$errors[] = "La Ocupacion Se Encuentra Vacia";
-}elseif (empty($_POST['Rango_Ingresos'])){
-	$errors[] = "El Rango de Ingresos Se Encuentra Vacio";
 }elseif (empty($_POST['Telefono'])){
 	$errors[] = "El Telefono Se Encuentra Vacio";
+}elseif (empty($_POST['Telefono2'])){
+	$errors[] = "El Telefono2 Se Encuentra Vacio";
 }elseif (empty($_POST['Forma_Pago'])){
 	$errors[] = "La Forma de Pago Se Encuentra Vacia";
-}elseif (empty($_POST['Direccion_Firma'])){
-	$errors[] = "La Direccion de Firma Se Encuentra Vacia";
-}elseif (empty($_POST['Fecha_Firma'])){
-	$errors[] = "La Fecha de Firma Se Encuentra Vacia";
-}elseif (empty($_POST['Horario'])){
-	$errors[] = "La Hora de Firma Se Encuentra Vacia";
 }elseif (empty($_POST['Estado'])){
 	$errors[] = "El Estado Se Encuentra Vacio";
 }elseif (!filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)) {
@@ -57,22 +37,12 @@ elseif (
 			!empty($_POST['Identificacion'])
 			&& !empty($_POST['Primer_Nombre'])
 			&& !empty($_POST['Primer_Apellido'])
-			&& !empty($_POST['Fecha_Expedicion'])
 			&& !empty($_POST['Tipo_Identificacion'])
-			&& !empty($_POST['Fecha_Nacimiento'])
-			&& !empty($_POST['Nacionalidad'])
 			&& !empty($_POST['Ciudad'])
 			&& !empty($_POST['Departamento'])
 			&& !empty($_POST['Direccion'])
-			&& !empty($_POST['Estrato'])
-			&& !empty($_POST['Nivel_Educacion'])
-			&& !empty($_POST['Ocupacion'])
 			&& !empty($_POST['Forma_Pago'])
-			&& !empty($_POST['Rango_Ingresos'])
 			&& !empty($_POST['Telefono'])
-			&& !empty($_POST['Direccion_Firma'])
-			&& !empty($_POST['Fecha_Firma'])
-			&& !empty($_POST['Horario'])
 			&& !empty($_POST['Estado'])
 			&& filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)
           )
@@ -85,46 +55,80 @@ elseif (
 				$Primer_Apellido = mysqli_real_escape_string($con,(strip_tags($_POST["Primer_Apellido"],ENT_QUOTES)));
 				$Segundo_Apellido = mysqli_real_escape_string($con,(strip_tags($_POST["Segundo_Apellido"],ENT_QUOTES)));
 				$Tipo_Identificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Tipo_Identificacion"],ENT_QUOTES)));
-				$Fecha_Nacimiento = mysqli_real_escape_string($con,(strip_tags($_POST["Fecha_Nacimiento"],ENT_QUOTES)));
-				$Nacionalidad = mysqli_real_escape_string($con,(strip_tags($_POST["Nacionalidad"],ENT_QUOTES)));
 				$Ciudad = mysqli_real_escape_string($con,(strip_tags($_POST["Ciudad"],ENT_QUOTES)));
 				$Departamento = mysqli_real_escape_string($con,(strip_tags($_POST["Departamento"],ENT_QUOTES)));
 				$Direccion = mysqli_real_escape_string($con,(strip_tags($_POST["Direccion"],ENT_QUOTES)));
 				$Direccion_Adicional = mysqli_real_escape_string($con,(strip_tags($_POST["Direccion_Adicional"],ENT_QUOTES)));
-				$Estrato = mysqli_real_escape_string($con,(strip_tags($_POST["Estrato"],ENT_QUOTES)));
-				$Nivel_Educacion = mysqli_real_escape_string($con,(strip_tags($_POST["Nivel_Educacion"],ENT_QUOTES)));
-				$Ocupacion = mysqli_real_escape_string($con,(strip_tags($_POST["Ocupacion"],ENT_QUOTES)));
 				$Forma_Pago = mysqli_real_escape_string($con,(strip_tags($_POST["Forma_Pago"],ENT_QUOTES)));
-				$Rango_Ingresos = mysqli_real_escape_string($con,(strip_tags($_POST["Rango_Ingresos"],ENT_QUOTES)));
 				$Telefono = mysqli_real_escape_string($con,(strip_tags($_POST["Telefono"],ENT_QUOTES)));
-				$Direccion_Firma = mysqli_real_escape_string($con,(strip_tags($_POST["Direccion_Firma"],ENT_QUOTES)));
-				$Fecha_Firma = mysqli_real_escape_string($con,(strip_tags($_POST["Fecha_Firma"],ENT_QUOTES)));
-				$Horario = mysqli_real_escape_string($con,(strip_tags($_POST["Horario"],ENT_QUOTES)));
 				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 				$Correo = mysqli_real_escape_string($con,(strip_tags($_POST["Correo"],ENT_QUOTES)));
-				$Fecha_Expedicion = mysqli_real_escape_string($con,(strip_tags($_POST["Fecha_Expedicion"],ENT_QUOTES)));
+
+				$Comercio = mysqli_real_escape_string($con,(strip_tags($_POST["Comercio"],ENT_QUOTES)));
+				$Tipificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Tipificacion"],ENT_QUOTES)));
+				$Indicativo = mysqli_real_escape_string($con,(strip_tags($_POST["Indicativo"],ENT_QUOTES)));
+				$D1 = mysqli_real_escape_string($con,(strip_tags($_POST["D1"],ENT_QUOTES)));
+				$D2 = mysqli_real_escape_string($con,(strip_tags($_POST["D2"],ENT_QUOTES)));
+				$D3 = mysqli_real_escape_string($con,(strip_tags($_POST["D3"],ENT_QUOTES)));
+				$Adicional = mysqli_real_escape_string($con,(strip_tags($_POST["Adicional"],ENT_QUOTES)));
+				$D4 = mysqli_real_escape_string($con,(strip_tags($_POST["D4"],ENT_QUOTES)));
+				$Telefono2 = mysqli_real_escape_string($con,(strip_tags($_POST["Telefono2"],ENT_QUOTES)));
+				
+				$CargarOb ='NO';
+				$CargarTip = 'NO';
+				$User=$_SESSION['Nit'];
+				$Observaciones ='';
+				$Tipi=0;
+				date_default_timezone_set('America/Bogota');
+				$Fecha =date("d-m-Y h:i:sa");	
+				$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));
+
+				if ($Observaciones!='') {
+					
+				$CargarOb = 'SI';	
+				}
+				$query1=mysqli_query($con, "select Tipificacion from AFILIADOS where Identificacion = '$Identificacion';");
+				$rw_Admin1=mysqli_fetch_array($query1);
+				$TipAnt =$rw_Admin1[0];
+				if ($TipAnt !=$Tipificacion ){
+					$CargarTip = 'SI';
+					$Tipi=$Tipificacion;
+				}
+				
+				
 				
 				
 				$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,
-												Tipo_Identificacion,Fecha_Nacimiento,Nacionalidad,Ciudad,Departamento,
-												Direccion,Direccion_Adicional,Estrato,Nivel_Educacion,Ocupacion,
-												Forma_Pago,Rango_Ingresos,Telefono,Direccion_Firma,Fecha_Firma,
-												Horario,Estado,Correo,Fecha_Expedicion) VALUES
+												Tipo_Identificacion,Ciudad,Departamento,
+												Direccion,Direccion_Adicional,
+												Forma_Pago,Telefono,
+												Estado,Correo,Comercio,Tipificacion,Indicativo,D1,D2,D3,D4,Adicional,Telefono2) VALUES
 
 				('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
-				'".$Tipo_Identificacion."', '".$Fecha_Nacimiento."', '".$Nacionalidad."', '".$Ciudad."', '".$Departamento."', 
-				'".$Direccion."', '".$Direccion_Adicional."', '".$Estrato."', '".$Nivel_Educacion."', '".$Ocupacion."', 
-				'".$Forma_Pago."', '".$Rango_Ingresos."', '".$Telefono."', '".$Direccion_Firma."', '".$Fecha_Firma."', 
-				'".$Horario."', '".$Estado."', '".$Correo."', '".$Fecha_Expedicion."'
+				'".$Tipo_Identificacion."', '".$Ciudad."', '".$Departamento."', 
+				'".$Direccion."', '".$Direccion_Adicional."', 
+				'".$Forma_Pago."', '".$Telefono."', 
+				'".$Estado."', '".$Correo."', '".$Comercio."', '".$Tipificacion."', '".$Indicativo."', '".$D1."', '".$D2."', '".$D3."', '".$D4."', '".$Adicional."', '".$Telefono2."'
 				) ON DUPLICATE  KEY UPDATE
 				Identificacion = '".$Identificacion."',Primer_Nombre ='".$Primer_Nombre."',Segundo_Nombre='".$Segundo_Nombre."',Primer_Apellido='".$Primer_Apellido."',Segundo_Apellido='".$Segundo_Apellido."',
-				Tipo_Identificacion = '".$Tipo_Identificacion."',Fecha_Nacimiento ='".$Fecha_Nacimiento."',Nacionalidad='".$Nacionalidad."',Ciudad='".$Ciudad."',Departamento='".$Departamento."',
-				Direccion = '".$Direccion."',Direccion_Adicional ='".$Direccion_Adicional."',Estrato='".$Estrato."',Nivel_Educacion='".$Nivel_Educacion."',Ocupacion='".$Ocupacion."',
-				Forma_Pago = '".$Forma_Pago."',Rango_Ingresos ='".$Rango_Ingresos."',Telefono='".$Telefono."',Direccion_Firma='".$Direccion_Firma."',Fecha_Firma='".$Fecha_Firma."',
-				Horario='".$Horario."',Estado='".$Estado."',Correo='".$Correo."',Fecha_Expedicion='".$Fecha_Expedicion."';";
-                    $query_update = mysqli_query($con,$sql);
+				Tipo_Identificacion = '".$Tipo_Identificacion."',Ciudad='".$Ciudad."',Departamento='".$Departamento."',
+				Direccion = '".$Direccion."',Direccion_Adicional ='".$Direccion_Adicional."',
+				Forma_Pago = '".$Forma_Pago."',Telefono='".$Telefono."',
+				Estado='".$Estado."',Correo='".$Correo."',Comercio='".$Comercio."',Tipificacion='".$Tipificacion."',Indicativo='".$Indicativo."'
+				,D1='".$D1."',D2='".$D2."',D3='".$D3."',D4='".$D4."',Adicional='".$Adicional."',Telefono2='".$Telefono2."';";
+					$query_update = mysqli_query($con,$sql);
+					
                     if ($query_update) {
-                        $messages[] = "Los Datos Se Han Modificado Con Exito.";
+						$messages[] = "Los Datos Se Han Modificado Con Exito.";
+						if(($CargarOb=='SI')||($CargarTip=='SI')){
+							
+							$sql =  "INSERT INTO  OBSERVACIONES_AFILIADO(Afiliado,Fecha,Observacion,Usuario,Tipificacion) VALUES
+							('".$Identificacion."', '".$Fecha."', '".$Observaciones."', '".$User."',$Tipi)";
+						 $query_update = mysqli_query($con,$sql);
+						}
+
+						
+
                     } else {
                         $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
                     }

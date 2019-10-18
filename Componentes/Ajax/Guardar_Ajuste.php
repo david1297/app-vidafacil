@@ -59,7 +59,7 @@ require_once ("../../config/db.php");
 			$messages[] = "Ajuste Almacenado con Exito";
 			if ($Tipo =='Debito'){
 				$Debito = $Valor * (-1);
-				$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento='".$Numero_Ajuste."'");
+				$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento='".$Numero_Ajuste."' and Tipo= 'A'");
 				$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Debito,Porcentaje,Comision,Estado,Fecha)
 						VALUES('".$UsuarioA."','A','".$Numero_Ajuste."','A','".$Numero_Ajuste."','".$Valor."','0','".$Debito."','Pendiente','".$Fecha_Creacion."')";
 				$query_update = mysqli_query($con,$sql);

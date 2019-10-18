@@ -8,8 +8,8 @@
 		 $Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
 		 
 		
-		 $sTable = "AFILIADOS inner join Departamentos on AFILIADOS.Departamento = Departamentos.Codigo
-		 inner join ciudades on AFILIADOS.Ciudad =ciudades.Codigo and   Departamentos.Codigo = ciudades.Departamento		";
+		 $sTable = "AFILIADOS inner join DEPARTAMENTOS on AFILIADOS.Departamento = DEPARTAMENTOS.Codigo
+		 inner join CIUDADES on AFILIADOS.Ciudad =CIUDADES.Codigo and   DEPARTAMENTOS.Codigo = CIUDADES.Departamento		";
 		$sWhere = "where 1=1";
 		if ( $_GET['Busc_Afiliado'] != "" ){
 			if ($Filtro == "Identificacion"){
@@ -19,7 +19,7 @@
 					$sWhere.= " and  (AFILIADOS.Primer_Nombre like '%$Busc_Afiliado%')  or (AFILIADOS.Segundo_Nombre like '%$Busc_Afiliado%')  or (AFILIADOS.Primer_Apellido like '%$Busc_Afiliado%') or (AFILIADOS.Segundo_Apellido like '%$Busc_Afiliado%') ";	
 				}else{
 					if ($Filtro =="Ciudad"){
-						$sWhere.= " and  (Ciudades.Nombre like '%$Busc_Afiliado%')";
+						$sWhere.= " and  (CIUDADES.Nombre like '%$Busc_Afiliado%')";
 					}else{
 						if ($Filtro=="Departamento"){
 							$sWhere.= " and  (AFILIADOS.Departamento like '%$Busc_Afiliado%')";
@@ -32,11 +32,11 @@
 				}
 			}
 		}
-		$sWhere.= " and Estado ='Activo'";	
+		$sWhere.= " and Estado ='Aprobado'";	
 		$sWhere.=" order by AFILIADOS.Primer_Nombre desc";
 		include 'pagination.php'; 
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 5; 
+		$per_page = 50; 
 		$adjacents  = 4; 
 		$offset = ($page - 1) * $per_page;
 		//Count the total number of row in your table*/

@@ -36,8 +36,8 @@ $delete=mysqli_query($con, "DELETE FROM USUARIO_CAMP WHERE Campana='".$Campana."
 </tr>
 <?php
 	$sumador_total=0;
-	$sql=mysqli_query($con, "select Campanas.Numero,Campanas.Nombre,Campanas.Porcentaje  from  USUARIO_CAMP 
-	inner join Campanas on Campanas.Numero = USUARIO_CAMP.Campana
+	$sql=mysqli_query($con, "select CAMPANAS.Numero,CAMPANAS.Nombre,CAMPANAS.Porcentaje  from  USUARIO_CAMP 
+	inner join CAMPANAS on CAMPANAS.Numero = USUARIO_CAMP.Campana
 	where  USUARIO_CAMP.Usuario='".$Nit."'");
 	while ($row=mysqli_fetch_array($sql))
 	{

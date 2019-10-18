@@ -44,7 +44,7 @@
 		}
 		
 		if($Pest=='ResIngresos'){
-			$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,CUENTA_VIRTUAL.Credito,
+			$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,sum(CUENTA_VIRTUAL.Credito) as Credito,
 			USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado FROM $sTable $sWhere $Group $Order ";	
 			$query = mysqli_query($con, $sql);
 			echo mysqli_error($con);
@@ -64,7 +64,7 @@
 			}
 		}else{
 			if($Pest=='ResEgresos'){
-				$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,CUENTA_VIRTUAL.Debito,
+				$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,sum(CUENTA_VIRTUAL.Debito)as Debito,
 				USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado FROM $sTable $sWhere $Group $Order ";	
 				$query = mysqli_query($con, $sql);
 				echo mysqli_error($con);

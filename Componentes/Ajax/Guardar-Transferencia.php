@@ -59,8 +59,8 @@ require_once ("../../config/db.php");
 			}
 		}
 		$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento=".$Numero." and Tipo ='T' ");
-		$sql="select TRANSACCIONESE.Usuario,TransaccionesD.NDocumento,TransaccionesD.Tipo,TransaccionesD.Estado,TransaccionesD.Valor from TRANSACCIONESE
-		inner join TransaccionesD on TransaccionesD.Numero = TRANSACCIONESE.Numero where TRANSACCIONESE.Numero=".$Numero." ";
+		$sql="select TRANSACCIONESE.Usuario,TRANSACCIONESD.NDocumento,TRANSACCIONESD.Tipo,TRANSACCIONESD.Estado,TRANSACCIONESD.Valor from TRANSACCIONESE
+		inner join TRANSACCIONESD on TRANSACCIONESD.Numero = TRANSACCIONESE.Numero where TRANSACCIONESE.Numero=".$Numero." ";
 		
 		$query = mysqli_query($con, $sql);
 
@@ -87,7 +87,7 @@ require_once ("../../config/db.php");
 									VALUES('".$Usuario."','T','".$Numero."','".$Tipo."','".$NDocumento."','".$Credito."','".$Debito."','0','".$Valor."','Pagada','".date("Y-m-d")."')";
 		$query_update = mysqli_query($con,$sql);						
 
-		$sql =  "Update Ventas Set Liquidada='True' where Numero =".$Venta.";";				
+		$sql =  "Update VENTAS Set Liquidada='True' where Numero =".$Venta.";";				
 		$query_update = mysqli_query($con,$sql);
 	
 		}

@@ -12,8 +12,8 @@
 		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
 
 		$sTable = "VENTAS INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
-		inner join Usuarios on Usuarios.Nit=VENTAS.Usuario
-		inner join Campanas on Campanas.Numero=VENTAS.Campana";
+		inner join USUARIOS on USUARIOS.Nit=VENTAS.Usuario
+		inner join CAMPANAS on CAMPANAS.Numero=VENTAS.Campana";
 		$sWhere = "where (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Numero"){

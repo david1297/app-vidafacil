@@ -30,7 +30,7 @@
 		$sWhere.=" order by USUARIOS.Razon_Social desc";
 		include 'pagination.php'; 
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 5; 
+		$per_page = 50; 
 		$adjacents  = 4; 
 		$offset = ($page - 1) * $per_page;
 		//Count the total number of row in your table*/

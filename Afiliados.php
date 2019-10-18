@@ -13,24 +13,24 @@
 	$Primer_Apellido="";
 	$Segundo_Apellido="";
 	$Tipo_Identificacion="";
-	$Fecha_Nacimiento="";
-	$Nacionalidad="";
 	$Ciudad="";
 	$Departamento="";
 	$Direccion="";
 	$Direccion_Adicional="";
-	$Estrato="";
-	$Nivel_Educacion="";
-	$Ocupacion="";
-	$Rango_Ingresos="";
 	$Telefono="";
+	$Telefono2="";
 	$Forma_Pago="";
-	$Direccion_Firma="";
-	$Fecha_Firma="";
-	$Horario="";
 	$Estado="";
 	$Correo="";
-	$Fecha_Expedicion="";
+	$Comercio="";
+	$Tipificacion="5";
+	$Observaciones_Cargadas='';
+	$Indicativo='';
+	$D1='';
+	$D2='';
+	$D3='';
+	$D4='';
+	$Adicional='';
 
 
 	if (isset($_GET['Identificacion'])) {
@@ -42,27 +42,54 @@
 		$Primer_Apellido=$rw_Admin['Primer_Apellido'];
 		$Segundo_Apellido=$rw_Admin['Segundo_Apellido'];
 		$Tipo_Identificacion=$rw_Admin['Tipo_Identificacion'];
-		$Fecha_Nacimiento=$rw_Admin['Fecha_Nacimiento'];
-		$Nacionalidad=$rw_Admin['Nacionalidad'];
 		$Departamento=$rw_Admin['Departamento'];
 		$Ciudad=$rw_Admin['Ciudad'];
 		$Direccion=$rw_Admin['Direccion'];
 		$Direccion_Adicional=$rw_Admin['Direccion_Adicional'];
-		$Estrato=$rw_Admin['Estrato'];
-		$Nivel_Educacion=$rw_Admin['Nivel_Educacion'];
-		$Ocupacion=$rw_Admin['Ocupacion'];
-		$Rango_Ingresos=$rw_Admin['Rango_Ingresos'];
 		$Forma_Pago=$rw_Admin['Forma_Pago'];
 		$Telefono=$rw_Admin['Telefono'];
-		
-		$Direccion_Firma=$rw_Admin['Direccion_Firma'];
-		$Fecha_Firma=$rw_Admin['Fecha_Firma'];
-		$Horario=$rw_Admin['Horario'];
+		$Telefono2=$rw_Admin['Telefono2'];
 		$Estado=$rw_Admin['Estado'];
 		$Correo=$rw_Admin['Correo'];
-		$Fecha_Expedicion=$rw_Admin['Fecha_Expedicion'];
+		$Comercio=$rw_Admin['Comercio'];
+		$Tipificacion=$rw_Admin['Tipificacion'];
+		$Indicativo=$rw_Admin['Indicativo'];
+		$D1=$rw_Admin['D1'];
+		$D2=$rw_Admin['D2'];
+		$D3=$rw_Admin['D3'];
+		$D4=$rw_Admin['D4'];
+		$Adicional= $rw_Admin['Adicional'];
+
 		$EstadoC="Editando";
 		$Read= "readonly='readonly'";
+
+		$sql="SELECT * FROM OBSERVACIONES_AFILIADO 
+        inner join USUARIOS on USUARIOS.Nit=OBSERVACIONES_AFILIADO.Usuario WHERE Afiliado=".$Identificacion." order by OBSERVACIONES_AFILIADO.Numero";
+
+		$query = mysqli_query($con, $sql);
+		while ($row=mysqli_fetch_array($query)){
+			$Observaciones_Cargadas.=
+			'<div class="card-header">'.$row['Razon_Social'].'<em>&nbsp;&nbsp;&nbsp;&nbsp;('.$row['Fecha'].')</em></div>
+				  <div class="card-body text-secondary">';
+			if($row['Tipificacion']!=0 ){
+				$Observaciones_Cargadas.='<b>Se Realiza Tipificacion a: </b>';
+				$sql1="SELECT * FROM TIPIFICACIONES WHERE Numero=".$row['Tipificacion']."";
+				$query1 = mysqli_query($con, $sql1);
+				$row1=mysqli_fetch_array($query1); 
+				$Observaciones_Cargadas.=utf8_encode($row1['Nombre']);
+				$Observaciones_Cargadas.='<br><br>';
+			}
+			
+			if($row['Observacion']!='' ){	
+			$Observaciones_Cargadas.='<b>Observacion:</b> '.$row['Observacion'].'';
+			}  
+			$Observaciones_Cargadas.='
+				  </div>
+				  
+				  
+
+		';
+		}
 	}else{
 		$EstadoC="Nuevo";
 		$Read= "";
@@ -100,13 +127,13 @@
 									<input type="text" class="form-control hidden" id="EstadoC" name="EstadoC"  value="<?php echo $EstadoC; ?>" > 
 									<div class="form-group">
 				  						<label for="Identificacion" class="col-sm-3  control-label">Identificacion</label>
-				  						<div class="col-sm-8 ">
+				  						<div class="col-sm-9 ">
 				   							<input type="text" class="form-control" id="Identificacion" name="Identificacion" placeholder="Identificacion" value="<?php echo $Identificacion; ?>" <?php echo $Read; ?> required>
 				  						</div>
 			   						</div>
 									<div class="form-group" >
 										<label for="Tipo_Identificacion" class="col-sm-3 control-label">Tipo de Identificacion</label>
-										<div class="col-sm-8">
+										<div class="col-sm-9">
 											<select class='form-control' id="Tipo_Identificacion" name ="Tipo_Identificacion" placeholder="Tipo de Identificacion" >
 											<?php 
 												$Cedula="";
@@ -136,18 +163,12 @@
 											</select>
 										</div>
 									</div>
-									<div class="form-group">
-				  						<label for="Identificacion" class="col-sm-3  control-label">Fecha de Expedicion</label>
-				  						<div class="col-sm-8 ">
-				   							<input type="date" class="form-control" id="Fecha_Expedicion" name="Fecha_Expedicion" placeholder="Fecha de Expedicion" value="<?php echo $Fecha_Expedicion;?>" >
-				  						</div>
-			   						</div>
 									<div class="form-group" >
 										<label for="Nombres"  class="col-sm-3 control-label">Nombres</label>
 				  						<div class="col-sm-4">
  				   							<input type="text" class="form-control" id="Primer_Nombre" name="Primer_Nombre"  placeholder="Primer Nombre" value="<?php echo $Primer_Nombre; ?>">
 				  						</div>
-										<div class="col-sm-4">
+										<div class="col-sm-5">
  				   							<input type="text" class="form-control" id="Segundo_Nombre" name="Segundo_Nombre"  placeholder="Segundo Nombre" value="<?php echo $Segundo_Nombre; ?>">
 				  						</div>
 			   						</div> 
@@ -156,34 +177,22 @@
 				  						<div class="col-sm-4">
  				   							<input type="text" class="form-control" id="Primer_Apellido" name="Primer_Apellido"  placeholder="Primer Apellido" value="<?php echo $Primer_Apellido; ?>"  onkeyup="RazonSocial()">
 				  						</div>
-										  <div class="col-sm-4">
+										  <div class="col-sm-5">
  				   							<input type="text" class="form-control" id="Segundo_Apellido" name="Segundo_Apellido"  placeholder="Segundo Apellido" value="<?php echo $Segundo_Apellido; ?>"  onkeyup="RazonSocial()">
 				  						</div>  
 			   						</div>
 									<div class="form-group">
-										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Fecha de Nacimiento</label>
-										<div class="col-sm-8">
-											<input type="date" class="form-control" id="Fecha_Nacimiento" name="Fecha_Nacimiento" required placeholder="Fecha de Nacimiento" value="<?php echo $Fecha_Nacimiento;?>" >
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Nacionalidad</label>
-										<div class="col-sm-8">
-											<input type="text" class="form-control" id="Nacionalidad" name="Nacionalidad" required placeholder="Nacionalidad" value="<?php echo $Nacionalidad;?>">
-										</div>
-									</div>
-									<div class="form-group">
 										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Departamento</label>
-										<div class="col-sm-8">
+										<div class="col-sm-9">
 										<?PHP
 												$query1=mysqli_query($con, "select * from DEPARTAMENTOS order by Nombre");
 												echo' <select class="form-control" id="Departamento" name ="Departamento" placeholder="Departamento" onchange="CargarCiudades()">';
 																				
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Departamento ==$rw_Admin1['Codigo']){
-														echo '<option value="'.$rw_Admin1['Codigo'].'" selected >'.$rw_Admin1['Nombre'].'</option>';
+														echo '<option value="'.$rw_Admin1['Codigo'].'" selected >'.utf8_encode($rw_Admin1['Nombre']).'</option>';
 													} else{
-														echo '<option value="'.$rw_Admin1['Codigo'].'">'.$rw_Admin1['Nombre'].'</option>';	
+														echo '<option value="'.$rw_Admin1['Codigo'].'">'.utf8_encode($rw_Admin1['Nombre']).'</option>';	
 													}
 												}
 												echo '</select>';
@@ -194,128 +203,83 @@
 										<label for="Ciudad" class="col-sm-3 control-label">Ciudad</label>
 										<input type="Text" class="form-control hidden" id="Ciu" name="Ciu" require value="<?php echo $Ciudad?>" readonly="readonly">
 
-										<div class="col-sm-8" id="Ciudades" >
+										<div class="col-sm-9" id="Ciudades" >
 
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="Direccion" class="col-sm-3 control-label">Direccion</label>
-										<div class="col-sm-8">
-											<input type="text" class="form-control" id="Direccion" name="Direccion" required placeholder="Direccion" value="<?php echo $Direccion;?>">
+										<div class="col-sm-2">
+											<?PHP
+												$query=mysqli_query($con, "select * from ADMINISTRACION");
+												echo' <select class="form-control" id="Indicativo" name ="Indicativo" placeholder="OperadorVenta" onchange="CambioDir()">';
+												$rw_Admin=mysqli_fetch_array($query);
+												$tuArray = explode("\r\n", $rw_Admin['Indicativos']);
+												foreach($tuArray as  $indice => $palabra){
+													if ($Indicativo==$palabra){
+														echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
+											
+													} else{
+														echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
+											
+													}
+												}  	
+												echo '</select>';
+											?>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" id="D1" name="D1"   value="<?php echo $D1;?>" onchange="CambioDir()">
+										</div>
+										<div class="col-sm-1" style="padding-left: 0px; padding-right: 0px;width: 32px;">
+											<label for="" class="col-sm-1 control-label">#</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" id="D2" name="D2"   value="<?php echo $D2;?>" onchange="CambioDir()">
+										</div>
+										<div class="col-sm-1" style="padding-left: 0px; padding-right: 0px;width: 32px;">
+											<label for="" class="col-sm-1 control-label">-</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" id="D3" name="D3"   value="<?php echo $D3;?>" onchange="CambioDir()">
+										</div>
+										<div class="col-sm-9 col-sm-offset-3">
+											<input type="text" class="form-control" id="Direccion" name="Direccion"  placeholder="Direccion" value="<?php echo $Direccion;?>" readonly='readonly'>
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="Direccion_Adicional" class="col-sm-3 control-label">Direccion Adicional</label>
-										<div class="col-sm-8">
-											<input type="text" class="form-control" id="Direccion_Adicional" name="Direccion_Adicional" required placeholder="Direccion Adicional" value="<?php echo $Direccion_Adicional;?>">
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="Estrato" class="col-sm-3 control-label">Estrato</label>
-										<div class="col-sm-8">
-											<?php
-												echo' <select class="form-control" id="Estrato" name ="Estrato" placeholder="Estrato">';
-												for ($i = 1; $i <= 6; $i++) {
-													if ($Estrato ==$i){
-														echo '<option value="'.$i.'" selected >'.$i.'</option>';
-													} else{
-														echo '<option value="'.$i.'">'.$i.'</option>';	
-													}
-												}
-												echo '</select>';
-											?>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="Nivel_Educacion" class="col-sm-3 control-label">Nivel Educativo</label>
-										<div class="col-sm-8">
-											<?php
-											$Primaria='';
-											$Bachillerato='';
-											$Universitario='';
-											$Otro='';
-											if ($Nivel_Educacion=='Primaria'){
-												$Primaria = 'Selected';
-											} else {
-												if ($Nivel_Educacion =='Bachillerato'){
-													$Bachillerato = 'Selected';
-												} else {
-													if ($Nivel_Educacion=='Universitario') {
-														$Universitario='Selected';
-													} else {
-														if($Nivel_Educacion=='Otro'){
-															$Otro='Selected';
-														}
-													}
-
-												}
-											}
-											echo' <select class="form-control" id="Nivel_Educacion" name ="Nivel_Educacion" placeholder="Estrato">';
-													echo '<option value="Primaria" '.$Primaria.'>Primaria</option>';
-													echo '<option value="Bachillerato" '.$Bachillerato.'>Bachillerato</option>';	
-													echo '<option value="Universitario" '.$Universitario.'>Universitario</option>';	
-													echo '<option value="Otro" '.$Otro.' >Otro</option>';	
-											echo '</select>';
-											?>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="Ocupacion" class="col-sm-3 control-label">Ocupacion</label>
-										<div class="col-sm-8">
-										<?php
-											$Ama='';
-											$Desempleado='';
-											$Empleado='';
-											$Estudiante='';
-											$Otro='';
-											if ($Ocupacion=='Ama de Casa'){
-												$Ama = 'Selected';
-											} else {
-												if ($Ocupacion =='Desempleado'){
-													$Desempleado = 'Selected';
-												} else {
-													if ($Ocupacion=='Empleado') {
-														$Empleado='Selected';
-													} else {
-														if($Ocupacion=='Estudiante'){
-															$Estudiante='Selected';
-														}else{
-															$Otro='Selected';	
-														}
-													}
-
-												}
-											}
-											echo' <select class="form-control" id="Ocupacion" name ="Ocupacion" placeholder="Estrato">';
-													echo '<option value="Ama de Casa" '.$Ama.'>Ama de Casa</option>';
-													echo '<option value="Desempleado" '.$Desempleado.'>Desempleado</option>';	
-													echo '<option value="Empleado" '.$Empleado.'>Empleado</option>';	
-													echo '<option value="Estudiante" '.$Estudiante.'>Estudiante</option>';	
-													echo '<option value="Otro" '.$Otro.' >Otro</option>';	
-											echo '</select>';
-											?>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="Rango_Ingresos" class="col-sm-3 control-label">Ingresos</label>
-										<div class="col-sm-8">
+										<div class="col-sm-5">
 											<?PHP
-												$query1=mysqli_query($con, "SELECT * FROM RANGO_INGRESOS ");
-												echo' <select class="form-control" id="Rango_Ingresos" name ="Rango_Ingresos" placeholder="Rango de Ingresos">';
-												while($rw_Admin1=mysqli_fetch_array($query1)){
-													if ($Rango_Ingresos ==$rw_Admin1['Codigo']){
-														echo '<option value="'.$rw_Admin1['Codigo'].'" selected >'.$rw_Admin1['Descripcion'].'</option>';
+												$query=mysqli_query($con, "select * from ADMINISTRACION");
+												echo' <select class="form-control" id="Adicional" name ="Adicional" placeholder="OperadorVenta" onchange="CambioDirA()">';
+												$rw_Admin=mysqli_fetch_array($query);
+												$tuArray = explode("\r\n", $rw_Admin['Adicionales']);
+												foreach($tuArray as  $indice => $palabra){
+													if ($Adicional==$palabra){
+														echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
+											
 													} else{
-														echo '<option value="'.$rw_Admin1['Codigo'].'">'.$rw_Admin1['Descripcion'].'</option>';	
+														echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
+											
 													}
-												}
+												}  	
 												echo '</select>';
-											?>	
+											?>
+										</div>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="D4" name="D4"   value="<?php echo $D4;?>" onchange="CambioDirA()">
+										</div>
+										<div class="col-sm-9 col-sm-offset-3">
+											<input type="text" class="form-control" id="Direccion_Adicional" name="Direccion_Adicional"  placeholder="Direccion Adicional" value="<?php echo $Direccion_Adicional;?>" readonly='readonly'>
 										</div>
 									</div>
+									
+									
+									
+									
 									<div class="form-group">
 										<label for="Forma_Pago" class="col-sm-3 control-label">Forma De Pago</label>
-										<div class="col-sm-8">
+										<div class="col-sm-9">
 											<?PHP
 												$query1=mysqli_query($con, "SELECT * FROM FORMAS_PAGO ");
 												echo' <select class="form-control" id="Forma_Pago" name ="Forma_Pago" placeholder="Forma de Pago">';
@@ -332,63 +296,153 @@
 									</div>		
 									<div class="form-group">
 										<label for="Telefono" class="col-sm-3 control-label">Telefono</label>
-										<div class="col-sm-8">
+										<div class="col-sm-9">
 											<input type="text" class="form-control" id="Telefono" name="Telefono" required placeholder="Telefono" value="<?php echo $Telefono;?>">
 										</div>
 									</div>	
 									<div class="form-group">
+										<label for="Telefono2" class="col-sm-3 control-label">Telefono 2</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="Telefono2" name="Telefono2"  placeholder="Telefono2" value="<?php echo $Telefono2;?>">
+										</div>
+									</div>
+									<div class="form-group">
 										<label for="Correo" class="col-sm-3 control-label">Correo</label>
-										<div class="col-sm-8">
+										<div class="col-sm-9">
 											<input type="Email" class="form-control" id="Correo" name="Correo" required placeholder="Correo" value="<?php echo $Correo;?>">
 										</div>
 									</div>	
+									
 									<div class="form-group">
-										<label for="Direccion_Firma" class="col-sm-3 control-label">Direccion de Firma</label>
-										<div class="col-sm-8">
-											<input type="text" class="form-control" id="Direccion_Firma" name="Direccion_Firma" required placeholder="Direccion de Firma" value="<?php echo $Direccion_Firma;?>">
+										<label for="Comercio" class="col-sm-3 control-label">Comercio</label>
+										<div class="col-sm-9">
+										<?PHP
+										if( $_SESSION['Rol']<>'1'){
+											if($EstadoC == "Nuevo"){
+												$Comercio = $_SESSION['Nit'];
+												$NComercio = $_SESSION['Razon_Social'];
+											}else{
+												$query1=mysqli_query($con, "select Razon_Social from USUARIOS where Nit  = '".$Comercio."' ");
+												
+																				
+												$rw_Admin1=mysqli_fetch_array($query1);
+												$NComercio =$rw_Admin1['Razon_Social'];
+											}
+											?>
+												<input type="Text" class="form-control hidden" id="Comercio" name="Comercio" require value="<?php echo $Comercio?>" readonly="readonly">
+												<input type="Text" class="form-control " id="NComercio" name="NComercio" require value="<?php echo $NComercio?>" readonly="readonly">
+
+
+											<?php
+											
+										}	else{
+											echo' <select class="form-control" id="Comercio" name ="Comercio" placeholder="Comercio">';
+											$query1=mysqli_query($con, "select * from USUARIOS where Estado = 'Activo' ");
+												
+																				
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													if ($Comercio ==$rw_Admin1['Nit']){
+														echo '<option value="'.$rw_Admin1['Nit'].'" selected >'.$rw_Admin1['Razon_Social'].'</option>';
+													} else{
+														echo '<option value="'.$rw_Admin1['Nit'].'">'.$rw_Admin1['Razon_Social'].'</option>';	
+													}
+												}
+												echo '</select>';
+											
+										}?>	
+												
 										</div>
 									</div>
+									
 									<div class="form-group">
-										<label for="Fecha_Firma" class="col-sm-3 control-label">Fecha de Firma</label>
-										<div class="col-sm-8">
-											<input type="date" class="form-control" id="Fecha_Firma" name="Fecha_Firma" required placeholder="Fecha de Firma" value="<?php echo $Fecha_Firma;?>" >
+										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Tipificacion</label>
+										<div class="col-sm-5">
+										<?PHP
+										
+										$query1=mysqli_query($con, "select NCategoria from TIPIFICACIONES where Numero = $Tipificacion");
+										$rw_Admin1=mysqli_fetch_array($query1);
+										$Categoria =$rw_Admin1[0];		
+											
+												$query1=mysqli_query($con, "select Categoria,NCategoria from TIPIFICACIONES GROUP BY Categoria,NCategoria ORDER BY NCategoria ASC");
+												echo' <select class="form-control" id="TipificacionC" name ="TipificacionC" placeholder="TipificacionC" onchange="CargarTipificaciones()" >';
+																				
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													if ($Categoria ==$rw_Admin1['NCategoria']){
+														echo '<option value="'.$rw_Admin1['NCategoria'].'" selected >'.utf8_encode($rw_Admin1['Categoria']).'</option>';
+													} else{
+														echo '<option value="'.$rw_Admin1['NCategoria'].'">'.utf8_encode($rw_Admin1['Categoria']).'</option>';	
+													}
+												}
+												echo '</select></div>
+												';
+												?>
+												<input type="Text" class="form-control hidden" id="Tip" name="Tip" require value="<?php echo $Tipificacion?>" readonly="readonly">
+												<div class="col-sm-4" id="Tipi">	
 										</div>
 									</div>
-									<div class="form-group">
-										<label for="Horario" class="col-sm-3 control-label">Hora de Firma</label>
-										<div class="col-sm-8">
-										<input class="form-control"  type="time" id="Horario" name="Horario" min="12:00" max="24:00" value ="<?php echo $Horario;?>"required>
-										</div>
-									</div>
+
 									<?php 
 										if($EstadoC == "Nuevo"){
 											echo '
-											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Activo" >';
+											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Por Activar" >';
 										} else {
 											echo '
 											<div class="form-group">
 												<label for="Estado" class="col-sm-3 control-label">Estado</label>
-												<div class="col-md-8 col-sm-8">
+												<div class="col-md-9 col-sm-9">
 													<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
-													if($Estado == 'Activo'){
-														echo '<option value="Activo">Activo</option>';
-														echo '<option value="InActivo">InActivo</option>';
+													if($Estado == 'Aprobado'){
+														echo '<option value="Aprobado" selected>Aprobado</option>';
+														echo '<option value="Negado">Negado</option>';
+														echo '<option value="Por Activar">Por Activar</option>';
 													}else{
-														echo '<option value="InActivo">InActivo</option>';
-														echo '<option value="Activo">Activo</option>';
+														if($Estado == 'Negado'){
+															echo '<option value="Aprobado" >Aprobado</option>';
+														echo '<option value="Negado" selected>Negado</option>';
+														echo '<option value="Por Activar">Por Activar</option>';
+														}else{
+															echo '<option value="Aprobado" >Aprobado</option>';
+														echo '<option value="Negado">Negado</option>';
+														echo '<option value="Por Activar" selected>Por Activar</option>';
+														}
 													}
+													
+													
+													
+													
 													echo '
 													</select>
 												</div>
 											</div>';
 										}
 									?>
+									 <div class="col-md-12">
+  										<label for="Observaciones">Observaciones:</label>
+  										<textarea class="form-control" rows="5" id="Observaciones" name="Observaciones"></textarea>
+									</div>
+									<BR>
+									<BR>
+									<BR>
+									<BR>
+									<BR>
+									<BR>
+									<BR>
+									<BR>
+									
+									
+									
 									<div id="resultados_ajax2"></div>
 									<hr class="style1">
 									<div class=" pull-right">
 										<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
 										<button type="submit" class="btn btn-primary">Guardar datos</button>
-		  							</div>				
+		  							</div>	
+									  <div class="col-md-12"><br>
+									  <div class="card border-secondary mb-3">
+									<?php echo $Observaciones_Cargadas ?>
+  										
+									</div>			
+									</div>			
 								</form>	
 							</div>
 							<div class="tab-pane fade" id="Permisos">
@@ -412,6 +466,12 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script>
+	function CambioDir(){
+		$('#Direccion').val($('#Indicativo').val()+' '+$('#D1').val()+' # '+$('#D2').val()+' - '+$('#D3').val());
+	}
+	function CambioDirA(){
+		$('#Direccion_Adicional').val($('#Adicional').val()+' '+$('#D4').val());
+	}
 		function CargarCiudades(){
 			var Depto = $("#Departamento").val();
 			var Id_N = $("#Identificacion").val();
@@ -426,9 +486,25 @@
 				}	
 			});
 		}
+		function CargarTipificaciones(){
+			var Categoria = $("#TipificacionC").val();
+			var Id_N = $("#Identificacion").val();
+			var Tip = $("#Tip").val();
+		
+			$.ajax({
+				type: "POST",
+				url: "Componentes/Ajax/Cargar_Tipificaciones.php",
+				data: "Categoria="+Categoria+"&Id_N="+Id_N+"&Tip="+Tip,
+				beforeSend: function(objeto){
+				},success: function(datos){
+					$("#Tipi").html(datos);
+				}	
+			});
+		}
 
 		function Cargar() {
 			CargarCiudades();
+			CargarTipificaciones();
 		}
 
 		$( "#Cancelar" ).click(function( event ) {

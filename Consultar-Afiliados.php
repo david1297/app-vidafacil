@@ -58,8 +58,9 @@
 								<div class="col-md-2">		
 									<select class='form-control' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
 										<option value="Todos">Todos</option>
-										<option value="Activo">Activo</option>
-										<option value="InActivo">InActivo</option>
+										<option value="Aprobado">Aprobado</option>
+										<option value="Negado">Negado</option>
+										<option value="Por Activar">Por Activar</option>
 									</select>
 								</div>
 								<div class="col-md-2">
@@ -108,16 +109,15 @@ if (r == true) {
     contentType: false,
     processData: false,
 			  beforeSend: function(objeto){
-					
+				console.log('Se Envian ');	
 			   },
 		   success: function(datos){ 
+			console.log(datos);	
 			
-			if(datos='Correcto'){
-				alert('Los Datos Se Cargaron Correctamente');
-				load(1);
-			}else{
+				
 				alert(datos);
-			}
+				load(1);
+			
 		
 		 }	 
    });

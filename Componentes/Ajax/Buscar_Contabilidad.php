@@ -47,7 +47,7 @@
 		
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 10;
+		$per_page = 50;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
 		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere $Group");
@@ -56,7 +56,7 @@
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Contabilidad.php';
 		if($Pest=='ResIngresos'){
-			$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,CUENTA_VIRTUAL.Credito,usuarios.Razon_Social,CUENTA_VIRTUAL.Estado FROM
+			$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,sum(CUENTA_VIRTUAL.Credito) as Credito,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado FROM
 			  $sTable $sWhere $Group $Order LIMIT $offset,$per_page";	
 			$query = mysqli_query($con, $sql);
 			if ($numrows>0){
@@ -134,7 +134,7 @@
 			}
 		}else{
 			if($Pest=='ResEgresos'){
-				$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,CUENTA_VIRTUAL.Debito,usuarios.Razon_Social,CUENTA_VIRTUAL.Estado FROM
+				$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,sum(CUENTA_VIRTUAL.Debito)as Debito,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado FROM
 			  $sTable $sWhere $Group $Order LIMIT $offset,$per_page";	
 			$query = mysqli_query($con, $sql);
 			if ($numrows>0){

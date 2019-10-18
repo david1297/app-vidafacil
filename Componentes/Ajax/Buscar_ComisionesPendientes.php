@@ -11,7 +11,7 @@
 		$fechaFin = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaFin'], ENT_QUOTES)));
 		$Nit = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Nit'], ENT_QUOTES)));
 		$sTable = "CUENTA_VIRTUAL
-		inner join USUARIOS on cuenta_virtual.Usuario = USUARIOS.Nit";
+		inner join USUARIOS on CUENTA_VIRTUAL.Usuario = USUARIOS.Nit";
 		
 		$sWhere = " Where CUENTA_VIRTUAL.Usuario = '".$Nit."' and  CUENTA_VIRTUAL.Estado ='Pendiente'";	
 		$Group=" Group by CUENTA_VIRTUAL.Cruce,CUENTA_VIRTUAL.NCruce,CUENTA_VIRTUAL.Usuario,

@@ -35,6 +35,7 @@ $( "#ExportarExcel" ).click(function( event ) {
 			$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 		},
 		success:function(dataR){
+			
 			var string ='{"user_id": "1", "auth_id": "1"}';
 			var data=JSON.parse('['+dataR+']');
 			var NombreXLS='';

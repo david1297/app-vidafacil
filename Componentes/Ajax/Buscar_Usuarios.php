@@ -50,12 +50,13 @@
 		$Group=" group by Razon_Social,Tipo,Estado,Nit ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 10;
+		$per_page = 50;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
-		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere $Group");
+		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable $sWhere ");
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
+		
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Usuarios.php';
 		$sql="SELECT Razon_Social,Tipo,Estado,Nit FROM  $sTable $sWhere $Group  

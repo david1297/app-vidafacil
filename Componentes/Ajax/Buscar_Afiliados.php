@@ -9,7 +9,9 @@
 		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
 
 		$sTable = "AFILIADOS inner join DEPARTAMENTOS on AFILIADOS.Departamento = DEPARTAMENTOS.Codigo
-							 inner join CIUDADES on AFILIADOS.Ciudad =CIUDADES.Codigo and   DEPARTAMENTOS.Codigo = CIUDADES.Departamento		";
+							 inner join CIUDADES on AFILIADOS.Ciudad =CIUDADES.Codigo and  DEPARTAMENTOS.Codigo = CIUDADES.Departamento 
+							 inner join TIPIFICACIONES on TIPIFICACIONES.Numero = AFILIADOS.Tipificacion
+							 ";
 		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Identificacion"){
@@ -39,7 +41,7 @@
 		$sWhere.=" order by AFILIADOS.Primer_Nombre desc";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 10;
+		$per_page = 50;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
 		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere");
@@ -47,7 +49,7 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Afiliados.php';
-		$sql="SELECT Identificacion,Primer_Nombre,Primer_Apellido,DEPARTAMENTOS.Nombre as Departamento,CIUDADES.Nombre as Ciudad ,Direccion,Estado FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		$sql="SELECT TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,Identificacion,Primer_Nombre,Primer_Apellido,DEPARTAMENTOS.Nombre as Departamento,CIUDADES.Nombre as Ciudad ,Direccion,Estado FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
@@ -61,6 +63,7 @@
 					<th>Ciudad</th>
 					<th>Direccion</th>
 					<th>Estado</th>
+					<th>Tipificacion</th>
 					<th class='text-right'>Editar</th>
 				</tr>
 				<?php
@@ -72,18 +75,36 @@
 						$Ciudad=$row['Ciudad'];
 						$Direccion=$row['Direccion'];
 						$Estado=$row['Estado'];
-						if ($Estado=="Activo"){$label_class='label-success';}
-						if ($Estado=="InActivo"){$label_class='label-danger';}
-						if ($Estado=="Pendiente"){$label_class='label-warning';}
+						if ($Estado=="Aprobado"){$label_class='label-success';}
+						if ($Estado=="Negado"){$label_class='label-danger';}
+						if ($Estado=="Por Activar"){$label_class='label-warning';}
+						$NCategoria = $row['NCategoria'];
+
+						if ($NCategoria=="1"){$label_classC='label-success';}
+						if ($NCategoria=="2"){$label_classC='label-danger';}
+						if ($NCategoria=="3"){$label_classC='label-info';}
+						if ($NCategoria=="4"){$label_classC='label-warning';}
+						if ($NCategoria=="5"){$label_classC='label-primary';}
+						if ($NCategoria=="6"){$label_classC='label-primary';}
+						if ($NCategoria=="7"){$label_classC='label-danger';}
+						if ($NCategoria=="8"){$label_classC='label-success';}
+						if ($NCategoria=="9"){$label_classC='label-info';}
+						if ($NCategoria=="10"){$label_classC='label-warning';}
+						if ($NCategoria=="11"){$label_classC='label-info';}
+						if ($NCategoria=="12"){$label_classC='label-info';}
+						if ($NCategoria=="13"){$label_classC='label-info';}
+						if ($NCategoria=="14"){$label_classC='label-info';}
+						$Tipificacion = $row['Categoria'];
 						
 					?>
 					<tr>
 						<td><?php echo $Identificacion; ?></td>
 						<td><?php echo $Nombre; ?></td>
-						<td><?php echo $Departamento; ?></td>
-						<td><?php echo $Ciudad; ?></td>
+						<td><?php echo utf8_encode($Departamento); ?></td>
+						<td><?php echo utf8_encode($Ciudad); ?></td>
 						<td><?php echo $Direccion; ?></td>
 						<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>			
+						<td><span class="label <?php echo $label_classC;?>"><?php echo utf8_encode($Tipificacion); ?></span></td>			
 						<td class="text-right">
 							<a href="#" class='btn btn-default' title='Editar Campañas' onclick="obtener_datos('<?php echo $Identificacion;?>');"><i class="glyphicon glyphicon-edit"></i></a> 
 						</td>

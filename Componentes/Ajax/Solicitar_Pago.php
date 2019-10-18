@@ -31,7 +31,7 @@ if (empty($_POST['NumeroVenta'])){
 		$messages[] = "Encabezado Guardado Con Exito";
 		foreach($_POST['NumeroVenta'] as $Numero){
 			$porciones = explode("-", $Numero);
-			$query1=mysqli_query($con, "SELECT Comision FROM cuenta_virtual where  Tipo ='".$porciones[0]."' and  NDocumento =".$porciones[1].";");
+			$query1=mysqli_query($con, "SELECT Comision FROM CUENTA_VIRTUAL where  Tipo ='".$porciones[0]."' and  NDocumento =".$porciones[1].";");
 			$rw_Admin1=mysqli_fetch_array($query1);
 			$Valor=$rw_Admin1['Comision'];
 			
@@ -52,7 +52,7 @@ if (empty($_POST['NumeroVenta'])){
 					if ($query_update) {
 						$messages[] = "Estado de Venta";
 					}else{
-						$errors[] ="Error Al Actualizar Estado de }Venta <br>".$sql;		
+						$errors[] ="Error Al Actualizar Estado de Venta <br>".$sql;		
 					}
 				}else{
 					$errors[] ="Error Al Actualizar Estado de Cuenta <br>".$sql;	

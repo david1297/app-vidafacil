@@ -7,7 +7,7 @@
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
   $Administracion="active";
-	$query=mysqli_query($con, "Select Operador_Venta,Operador_Donante from ADMINISTRACION ;");
+	$query=mysqli_query($con, "Select Operador_Venta,Operador_Donante,Indicativos,Adicionales from ADMINISTRACION ;");
 	$rw_Admin=mysqli_fetch_array($query);
 
 
@@ -24,6 +24,7 @@
 			include("Menu.php");
 			include("componentes/modal/Agregar_FormaPago.php");
 			include("componentes/modal/Agregar_Banco.php");
+			include("componentes/modal/Agregar_Tipificacion.php");
 		?>
 		<div id="main-content">
 			<div class="container-fluid">
@@ -34,6 +35,7 @@
 					<li class="active"><a href="#General" role="tab" data-toggle="tab">General</a></li>
 					<li><a href="#FormasPago" role="tab" data-toggle="tab" id="ClickFormas">Formas de Pago</a></li>
 					<li><a href="#Bancos" role="tab" data-toggle="tab" id="ClickBancos">Bancos</a></li>
+					<li><a href="#Tipificaciones" role="tab" data-toggle="tab" id="ClickTipificaciones">Tipificaciones</a></li>
 				</ul>				
 				<div class="tab-content content-profile">
 					<div class="tab-pane fade active in" id="General">
@@ -41,10 +43,27 @@
 							<div class="tab-content content-profile">	
 								<div class="profile-section">		
 									<div class="clearfix">
+										
 										<div class="left">
-											<h2 class="profile-heading">Informacion Basica</h2>
+											<h2 class="profile-heading">Direcciones</h2>
 											<div class="form-group">	
-												<label for="Observaciones">Operadoes de Venta:</label>
+												<label for="Observaciones">Indicativos:</label>
+												<div class="col-sm-12">
+													<textarea class="form-control" rows="5" id="Indicativos"NAME="Indicativos" ><?php echo $rw_Admin['Indicativos'];?></textarea>
+												</div>
+											</div>
+											<div class="form-group">	
+												<label for="Observaciones">Adicionales:</label>
+												<div class="col-sm-12">
+													<textarea class="form-control" rows="5" id="Adicionales"NAME="Adicionales" ><?php echo $rw_Admin['Adicionales'];?></textarea>
+												</div>
+											</div>	
+											
+										</div>
+										<div class="left">
+											<h2 class="profile-heading">Operadores</h2>
+											<div class="form-group">	
+												<label for="Observaciones">Operadores de Venta:</label>
 												<div class="col-sm-12">
 													<textarea class="form-control" rows="5" id="Operador_Venta"NAME="Operador_Venta" ><?php echo $rw_Admin['Operador_Venta'];?></textarea>
 												</div>
@@ -82,6 +101,17 @@
 						<div id="RBanco">
 						</div>
 					</div>
+					<div class="tab-pane fade" id="Tipificaciones">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarTipificacion">
+						<i class="fas fa-plus"></i> Agregar Tipificaciones
+						</button>
+						<input type="text" class="hidden" id='CatPre'>
+						<br><br>
+						
+					
+						<div id="RTipificaciones">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -104,6 +134,12 @@ $("#ClickFormas").click(function( event){
 $("#ClickBancos").click(function( event){
 	CargarBancos();
 })
+$("#ClickTipificaciones").click(function( event){
+	CargarTipificaiones();
+	$('#CatPre').val(0);
+})
+
+
 
 	$( "#Administracion" ).submit(function( event ) {
   $('#actualizar_datos2').attr("disabled", true);
@@ -131,7 +167,7 @@ function CargarFormasPago(){
         url: "Componentes/Ajax/Cargar_FormasDePago.php",
         data: "",
 		beforeSend: function(objeto){
-			
+			$('#RFormasPago').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');	
 		},success: function(datos){
 			$("#RFormasPago").html(datos);
 		}
@@ -143,9 +179,26 @@ function CargarBancos(){
         url: "Componentes/Ajax/Cargar_Bancos.php",
         data: "",
 		beforeSend: function(objeto){
-			
+			$('#RBanco').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');	
 		},success: function(datos){
 			$("#RBanco").html(datos);
+		}
+	});
+}
+
+function CargarTipificaiones(){
+	$.ajax({
+    	type: "POST",
+        url: "Componentes/Ajax/Cargar_Tipificaiones.php",
+        data: "",
+		beforeSend: function(objeto){
+			$('#RTipificaciones').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+		},success: function(datos){
+			$("#RTipificaciones").html(datos);
+			if ($('#CatPre').val() != 0){
+				$('#BC-'+$('#CatPre').val()).click();
+				
+			}
 		}
 	});
 }
@@ -302,6 +355,121 @@ $( "#New_Banco" ).submit(function( event ) {
 	 });
 	 event.preventDefault();
  })
+ $( "#New_Tipificacion" ).submit(function( event ) {
+  
+  
+  var parametros = $(this).serialize();
+	  $.ajax({
+		   type: "POST",
+		   url: "Componentes/Ajax/Guardar_Tipificacion.php",
+		   data: parametros,
+			  beforeSend: function(objeto){
+			   $("#resultados_ajax3T").html("Mensaje: Cargando...");
+			   },
+		   success: function(datos){
+		   $("#resultados_ajax3T").html(datos);
+		   $('#actualizar_datos3B').attr("disabled", false);
+		   $('#resultados_ajax3T').fadeOut(2000); 
+			   setTimeout(function() { 
+				   $('#resultados_ajax3T').html('');	
+				   $('#resultados_ajax3T').fadeIn(1000); 
+			   }, 1000);	
+		  CargarTipificaiones();
+		  $('#CatPre').val(0);
+		   document.getElementById('New_DescripcionT').value = '';
+		   }
+   });
+   event.preventDefault();
+})
+function UpdateTipi(Key,Numero){
+	if (Key.keyCode == 13) {
+			var Descripcion = $("#Input-"+Numero).val();
+		$.ajax({
+        type: "POST",
+				url: "Componentes/Ajax/Actualizar_Tipificacion.php",
+        data: "Numero="+Numero+"&Descripcion="+Descripcion,
+			beforeSend: function(objeto){
+				$('#loader_T'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			},success: function(datos){
+				$('#loader_T'+Numero).html(datos);
+				$('#loader_T'+Numero).fadeOut(2000); 
+				setTimeout(function() { 
+					$('#loader_T'+Numero).html('');	
+					$('#loader_T'+Numero).fadeIn(1000); 
+				}, 1000);	
+			}
+		});
+  }
+}
+function UpdateTipCat(Key,Numero){
+	if (Key.keyCode == 13) {
+			var Descripcion = $("#InputC-"+Numero).val();
+		$.ajax({
+        type: "POST",
+				url: "Componentes/Ajax/Actualizar_TipificacionC.php",
+        data: "Numero="+Numero+"&Descripcion="+Descripcion,
+			beforeSend: function(objeto){
+				$('#loader_TC'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			},success: function(datos){
+				$('#loader_TC'+Numero).html(datos);
+				$('#loader_TC'+Numero).fadeOut(2000); 
+				setTimeout(function() { 
+					$('#loader_TC'+Numero).html('');	
+					$('#loader_TC'+Numero).fadeIn(1000); 
+				}, 1000);	
+			}
+		});
+  }
+}
+function EliminarTipi (Numero,Categoria){
+	$.ajax({
+        type: "GET",
+        url: "Componentes/Ajax/Cargar_Tipificaiones.php",
+        data: "Numero="+Numero,
+		beforeSend: function(objeto){
+		},success: function(datos){
+		
+			if (datos=='Error'){
+				$("#RTipificaciones").html('<div class="alert alert-danger" role="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Error!</strong> Lo sentimos , No se Puede Eliminar El Banco.<br></div>');
+				$('#RTipificaciones').fadeOut(2000); 
+				
+				setTimeout(function() { 
+					$('#RTipificaciones').fadeIn('fast'); 
+					$('#RTipificaciones').html('');	
+				
+					CargarTipificaiones();
+					alert(Categoria);
+					$('#CatPre').val(Categoria);
+				}, 2000);	
+			
+			}else{
+				CargarTipificaiones();
+					
+					$('#CatPre').val(Categoria);
+
+			}
+
+
+		
+		}
+	});
+}
+function NewSubTipificacion(Numero,Categoria){
+
+			
+		$.ajax({
+        type: "POST",
+				url: "Componentes/Ajax/Guardar_SubTipificacion.php",
+        data: "Numero="+Numero+"&Categoria="+Categoria,
+			beforeSend: function(objeto){
+				
+			},success: function(datos){
+				CargarTipificaiones();
+				$('#CatPre').val(Numero);
+			}
+		});
+ 
+}
 
 	</script>
 </body>
