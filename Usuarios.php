@@ -148,11 +148,11 @@
 											<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo ">
 												<?php 
 												if($Tipo == 'Operador'){
-													echo '<option value="Operador">Operador</option>';
-													echo '<option value="Distribuidor">Distribuidor</option>';
+													echo '<option value="Operador">OPERADOR</option>';
+													echo '<option value="Distribuidor">DISTRIBUIDOR</option>';
 												}else{
-													echo '<option value="Distribuidor">Distribuidor</option>';
-													echo '<option value="Operador">Operador</option>';
+													echo '<option value="Distribuidor">DISTRIBUIDOR</option>';
+													echo '<option value="Operador">OPERADOR</option>';
 												}
 							  					?>
 											</select>
@@ -165,11 +165,11 @@
 											<select class='form-control' id="Tipo_Persona" name ="Tipo_Persona" placeholder="Tipo Persona" onchange="TipoPersona()"> 
 												<?php 
 													if($Tipo_Persona == 'Natural'){
-														echo '<option value="Natural">Natural</option>';
-														echo '<option value="Juridica">Juridica</option>';
+														echo '<option value="Natural">NATURAL</option>';
+														echo '<option value="Juridica">JURIDICA</option>';
 													}else{
-														echo '<option value="Juridica">Juridica</option>';
-														echo '<option value="Natural">Natural</option>';
+														echo '<option value="Juridica">JURIDICA</option>';
+														echo '<option value="Natural">NATURAL</option>';
 													}
 							  					?>
 											</select>
@@ -211,11 +211,11 @@
 												<div class="col-md-9 col-sm-9">
 													<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
 											if($Estado == 'Activo'){
-												echo '<option value="Activo">Activo</option>';
-												echo '<option value="InActivo">InActivo</option>';
+												echo '<option value="Activo">ACTIVO</option>';
+												echo '<option value="InActivo">INACTIVO</option>';
 											}else{
-												echo '<option value="InActivo">InActivo</option>';
-												echo '<option value="Activo">Activo</option>';
+												echo '<option value="InActivo">INACTIVO</option>';
+												echo '<option value="Activo">ACTIVO</option>';
 											}
 											echo '</select>
 												</div>
@@ -250,19 +250,19 @@
 											?>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" class="form-control" id="D1" name="D1"   value="<?php echo $D1;?>" onchange="CambioDir()">
+											<input type="text" class="form-control" id="D1" name="D1"   value="<?php echo $D1;?>" onchange="CambioDir()" onkeyup="javascript:this.value=this.value.toUpperCase();">  
 										</div>
 										<div class="col-sm-1" style="padding-left: 0px; padding-right: 0px;width: 32px;">
 											<label for="" class="col-sm-1 control-label">#</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" class="form-control" id="D2" name="D2"   value="<?php echo $D2;?>" onchange="CambioDir()">
+											<input type="text" class="form-control" id="D2" name="D2"   value="<?php echo $D2;?>" onchange="CambioDir()" onkeyup="javascript:this.value=this.value.toUpperCase();">
 										</div>
 										<div class="col-sm-1" style="padding-left: 0px; padding-right: 0px;width: 32px;">
 											<label for="" class="col-sm-1 control-label">-</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" class="form-control" id="D3" name="D3"   value="<?php echo $D3;?>" onchange="CambioDir()">
+											<input type="text" class="form-control" id="D3" name="D3"   value="<?php echo $D3;?>" onchange="CambioDir()" onkeyup="javascript:this.value=this.value.toUpperCase();">
 										</div>
 										<div class="col-sm-9 col-sm-offset-3">
 											<input type="text" class="form-control" id="Direccion" name="Direccion"  placeholder="Direccion" value="<?php echo $Direccion;?>" readonly='readonly'>
@@ -271,7 +271,7 @@
 									<div class="form-group col-sm-9">
 										<label for="Correo_N" class="col-sm-3 control-label">Correo Electronico</label>
 										<div class="col-sm-9">
-											<input type="email" class="form-control" id="Correo" name="Correo" require placeholder="Correo Electronico" value="<?php echo $Correo; ?>">				  
+											<input type="email" class="form-control" id="Correo" name="Correo" require placeholder="Correo Electronico" value="<?php echo $Correo; ?>" onkeyup="javascript:this.value=this.value.toUpperCase();">				  
 										</div>
 			  						</div>
 									<div class="form-group col-sm-9">
@@ -283,7 +283,7 @@
 									<div class="form-group col-sm-9">
 										<label for="Correo_C" class="col-sm-3 control-label">Correo de Contacto</label>
 										<div class="col-sm-9">
-											<input type="email" class="form-control" id="Correo_C" name="Correo_C" require placeholder="Correo de Contacto" value="<?php echo $Correo_C; ?>">				  
+											<input type="email" class="form-control" id="Correo_C" name="Correo_C" require placeholder="Correo de Contacto" value="<?php echo $Correo_C; ?>" onkeyup="javascript:this.value=this.value.toUpperCase();">				  
 										</div>
 			  						</div>
 				  					<div class="form-group col-sm-9">
@@ -327,7 +327,7 @@
 									<div class="form-group col-sm-9">
 										<label for="CC" class="col-sm-3 control-label" id="Label-CC">Numero de Documento</label>
 										<div class="col-sm-9">
-				  							<input type="text" class="form-control" id="CC" name="CC" required placeholder="Numero de Documento" value="<?php echo $CC; ?>">
+				  							<input type="text" class="form-control" id="CC" name="CC" required placeholder="Numero de Documento" value="<?php echo $CC; ?>" onkeypress='return validaNumericos(event)'>
 										</div>
 									</div>	
 									<div class="form-group col-sm-9">
@@ -366,14 +366,14 @@
 											<select class="form-control" id="Tipo_Banco_1" name ="Tipo_Banco_1" placeholder="Tipo_Banco_1 ">
 												<?PHP	
 													if($Banco_1 =='NEQUI'){
-														echo '<option value="Telefonica">Telefonica</option>';
+														echo '<option value="Telefonica">TELEFONICA</option>';
 													}else{
 														if ($Tipo_Banco_1 == 'Corriente'){
-															echo '<option value="Corriente">Corriente</option>';
-															echo '<option value="Ahorros">Ahorros</option>';
+															echo '<option value="Corriente">CORRIENTE</option>';
+															echo '<option value="Ahorros">AHORROS</option>';
 														}else {
-															echo '<option value="Ahorros">Ahorros</option>';
-															echo '<option value="Corriente">Corriente</option>';	
+															echo '<option value="Ahorros">AHORROS</option>';
+															echo '<option value="Corriente">CORRIENTE</option>';	
 														}			
 													}
 											echo '</select>';
@@ -752,15 +752,16 @@ if(document.getElementById("Banco_2").value=='NEQUI'){
 	option2.value="Corriente";
 	x.add(option2, x[1]);
 }
+
+
+
+
+}
 function ValidarNit(){
 	var Nit = $('#Nit').val();
-	alert(Nit);
+	alert('Nit Existe');
 }
 
-
-
-
-}
 function validaNumericos(event) {
     if(event.charCode >= 48 && event.charCode <= 57){
       return true;
