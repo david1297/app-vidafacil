@@ -12,7 +12,7 @@ require_once ("config/conexion.php");
             <button type="button" class="btn-toggle-offcanvas"><i class="fas fa-bars"></i></button>
         </div>
         <div id="logo" class="pull-left logo-ini hidden-xs"><a href="#intro" class="scrollto">
-                <img src="assets/img/bp1.png" class="img-fluid" alt="" style="height: 50px;">
+                <img src="assets/img/BP1.png" class="img-fluid" alt="" style="height: 50px;">
             </a></div>
         <div class="navbar-right">
             <div id="navbar-menu">

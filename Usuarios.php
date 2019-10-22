@@ -104,7 +104,7 @@
 		
 	?>
 </head>
-<body onload="Cargar()">
+<body onload='Cargar()'>
 	<div id="wrapper">
 		<?php
 			include("Menu.php");
@@ -178,7 +178,7 @@
 									<div class="form-group col-sm-9">
 				  						<label for="Nit" class="col-sm-3  control-label" id="label-Nit">Nit</label>
 				  						<div class="col-sm-9 ">
-				   							<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" <?php echo $Read; ?> required>
+				   							<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" <?php echo $Read; ?> required onchange='ValidarNit()'> 
 				  						</div>
 			   					</div>
 									<div class="form-group col-sm-9" id="D_Razon_Social">
@@ -752,7 +752,10 @@ if(document.getElementById("Banco_2").value=='NEQUI'){
 	option2.value="Corriente";
 	x.add(option2, x[1]);
 }
-
+function ValidarNit(){
+	var Nit = $('#Nit').val();
+	alert(Nit);
+}
 
 
 

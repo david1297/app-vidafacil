@@ -10,7 +10,7 @@
 		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
 		$sTable = "USUARIOS 
 		
-		inner join CUENTA_VIRTUAL on CUENTA_VIRTUAL.Usuario= USUARIOS.Nit";
+		left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.Usuario= USUARIOS.Nit";
 		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Razon_Social"){
@@ -56,7 +56,7 @@
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
 		$sql="SELECT USUARIOS.Razon_Social,USUARIOS.Tipo,USUARIOS.Estado,USUARIOS.Nit,sum(Comision) Saldo FROM  $sTable $sWhere $Group  
-		order by USUARIOS.Razon_Social desc
+		order by sum(Comision)desc
 		LIMIT $offset,$per_page";
 	
 		$query = mysqli_query($con, $sql);
