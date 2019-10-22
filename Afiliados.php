@@ -166,19 +166,19 @@
 									<div class="form-group" >
 										<label for="Nombres"  class="col-sm-3 control-label">Nombres</label>
 				  						<div class="col-sm-4">
- 				   							<input type="text" class="form-control" id="Primer_Nombre" name="Primer_Nombre"  placeholder="Primer Nombre" value="<?php echo $Primer_Nombre; ?>">
+ 				   							<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Primer_Nombre" name="Primer_Nombre"  placeholder="Primer Nombre" value="<?php echo $Primer_Nombre; ?>">
 				  						</div>
 										<div class="col-sm-5">
- 				   							<input type="text" class="form-control" id="Segundo_Nombre" name="Segundo_Nombre"  placeholder="Segundo Nombre" value="<?php echo $Segundo_Nombre; ?>">
+ 				   							<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Segundo_Nombre" name="Segundo_Nombre"  placeholder="Segundo Nombre" value="<?php echo $Segundo_Nombre; ?>">
 				  						</div>
 			   						</div> 
 									<div class="form-group" >
 					  					<label for="Apellidos" class="col-sm-3 control-label">Apellidos</label>
 				  						<div class="col-sm-4">
- 				   							<input type="text" class="form-control" id="Primer_Apellido" name="Primer_Apellido"  placeholder="Primer Apellido" value="<?php echo $Primer_Apellido; ?>"  onkeyup="RazonSocial()">
+ 				   							<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Primer_Apellido" name="Primer_Apellido"  placeholder="Primer Apellido" value="<?php echo $Primer_Apellido; ?>"  onkeyup="RazonSocial()">
 				  						</div>
 										  <div class="col-sm-5">
- 				   							<input type="text" class="form-control" id="Segundo_Apellido" name="Segundo_Apellido"  placeholder="Segundo Apellido" value="<?php echo $Segundo_Apellido; ?>"  onkeyup="RazonSocial()">
+ 				   							<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Segundo_Apellido" name="Segundo_Apellido"  placeholder="Segundo Apellido" value="<?php echo $Segundo_Apellido; ?>"  onkeyup="RazonSocial()">
 				  						</div>  
 			   						</div>
 									<div class="form-group">
@@ -297,13 +297,13 @@
 									<div class="form-group">
 										<label for="Telefono" class="col-sm-3 control-label">Telefono</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="Telefono" name="Telefono" required placeholder="Telefono" value="<?php echo $Telefono;?>">
+											<input type="text" class="form-control" id="Telefono" name="Telefono" required placeholder="Telefono" value="<?php echo $Telefono;?>" maxlength="10"  onkeypress='return validaNumericos(event)'>
 										</div>
 									</div>	
 									<div class="form-group">
 										<label for="Telefono2" class="col-sm-3 control-label">Telefono 2</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="Telefono2" name="Telefono2"  placeholder="Telefono2" value="<?php echo $Telefono2;?>">
+											<input type="text" class="form-control" id="Telefono2" name="Telefono2"  placeholder="Telefono2" value="<?php echo $Telefono2;?>" maxlength="10"  onkeypress='return validaNumericos(event)'>
 										</div>
 									</div>
 									<div class="form-group">
@@ -368,9 +368,9 @@
 																				
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Categoria ==$rw_Admin1['NCategoria']){
-														echo '<option value="'.$rw_Admin1['NCategoria'].'" selected >'.utf8_encode($rw_Admin1['Categoria']).'</option>';
+														echo '<option value="'.$rw_Admin1['NCategoria'].'" selected >'.$rw_Admin1['Categoria'].'</option>';
 													} else{
-														echo '<option value="'.$rw_Admin1['NCategoria'].'">'.utf8_encode($rw_Admin1['Categoria']).'</option>';	
+														echo '<option value="'.$rw_Admin1['NCategoria'].'">'.$rw_Admin1['Categoria'].'</option>';	
 													}
 												}
 												echo '</select></div>
@@ -466,6 +466,12 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script>
+	function validaNumericos(event) {
+    if(event.charCode >= 48 && event.charCode <= 57){
+      return true;
+     }
+     return false;        
+}
 	function CambioDir(){
 		$('#Direccion').val($('#Indicativo').val()+' '+$('#D1').val()+' # '+$('#D2').val()+' - '+$('#D3').val());
 	}

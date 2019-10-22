@@ -56,11 +56,16 @@
 									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
 								</div>
 								<div class="col-md-2">		
-									<select class='form-control' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
+									<select class='form-control' id="EFiltro" name ="EFiltro" placeholder="Filtro" onchange='CambioEFiltro();'>
 										<option value="Todos">Todos</option>
-										<option value="Aprobado">Aprobado</option>
-										<option value="Negado">Negado</option>
-										<option value="Por Activar">Por Activar</option>
+										<option value="Estado">Estado</option>
+										<option value="Tipificacion">Tipificacion</option>
+										<option value="Comercio">Comercio</option>
+									</select>
+								</div>
+								<div class="col-md-2">		
+									<select class='form-control' id="VFiltro" name ="VFiltro" placeholder="Filtro" onchange='load(1);'>
+										<option value="Todos">Todos</option>
 									</select>
 								</div>
 								<div class="col-md-2">
@@ -86,7 +91,23 @@
 	<script src="assets/scripts/common.js"></script>
 
 	<script type="text/javascript" src="Componentes/JavaScript/Afiliados.js"></script>
-
+	<script>
+	function CambioEFiltro(){
+		var Filtro =  $("#EFiltro").val();
+		$("#loader").fadeIn('slow');
+			$.ajax({
+				url:'Componentes/Ajax/Filtros_Afiliados.php?Filtro='+Filtro,
+				 beforeSend: function(objeto){
+					$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			  },
+				success:function(data){
+					$('#loader').html('');
+					$("#VFiltro").html(data);
+					load(1);
+				}
+			})
+	}
+	</script>
 	<script>
 	function SubirAfiliados(){
 		var Archivo = document.getElementById('Archivo').files[0].name;

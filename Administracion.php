@@ -22,9 +22,9 @@
 	<div id="wrapper">
 		<?php
 			include("Menu.php");
-			include("componentes/modal/Agregar_FormaPago.php");
-			include("componentes/modal/Agregar_Banco.php");
-			include("componentes/modal/Agregar_Tipificacion.php");
+			include("Componentes/Modal/Agregar_FormaPago.php");
+			include("Componentes/Modal/Agregar_Banco.php");
+			include("Componentes/Modal/Agregar_Tipificacion.php");
 		?>
 		<div id="main-content">
 			<div class="container-fluid">

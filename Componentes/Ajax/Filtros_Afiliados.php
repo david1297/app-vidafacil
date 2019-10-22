@@ -27,7 +27,6 @@ if($Filtro== 'Comercio'){
 		if($Filtro== 'Estado'){
 			?>
 			<select class='form-control' id="FEstado" name ="FEstado" placeholder="Estado" onchange='load(1);'>
-				<option value="Todos">Todos</option>
 				<option value="Aprobado">Aprobado</option>
 				<option value="Negado">Negado</option>
 				<option value="Por Activar">Por Activar</option>							
@@ -35,8 +34,10 @@ if($Filtro== 'Comercio'){
 			<?php
 		}else{
 			if ($Filtro =='Tipificacion'){
-				$query1=mysqli_query($con, "SELECT NCategoria,Categoria FROM TIPIFICACION GROUP BY NCategoria,Categoria ;");
+			
+				$query1=mysqli_query($con, "SELECT NCategoria,Categoria FROM TIPIFICACIONES GROUP BY NCategoria,Categoria ;");
 	echo' <select class="form-contro" id="FEstado" name ="FEstado" placeholder="Estado" onchange="load(1);">';
+
 	while($rw_Admin1=mysqli_fetch_array($query1)){
 			echo  '<option value="'.$rw_Admin1['NCategoria'].'">'.$rw_Admin1['Categoria'].'</option>';
 	}

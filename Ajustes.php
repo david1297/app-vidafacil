@@ -19,9 +19,10 @@
 	$Valor="";
 	$Tipo="";
 	$Observacion="";
+	$Tipificacion="5";
 	if (isset($_GET['Numero'])) {
 
-		$query=mysqli_query($con, "Select AJUSTES.Numero,AJUSTES.Fecha_Creacion,AJUSTES.Valor,AJUSTES.
+		$query=mysqli_query($con, "Select AJUSTES.Tipificacion,AJUSTES.Numero,AJUSTES.Fecha_Creacion,AJUSTES.Valor,AJUSTES.
 		Tipo,AJUSTES.Observacion,AJUSTES.Estado,UC.Razon_Social as NombreC,UA.Razon_Social as NombreA,UsuarioC,UsuarioA
 		from AJUSTES 
 		inner join USUARIOS as UC on UC.Nit =  AJUSTES.UsuarioC
@@ -38,7 +39,10 @@
 		$Valor=$rw_Admin['Valor'];
 		$Tipo=$rw_Admin['Tipo'];
 		$Observacion=$rw_Admin['Observacion'];
-
+		$Tipificacion=$rw_Admin['Tipificacion'];
+		if ($Tipificacion==''){
+			$Tipificacion='5';
+		}
 
 		
 
@@ -148,9 +152,40 @@
 
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Valor</label>
-									 <input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" >
+									 	<input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" >
 									</div>
 									
+									<div class="col-md-4">
+										<label for="Fecha_Nacimiento" class="control-label">Tipificacion</label>
+										
+										<?PHP
+										$sql= "select NCategoria from TIPIFICACIONES where Numero = $Tipificacion";
+										
+										$query1=mysqli_query($con,$sql);
+										$rw_Admin1=mysqli_fetch_array($query1);
+										$Categoria =$rw_Admin1[0];		
+											
+												$query1=mysqli_query($con, "select Categoria,NCategoria from TIPIFICACIONES GROUP BY Categoria,NCategoria ORDER BY NCategoria ASC");
+												echo' <select class="form-control" id="TipificacionC" name ="TipificacionC" placeholder="TipificacionC" onchange="CargarTipificaciones()" >';
+																				
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													if ($Categoria ==$rw_Admin1['NCategoria']){
+														echo '<option value="'.$rw_Admin1['NCategoria'].'" selected >'.$rw_Admin1['Categoria'].'</option>';
+													} else{
+														echo '<option value="'.$rw_Admin1['NCategoria'].'">'.$rw_Admin1['Categoria'].'</option>';	
+													}
+												}
+												echo '</select></div>
+												';
+												?>
+												<input type="Text" class="form-control hidden" id="Tip" name="Tip" require value="<?php echo $Tipificacion?>" readonly="readonly">
+													
+									
+									<div class=" col-sm-offset-8 col-sm-4" id="Tipi">
+									</div>
+									
+										
+									</div>
 									
 									
 											
@@ -193,6 +228,22 @@
 	<script src="assets/scripts/common.js"></script>
 	
 	<script>
+	function CargarTipificaciones(){
+			var Categoria = $("#TipificacionC").val();
+			var Id_N = $("#Identificacion").val();
+			var Tip = $("#Tip").val();
+		
+			$.ajax({
+				type: "POST",
+				url: "Componentes/Ajax/Cargar_Tipificaciones.php",
+				data: "Categoria="+Categoria+"&Id_N="+Id_N+"&Tip="+Tip,
+				beforeSend: function(objeto){
+				},success: function(datos){
+					
+					$("#Tipi").html(datos);
+				}	
+			});
+		}
 	$("#Valor").on({
     "focus": function (event) {
         $(event.target).select();
@@ -249,6 +300,7 @@ $( "#Guardar_Ajuste" ).submit(function( event ) {
 		function Cargar() {
 		
 			$("#Valor").keyup();
+			CargarTipificaciones();
 		}
 
 

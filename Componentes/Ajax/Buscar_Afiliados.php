@@ -6,7 +6,8 @@
 	if($action == 'ajax'){
 		$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
-		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
+		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
+		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
 
 		$sTable = "AFILIADOS inner join DEPARTAMENTOS on AFILIADOS.Departamento = DEPARTAMENTOS.Codigo
 							 inner join CIUDADES on AFILIADOS.Ciudad =CIUDADES.Codigo and  DEPARTAMENTOS.Codigo = CIUDADES.Departamento 
@@ -35,9 +36,24 @@
 			}
 			
 		}
-		if($Estado<>"Todos"){
-			$sWhere.= " and Estado ='".$Estado."'";	
+		if($EFiltro<>"Todos"){
+			if($EFiltro=='Estado'){
+				$sWhere.= " and Estado ='".$VFiltro."'";		
+			}else{
+				if($EFiltro=='Comercio'){
+					$sWhere.= " and Comercio ='".$VFiltro."'";		
+				}else{
+					if($EFiltro=='Tipificacion'){
+						$sWhere.= " and TIPIFICACIONES.NCategoria ='".$VFiltro."'";		
+					}
+				}
+
+			}
+
+			
 		} 
+
+		
 		$sWhere.=" order by AFILIADOS.Primer_Nombre desc";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
@@ -80,20 +96,76 @@
 						if ($Estado=="Por Activar"){$label_class='label-warning';}
 						$NCategoria = $row['NCategoria'];
 
-						if ($NCategoria=="1"){$label_classC='label-success';}
-						if ($NCategoria=="2"){$label_classC='label-danger';}
-						if ($NCategoria=="3"){$label_classC='label-info';}
-						if ($NCategoria=="4"){$label_classC='label-warning';}
-						if ($NCategoria=="5"){$label_classC='label-primary';}
-						if ($NCategoria=="6"){$label_classC='label-primary';}
-						if ($NCategoria=="7"){$label_classC='label-danger';}
-						if ($NCategoria=="8"){$label_classC='label-success';}
-						if ($NCategoria=="9"){$label_classC='label-info';}
-						if ($NCategoria=="10"){$label_classC='label-warning';}
-						if ($NCategoria=="11"){$label_classC='label-info';}
-						if ($NCategoria=="12"){$label_classC='label-info';}
-						if ($NCategoria=="13"){$label_classC='label-info';}
-						if ($NCategoria=="14"){$label_classC='label-info';}
+						if ($NCategoria=="1"){
+							$label_classC='label-success';
+						}else{
+							if ($NCategoria=="2"){
+								$label_classC='label-danger';
+							}else{
+								if ($NCategoria=="3"){
+									$label_classC='label-info';
+								}else{
+									if ($NCategoria=="4"){
+										$label_classC='label-warning';
+									}else{
+										if ($NCategoria=="5"){
+											$label_classC='label-primary';
+										}else{
+											if ($NCategoria=="6"){
+												$label_classC='label-primary';
+											}else{
+												if ($NCategoria=="7"){
+													$label_classC='label-danger';
+												}else{
+													if ($NCategoria=="8"){
+														$label_classC='label-success';
+													}else{
+														if ($NCategoria=="9"){
+															$label_classC='label-info';
+														}else{
+															if ($NCategoria=="10"){
+																$label_classC='label-warning';
+															}else{
+																if ($NCategoria=="11"){
+																	$label_classC='label-info';
+																}else{
+																	if ($NCategoria=="12"){
+																		$label_classC='label-info';
+																	}else{
+																		if ($NCategoria=="13"){
+																			$label_classC='label-info';
+																		}else{
+																			if ($NCategoria=="14"){
+																				$label_classC='label-info';
+																			}else{
+																				$label_classC='label-info';
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 						$Tipificacion = $row['Categoria'];
 						
 					?>
@@ -104,7 +176,7 @@
 						<td><?php echo utf8_encode($Ciudad); ?></td>
 						<td><?php echo $Direccion; ?></td>
 						<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>			
-						<td><span class="label <?php echo $label_classC;?>"><?php echo utf8_encode($Tipificacion); ?></span></td>			
+						<td><span class="label <?php echo $label_classC;?>"><?php echo $Tipificacion; ?></span></td>			
 						<td class="text-right">
 							<a href="#" class='btn btn-default' title='Editar Campañas' onclick="obtener_datos('<?php echo $Identificacion;?>');"><i class="glyphicon glyphicon-edit"></i></a> 
 						</td>

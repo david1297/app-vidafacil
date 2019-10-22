@@ -35,6 +35,7 @@ require_once ("../../config/db.php");
 		$Valor1 = mysqli_real_escape_string($con,(strip_tags($_POST["Valor"],ENT_QUOTES)));
 		$Tipo = mysqli_real_escape_string($con,(strip_tags($_POST["Tipo"],ENT_QUOTES)));
 		$Observacion = mysqli_real_escape_string($con,(strip_tags($_POST["Observacion"],ENT_QUOTES)));
+		$Tipificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Tipificacion"],ENT_QUOTES)));
 		$sig=',';
 		$Valor = str_replace($sig,'',$Valor1);
 		if (isset($_POST['Numero'])) {
@@ -48,11 +49,11 @@ require_once ("../../config/db.php");
 			}
 		}
 
-		$sql =  "INSERT INTO  AJUSTES(Numero,UsuarioC,UsuarioA,Estado,Fecha_Creacion,Valor,Tipo,Observacion) VALUES
+		$sql =  "INSERT INTO  AJUSTES(Numero,UsuarioC,UsuarioA,Estado,Fecha_Creacion,Valor,Tipo,Observacion,Tipificacion) VALUES
 		('".$Numero_Ajuste."', '".$UsuarioC."', '".$UsuarioA."', '".$Estado."', '".$Fecha_Creacion."', '".$Valor."', '".$Tipo."', 
-		'".$Observacion."') 
+		'".$Observacion."', '".$Tipificacion."') 
 		 ON DUPLICATE  KEY UPDATE UsuarioC = '".$UsuarioC."',UsuarioA = '".$UsuarioA."',
-		 Estado = '".$Estado."',Fecha_Creacion = '".$Fecha_Creacion."',Valor = '".$Valor."',Tipo = '".$Tipo."',Observacion = '".$Observacion."'";				
+		 Estado = '".$Estado."',Fecha_Creacion = '".$Fecha_Creacion."',Valor = '".$Valor."',Tipo = '".$Tipo."',Observacion = '".$Observacion."',Tipificacion='".$Tipificacion."'";				
 		$query_update = mysqli_query($con,$sql);
 		if ($query_update) {
 			

@@ -4,11 +4,12 @@ $(document).ready(function(){
 
 function load(page){
 	var q= $("#q").val();
-	var Filtro = $("#Filtro").val();
-	var Estado = $("#FEstado").val();
+			var Filtro = $("#Filtro").val();
+			var EFiltro = $("#EFiltro").val();
+			var VFiltro = $("#VFiltro").val();
 	$("#loader").fadeIn('slow');
 	$.ajax({
-		url:'Componentes/Ajax/Buscar_Afiliados.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&Estado='+Estado,
+		url:'Componentes/Ajax/Buscar_Afiliados.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&EFiltro='+EFiltro+'&VFiltro='+VFiltro,
 		 beforeSend: function(objeto){
 			$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 	  },

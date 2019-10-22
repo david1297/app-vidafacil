@@ -14,9 +14,9 @@ $query1=mysqli_query($con, "select Numero,Nombre from TIPIFICACIONES where NCate
 echo' <select class="form-control" id="Tipificacion" name ="Tipificacion" placeholder="Tipificacion" >';								
 while($rw_Admin1=mysqli_fetch_array($query1)){
 	if ($Tip ==$rw_Admin1['Numero']){
-		echo '<option value="'.$rw_Admin1['Numero'].'" selected >'.utf8_encode($rw_Admin1['Nombre']).'</option>';
+		echo '<option value="'.$rw_Admin1['Numero'].'" selected >'.$rw_Admin1['Nombre'].'</option>';
 	} else{
-		echo '<option value="'.$rw_Admin1['Numero'].'">'.utf8_encode($rw_Admin1['Nombre']).'</option>';	
+		echo '<option value="'.$rw_Admin1['Numero'].'">'.$rw_Admin1['Nombre'].'</option>';	
 	}
 }
 echo '</select>';
