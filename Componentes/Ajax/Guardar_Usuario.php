@@ -36,13 +36,13 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 	$errors[] = "El Numero de Documento Representante Legal Se Encuentra Vacio";
 } elseif (($_POST['Tipo']=='Operador') && (empty($_POST['Area']))){
 	$errors[] = "El Area se Encuentra Vacia";
-} elseif (empty($_POST['Nombre_R1'])){
+} elseif (($_POST['Tipo']=='Distribuidor') && (empty($_POST['Nombre_R1']))){
 	$errors[] = "El Nombre de La Referencia 1 Se Encuentra Vacio";
-} elseif (empty($_POST['Tel_R1'])){
+} elseif (($_POST['Tipo']=='Distribuidor') && (empty($_POST['Tel_R1']))){
 	$errors[] = "El Tefefono de La Referencia 1 Se Encuentra Vacio";
-} elseif (empty($_POST['Nombre_R2'])){
+} elseif (($_POST['Tipo']=='Distribuidor') && (empty($_POST['Nombre_R2']))){
 	$errors[] = "El Nombre de La Referencia 2 Se Encuentra Vacio";
-} elseif (empty($_POST['Tel_R2'])){
+} elseif (($_POST['Tipo']=='Distribuidor') && (empty($_POST['Tel_R2']))){
 	$errors[] = "El Tefefono de La Referencia 2 Se Encuentra Vacio";	
 } elseif (
 			!empty($_POST['Nit'])
@@ -55,10 +55,6 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 			&& filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)
 			&& !empty($_POST['Cel_C'])
 			&& filter_var($_POST['Correo_C'], FILTER_VALIDATE_EMAIL)
-			&& !empty($_POST['Nombre_R1'])
-			&& !empty($_POST['Tel_R1'])
-			&& !empty($_POST['Nombre_R2'])
-			&& !empty($_POST['Tel_R2'])
           )
          {
             require_once ("../../config/db.php");

@@ -24,6 +24,8 @@
 			include("Menu.php");
 			include("Componentes/Modal/Agregar_FormaPago.php");
 			include("Componentes/Modal/Agregar_Banco.php");
+			include("Componentes/Modal/Agregar_Transportadora.php");
+			include("Componentes/Modal/Agregar_Seguimiento.php");
 			include("Componentes/Modal/Agregar_Area.php");
 			include("Componentes/Modal/Agregar_Tipificacion.php");
 		?>
@@ -37,6 +39,8 @@
 					<li><a href="#FormasPago" role="tab" data-toggle="tab" id="ClickFormas">Formas de Pago</a></li>
 					<li><a href="#Bancos" role="tab" data-toggle="tab" id="ClickBancos">Bancos</a></li>
 					<li><a href="#Areas" role="tab" data-toggle="tab" id="ClickAreas">Areas</a></li>
+					<li><a href="#Transportadoras" role="tab" data-toggle="tab" id="ClickTransportadoras">Transportadoras</a></li>
+					<li><a href="#Seguimientos" role="tab" data-toggle="tab" id="ClickSeguimientos">Seguimiento</a></li>
 					<li><a href="#Tipificaciones" role="tab" data-toggle="tab" id="ClickTipificaciones">Tipificaciones</a></li>
 				</ul>				
 				<div class="tab-content content-profile">
@@ -111,6 +115,22 @@
 						<div id="RArea">
 						</div>
 					</div>
+					<div class="tab-pane fade" id="Transportadoras">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarTransportadora">
+							<i class="fas fa-plus"></i> Agregar Transportadoras
+						</button>
+						<br><br>
+						<div id="RTransportadora">
+						</div>
+					</div>
+					<div class="tab-pane fade" id="Seguimientos">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarSeguimiento">
+							<i class="fas fa-plus"></i> Agregar Seguimientos
+						</button>
+						<br><br>
+						<div id="RSeguimiento">
+						</div>
+					</div>
 					<div class="tab-pane fade" id="Tipificaciones">
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarTipificacion">
 						<i class="fas fa-plus"></i> Agregar Tipificaciones
@@ -146,6 +166,12 @@ $("#ClickBancos").click(function( event){
 })
 $("#ClickAreas").click(function( event){
 	CargarAreas();
+})
+$("#ClickTransportadoras").click(function( event){
+	CargarTransportadoras();
+})
+$("#ClickSeguimientos").click(function( event){
+	CargarSeguimientos();
 })
 $("#ClickTipificaciones").click(function( event){
 	CargarTipificaiones();
@@ -210,6 +236,30 @@ function CargarAreas(){
 		}
 	});
 }
+function CargarTransportadoras(){
+	$.ajax({
+    	type: "POST",
+        url: "Componentes/Ajax/Cargar_Transportadoras.php",
+        data: "",
+		beforeSend: function(objeto){
+			$('#RTransportadora').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');	
+		},success: function(datos){
+			$("#RTransportadora").html(datos);
+		}
+	});
+}
+function CargarSeguimientos(){
+	$.ajax({
+    	type: "POST",
+        url: "Componentes/Ajax/Cargar_Seguimientos.php",
+        data: "",
+		beforeSend: function(objeto){
+			$('#RSeguimiento').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');	
+		},success: function(datos){
+			$("#RSeguimiento").html(datos);
+		}
+	});
+}
 
 function CargarTipificaiones(){
 	$.ajax({
@@ -262,6 +312,46 @@ function UpdateDescBancos(Key,Numero){
 				setTimeout(function() { 
 					$('#loader_B'+Numero).html('');	
 					$('#loader_B'+Numero).fadeIn(1000); 
+				}, 1000);	
+			}
+		});
+  }
+}
+function UpdateDescTransportadoras(Key,Numero){
+	if (Key.keyCode == 13) {
+			var Descripcion = $("#Descripcion_Tr"+Numero).val();
+		$.ajax({
+        type: "POST",
+				url: "Componentes/Ajax/Actualizar_Transportadora.php",
+        data: "Numero="+Numero+"&Descripcion="+Descripcion,
+			beforeSend: function(objeto){
+				$('#loader_Tr'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			},success: function(datos){
+				$('#loader_Tr'+Numero).html(datos);
+				$('#loader_Tr'+Numero).fadeOut(2000); 
+				setTimeout(function() { 
+					$('#loader_Tr'+Numero).html('');	
+					$('#loader_Tr'+Numero).fadeIn(1000); 
+				}, 1000);	
+			}
+		});
+  }
+}
+function UpdateDescSeguimientos(Key,Numero){
+	if (Key.keyCode == 13) {
+			var Descripcion = $("#Descripcion_S"+Numero).val();
+		$.ajax({
+        type: "POST",
+				url: "Componentes/Ajax/Actualizar_Seguimiento.php",
+        data: "Numero="+Numero+"&Descripcion="+Descripcion,
+			beforeSend: function(objeto){
+				$('#loader_S'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			},success: function(datos){
+				$('#loader_S'+Numero).html(datos);
+				$('#loader_S'+Numero).fadeOut(2000); 
+				setTimeout(function() { 
+					$('#loader_S'+Numero).html('');	
+					$('#loader_S'+Numero).fadeIn(1000); 
 				}, 1000);	
 			}
 		});
@@ -341,6 +431,64 @@ function eliminarBanco (Numero){
 			
 			}else{
 					$("#RBanco").html(datos);
+
+			}
+
+
+		
+		}
+	});
+}
+function eliminarTransportadora (Numero){
+	$.ajax({
+        type: "GET",
+        url: "Componentes/Ajax/Cargar_Transportadoras.php",
+        data: "Numero="+Numero,
+		beforeSend: function(objeto){
+
+		},success: function(datos){
+			if (datos=='Error'){
+				$("#RTransportadora").html('<div class="alert alert-danger" role="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Error!</strong> Lo sentimos , No se Puede Eliminar El Transportadora.<br></div>');
+				$('#RTransportadora').fadeOut(2000); 
+				
+				setTimeout(function() { 
+					$('#RTransportadora').fadeIn('fast'); 
+					$('#RTransportadora').html('');	
+				
+					CargarTransportadoras();
+				}, 2000);	
+			
+			}else{
+					$("#RTransportadora").html(datos);
+
+			}
+
+
+		
+		}
+	});
+}
+function eliminarSeguimiento (Numero){
+	$.ajax({
+        type: "GET",
+        url: "Componentes/Ajax/Cargar_Seguimientos.php",
+        data: "Numero="+Numero,
+		beforeSend: function(objeto){
+
+		},success: function(datos){
+			if (datos=='Error'){
+				$("#RSeguimiento").html('<div class="alert alert-danger" role="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Error!</strong> Lo sentimos , No se Puede Eliminar El Seguimiento.<br></div>');
+				$('#RSeguimiento').fadeOut(2000); 
+				
+				setTimeout(function() { 
+					$('#RSeguimiento').fadeIn('fast'); 
+					$('#RSeguimiento').html('');	
+				
+					CargarSeguimientos();
+				}, 2000);	
+			
+			}else{
+					$("#RSeguimiento").html(datos);
 
 			}
 
@@ -429,6 +577,56 @@ $( "#New_Banco" ).submit(function( event ) {
 	 });
 	 event.preventDefault();
  })
+ $( "#New_Transportadora" ).submit(function( event ) {
+  
+  
+  var parametros = $(this).serialize();
+	  $.ajax({
+		   type: "POST",
+		   url: "Componentes/Ajax/Guardar_Transportadora.php",
+		   data: parametros,
+			  beforeSend: function(objeto){
+			   $("#resultados_ajax3Tr").html("Mensaje: Cargando...");
+			   },
+		   success: function(datos){
+		   $("#resultados_ajax3Tr").html(datos);
+		   $('#actualizar_datos3Tr').attr("disabled", false);
+		   $('#resultados_ajax3Tr').fadeOut(2000); 
+			   setTimeout(function() { 
+				   $('#resultados_ajax3Tr').html('');	
+				   $('#resultados_ajax3Tr').fadeIn(1000); 
+			   }, 1000);	
+		   CargarTransportadoras();
+		   document.getElementById('New_DescripcionTr').value = '';
+		   }
+   });
+   event.preventDefault();
+})
+$( "#New_Seguimiento" ).submit(function( event ) {
+  
+  
+  var parametros = $(this).serialize();
+	  $.ajax({
+		   type: "POST",
+		   url: "Componentes/Ajax/Guardar_Seguimiento.php",
+		   data: parametros,
+			  beforeSend: function(objeto){
+			   $("#resultados_ajax3S").html("Mensaje: Cargando...");
+			   },
+		   success: function(datos){
+		   $("#resultados_ajax3S").html(datos);
+		   $('#actualizar_datos3S').attr("disabled", false);
+		   $('#resultados_ajax3S').fadeOut(2000); 
+			   setTimeout(function() { 
+				   $('#resultados_ajax3S').html('');	
+				   $('#resultados_ajax3S').fadeIn(1000); 
+			   }, 1000);	
+		   CargarSeguimientos();
+		   document.getElementById('New_DescripcionB').value = '';
+		   }
+   });
+   event.preventDefault();
+})
  $( "#New_Area" ).submit(function( event ) {
   
   

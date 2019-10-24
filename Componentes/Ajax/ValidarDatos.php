@@ -27,5 +27,14 @@
 			echo '!Correcto!';
 		}
 	}
-	
+	if(($Tipo=='Ref1')||($Tipo=='Ref2')){
+		$sql="SELECT count(*) FROM  USUARIOS where (Tel_R1='$Valor' or Tel_R2='$Valor') and Nit <>'$Nit' ";
+		$query = mysqli_query($con, $sql);
+		$row=mysqli_fetch_array($query);
+		if ($row[0]>0){
+			echo '!Existe!';
+		}else{
+			echo '!Correcto!';
+		}
+	}
 ?>

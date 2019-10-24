@@ -21,7 +21,7 @@
 			  <div class="form-group">
 				<label for="New_DescripcionA" class="col-sm-4 control-label">Descripcion</label>
 				<div class="col-sm-8">
-				  <input type="Text" class="form-control" id="New_DescripcionA" name="New_DescripcionA" placeholder="Descripcion" required>
+				  <input type="Text" class="form-control" id="New_DescripcionA" name="New_DescripcionA" placeholder="Descripcion" required onkeyup="javascript:this.value=this.value.toUpperCase();">
 				
 				</div>
 			  </div>

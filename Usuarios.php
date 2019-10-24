@@ -216,9 +216,17 @@
 											if($Estado == 'Activo'){
 												echo '<option value="Activo">ACTIVO</option>';
 												echo '<option value="InActivo">INACTIVO</option>';
+												echo '<option value="Bloqueado">BLOQUEADO</option>';
 											}else{
-												echo '<option value="InActivo">INACTIVO</option>';
-												echo '<option value="Activo">ACTIVO</option>';
+												if($Estado == 'InActivo'){
+													echo '<option value="InActivo">INACTIVO</option>';
+													echo '<option value="Activo">ACTIVO</option>';
+													echo '<option value="Bloqueado">BLOQUEADO</option>';
+												}else{
+													echo '<option value="Bloqueado">BLOQUEADO</option>';
+													echo '<option value="InActivo">INACTIVO</option>';
+													echo '<option value="Activo">ACTIVO</option>';
+												}
 											}
 											echo '</select>
 												</div>
@@ -437,14 +445,14 @@
 											<select class="form-control" id="Tipo_Banco_2" name ="Tipo_Banco_2" placeholder="Tipo_Banco_2 ">
 												<?PHP	
 													if($Banco_2 =='NEQUI'){
-														echo '<option value="Telefonica">Telefonica</option>';
+														echo '<option value="Telefonica">TELEFONICA</option>';
 													}else{
 														if ($Tipo_Banco_2 == 'Corriente'){
-															echo '<option value="Corriente">Corriente</option>';
-															echo '<option value="Ahorros">Ahorros</option>';
+															echo '<option value="Corriente">CORRIENTE</option>';
+															echo '<option value="Ahorros">AHORROS</option>';
 														}else {
-															echo '<option value="Ahorros">Ahorros</option>';
-															echo '<option value="Corriente">Corriente</option>';	
+															echo '<option value="Ahorros">AHORROS</option>';
+															echo '<option value="Corriente">CORRIENTE</option>';	
 														}			
 													}
 											echo '</select>';
@@ -459,36 +467,41 @@
 											<input type="text" class="form-control" id="Numero_Cuenta_2" name="Numero_Cuenta_2"  placeholder="Numero de Cuenta" value="<?php echo $Numero_Cuenta_2; ?>">
 										</div>
 									</div>	
-									<div class="col-sm-12">
-										<hr class="style1">
-										<H2 style="text-align: left;">Referencias</H2>
-										<hr class="style1">
+									<div id='DReferencias'>
+										<div class="col-sm-12">
+											<hr class="style1">
+											<H2 style="text-align: left;">Referencias</H2>
+											<hr class="style1">
+										</div>
+										<div class="form-group col-sm-8">
+											<label for="Nombre_R1" class="col-sm-3 control-label">Nombre</label>
+											<div class="col-sm-8">
+												<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Nombre_R1" name="Nombre_R1" required placeholder="Nombre de Referencia 1" value="<?php echo $Nombre_R1; ?>">
+											</div>
+										</div>
+										<div class="form-group col-sm-8">
+											<label for="Tel_R1" class="col-sm-3 control-label">Telefono</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="Tel_R1" name="Tel_R1" required placeholder="Telefono de Referencia 1" value="<?php echo $Tel_R1; ?>" maxlength="10"  onkeypress='return validaNumericos(event)' onchange='ValidarDatos("Ref1",$(this).val())'>
+											</div>
+										</div>			
+										<div class="form-group col-sm-8">
+											<hr class="style1">
+											<label for="Nombre_R2" class="col-sm-3 control-label">Nombre</label>
+											<div class="col-sm-8">
+												<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Nombre_R2" name="Nombre_R2" required placeholder="Nombre de Referencia 2" value="<?php echo $Nombre_R2; ?>">
+											</div>
+										</div>
+										<div class="form-group col-sm-8">
+											<label for="Tel_R2" class="col-sm-3 control-label">Telefono</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="Tel_R2" name="Tel_R2" required placeholder="Telefono de Referencia 2" value="<?php echo $Tel_R2; ?>" maxlength="10"  onkeypress='return validaNumericos(event)' onchange='ValidarDatos("Ref2",$(this).val())'>
+											</div>
+										</div>	
+										<input type="text" class="form-control hidden" id="VTel_R" name="VTel_R" value="Yes">
+
 									</div>
-									<div class="form-group col-sm-8">
-										<label for="Nombre_R1" class="col-sm-3 control-label">Nombre</label>
-										<div class="col-sm-8">
-											<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Nombre_R1" name="Nombre_R1" required placeholder="Nombre de Referencia 1" value="<?php echo $Nombre_R1; ?>">
-										</div>
-									</div>
-									<div class="form-group col-sm-8">
-										<label for="Tel_R1" class="col-sm-3 control-label">Telefono</label>
-										<div class="col-sm-8">
-											<input type="text" class="form-control" id="Tel_R1" name="Tel_R1" required placeholder="Telefono de Referencia 1" value="<?php echo $Tel_R1; ?>" maxlength="10"  onkeypress='return validaNumericos(event)'>
-										</div>
-									</div>			
-									<div class="form-group col-sm-8">
-										<hr class="style1">
-										<label for="Nombre_R2" class="col-sm-3 control-label">Nombre</label>
-										<div class="col-sm-8">
-											<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Nombre_R2" name="Nombre_R2" required placeholder="Nombre de Referencia 2" value="<?php echo $Nombre_R2; ?>">
-										</div>
-									</div>
-									<div class="form-group col-sm-8">
-										<label for="Tel_R2" class="col-sm-3 control-label">Telefono</label>
-										<div class="col-sm-8">
-											<input type="text" class="form-control" id="Tel_R2" name="Tel_R2" required placeholder="Telefono de Referencia 2" value="<?php echo $Tel_R2; ?>" maxlength="10"  onkeypress='return validaNumericos(event)'>
-										</div>
-									</div>	
+									
 									<?php
 										if ($EstadoU=="Editando"){
 											?>
@@ -652,23 +665,23 @@ $("#GUsuario").click(function( event ) {
 	if($('#VCC').val()=='Nou'){
 		alert('El Numero de Documento Del Representante Legal ya se Encuentra Registrado');
 	}else{
-		if(document.getElementById('EstadoU').value== 'Editando'){
-			var r = confirm("Confirmas Actualizacion de Usuario");
-  		if (r == true) {
-				$( "#Guardar_Usuario" ).submit();
-  		} 
+		if($('#VTel_R').val()=='Nou'){
+			alert('Uno de los Numeros de Referencia ya se Encuentra Registrado');
 		}else{
-			if($('#VNit').val()=='Nou'){
-				alert('El Numero de Documento o Nit Ya se Encuentra Registrado');
+			if(document.getElementById('EstadoU').value== 'Editando'){
+				var r = confirm("Confirmas Actualizacion de Usuario");
+  				if (r == true) {
+					$( "#Guardar_Usuario" ).submit();
+  				} 
 			}else{
-				$( "#Guardar_Usuario" ).submit();
-			}
-
+				if($('#VNit').val()=='Nou'){
+					alert('El Numero de Documento o Nit Ya se Encuentra Registrado');
+				}else{
+					$( "#Guardar_Usuario" ).submit();
+				}
+			}	
 		}
 	}
-
-
-		
 });
 
 	$( "#Guardar_Usuario" ).submit(function( event ) {
@@ -712,11 +725,14 @@ function TipoU(){
 	if (document.getElementById('Tipo').value=='Operador'){
 		$('#Replegal').addClass("hidden");
 		$('#TArea').removeClass("hidden");
+		$('#DReferencias').addClass("hidden");
+		
 
 		
 	} else{
 		$('#Replegal').removeClass("hidden");
 		$('#TArea').addClass("hidden");
+		$('#DReferencias').removeClass("hidden");
 
 	}
 	
@@ -818,28 +834,63 @@ function ValidarDatos(Tipo,Valor){
 				$("#resultados_ajax3").html("Mensaje: Cargando...");
 			  },
 			success: function(datos){
-				alert(datos);
+				
 			var Res = datos.split('!');
 			if(Res[1] == 'Correcto'){
 				if(Tipo=='Nit'){
 					$('#Nit').removeClass("is-invalid");
 					$('#Nit').addClass("is-valid");
 					$('#VNit').val('Yes');
-				}else{
+				}
+				if(Tipo=='RepLegal'){
 					$('#CC').removeClass("is-invalid");
 					$('#CC').addClass("is-valid");
 					$('#VCC').val('Yes');
+				}
+				if(Tipo=='Ref1'){
+					$('#Tel_R1').removeClass("is-invalid");
+					$('#Tel_R1').addClass("is-valid");
+					if($('#Tel_R1').val()!=$('#Tel_R2').val()){
+						$('#VTel_R').val('Yes');
+					}else{
+						$('#VTel_R').val('Nou');
+						$('#Tel_R2').removeClass("is-valid");
+						$('#Tel_R2').addClass("is-invalid");	
+					}
+				}
+				if(Tipo=='Ref2'){
+					$('#Tel_R2').removeClass("is-invalid");
+					$('#Tel_R2').addClass("is-valid");
+					if($('#Tel_R1').val()!=$('#Tel_R2').val()){
+						$('#VTel_R').val('Yes');
+					}else{
+						$('#VTel_R').val('Nou');
+						$('#Tel_R1').removeClass("is-valid");
+						$('#Tel_R1').addClass("is-invalid");	
+					}
 				}
 			}else{
 				if(Tipo=='Nit'){
 					$('#Nit').removeClass("is-valid");
 					$('#Nit').addClass("is-invalid");
 					$('#VNit').val('Nou');
-				}else{
+				}
+				if(Tipo=='RepLegal'){
 					$('#CC').removeClass("is-valid");
 					$('#CC').addClass("is-invalid");
 					$('#VCC').val('Nou');
 				}
+				if(Tipo=='Ref1'){
+					$('#Tel_R1').addClass("is-invalid");
+					$('#Tel_R1').removeClass("is-valid");
+					$('#VTel_R').val('Nou');
+				}
+				if(Tipo=='Ref2'){
+					$('#Tel_R2').addClass("is-invalid");
+					$('#Tel_R2').removeClass("is-valid");
+					$('#VTel_R').val('Nou');
+					}
+				
 			}
 			
 			

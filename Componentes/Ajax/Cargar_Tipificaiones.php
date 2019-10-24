@@ -41,7 +41,7 @@ if (!isset($errors)){
 									</button>
 								</div>
 								<div class="col-sm-8">
-								<input type="text" value='<?php echo $rw_Admin['Categoria'];?>' id='InputC-<?php Echo $rw_Admin['NCategoria'] ?>' class='form-control' onkeypress="UpdateTipCat(event,<?php echo $rw_Admin['NCategoria'];?>)">
+								<input type="text" value='<?php echo $rw_Admin['Categoria'];?>' id='InputC-<?php Echo $rw_Admin['NCategoria'] ?>' class='form-control' onkeypress="UpdateTipCat(event,<?php echo $rw_Admin['NCategoria'];?>)" onkeyup="javascript:this.value=this.value.toUpperCase();">
 
 								</div>
 								<div class="col-sm-2">
@@ -73,7 +73,7 @@ if (!isset($errors)){
 											?>
 											<tr>
 											<th scope="row"><?php Echo $SubR['Numero'] ?></th>
-											<td> <input type="text" class='form-control'id='Input-<?php Echo $SubR['Numero'] ?>' value='<?php Echo $SubR['Nombre'] ?>' onkeypress="UpdateTipi(event,<?php echo $SubR['Numero'];?>)"></td>
+											<td> <input type="text" class='form-control'id='Input-<?php Echo $SubR['Numero'] ?>' value='<?php Echo $SubR['Nombre'] ?>' onkeypress="UpdateTipi(event,<?php echo $SubR['Numero'];?>)" onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
 											<td><span id="loader_T<?php echo $SubR['Numero'];?>"></span></td>
 											<td class="text-center">
 											<button type="button" class="btn btn-default" onclick="EliminarTipi('<?php Echo $SubR['Numero'] ?>','<?php Echo $rw_Admin['NCategoria'] ?>')">

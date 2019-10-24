@@ -43,7 +43,7 @@ if (!isset($errors)){
 		<tr>
 			<td class='text-center'><?php echo $Numero;?></td>
 			<td class='text-center'>
-			<input type="text" class="form-control" id="Descripcion_B<?php echo $Numero;?>" name="Descripcion_B<?php echo $Numero;?>"  placeholder="Descripcion" value="<?php echo $Descripcion;?>" onkeypress="UpdateDescBancos(event,<?php echo $Numero;?>)">
+			<input type="text" class="form-control" id="Descripcion_B<?php echo $Numero;?>" name="Descripcion_B<?php echo $Numero;?>"  placeholder="Descripcion" value="<?php echo $Descripcion;?>" onkeypress="UpdateDescBancos(event,<?php echo $Numero;?>)" onkeyup="javascript:this.value=this.value.toUpperCase();">
 			 </td>
 			 <td><span id="loader_B<?php echo $Numero;?>"></span></td>
 			<?PHP

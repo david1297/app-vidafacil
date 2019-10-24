@@ -84,6 +84,7 @@
 						$Estado=$row['Estado'];
 						if ($Estado=="Activo"){$label_class='label-success';}
 						if ($Estado=="InActivo"){$label_class='label-danger';}
+						if ($Estado=="Bloqueado"){$label_class='label-danger';}
 						if ($Estado=="Pendiente"){$label_class='label-warning';}
 						
 					?>
