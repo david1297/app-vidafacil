@@ -30,10 +30,12 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 	$errors[] = "El Celular de Contacto Se Encuentra vacío";
 } elseif (!filter_var($_POST['Correo_C'], FILTER_VALIDATE_EMAIL)) {
 	$errors[] = "La dirección de correo electrónico de Notificacion no está en un formato de correo electrónico válida";
-}  elseif (empty($_POST['Rep_Legal'])){
+}  elseif (($_POST['Tipo']=='Distribuidor') && (empty($_POST['Rep_Legal']))){
 	$errors[] = "El Representante Legal Se Encuentra Vacio";
-} elseif (empty($_POST['CC'])){
+} elseif (($_POST['Tipo']=='Distribuidor') && (empty($_POST['CC']))){
 	$errors[] = "El Numero de Documento Representante Legal Se Encuentra Vacio";
+} elseif (($_POST['Tipo']=='Operador') && (empty($_POST['Area']))){
+	$errors[] = "El Area se Encuentra Vacia";
 } elseif (empty($_POST['Nombre_R1'])){
 	$errors[] = "El Nombre de La Referencia 1 Se Encuentra Vacio";
 } elseif (empty($_POST['Tel_R1'])){
@@ -53,8 +55,6 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 			&& filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)
 			&& !empty($_POST['Cel_C'])
 			&& filter_var($_POST['Correo_C'], FILTER_VALIDATE_EMAIL)
-			&& !empty($_POST['Rep_Legal'])
-			&& !empty($_POST['CC'])
 			&& !empty($_POST['Nombre_R1'])
 			&& !empty($_POST['Tel_R1'])
 			&& !empty($_POST['Nombre_R2'])
@@ -98,20 +98,21 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 				$D2 = mysqli_real_escape_string($con,(strip_tags($_POST["D2"],ENT_QUOTES)));
 				$D3 = mysqli_real_escape_string($con,(strip_tags($_POST["D3"],ENT_QUOTES)));
 				$CantAfiliados = mysqli_real_escape_string($con,(strip_tags($_POST["CantAfiliados"],ENT_QUOTES)));
+				$Area = mysqli_real_escape_string($con,(strip_tags($_POST["Area"],ENT_QUOTES)));
 
 
 				$sql =  "INSERT INTO  USUARIOS(Nit,Tipo_Persona,Razon_Social,Nombre,Apellido,Rol,Estado,Tipo,Tel_C,Direccion,
-				Correo,Cel_C,Correo_C,Porcentaje,Portafolio,Rep_Legal,CC,Nombre_R1,Tel_R1,Nombre_R2,Tel_R2,Banco_1,Tipo_Banco_1,Numero_Cuenta_1,Banco_2,Tipo_Banco_2,Numero_Cuenta_2,Titular_1,Titular_2,Indicativo,D1,D2,D3,CantAfiliados) VALUES
+				Correo,Cel_C,Correo_C,Porcentaje,Portafolio,Rep_Legal,CC,Nombre_R1,Tel_R1,Nombre_R2,Tel_R2,Banco_1,Tipo_Banco_1,Numero_Cuenta_1,Banco_2,Tipo_Banco_2,Numero_Cuenta_2,Titular_1,Titular_2,Indicativo,D1,D2,D3,CantAfiliados,Area) VALUES
 
 				('".$Nit."', '".$Tipo_Persona."', '".$Razon_Social."', '".$Nombre."', '".$Apellido."', '".$Rol."', '".$Estado."', '".$Tipo."', '".$Tel_C."', '".$Direccion."'
 				, '".$Correo."', '".$Cel_C."', '".$Correo_C."',".$Porcentaje.",".$Portafolio.", '".$Rep_Legal."', '".$CC."', '".$Nombre_R1."', '".$Tel_R1."', '".$Nombre_R2."', '".$Tel_R2."'
-				, '".$Banco_1."', '".$Tipo_Banco_1."', '".$Numero_Cuenta_1."', '".$Banco_2."', '".$Tipo_Banco_2."', '".$Numero_Cuenta_2."', '".$Titular_1."', '".$Titular_2."', '".$Indicativo."', '".$D1."', '".$D2."', '".$D3."',".$CantAfiliados."
+				, '".$Banco_1."', '".$Tipo_Banco_1."', '".$Numero_Cuenta_1."', '".$Banco_2."', '".$Tipo_Banco_2."', '".$Numero_Cuenta_2."', '".$Titular_1."', '".$Titular_2."', '".$Indicativo."', '".$D1."', '".$D2."', '".$D3."',".$CantAfiliados.",".$Area."
 				) ON DUPLICATE  KEY UPDATE
 				Tipo_Persona = '".$Tipo_Persona."',Razon_Social ='".$Razon_Social."',Nombre='".$Nombre."',Apellido='".$Apellido."',Rol='".$Rol."',Estado='".$Estado."',Tipo='".$Tipo."',Tel_C='".$Tel_C."',Direccion='".$Direccion."' 
 				,Correo='".$Correo."',Cel_C='".$Cel_C."',Correo_C='".$Correo_C."',Porcentaje=".$Porcentaje.",Portafolio=".$Portafolio.",Rep_Legal='".$Rep_Legal."',CC='".$CC."',Nombre_R1='".$Nombre_R1."',Tel_R1='".$Tel_R1."',Nombre_R2='".$Nombre_R2."',Tel_R2='".$Tel_R2."'
 				,Banco_1='".$Banco_1."',Tipo_Banco_1='".$Tipo_Banco_1."',Numero_Cuenta_1='".$Numero_Cuenta_1."',Banco_2='".$Banco_2."',Tipo_Banco_2='".$Tipo_Banco_2."',Numero_Cuenta_2='".$Numero_Cuenta_2."'
 				,Titular_1='".$Titular_1."',Titular_2='".$Titular_2."',Indicativo='".$Indicativo."'
-				,D1='".$D1."',D2='".$D2."',D3='".$D3."',CantAfiliados =".$CantAfiliados." ;";
+				,D1='".$D1."',D2='".$D2."',D3='".$D3."',CantAfiliados =".$CantAfiliados." ,Area =".$Area." ;";
 				
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {

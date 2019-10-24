@@ -29,6 +29,7 @@
 	$Banco_1="";
 	$Tipo_Banco_1="";
 	$Numero_Cuenta_1="";
+	$Area="";
 	$Banco_2="";
 	$Tipo_Banco_2="";
 	$Numero_Cuenta_2="";
@@ -79,6 +80,7 @@
 		$Titular_1=$rw_Admin['Titular_1'];
 		$Titular_2=$rw_Admin['Titular_2'];
 		$Indicativo=$rw_Admin['Indicativo'];
+		$Area=$rw_Admin['Area'];
 		$D1=$rw_Admin['D1'];
 		$D2=$rw_Admin['D2'];
 		$D3=$rw_Admin['D3'];
@@ -145,7 +147,7 @@
 										<div class="form-group col-sm-9">
 										<label for="Tipo_Persona" class="col-sm-3 control-label">Tipo</label>
 										<div class="col-md-9 col-sm-9">
-											<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo ">
+											<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo" onchange="TipoU()">
 												<?php 
 												if($Tipo == 'Operador'){
 													echo '<option value="Operador">OPERADOR</option>';
@@ -178,7 +180,8 @@
 									<div class="form-group col-sm-9">
 				  						<label for="Nit" class="col-sm-3  control-label" id="label-Nit">Nit</label>
 				  						<div class="col-sm-9 ">
-				   							<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" <?php echo $Read; ?> required onchange='ValidarNit()'> 
+				   							<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" <?php echo $Read; ?> required onchange='ValidarDatos("Nit",$(this).val())'> 
+				   							<input type="text " class="form-control hidden" id="VNit" name="VNit" value="Yes" > 
 				  						</div>
 			   					</div>
 									<div class="form-group col-sm-9" id="D_Razon_Social">
@@ -318,18 +321,40 @@
 											?>
 										</div>
 									</div>
-									<div class="form-group col-sm-9">
-										<label for="Rep_Legal" class="col-sm-3 control-label" id="Label-Rep_Legal">Representante Legal</label>
-										<div class="col-sm-9">
-				  							<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Rep_Legal" name="Rep_Legal" required placeholder="Representante Legal" value="<?php echo $Rep_Legal; ?>">
+									<div id='Replegal'>
+										<div class="form-group col-sm-9">
+											<label for="Rep_Legal" class="col-sm-3 control-label" id="Label-Rep_Legal">Representante Legal</label>
+											<div class="col-sm-9">
+												<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Rep_Legal" name="Rep_Legal" required placeholder="Representante Legal" value="<?php echo $Rep_Legal; ?>">
+											</div>
+										</div>
+										<div class="form-group col-sm-9">
+											<label for="CC" class="col-sm-3 control-label" id="Label-CC">Numero de Documento</label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="CC" name="CC" required placeholder="Numero de Documento" value="<?php echo $CC; ?>" onkeypress='return validaNumericos(event)' onchange='ValidarDatos("RepLegal",$(this).val())'>
+												<input type="text " class="form-control hidden" id="VCC" name="VCC" value="Yes" > 
+											</div>
 										</div>
 									</div>
-									<div class="form-group col-sm-9">
-										<label for="CC" class="col-sm-3 control-label" id="Label-CC">Numero de Documento</label>
-										<div class="col-sm-9">
-				  							<input type="text" class="form-control" id="CC" name="CC" required placeholder="Numero de Documento" value="<?php echo $CC; ?>" onkeypress='return validaNumericos(event)'>
+									<div id='TArea'>
+										<div class="form-group col-sm-9">
+											<label for="Rep_Legal" class="col-sm-3 control-label" id="Label-Rep_Legal">Area</label>
+											<div class="col-sm-9">
+											<?PHP
+												$query1=mysqli_query($con, "select * from AREAS");
+												echo' <select class="form-control" id="Area" name ="Area" placeholder="Area">';
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													if ($Area ==$rw_Admin1['Numero']){
+														echo '<option value="'.$rw_Admin1['Numero'].'" selected>'.$rw_Admin1['Nombre'].'</option>';
+													} else{
+														echo '<option value="'.$rw_Admin1['Numero'].'" >'.$rw_Admin1['Nombre'].'</option>';
+													}
+												}
+												echo '</select>';
+											?>
+											</div>
 										</div>
-									</div>	
+									</div>
 									<div class="form-group col-sm-9">
 										<label for="CC" class="col-sm-3 control-label" id="Label-CC">Afiliados Diarios</label>
 										<div class="col-sm-9">
@@ -624,15 +649,27 @@ $( "#Consultar" ).click(function( event ) {
 })
 
 $("#GUsuario").click(function( event ) {
+	if($('#VCC').val()=='Nou'){
+		alert('El Numero de Documento Del Representante Legal ya se Encuentra Registrado');
+	}else{
 		if(document.getElementById('EstadoU').value== 'Editando'){
 			var r = confirm("Confirmas Actualizacion de Usuario");
   		if (r == true) {
 				$( "#Guardar_Usuario" ).submit();
   		} 
 		}else{
-			$( "#Guardar_Usuario" ).submit();
+			if($('#VNit').val()=='Nou'){
+				alert('El Numero de Documento o Nit Ya se Encuentra Registrado');
+			}else{
+				$( "#Guardar_Usuario" ).submit();
+			}
+
 		}
-})
+	}
+
+
+		
+});
 
 	$( "#Guardar_Usuario" ).submit(function( event ) {
  		var parametros = $(this).serialize();
@@ -669,6 +706,21 @@ $( "#editar_password" ).submit(function( event ) {
 	});
   event.preventDefault();
 })
+function TipoU(){
+													
+	
+	if (document.getElementById('Tipo').value=='Operador'){
+		$('#Replegal').addClass("hidden");
+		$('#TArea').removeClass("hidden");
+
+		
+	} else{
+		$('#Replegal').removeClass("hidden");
+		$('#TArea').addClass("hidden");
+
+	}
+	
+}
 function TipoPersona(){
 	
 	if (document.getElementById('Tipo_Persona').value=='Natural'){
@@ -706,6 +758,7 @@ function Cargar() {
 		$('#D_Razon_Social').removeClass("hidden");
 	}
 	CargarCampanas();
+	TipoU();
 	
 }
 function RazonSocial(){
@@ -757,9 +810,41 @@ if(document.getElementById("Banco_2").value=='NEQUI'){
 
 
 }
-function ValidarNit(){
+function ValidarDatos(Tipo,Valor){
 	var Nit = $('#Nit').val();
-	alert('Nit Existe');
+	$.ajax({
+			url: "Componentes/Ajax/ValidarDatos.php?Tipo="+Tipo+"&Valor="+Valor+"&Nit="+Nit,
+			 beforeSend: function(objeto){
+				$("#resultados_ajax3").html("Mensaje: Cargando...");
+			  },
+			success: function(datos){
+				alert(datos);
+			var Res = datos.split('!');
+			if(Res[1] == 'Correcto'){
+				if(Tipo=='Nit'){
+					$('#Nit').removeClass("is-invalid");
+					$('#Nit').addClass("is-valid");
+					$('#VNit').val('Yes');
+				}else{
+					$('#CC').removeClass("is-invalid");
+					$('#CC').addClass("is-valid");
+					$('#VCC').val('Yes');
+				}
+			}else{
+				if(Tipo=='Nit'){
+					$('#Nit').removeClass("is-valid");
+					$('#Nit').addClass("is-invalid");
+					$('#VNit').val('Nou');
+				}else{
+					$('#CC').removeClass("is-valid");
+					$('#CC').addClass("is-invalid");
+					$('#VCC').val('Nou');
+				}
+			}
+			
+			
+		  }
+	});
 }
 
 function validaNumericos(event) {

@@ -24,6 +24,7 @@
 			include("Menu.php");
 			include("Componentes/Modal/Agregar_FormaPago.php");
 			include("Componentes/Modal/Agregar_Banco.php");
+			include("Componentes/Modal/Agregar_Area.php");
 			include("Componentes/Modal/Agregar_Tipificacion.php");
 		?>
 		<div id="main-content">
@@ -35,6 +36,7 @@
 					<li class="active"><a href="#General" role="tab" data-toggle="tab">General</a></li>
 					<li><a href="#FormasPago" role="tab" data-toggle="tab" id="ClickFormas">Formas de Pago</a></li>
 					<li><a href="#Bancos" role="tab" data-toggle="tab" id="ClickBancos">Bancos</a></li>
+					<li><a href="#Areas" role="tab" data-toggle="tab" id="ClickAreas">Areas</a></li>
 					<li><a href="#Tipificaciones" role="tab" data-toggle="tab" id="ClickTipificaciones">Tipificaciones</a></li>
 				</ul>				
 				<div class="tab-content content-profile">
@@ -101,6 +103,14 @@
 						<div id="RBanco">
 						</div>
 					</div>
+					<div class="tab-pane fade" id="Areas">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarArea">
+							<i class="fas fa-plus"></i> Agregar Areas
+						</button>
+						<br><br>
+						<div id="RArea">
+						</div>
+					</div>
 					<div class="tab-pane fade" id="Tipificaciones">
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarTipificacion">
 						<i class="fas fa-plus"></i> Agregar Tipificaciones
@@ -133,6 +143,9 @@ $("#ClickFormas").click(function( event){
 })
 $("#ClickBancos").click(function( event){
 	CargarBancos();
+})
+$("#ClickAreas").click(function( event){
+	CargarAreas();
 })
 $("#ClickTipificaciones").click(function( event){
 	CargarTipificaiones();
@@ -182,6 +195,18 @@ function CargarBancos(){
 			$('#RBanco').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');	
 		},success: function(datos){
 			$("#RBanco").html(datos);
+		}
+	});
+}
+function CargarAreas(){
+	$.ajax({
+    	type: "POST",
+        url: "Componentes/Ajax/Cargar_Areas.php",
+        data: "",
+		beforeSend: function(objeto){
+			$('#RArea').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');	
+		},success: function(datos){
+			$("#RArea").html(datos);
 		}
 	});
 }
@@ -237,6 +262,26 @@ function UpdateDescBancos(Key,Numero){
 				setTimeout(function() { 
 					$('#loader_B'+Numero).html('');	
 					$('#loader_B'+Numero).fadeIn(1000); 
+				}, 1000);	
+			}
+		});
+  }
+}
+function UpdateDescAreas(Key,Numero){
+	if (Key.keyCode == 13) {
+			var Descripcion = $("#Descripcion_A"+Numero).val();
+		$.ajax({
+        type: "POST",
+				url: "Componentes/Ajax/Actualizar_Area.php",
+        data: "Numero="+Numero+"&Descripcion="+Descripcion,
+			beforeSend: function(objeto){
+				$('#loader_A'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			},success: function(datos){
+				$('#loader_A'+Numero).html(datos);
+				$('#loader_A'+Numero).fadeOut(2000); 
+				setTimeout(function() { 
+					$('#loader_A'+Numero).html('');	
+					$('#loader_A'+Numero).fadeIn(1000); 
 				}, 1000);	
 			}
 		});
@@ -304,6 +349,35 @@ function eliminarBanco (Numero){
 		}
 	});
 }
+function eliminarArea (Numero){
+	$.ajax({
+        type: "GET",
+        url: "Componentes/Ajax/Cargar_Areas.php",
+        data: "Numero="+Numero,
+		beforeSend: function(objeto){
+
+		},success: function(datos){
+			if (datos=='Error'){
+				$("#RArea").html('<div class="alert alert-danger" role="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Error!</strong> Lo sentimos , No se Puede Eliminar El Area.<br></div>');
+				$('#RArea').fadeOut(2000); 
+				
+				setTimeout(function() { 
+					$('#RArea').fadeIn('fast'); 
+					$('#RArea').html('');	
+				
+					CargarAreas();
+				}, 2000);	
+			
+			}else{
+					$("#RArea").html(datos);
+
+			}
+
+
+		
+		}
+	});
+}
 $( "#New_FormaPago" ).submit(function( event ) {
   
   
@@ -355,6 +429,31 @@ $( "#New_Banco" ).submit(function( event ) {
 	 });
 	 event.preventDefault();
  })
+ $( "#New_Area" ).submit(function( event ) {
+  
+  
+  var parametros = $(this).serialize();
+	  $.ajax({
+		   type: "POST",
+		   url: "Componentes/Ajax/Guardar_Area.php",
+		   data: parametros,
+			  beforeSend: function(objeto){
+			   $("#resultados_ajax3A").html("Mensaje: Cargando...");
+			   },
+		   success: function(datos){
+		   $("#resultados_ajax3A").html(datos);
+		   $('#actualizar_datos3A').attr("disabled", false);
+		   $('#resultados_ajax3A').fadeOut(2000); 
+			   setTimeout(function() { 
+				   $('#resultados_ajax3A').html('');	
+				   $('#resultados_ajax3A').fadeIn(1000); 
+			   }, 1000);	
+		   CargarAreas();
+		   document.getElementById('New_DescripcionA').value = '';
+		   }
+   });
+   event.preventDefault();
+})
  $( "#New_Tipificacion" ).submit(function( event ) {
   
   
