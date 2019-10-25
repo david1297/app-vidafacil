@@ -17,13 +17,6 @@ if (empty($_POST['Numero'])){
 	$errors[] = "El Estado de la Campaña Se Encuentra Vacio";
 }elseif (empty($_POST['Porcentaje'])){
 	$errors[] = "El Porcentaje de la Campaña Se Encuentra Vacio";
-}
-elseif (empty($_POST['Estados'])){
-	$errors[] = "Los Estados de la Campaña Se Encuentran Vacios";
-}elseif (empty($_POST['Seguimiento'])){
-	$errors[] = "Los Seguimientos de la Campaña Se Encuentran Vacios";
-}elseif (empty($_POST['Transportadoras'])){
-	$errors[] = "Las Transportadoras de la Campaña Se Encuentran Vacias";
 }elseif (
 			!empty($_POST['Numero'])
 			&& !empty($_POST['Nombre'])
@@ -31,9 +24,6 @@ elseif (empty($_POST['Estados'])){
 			&& !empty($_POST['Area'])
 			&& !empty($_POST['Estado'])
 			&& !empty($_POST['Porcentaje'])
-			&& !empty($_POST['Estados'])
-			&& !empty($_POST['Seguimiento'])
-			&& !empty($_POST['Transportadoras'])
           )
          {
             require_once ("../../config/db.php");
@@ -45,18 +35,15 @@ elseif (empty($_POST['Estados'])){
 				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 				$Porcentaje = mysqli_real_escape_string($con,(strip_tags($_POST["Porcentaje"],ENT_QUOTES)));
 				$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));
-				$Estados = mysqli_real_escape_string($con,(strip_tags($_POST["Estados"],ENT_QUOTES)));
-				$Seguimiento = mysqli_real_escape_string($con,(strip_tags($_POST["Seguimiento"],ENT_QUOTES)));
-				$Transportadoras = mysqli_real_escape_string($con,(strip_tags($_POST["Transportadoras"],ENT_QUOTES)));
 				$Telefonica = mysqli_real_escape_string($con,(strip_tags(@$_POST["Telefonica"],ENT_QUOTES)));
 				
 				
 				$sql =  "INSERT INTO  CAMPANAS(Numero,Nombre,Contacto,Area,Estado,Porcentaje,Observaciones,Estados,Seguimiento,Transportadoras,Telefonica) VALUES
 
-				('".$Numero."', '".$Nombre."', '".$Contacto."', '".$Area."', '".$Estado."',".$Porcentaje.", '".$Observaciones."', '".$Estados."', '".$Seguimiento."', '".$Transportadoras."', '".$Telefonica."'
+				('".$Numero."', '".$Nombre."', '".$Contacto."', '".$Area."', '".$Estado."',".$Porcentaje.", '".$Observaciones."', '', '', '', '".$Telefonica."'
 				) ON DUPLICATE  KEY UPDATE
 				Numero = '".$Numero."',Nombre ='".$Nombre."',Contacto='".$Contacto."',Area='".$Area."',Estado='".$Estado."',Porcentaje=".$Porcentaje."
-				,Observaciones='".$Observaciones."',Estados='".$Estados."',Seguimiento='".$Seguimiento."',Transportadoras='".$Transportadoras."',Telefonica='".$Telefonica."';";
+				,Observaciones='".$Observaciones."',Estados='',Seguimiento='',Transportadoras='',Telefonica='".$Telefonica."';";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
                         $messages[] = "Los Datos Se Han Modificado Con Exito.";

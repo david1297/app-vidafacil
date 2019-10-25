@@ -72,11 +72,25 @@
 						</div>
 						<h4><i class="fas fa-bullhorn"></i>   Campañas</h4>
 					</div>
+					<?php 
+						include("Componentes/Modal/Buscar_Transportadoras.php");
+						include("Componentes/Modal/Buscar_Seguimientos.php");
+						include("Componentes/Modal/Buscar_Tipificaciones.php");
+						include("Componentes/Modal/Buscar_FormasPagos.php");
+						?>
 					<div class="panel-body">
+						<ul class="nav nav-tabs" role="tablist">
+							<li class="active"><a href="#Informacion" role="tab" data-toggle="tab">Informacion</a></li>
+							<li><a href="#Transportadoras" role="tab" data-toggle="tab" id="Click_Transportadoras">Transportadoras</a></li>
+							<li><a href="#Seguimientos" role="tab" data-toggle="tab" id="Click_Seguimientos">Seguimientos</a></li>
+							<li><a href="#FormasPagos" role="tab" data-toggle="tab" id="Click_FormasPagos">Formas de Pago</a></li>
+							<li><a href="#Tipificaciones" role="tab" data-toggle="tab" id="Click_Tipificaciones">Tipificaciones</a></li>
+						</ul>
+
 						<div class="tab-content content-profile">
 							<div class="tab-pane fade in active" id="Informacion">
 								<form class="form-horizontal " method="post" id="Guardar_Campana" name="Guardar_Campana">
-			   						<div id="resultados_ajax"></div>
+									<div id="resultados_ajax"></div>
 									<input type="text" class="form-control hidden" id="EstadoC" name="EstadoC"  value="<?php echo $EstadoC; ?>" > 
 									<div class="form-group col-sm-8">
 				  						<label for="Numero" class="col-sm-3  control-label">Numero</label>
@@ -102,7 +116,6 @@
 				  							<input type="text" class="form-control" id="Area" name="Area"  placeholder="Area" value="<?php echo $Area; ?>"  onkeyup="RazonSocial()">
 										</div>
 									</div>
-									
 									<?php 
 									if($EstadoC == "Nuevo"){
 										echo '
@@ -127,7 +140,7 @@
 										</div>';
 									}
 									?>
-				  					<div class="form-group col-sm-8">
+									<div class="form-group col-sm-8">
 										<label for="Porcentaje" class="col-sm-3 control-label">Porcentaje</label>
 										<div class="col-sm-8">
 											<input type="number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>"  min="1" max="100" step="0.5" onchange="UpdatePorcentaje()">
@@ -136,65 +149,61 @@
 									<div class="form-group col-sm-8">
 										<label for="Porcentaje" class="col-sm-3 control-label">Telefonica</label>
 										<div class="col-sm-8">
-										<?php
-										if($Telefonica =='True'){
-										echo'	<input type="checkbox" class="form-check-input" id="Telefonica" name="Telefonica" value="True" checked>';
-										}else{
-										echo'	<input type="checkbox" class="form-check-input" id="Telefonica" name="Telefonica" value="False">';
+											<?php
+											if($Telefonica =='True'){
+											echo'	<input type="checkbox" class="form-check-input" id="Telefonica" name="Telefonica" value="True" checked>';
+											}else{
+											echo'	<input type="checkbox" class="form-check-input" id="Telefonica" name="Telefonica" value="False">';
 
-										}
-										?>
-    									
-  									</div>
+											}
+											?>
+  										</div>
 									</div>
-									</div>
-									<div class="form-group col-sm-6">
-										<label for="Estados">Estados:</label>
-										<div class="col-sm-12">
-  											<textarea class="form-control" rows="5" id="Estados"NAME="Estados" ><?php echo $Estados; ?></textarea>
-										</div>
-									</div>
-									
-									<div class="form-group col-sm-6">
-										<label for="Seguimiento">Seguimiento:</label>
-										<div class="col-sm-12">
-  											<textarea class="form-control" rows="5" id="Seguimiento"NAME="Seguimiento" ><?php echo $Seguimiento;?></textarea>
-										</div>
-									</div>
-									<div class="form-group col-sm-6">
-										<label for="Transportadoras">Transportadoras:</label>
-										<div class="col-sm-12">
-  											<textarea class="form-control" rows="5" id="Transportadoras"NAME="Transportadoras" ><?php echo $Transportadoras;?></textarea>
-										</div>
-									</div>
-									<div class="form-group col-sm-6">
-										<label for="Observaciones">Observaciones:</label>
-										<div class="col-sm-12">
+									<div class="form-group col-sm-8">
+										<label for="Observaciones" class="col-sm-3 control-label">Observaciones:</label>
+										<div class="col-sm-8">
   											<textarea class="form-control" rows="5" id="Observaciones"NAME="Observaciones" ><?php echo $Observaciones;?></textarea>
 										</div>
 									</div>
-									
-
-					
-					
-
-									
-									
 									<div class="col-sm-8"id="resultados_ajax2"></div>
 									<hr class="style1 col-sm-8">
 									<div class=" pull-right col-sm-8">
 										<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
 										<button type="submit" class="btn btn-primary">Guardar datos</button>
-		  							</div>				
+		  							</div>		
 								</form>	
 							</div>
-							<div class="tab-pane fade" id="Permisos">
-								<!-- Permisos-->
-								Aqui Van Los Permisos 
+							<div class="tab-pane fade" id="Transportadoras">
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarTransportadora">
+									<i class="fas fa-plus"></i> Agregar Transportadora
+								</button>
+								<br><br>
+								<div id="resultados_Transportadora"></div>
+								<div id="resultadosT" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->	
 							</div>
-							<div class="tab-pane fade" id="Campanas">
-								<!-- Campañas-->
-								Aqui Van Las Campañas
+							<div class="tab-pane fade" id="Seguimientos">
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarSeguimiento">
+									<i class="fas fa-plus"></i> Agregar Seguimiento
+								</button>
+								<br><br>
+								<div id="resultados_Seguimiento"></div>
+								<div id="resultadosS" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->	
+							</div>
+							<div class="tab-pane fade" id="FormasPagos">
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarFormasPago">
+									<i class="fas fa-plus"></i> Agregar Forma de Pago
+								</button>
+								<br><br>
+								<div id="resultados_FormasPago"></div>
+								<div id="resultadosF" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->	
+							</div>
+							<div class="tab-pane fade" id="Tipificaciones">
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarTipificacion">
+									<i class="fas fa-plus"></i> Agregar Tipificacion
+								</button>
+								<br><br>
+								<div id="resultados_Tipificacion"></div>
+								<div id="resultadosTr" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->	
 							</div>
 						</div>
 					</div>			
@@ -212,6 +221,11 @@
 	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
+	<script type="text/javascript" src="Componentes/JavaScript/Campanas_Transportadora.js"></script>
+	<script type="text/javascript" src="Componentes/JavaScript/Campanas_Seguimiento.js"></script>
+	<script type="text/javascript" src="Componentes/JavaScript/Campanas_Tipificacion.js"></script>
+	<script type="text/javascript" src="Componentes/JavaScript/Campanas_FormasPago.js"></script>
+	
 	<script>
 function UpdatePorcentaje(){
 if($("#Porcentaje").val()< 0){
@@ -231,6 +245,70 @@ $( "#Cancelar" ).click(function( event ) {
 $( "#Consultar" ).click(function( event ) {
 	
 		location.href='Consultar-Campanas.php';
+
+})
+$( "#Click_Transportadoras" ).click(function( event ) {
+
+
+var NumeroC =$("#Numero").val();
+$.ajax({
+	type: "POST",
+	url: "Componentes/Ajax/Agregar_Campana_Transportadora.php",
+	data: "NumeroC="+NumeroC,
+	beforeSend: function(objeto){
+		$("#resultadosT").html("Mensaje: Cargando...");
+	},success: function(datos){
+		$("#resultadosT").html(datos);
+	}
+});
+
+})
+$( "#Click_Seguimientos" ).click(function( event ) {
+
+
+var NumeroC =$("#Numero").val();
+$.ajax({
+	type: "POST",
+	url: "Componentes/Ajax/Agregar_Campana_Seguimiento.php",
+	data: "NumeroC="+NumeroC,
+	beforeSend: function(objeto){
+		$("#resultadosS").html("Mensaje: Cargando...");
+	},success: function(datos){
+		$("#resultadosS").html(datos);
+	}
+});
+
+})
+$( "#Click_Tipificaciones" ).click(function( event ) {
+
+
+var NumeroC =$("#Numero").val();
+$.ajax({
+	type: "POST",
+	url: "Componentes/Ajax/Agregar_Campana_Tipificacion.php",
+	data: "NumeroC="+NumeroC,
+	beforeSend: function(objeto){
+		$("#resultadosTr").html("Mensaje: Cargando...");
+	},success: function(datos){
+		$("#resultadosTr").html(datos);
+	}
+});
+
+})
+$( "#Click_FormasPagos" ).click(function( event ) {
+
+
+var NumeroC =$("#Numero").val();
+$.ajax({
+	type: "POST",
+	url: "Componentes/Ajax/Agregar_Campana_FormasPago.php",
+	data: "NumeroC="+NumeroC,
+	beforeSend: function(objeto){
+		$("#resultadosF").html("Mensaje: Cargando...");
+	},success: function(datos){
+		$("#resultadosF").html(datos);
+	}
+});
 
 })
 

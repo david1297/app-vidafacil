@@ -622,7 +622,7 @@ $( "#New_Seguimiento" ).submit(function( event ) {
 				   $('#resultados_ajax3S').fadeIn(1000); 
 			   }, 1000);	
 		   CargarSeguimientos();
-		   document.getElementById('New_DescripcionB').value = '';
+		   document.getElementById('New_DescripcionS').value = '';
 		   }
    });
    event.preventDefault();
