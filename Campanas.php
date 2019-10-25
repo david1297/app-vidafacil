@@ -247,9 +247,9 @@ $( "#Consultar" ).click(function( event ) {
 		location.href='Consultar-Campanas.php';
 
 })
+
 $( "#Click_Transportadoras" ).click(function( event ) {
-
-
+	LoadT(1);
 var NumeroC =$("#Numero").val();
 $.ajax({
 	type: "POST",
@@ -264,7 +264,7 @@ $.ajax({
 
 })
 $( "#Click_Seguimientos" ).click(function( event ) {
-
+	LoadS(1);
 
 var NumeroC =$("#Numero").val();
 $.ajax({
@@ -281,7 +281,7 @@ $.ajax({
 })
 $( "#Click_Tipificaciones" ).click(function( event ) {
 
-
+	LoadTr(1);
 var NumeroC =$("#Numero").val();
 $.ajax({
 	type: "POST",
@@ -296,7 +296,7 @@ $.ajax({
 
 })
 $( "#Click_FormasPagos" ).click(function( event ) {
-
+	LoadF(1);
 
 var NumeroC =$("#Numero").val();
 $.ajax({
