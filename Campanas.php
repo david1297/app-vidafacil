@@ -113,7 +113,18 @@
 									<div class="form-group col-sm-8" >
 										<label for="Area" class="col-sm-3 control-label">Area</label>
 										<div class="col-sm-8">
-				  							<input type="text" class="form-control" id="Area" name="Area"  placeholder="Area" value="<?php echo $Area; ?>"  onkeyup="RazonSocial()">
+										<?PHP
+												$query1=mysqli_query($con, "select * from AREAS");
+												echo' <select class="form-control" id="Area" name ="Area" placeholder="Area">';
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													if ($Area ==$rw_Admin1['Numero']){
+														echo '<option value="'.$rw_Admin1['Numero'].'" selected>'.$rw_Admin1['Nombre'].'</option>';
+													} else{
+														echo '<option value="'.$rw_Admin1['Numero'].'" >'.$rw_Admin1['Nombre'].'</option>';
+													}
+												}
+												echo '</select>';
+											?>
 										</div>
 									</div>
 									<?php 
