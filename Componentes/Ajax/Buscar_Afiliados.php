@@ -8,10 +8,12 @@
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
 		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
 		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
+		$FComercio = mysqli_real_escape_string($con,(strip_tags($_REQUEST['FComercio'], ENT_QUOTES)));
 
 		$sTable = "AFILIADOS inner join DEPARTAMENTOS on AFILIADOS.Departamento = DEPARTAMENTOS.Codigo
 							 inner join CIUDADES on AFILIADOS.Ciudad =CIUDADES.Codigo and  DEPARTAMENTOS.Codigo = CIUDADES.Departamento 
 							 inner join TIPIFICACIONES on TIPIFICACIONES.Numero = AFILIADOS.Tipificacion
+							 left join USUARIOS on AFILIADOS.Comercio= USUARIOS.Nit
 							 ";
 		$sWhere = "where 1=1";
 		if ( $_GET['q'] != "" ){
@@ -38,20 +40,18 @@
 		}
 		if($EFiltro<>"Todos"){
 			if($EFiltro=='Estado'){
-				$sWhere.= " and Estado ='".$VFiltro."'";		
+				$sWhere.= " and AFILIADOS.Estado ='".$VFiltro."'";		
 			}else{
-				if($EFiltro=='Comercio'){
-					$sWhere.= " and Comercio ='".$VFiltro."'";		
-				}else{
 					if($EFiltro=='Tipificacion'){
 						$sWhere.= " and TIPIFICACIONES.NCategoria ='".$VFiltro."'";		
 					}
-				}
-
 			}
 
 			
 		} 
+		if ($FComercio<>"Todos"){
+			$sWhere.= " and AFILIADOS.Comercio ='".$FComercio."'";		
+		}
 
 		
 		$sWhere.=" order by AFILIADOS.Primer_Nombre desc";
@@ -60,12 +60,14 @@
 		$per_page = 50;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
-		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere");
+		$sql="SELECT count(*) AS numrows FROM $sTable  $sWhere";
+		$count_query   = mysqli_query($con, $sql);
+	
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Afiliados.php';
-		$sql="SELECT TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,Identificacion,Primer_Nombre,Primer_Apellido,DEPARTAMENTOS.Nombre as Departamento,CIUDADES.Nombre as Ciudad ,Direccion,Estado FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		$sql="SELECT USUARIOS.Razon_Social,AFILIADOS.Id,AFILIADOS.Comercio,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,Identificacion,Primer_Nombre,Primer_Apellido,DEPARTAMENTOS.Nombre as Departamento,CIUDADES.Nombre as Ciudad ,AFILIADOS.Direccion,AFILIADOS.Estado FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
@@ -73,11 +75,9 @@
 			<div class="table-responsive">
 			  <table class="table table-hover">
 				<tr  class="warning">
-					<th>Identificacion</th>
+					<th>Id</th>
 					<th>Nombres</th>
-					<th>Departamento</th>
-					<th>Ciudad</th>
-					<th>Direccion</th>
+					<th>Comercio</th>
 					<th>Estado</th>
 					<th>Tipificacion</th>
 					<th class='text-right'>Editar</th>
@@ -86,6 +86,9 @@
 				while ($row=mysqli_fetch_array($query)){
 
 						$Identificacion=$row['Identificacion'];
+						$Razon_Social=$row['Razon_Social'];
+						$Comercio=$row['Comercio'];
+						$Id=$row['Id'];
 						$Nombre=$row['Primer_Nombre'].' '.$row['Primer_Apellido'];
 						$Departamento=$row['Departamento'];
 						$Ciudad=$row['Ciudad'];
@@ -153,28 +156,13 @@
 								}
 							}
 						}
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
 						$Tipificacion = $row['Categoria'];
 						
 					?>
 					<tr>
-						<td><?php echo $Identificacion; ?></td>
+						<td><?php echo $Id; ?></td>
 						<td><?php echo $Nombre; ?></td>
-						<td><?php echo utf8_encode($Departamento); ?></td>
-						<td><?php echo utf8_encode($Ciudad); ?></td>
-						<td><?php echo $Direccion; ?></td>
+						<td><?php echo utf8_encode($Razon_Social); ?></td>
 						<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>			
 						<td><span class="label <?php echo $label_classC;?>"><?php echo $Tipificacion; ?></span></td>			
 						<td class="text-right">

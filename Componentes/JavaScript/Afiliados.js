@@ -7,9 +7,10 @@ function load(page){
 			var Filtro = $("#Filtro").val();
 			var EFiltro = $("#EFiltro").val();
 			var VFiltro = $("#VFiltro").val();
+			var FComercio = $("#FComercio").val();
 	$("#loader").fadeIn('slow');
 	$.ajax({
-		url:'Componentes/Ajax/Buscar_Afiliados.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&EFiltro='+EFiltro+'&VFiltro='+VFiltro,
+		url:'Componentes/Ajax/Buscar_Afiliados.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&EFiltro='+EFiltro+'&VFiltro='+VFiltro+'&FComercio='+FComercio,
 		 beforeSend: function(objeto){
 			$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 	  },

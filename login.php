@@ -63,7 +63,7 @@ if ($login->isUserLoggedIn() == true) {
 							</div>
 							<div class="form-group">
 								<label for="signin-password" class="control-label sr-only">Contraseña</label>
-								<input type="password" class="form-control" id="signin-password" value="123456" placeholder="Contraseña" name="user_password" autocomplete="off" required>
+								<input type="password" class="form-control" id="signin-password" value="Admin123" placeholder="Contraseña" name="user_password" autocomplete="off" required>
 							</div>
 							<button type="submit" class="btn btn-primary btn-lg btn-block" name="login" id="submit">INICIAR SESIÓN</button>
 						</form>

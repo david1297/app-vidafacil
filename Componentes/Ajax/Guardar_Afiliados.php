@@ -23,8 +23,6 @@ if (empty($_POST['Identificacion'])){
 	$errors[] = "El Telefono Se Encuentra Vacio";
 }elseif (empty($_POST['Telefono2'])){
 	$errors[] = "El Telefono2 Se Encuentra Vacio";
-}elseif (empty($_POST['Forma_Pago'])){
-	$errors[] = "La Forma de Pago Se Encuentra Vacia";
 }elseif (empty($_POST['Estado'])){
 	$errors[] = "El Estado Se Encuentra Vacio";
 }elseif (!filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)) {
@@ -41,7 +39,6 @@ elseif (
 			&& !empty($_POST['Ciudad'])
 			&& !empty($_POST['Departamento'])
 			&& !empty($_POST['Direccion'])
-			&& !empty($_POST['Forma_Pago'])
 			&& !empty($_POST['Telefono'])
 			&& !empty($_POST['Estado'])
 			&& filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)
@@ -49,6 +46,7 @@ elseif (
          {
             require_once ("../../config/db.php");
 			require_once ("../../config/conexion.php");
+				$EstadoC = mysqli_real_escape_string($con,(strip_tags($_POST["EstadoC"],ENT_QUOTES)));
 				$Identificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Identificacion"],ENT_QUOTES)));
 				$Primer_Nombre = mysqli_real_escape_string($con,(strip_tags($_POST["Primer_Nombre"],ENT_QUOTES)));
 				$Segundo_Nombre = mysqli_real_escape_string($con,(strip_tags($_POST["Segundo_Nombre"],ENT_QUOTES)));
@@ -59,13 +57,11 @@ elseif (
 				$Departamento = mysqli_real_escape_string($con,(strip_tags($_POST["Departamento"],ENT_QUOTES)));
 				$Direccion = mysqli_real_escape_string($con,(strip_tags($_POST["Direccion"],ENT_QUOTES)));
 				$Direccion_Adicional = mysqli_real_escape_string($con,(strip_tags($_POST["Direccion_Adicional"],ENT_QUOTES)));
-				$Forma_Pago = mysqli_real_escape_string($con,(strip_tags($_POST["Forma_Pago"],ENT_QUOTES)));
 				$Telefono = mysqli_real_escape_string($con,(strip_tags($_POST["Telefono"],ENT_QUOTES)));
 				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 				$Correo = mysqli_real_escape_string($con,(strip_tags($_POST["Correo"],ENT_QUOTES)));
 
 				$Comercio = mysqli_real_escape_string($con,(strip_tags($_POST["Comercio"],ENT_QUOTES)));
-				$Tipificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Tipificacion"],ENT_QUOTES)));
 				$Indicativo = mysqli_real_escape_string($con,(strip_tags($_POST["Indicativo"],ENT_QUOTES)));
 				$D1 = mysqli_real_escape_string($con,(strip_tags($_POST["D1"],ENT_QUOTES)));
 				$D2 = mysqli_real_escape_string($con,(strip_tags($_POST["D2"],ENT_QUOTES)));
@@ -87,43 +83,34 @@ elseif (
 					
 				$CargarOb = 'SI';	
 				}
-				$query1=mysqli_query($con, "select Tipificacion from AFILIADOS where Identificacion = '$Identificacion';");
-				$rw_Admin1=mysqli_fetch_array($query1);
-				$TipAnt =$rw_Admin1[0];
-				if ($TipAnt !=$Tipificacion ){
-					$CargarTip = 'SI';
-					$Tipi=$Tipificacion;
-				}
-				
-				
-				
-				
-				$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,
-												Tipo_Identificacion,Ciudad,Departamento,
-												Direccion,Direccion_Adicional,
-												Forma_Pago,Telefono,
-												Estado,Correo,Comercio,Tipificacion,Indicativo,D1,D2,D3,D4,Adicional,Telefono2) VALUES
+				if($EstadoC=='Nuevo'){
+					$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,
+					Tipo_Identificacion,Ciudad,Departamento,
+					Direccion,Direccion_Adicional,
+					Telefono,
+					Estado,Correo,Comercio,Tipificacion,Indicativo,D1,D2,D3,D4,Adicional,Telefono2,FechaCracion) VALUES
 
-				('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
-				'".$Tipo_Identificacion."', '".$Ciudad."', '".$Departamento."', 
-				'".$Direccion."', '".$Direccion_Adicional."', 
-				'".$Forma_Pago."', '".$Telefono."', 
-				'".$Estado."', '".$Correo."', '".$Comercio."', '".$Tipificacion."', '".$Indicativo."', '".$D1."', '".$D2."', '".$D3."', '".$D4."', '".$Adicional."', '".$Telefono2."'
-				) ON DUPLICATE  KEY UPDATE
-				Identificacion = '".$Identificacion."',Primer_Nombre ='".$Primer_Nombre."',Segundo_Nombre='".$Segundo_Nombre."',Primer_Apellido='".$Primer_Apellido."',Segundo_Apellido='".$Segundo_Apellido."',
-				Tipo_Identificacion = '".$Tipo_Identificacion."',Ciudad='".$Ciudad."',Departamento='".$Departamento."',
-				Direccion = '".$Direccion."',Direccion_Adicional ='".$Direccion_Adicional."',
-				Forma_Pago = '".$Forma_Pago."',Telefono='".$Telefono."',
-				Estado='".$Estado."',Correo='".$Correo."',Comercio='".$Comercio."',Tipificacion='".$Tipificacion."',Indicativo='".$Indicativo."'
-				,D1='".$D1."',D2='".$D2."',D3='".$D3."',D4='".$D4."',Adicional='".$Adicional."',Telefono2='".$Telefono2."';";
+						('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
+					'".$Tipo_Identificacion."', '".$Ciudad."', '".$Departamento."', 
+					'".$Direccion."', '".$Direccion_Adicional."', '".$Telefono."', 
+					'".$Estado."', '".$Correo."', '".$Comercio."', 5, '".$Indicativo."', '".$D1."', '".$D2."', '".$D3."', '".$D4."', '".$Adicional."', '".$Telefono2."',CURDATE()
+					);";
 					$query_update = mysqli_query($con,$sql);
-					
-                    if ($query_update) {
-						$messages[] = "Los Datos Se Han Modificado Con Exito.";
-						if(($CargarOb=='SI')||($CargarTip=='SI')){
-							
+					if ($query_update) {
+						$messages[] = "El Afiliado se a Creado con Exito!";
+
+
+						if(($CargarOb=='SI')){
+
+
+							$sql1="SELECT Id FROM AFILIADOS WHERE Identificacion='$Identificacion' ";
+							$query1 = mysqli_query($con, $sql1);
+							$row1=mysqli_fetch_array($query1); 
+							$Id=$row1[0];
+
+
 							$sql =  "INSERT INTO  OBSERVACIONES_AFILIADO(Afiliado,Fecha,Observacion,Usuario,Tipificacion) VALUES
-							('".$Identificacion."', '".$Fecha."', '".$Observaciones."', '".$User."',$Tipi)";
+							('".$Id."', '".$Fecha."', '".$Observaciones."', '".$User."',0)";
 						 $query_update = mysqli_query($con,$sql);
 						}
 
@@ -132,6 +119,50 @@ elseif (
                     } else {
                         $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
                     }
+
+				}else{
+
+					$Id = mysqli_real_escape_string($con,(strip_tags($_POST["Id"],ENT_QUOTES)));
+
+					$sql =  " UPDATE AFILIADOS Set 
+					Primer_Nombre ='".$Primer_Nombre."',
+					Segundo_Nombre='".$Segundo_Nombre."',
+					Primer_Apellido='".$Primer_Apellido."',
+					Segundo_Apellido='".$Segundo_Apellido."',
+					Tipo_Identificacion = '".$Tipo_Identificacion."',
+					Ciudad='".$Ciudad."',
+					Departamento='".$Departamento."',
+					Direccion = '".$Direccion."',
+					Direccion_Adicional ='".$Direccion_Adicional."',
+					Telefono='".$Telefono."',
+					Estado='".$Estado."',
+					Correo='".$Correo."',Comercio='".$Comercio."',Indicativo='".$Indicativo."'
+					,D1='".$D1."',D2='".$D2."',D3='".$D3."',D4='".$D4."',Adicional='".$Adicional."',Telefono2='".$Telefono2."' WHERE Id = $Id";
+					$query_update = mysqli_query($con,$sql);
+					if ($query_update) {
+						$messages[] = "El Afiliado se a Actualizo con Exito!";
+						if(($CargarOb=='SI')){
+							$sql =  "INSERT INTO  OBSERVACIONES_AFILIADO(Afiliado,Fecha,Observacion,Usuario,Tipificacion) VALUES
+							('".$Id."', '".$Fecha."', '".$Observaciones."', '".$User."',0)";
+						 $query_update = mysqli_query($con,$sql);
+						}
+
+						
+
+                    } else {
+                        $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
+                    }
+
+
+				}
+				
+				
+				
+				
+				
+					
+					
+                   
         } else {
             $errors[] = "Un error desconocido ocurrió.";
         }

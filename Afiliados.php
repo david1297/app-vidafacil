@@ -8,6 +8,7 @@
 	require_once ("config/conexion.php");
 	
 	$Identificacion="";
+	$Id="";
 	$Primer_Nombre="";
 	$Segundo_Nombre="";
 	$Primer_Apellido="";
@@ -19,7 +20,6 @@
 	$Direccion_Adicional="";
 	$Telefono="";
 	$Telefono2="";
-	$Forma_Pago="";
 	$Estado="";
 	$Correo="";
 	$Comercio="";
@@ -36,6 +36,7 @@
 	if (isset($_GET['Identificacion'])) {
 		$query=mysqli_query($con, "select * from AFILIADOS where Identificacion ='".$_GET['Identificacion']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
+		$Id=$rw_Admin['Id'];
 		$Identificacion=$rw_Admin['Identificacion'];
 		$Primer_Nombre=$rw_Admin['Primer_Nombre'];
 		$Segundo_Nombre=$rw_Admin['Segundo_Nombre'];
@@ -46,7 +47,6 @@
 		$Ciudad=$rw_Admin['Ciudad'];
 		$Direccion=$rw_Admin['Direccion'];
 		$Direccion_Adicional=$rw_Admin['Direccion_Adicional'];
-		$Forma_Pago=$rw_Admin['Forma_Pago'];
 		$Telefono=$rw_Admin['Telefono'];
 		$Telefono2=$rw_Admin['Telefono2'];
 		$Estado=$rw_Admin['Estado'];
@@ -64,7 +64,7 @@
 		$Read= "readonly='readonly'";
 
 		$sql="SELECT * FROM OBSERVACIONES_AFILIADO 
-        inner join USUARIOS on USUARIOS.Nit=OBSERVACIONES_AFILIADO.Usuario WHERE Afiliado=".$Identificacion." order by OBSERVACIONES_AFILIADO.Numero";
+        inner join USUARIOS on USUARIOS.Nit=OBSERVACIONES_AFILIADO.Usuario WHERE Afiliado=".$Id." order by OBSERVACIONES_AFILIADO.Numero";
 
 		$query = mysqli_query($con, $sql);
 		while ($row=mysqli_fetch_array($query)){
@@ -125,11 +125,26 @@
 								<form class="form-horizontal col-sm-8" method="post" id="Guardar_Afiliado" name="Guardar_Afiliado">
 			   						<div id="resultados_ajax"></div>
 									<input type="text" class="form-control hidden" id="EstadoC" name="EstadoC"  value="<?php echo $EstadoC; ?>" > 
+									<?php
+										if ($EstadoC=='Editando'){
+											?>
+											<div class="form-group">
+				  						<label for="Identificacion" class="col-sm-3  control-label">Id</label>
+				  						<div class="col-sm-9 ">
+				   							<input type="text" class="form-control" id="Id" name="Id" placeholder="Id" value="<?php echo $Id; ?>" <?php echo $Read; ?> required>
+				  						</div>
+			   						</div>
+									   <?php
+										}
+
+										?>
+									
 									<div class="form-group">
 				  						<label for="Identificacion" class="col-sm-3  control-label">Identificacion</label>
 				  						<div class="col-sm-9 ">
-				   							<input type="text" class="form-control" id="Identificacion" name="Identificacion" placeholder="Identificacion" value="<?php echo $Identificacion; ?>" <?php echo $Read; ?> required>
-				  						</div>
+				   							<input type="text" class="form-control" id="Identificacion" name="Identificacion" placeholder="Identificacion" value="<?php echo $Identificacion; ?>" <?php echo $Read; ?> required onchange='ValidarDatos("Identificacion",$(this).val())'>
+											   <input type="text " class="form-control hidden" id="VIdentificacion" name="VIdentificacion" value="Yes" > 
+										</div>
 			   						</div>
 									<div class="form-group" >
 										<label for="Tipo_Identificacion" class="col-sm-3 control-label">Tipo de Identificacion</label>
@@ -273,27 +288,6 @@
 											<input type="text" class="form-control" id="Direccion_Adicional" name="Direccion_Adicional"  placeholder="Direccion Adicional" value="<?php echo $Direccion_Adicional;?>" readonly='readonly'>
 										</div>
 									</div>
-									
-									
-									
-									
-									<div class="form-group">
-										<label for="Forma_Pago" class="col-sm-3 control-label">Forma De Pago</label>
-										<div class="col-sm-9">
-											<?PHP
-												$query1=mysqli_query($con, "SELECT * FROM FORMAS_PAGO ");
-												echo' <select class="form-control" id="Forma_Pago" name ="Forma_Pago" placeholder="Forma de Pago">';
-												while($rw_Admin1=mysqli_fetch_array($query1)){
-													if ($Forma_Pago ==$rw_Admin1['Codigo']){
-														echo '<option value="'.$rw_Admin1['Codigo'].'" selected >'.$rw_Admin1['Descripcion'].'</option>';
-													} else{
-														echo '<option value="'.$rw_Admin1['Codigo'].'">'.$rw_Admin1['Descripcion'].'</option>';	
-													}
-												}
-												echo '</select>';
-											?>	
-										</div>
-									</div>		
 									<div class="form-group">
 										<label for="Telefono" class="col-sm-3 control-label">Telefono</label>
 										<div class="col-sm-9">
@@ -354,32 +348,7 @@
 										</div>
 									</div>
 									
-									<div class="form-group">
-										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Tipificacion</label>
-										<div class="col-sm-5">
-										<?PHP
-										
-										$query1=mysqli_query($con, "select NCategoria from TIPIFICACIONES where Numero = $Tipificacion");
-										$rw_Admin1=mysqli_fetch_array($query1);
-										$Categoria =$rw_Admin1[0];		
-											
-												$query1=mysqli_query($con, "select Categoria,NCategoria from TIPIFICACIONES GROUP BY Categoria,NCategoria ORDER BY NCategoria ASC");
-												echo' <select class="form-control" id="TipificacionC" name ="TipificacionC" placeholder="TipificacionC" onchange="CargarTipificaciones()" >';
-																				
-												while($rw_Admin1=mysqli_fetch_array($query1)){
-													if ($Categoria ==$rw_Admin1['NCategoria']){
-														echo '<option value="'.$rw_Admin1['NCategoria'].'" selected >'.$rw_Admin1['Categoria'].'</option>';
-													} else{
-														echo '<option value="'.$rw_Admin1['NCategoria'].'">'.$rw_Admin1['Categoria'].'</option>';	
-													}
-												}
-												echo '</select></div>
-												';
-												?>
-												<input type="Text" class="form-control hidden" id="Tip" name="Tip" require value="<?php echo $Tipificacion?>" readonly="readonly">
-												<div class="col-sm-4" id="Tipi">	
-										</div>
-									</div>
+									
 
 									<?php 
 										if($EstadoC == "Nuevo"){
@@ -435,7 +404,7 @@
 									<hr class="style1">
 									<div class=" pull-right">
 										<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
-										<button type="submit" class="btn btn-primary">Guardar datos</button>
+										<button type="button" class="btn btn-primary" id='GAfiliado'>Guardar datos</button>
 		  							</div>	
 									  <div class="col-md-12"><br>
 									  <div class="card border-secondary mb-3">
@@ -466,6 +435,15 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script>
+$("#GAfiliado").click(function( event ) {
+	if($('#VIdentificacion').val()=='Nou'){
+		alert('El Numero de Identificacion Ya se Encuentra Registrado');
+	}else{
+		$( "#Guardar_Afiliado" ).submit();		
+	}
+});
+
+
 	function validaNumericos(event) {
     if(event.charCode >= 48 && event.charCode <= 57){
       return true;
@@ -539,6 +517,41 @@
 			});
 			event.preventDefault();
 		})
+
+
+		function ValidarDatos(Tipo,Valor){
+	var Id = $('#Id').val();
+	$.ajax({
+			url: "Componentes/Ajax/ValidarDatos.php?Tipo="+Tipo+"&Valor="+Valor+"&Id="+Id,
+			 beforeSend: function(objeto){
+				$("#resultados_ajax3").html("Mensaje: Cargando...");
+			  },
+			success: function(datos){
+				
+			var Res = datos.split('!');
+			if(Res[1] == 'Correcto'){
+				if(Tipo=='Identificacion'){
+					$('#Identificacion').removeClass("is-invalid");
+					$('#Identificacion').addClass("is-valid");
+					$('#VIdentificacion').val('Yes');
+				}
+				
+			}else{
+				if(Tipo=='Identificacion'){
+					$('#Identificacion').removeClass("is-valid");
+					$('#Identificacion').addClass("is-invalid");
+					$('#VIdentificacion').val('Nou');
+				}
+				
+				
+			}
+			
+			
+		  }
+	});
+}
+
+
 	</script>
 </body>
 </html>

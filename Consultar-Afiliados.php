@@ -43,7 +43,7 @@
 					<div class="panel-body">
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
-								<div class="col-md-3">		
+								<div class="col-md-2">		
 									<select class='form-control' id="Filtro" name ="Filtro" placeholder="Filtro" onchange='load(1);'>
 										<option value="Identificacion">Identificacion</option>
 										<option value="Nombre">Nombre o Apellido</option>
@@ -52,7 +52,7 @@
 										<option value="Telefono">Telefono</option>
 									</select>
 								</div>		
-								<div class="col-md-5">
+								<div class="col-md-4">
 									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='load(1);'>
 								</div>
 								<div class="col-md-2">		
@@ -60,13 +60,24 @@
 										<option value="Todos">Todos</option>
 										<option value="Estado">Estado</option>
 										<option value="Tipificacion">Tipificacion</option>
-										<option value="Comercio">Comercio</option>
 									</select>
 								</div>
 								<div class="col-md-2">		
 									<select class='form-control' id="VFiltro" name ="VFiltro" placeholder="Filtro" onchange='load(1);'>
 										<option value="Todos">Todos</option>
 									</select>
+								</div>
+								<div class="col-md-2">		
+									<?php
+									$query1=mysqli_query($con, "SELECT Nit,Razon_Social FROM USUARIOS where estado='Activo';");
+									echo' <select class="form-control" id="FComercio" name ="FComercio" placeholder="Estado" onchange="load(1);">';
+									echo  '<option value="Todos">Todos</option>';
+									while($rw_Admin1=mysqli_fetch_array($query1)){
+										echo  '<option value="'.$rw_Admin1['Nit'].'">'.$rw_Admin1['Razon_Social'].'</option>';
+									}
+									echo '</select>';
+
+									?>
 								</div>
 								<div class="col-md-2">
 								<span id="loader"></span>
