@@ -37,7 +37,7 @@ class Login
                         $_SESSION['Razon_Social'] = $result_row->Razon_Social;
                         $_SESSION['Correo'] = $result_row->Correo;
                         $_SESSION['Nit'] = $result_row->Nit;
-                        $_SESSION['Tipo'] = $result_row->Nombre;
+                        $_SESSION['Tipo'] = $result_row->Tipo;
                         $_SESSION['Rol'] = $result_row->Rol;
                         $_SESSION['Porcentaje'] = $result_row->Porcentaje;
                         $_SESSION['Portafolio'] = $result_row->Portafolio;

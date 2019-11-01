@@ -139,6 +139,13 @@
 					<div class="panel-body">
 					<?php 
 						include("Componentes/Modal/Buscar_Afiliados.php");
+				
+						
+
+//$data = json_decode( file_get_contents('http://69.162.85.4:10005/ProcessRest/1?TipoTrn=001&Interface=00440044&Bin=373737&Fecha=20171130113000&TipoId=CC&Id=79454636&Producto=79&Canal=79 '), true );
+//echo $data['opt'];
+//$data = file_get_contents('http://69.162.85.4:10005/ProcessRest/1?TipoTrn=001&Interface=00440044&Bin=373737&Fecha=20171130113000&TipoId=CC&Id=79454636&Producto=79&Canal=79 ');
+//echo $data;
 					?>
 					<form class="form-horizontal" method="post" id="Guardar_Ventas" name="Guardar_Ventas">
 					<input type="text" class="form-control hidden" id="EstadoV" name="EstadoV"  value="<?php echo $EstadoV; ?>" > 
@@ -198,11 +205,15 @@
 									</div>
 									<div class="col-md-4">
 									<?php 
+								
 										if($EstadoV == "Nuevo"){
 											echo '
-											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="Sin Revisar" >';
+											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="4" >';
 										} else {
 											
+
+
+
 											$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Ventas" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
 										
 											$rw_Admin1=mysqli_fetch_array($query1);
@@ -211,23 +222,20 @@
 											if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
 												
 												echo '
-												<label for="Estado" class="control-label">Estado</label>
-												
-													<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
-													$tuArray = explode("|", 'Sin Revisar|Aprobada|Rechazada|Negada');
-												foreach($tuArray as  $indice => $palabra){
-													if ($Estado==$palabra){
-														echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
-											
-													} else{
-														echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
-											
+												<label for="Estado" class="control-label">Estado</label>';
+
+												$query1=mysqli_query($con, "select Id,".$_SESSION['Tipo']." from ESTADOS");
+												echo' <select class="form-control" id="Estado" name ="Estado" placeholder="Campaña" onchange="CargarEstados()">';
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													if($Estado==$rw_Admin1[0]){
+														echo '<option value="'.$rw_Admin1[0].'" selected>'.utf8_encode($rw_Admin1[1]).'</option>';	
+
+													}else{
+														echo '<option value="'.$rw_Admin1[0].'">'.utf8_encode($rw_Admin1[1]).'</option>';	
+
 													}
-												}  
-													echo '
-													</select>
-												
-											';
+												}
+												echo '</select>';
 											}
 											
 											

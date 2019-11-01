@@ -13,7 +13,9 @@
 
 		$sTable = "VENTAS INNER JOIN AFILIADOS On AFILIADOS.Id=VENTAS.AFILIADO
 		inner join USUARIOS on USUARIOS.Nit=VENTAS.Usuario
-		inner join CAMPANAS on CAMPANAS.Numero=VENTAS.Campana";
+		inner join CAMPANAS on CAMPANAS.Numero=VENTAS.Campana
+		inner join TIPIFICACIONES on TIPIFICACIONES.Numero = VENTAS.Estado_Campana
+		";
 		$sWhere = "where (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Numero"){
@@ -71,7 +73,7 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-BaseGeneral.php';
-		$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
+		$sql="SELECT VENTAS.Numero,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
 		VENTAS.Estado,VENTAS.Estado_Campana,
 		CAMPANAS.NOMBRE AS Campana,CAMPANAS.Numero as Cam,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
@@ -89,7 +91,7 @@
 					<th class="text-right">Porcentaje</th>
 					<th class="text-right">Comision</th>
 					<th class='text-right'>Estado</th>
-
+					<th>Tipificacion</th>
 					<th class='text-right'>Editar</th>
 					<th class='text-right'></th>
 					<th class='text-right'></th>
@@ -111,6 +113,65 @@
 						if ($Estado=="Negada"){$label_class='label-danger';}
 						if ($Estado=="Sin Revisar"){$label_class='label-warning';}
 						$NCampana=$row['NCampana'];
+						$NCategoria = $row['NCategoria'];
+						if ($NCategoria=="1"){
+							$label_classC='label-success';
+						}else{
+							if ($NCategoria=="2"){
+								$label_classC='label-danger';
+							}else{
+								if ($NCategoria=="3"){
+									$label_classC='label-info';
+								}else{
+									if ($NCategoria=="4"){
+										$label_classC='label-warning';
+									}else{
+										if ($NCategoria=="5"){
+											$label_classC='label-primary';
+										}else{
+											if ($NCategoria=="6"){
+												$label_classC='label-primary';
+											}else{
+												if ($NCategoria=="7"){
+													$label_classC='label-danger';
+												}else{
+													if ($NCategoria=="8"){
+														$label_classC='label-success';
+													}else{
+														if ($NCategoria=="9"){
+															$label_classC='label-info';
+														}else{
+															if ($NCategoria=="10"){
+																$label_classC='label-warning';
+															}else{
+																if ($NCategoria=="11"){
+																	$label_classC='label-info';
+																}else{
+																	if ($NCategoria=="12"){
+																		$label_classC='label-info';
+																	}else{
+																		if ($NCategoria=="13"){
+																			$label_classC='label-info';
+																		}else{
+																			if ($NCategoria=="14"){
+																				$label_classC='label-info';
+																			}else{
+																				$label_classC='label-info';
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						$Tipificacion = $row['Categoria'];
 						
 					?>
 					<tr>
@@ -122,9 +183,13 @@
 						<td class="text-right"><?php echo $Porcentaje_Comision.'%'; ?></td>
 						<td class="text-right"><?php echo '$'.number_format(($Valor*$Porcentaje_Comision)/100); ?></td>
 						<td class="text-right">
-						
-						<a href="#" class='btn btn-default' title='Editar Estado' onclick="obtener_datos('<?php echo $Numero;?>','<?php echo $Estado;?>');"  data-toggle="modal" data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i><?php echo $Estado; ?></a>
+						<?php
+						$query1=mysqli_query($con, "select Id,".$_SESSION['Tipo']." from ESTADOS where Id ='$Estado'");
+						$rw_Admin1=mysqli_fetch_array($query1);
+						?>
+						<a href="#" class='btn btn-default' title='Editar Estado' onclick="obtener_datos('<?php echo $Numero;?>','<?php echo $rw_Admin1[1];?>');"  data-toggle="modal" data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i><?php echo $rw_Admin1[1]; ?></a>
 						</td>
+						<td><span class="label <?php echo $label_classC;?>"><?php echo $Tipificacion; ?></span></td>
 						<td class="text-right">
 							<a href="#" class='btn btn-default' title='Editar Venta' onclick="obtener_datos1('<?php echo $Numero;?>');"><i class="glyphicon glyphicon-edit"></i></a> 
 						</td>
@@ -132,12 +197,11 @@
 
 						<?php
 						
-						
 						echo' <select class="form-control hidden " id="Estado_Campana'.$Numero.'" name ="Estado_Campana" placeholder="Estado Campaña">';
 						$query1=mysqli_query($con, "SELECT Numero,Nombre FROM CAMP_TIPIFICACIONES 
 					inner join TIPIFICACIONES on CAMP_TIPIFICACIONES.Tipificacion =TIPIFICACIONES.Numero Where Campana = $NCampana ");
 					while($rw_Admin1=mysqli_fetch_array($query1)){
-						if ($Est_camp==$rw_Admin1[0]){
+						if ($Estado_Campana==$rw_Admin1[0]){
 							echo '<option value="'.$rw_Admin1[0].'" selected>'.$rw_Admin1[1].'</option>';	
 						}else{
 							echo '<option value="'.$rw_Admin1[0].'">'.$rw_Admin1[1].'</option>';	
@@ -152,22 +216,27 @@
 						</td>
 						<td>
 						<?php
-echo '
-	<select class="form-control hidden" id="Estado'.$Numero.'" name ="Estado" placeholder="Estado"  >';
-	$tuArray = explode("|", 'Sin Revisar|Aprobada|Rechazada|Negada');
-foreach($tuArray as  $indice => $palabra){
-	if ($Estado==$palabra){
-		echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
 
-	} else{
-		echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
+$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Ventas" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
+$rw_Admin1=mysqli_fetch_array($query1);
 
+
+if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
+	
+	
+	$query1=mysqli_query($con, "select Id,".$_SESSION['Tipo']." from ESTADOS");
+	echo' <select class="form-control hidden" id="Estado'.$Numero.'" name ="Estado"  placeholder="Campaña" onchange="CargarEstados()">';
+	while($rw_Admin1=mysqli_fetch_array($query1)){
+		if($Estado==$rw_Admin1[0]){
+			echo '<option value="'.$rw_Admin1[0].'" selected>'.utf8_encode($rw_Admin1[1]).'</option>';	
+
+		}else{
+			echo '<option value="'.$rw_Admin1[0].'">'.utf8_encode($rw_Admin1[1]).'</option>';	
+
+		}
 	}
-}  
-	echo '
-	</select>
-
-';
+	echo '</select>';
+}				
 
 						?>
 						</td>

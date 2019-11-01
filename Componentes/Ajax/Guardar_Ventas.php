@@ -116,7 +116,9 @@ elseif (
 				;";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
-                        $messages[] = "La Venta Se Guardo Con Exito.";
+						$messages[] = "La Venta Se Guardo Con Exito.";
+						$sql =  "Update AFILIADOS Set Tipificacion='".$Estado_Campana."' where Id =".$Afiliado.";";
+    					$query_update = mysqli_query($con,$sql);
                     } else {
                         $errors[] = $sql;
 					}

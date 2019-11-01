@@ -13,13 +13,14 @@ if (empty($_POST['Estado_Campana'])){
 	$Numero_Venta = mysqli_real_escape_string($con,(strip_tags($_POST["Numero_Venta"],ENT_QUOTES)));			
 	$Estado_Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Estado_Campana"],ENT_QUOTES)));
 
-	$query1=mysqli_query($con, 'SELECT Usuario,Valor,Porcentaje_Comision,Liquidada,Portafolio,Fecha FROM VENTAS where   Numero ='.$Numero_Venta.';');
+	$query1=mysqli_query($con, 'SELECT Usuario,Valor,Porcentaje_Comision,Liquidada,Portafolio,Fecha,Afiliado FROM VENTAS where   Numero ='.$Numero_Venta.';');
 	$rw_Admin1=mysqli_fetch_array($query1);
 	$Porcentaje_Comision=$rw_Admin1['Porcentaje_Comision'];
 	$Portafolio=$rw_Admin1['Portafolio'];
 	$Fecha=$rw_Admin1['Fecha'];
 	$Usuario=$rw_Admin1['Usuario'];
 	$Valor=$rw_Admin1['Valor'];
+	$Afiliado=$rw_Admin1['Afiliado'];
 	$Liquidada=$rw_Admin1['Liquidada'];
 	if($Liquidada == 'True'){
 		$errors[]='La Factura Ya Fue Liquidada No se Puede Editar';
@@ -30,7 +31,9 @@ if (empty($_POST['Estado_Campana'])){
 			$sql =  "Update VENTAS Set Estado_Campana='".$Estado_Campana."' where Numero =".$Numero_Venta.";";
     		$query_update = mysqli_query($con,$sql);
     		if ($query_update) {
-        		$messages[] = "La Venta Se Actualizo Con Exito.";
+				$messages[] = "La Venta Se Actualizo Con Exito.";
+				$sql =  "Update AFILIADOS Set Tipificacion='".$Estado_Campana."' where Id =".$Afiliado.";";
+    			$query_update = mysqli_query($con,$sql);
     		} else {
         		$errors[] = $sql;
 			}
