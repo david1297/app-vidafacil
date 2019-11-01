@@ -16,11 +16,9 @@ if (empty($_POST['Afiliado'])){
 }elseif (empty($_POST['Estado_Campana'])){
 	$errors[] = "El Estado de la Campaña Se Encuentra Vacio";
 }elseif (empty($_POST['Estado'])){
-	$errors[] = "El Estado  Se Encuentra Vacio";
-}elseif (empty($_POST['Seguimiento'])){
-	$errors[] = "El Seguimiento de la Campaña Se Encuentra Vacio";
-}elseif (empty($_POST['Transportadora'])){
-	$errors[] = "La Transportadora de la Campaña Se Encuentra Vacia";
+	$errors[] = "La Tipificacion Se Encuentra Vacia";
+}elseif (empty($_POST['Forma_Pago'])){
+	$errors[] = "la Forma de Pago Se Encuentra Vacia";
 }elseif (empty($_POST['NumeroNip'])and ($_POST['Telefonica']=='True')){
 		$errors[] = "El Numero de Nip Se Encuentra Vacio";
 }elseif (empty($_POST['DataCreditoTipo'])and ($_POST['Telefonica']=='True')){
@@ -46,8 +44,8 @@ elseif (
 		&& !empty($_POST['Campana'])
 		&& !empty($_POST['Estado_Campana'])
 		&& !empty($_POST['Estado'])
-		&& !empty($_POST['Seguimiento'])
-		&& !empty($_POST['Transportadora'])
+		&& !empty($_POST['Forma_Pago'])
+
         ){
             require_once ("../../config/db.php");
 			require_once ("../../config/conexion.php");
@@ -188,7 +186,8 @@ elseif (
 			<?php
 			}
 			if (isset($messages)){
-				
+
+				echo '*Correcto*'.$numero_VEnta.'*';
 				?>
 				<div class="alert alert-success" role="alert">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>

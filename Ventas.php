@@ -68,7 +68,7 @@
 		$Liquidada=$rw_Admin['Liquidada'];
 		$For_Pago = $rw_Admin['Forma_Pago'];
 
-		$query=mysqli_query($con, "select * from AFILIADOS where Identificacion ='".$Afiliado."' ");
+		$query=mysqli_query($con, "select * from AFILIADOS where Id ='".$Afiliado."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 		$Nombre =$rw_Admin['Primer_Nombre'].' '.$rw_Admin['Primer_Apellido'];
 		$Correo=$rw_Admin['Correo'];
@@ -134,7 +134,7 @@
 							</button>
 							
 						</div>
-						<h4><i class="fas fa-shopping-cart"></i>   <?php echo $Numero_venta; ?></h4>
+						<h4><i class="fas fa-shopping-cart"></i> <label for="" id='LNumero'><?php echo $Numero_venta; ?></label>  </h4>
 					</div>
 					<div class="panel-body">
 					<?php 
@@ -233,23 +233,6 @@
 											
 										}
 									?>
-									</div>
-									<div class="col-md-4">
-										<label for="email" class="control-label">Forma de Pago</label>
-										<?PHP
-												$query1=mysqli_query($con, "select * from FORMAS_PAGO");
-												echo' <select class="form-control" id="Forma_Pago" name ="Forma_Pago" placeholder="Forma_Pago"';
-												while($rw_Admin1=mysqli_fetch_array($query1)){
-													if($Forma_Pago==$rw_Admin1['Codigo']){
-														echo '<option value="'.$rw_Admin1['Codigo'].'" selected>'.utf8_encode($rw_Admin1['Descripcion']).'</option>';	
-
-													}else{
-														echo '<option value="'.$rw_Admin1['Codigo'].'">'.utf8_encode($rw_Admin1['Descripcion']).'</option>';	
-
-													}
-												}
-												echo '</select>';
-											?>	
 									</div>
 
 									<div class="col-md-4">
@@ -427,7 +410,17 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 					$("#resultados_ajax2").html("Mensaje: Cargando...");
 				},
 				success: function(datos){
-					$("#resultados_ajax2").html(datos);
+				
+					var Res = datos.split('*');
+					if(Res[1]=='Correcto'){
+						 $('#Numero').val(Res[2]);
+						 $('#LNumero').html("Venta Numero: "+Res[2]);
+						 $("#resultados_ajax2").html(Res[3]);
+					}else{
+						$("#resultados_ajax2").html(datos);
+					}
+
+					
 				}
 			});
 			event.preventDefault();

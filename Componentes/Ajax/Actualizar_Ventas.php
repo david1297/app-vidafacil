@@ -106,7 +106,8 @@ if (isset($errors)){
 			}
 		?>
 	</div>
-	<?php}
+	<?php
+}
 		if (isset($messages)){				
 			?>
 			<div class="alert alert-success" role="modal">

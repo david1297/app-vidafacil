@@ -8,7 +8,7 @@
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
 		$Estado = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Estado'], ENT_QUOTES)));
 
-		$sTable = "VENTAS INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
+		$sTable = "VENTAS INNER JOIN AFILIADOS On AFILIADOS.Id=VENTAS.AFILIADO
 		inner join USUARIOS on USUARIOS.Nit=VENTAS.Usuario
 		inner join CAMPANAS on CAMPANAS.Numero=VENTAS.Campana";
 		$sWhere = "where 1=1";
@@ -64,6 +64,7 @@
 		$reload = './Consultar-Ventas.php';
 		$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,VENTAS.Estado,CAMPANAS.NOMBRE AS Campana FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
+		echo 		$sql;
 		if ($numrows>0){
 			echo mysqli_error($con);
 			?>

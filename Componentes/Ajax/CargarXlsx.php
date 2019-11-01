@@ -100,8 +100,10 @@ if(!empty($_FILES['Archivo']['name'])){
 				$Comercio = $_SESSION['Nit'];	
 			}
 			$Tipificacion =5;
-
-			$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,
+			$query=mysqli_query($con, "select count(*) from AFILIADOS where Identificacion = '$Identificacion'; ");
+			$rw_Admin=mysqli_fetch_array($query);
+			if ($rw_Admin[0]==0){
+				$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,
 													Tipo_Identificacion,Ciudad,Departamento,
 													Direccion,Direccion_Adicional,
 													Forma_Pago,Telefono,Telefono2,Estado,
@@ -112,18 +114,17 @@ if(!empty($_FILES['Archivo']['name'])){
 					'".$Direccion."', '".$Direccion_Adicional."',
 					'".$Forma_Pago."', '".$Telefono."', '".$Telefono."', 
 					'".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion."
-					) ON DUPLICATE  KEY UPDATE
-					Identificacion = '".$Identificacion."',Primer_Nombre ='".$Primer_Nombre."',Segundo_Nombre='".$Segundo_Nombre."',Primer_Apellido='".$Primer_Apellido."',Segundo_Apellido='".$Segundo_Apellido."',
-					Tipo_Identificacion = '".$Tipo_Identificacion."',Ciudad='".$Ciudad."',Departamento='".$Departamento."',
-					Direccion = '".$Direccion."',Direccion_Adicional ='".$Direccion_Adicional."',
-					Forma_Pago = '".$Forma_Pago."',Telefono='".$Telefono."',Telefono2='".$Telefono."',
-					Estado='".$Estado."',Correo='".$Correo."',Comercio='".$Comercio."',Tipificacion='".$Tipificacion."';";
+					);";
 						$query_update = mysqli_query($con,$sql);
 						if ($query_update) {
 							$messages='bien';
 						} else {
 							$errors = $errors.' Error en la Pagina 1 Fila: '.$i;
 						}
+			}
+
+
+			
 		
 		}
 
@@ -136,7 +137,11 @@ if(!empty($_FILES['Archivo']['name'])){
 			$Observacion = $objPHPExcel->getActiveSheet()->getCell('F'.$i)->getCalculatedValue();
 			$Tipificacion = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
 
+			$query=mysqli_query($con, "select Id from AFILIADOS where Identificacion = '$Identificacion'; ");
+			$rw_Admin=mysqli_fetch_array($query);
+			$Id=$rw_Admin[0];
 
+			
 
 
 			$Identificacion = mysqli_real_escape_string($con,(strip_tags($Documento,ENT_QUOTES)));
@@ -152,11 +157,11 @@ if(!empty($_FILES['Archivo']['name'])){
 				$Tipificacion =5;	
 			}	
 			
-			$sql =  "UPDATE  AFILIADOS SET Tipificacion = $Tipificacion  WHERE Identificacion = '".$Identificacion."' ";
+			$sql =  "UPDATE  AFILIADOS SET Tipificacion = $Tipificacion  WHERE Id = '".$Id."' ";
 			$query_update = mysqli_query($con,$sql);
 
 			$sql =  "INSERT INTO  OBSERVACIONES_AFILIADO(Afiliado,Fecha,Observacion,Usuario,Tipificacion) VALUES
-			('".$Identificacion."', '".$Fecha."', '".$Observacion."', '".$User."',$Tipificacion)";
+			('".$Id."', '".$Fecha."', '".$Observacion."', '".$User."',$Tipificacion)";
 			$query_update = mysqli_query($con,$sql);
 			if ($query_update) {
 				$messages='bien';

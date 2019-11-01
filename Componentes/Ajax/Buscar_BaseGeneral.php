@@ -11,7 +11,7 @@
 		$EFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['EFiltro'], ENT_QUOTES)));
 		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
 
-		$sTable = "VENTAS INNER JOIN AFILIADOS On AFILIADOS.IDENTIFICACION=VENTAS.AFILIADO
+		$sTable = "VENTAS INNER JOIN AFILIADOS On AFILIADOS.Id=VENTAS.AFILIADO
 		inner join USUARIOS on USUARIOS.Nit=VENTAS.Usuario
 		inner join CAMPANAS on CAMPANAS.Numero=VENTAS.Campana";
 		$sWhere = "where (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
@@ -73,7 +73,7 @@
 		$reload = './Consultar-BaseGeneral.php';
 		$sql="SELECT VENTAS.Numero,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
 		VENTAS.Estado,VENTAS.Estado_Campana,
-		CAMPANAS.NOMBRE AS Campana,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		CAMPANAS.NOMBRE AS Campana,CAMPANAS.Numero as Cam,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
@@ -98,6 +98,7 @@
 				while ($row=mysqli_fetch_array($query)){
 
 						$Numero=$row['Numero'];
+						$Cam=$row['Cam'];
 						$Afiliado=$row['Primer_Nombre'].' '.$row['Primer_Apellido'] ;
 						$Valor=$row['Valor'];
 						$Usuario=$row['Razon_Social'];
@@ -130,18 +131,22 @@
 						<td>
 
 						<?php
-						$query1=mysqli_query($con, "select * from CAMPANAS where Numero ='".$NCampana."' ");
-						$rw_Admin=mysqli_fetch_array($query1);
-						$tuArray = explode("\r\n", $rw_Admin['Estados']);
+						
 						
 						echo' <select class="form-control hidden " id="Estado_Campana'.$Numero.'" name ="Estado_Campana" placeholder="Estado Campaña">';
-						foreach($tuArray as  $indice => $palabra){
-							if ($Estado_Campana==$palabra){
-								echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
-							} else{
-								echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
-							}
-						}  
+						$query1=mysqli_query($con, "SELECT Numero,Nombre FROM CAMP_TIPIFICACIONES 
+					inner join TIPIFICACIONES on CAMP_TIPIFICACIONES.Tipificacion =TIPIFICACIONES.Numero Where Campana = $NCampana ");
+					while($rw_Admin1=mysqli_fetch_array($query1)){
+						if ($Est_camp==$rw_Admin1[0]){
+							echo '<option value="'.$rw_Admin1[0].'" selected>'.$rw_Admin1[1].'</option>';	
+						}else{
+							echo '<option value="'.$rw_Admin1[0].'">'.$rw_Admin1[1].'</option>';	
+						}
+					
+						
+					}
+
+						
 						echo '</select>';
 						?>
 						</td>

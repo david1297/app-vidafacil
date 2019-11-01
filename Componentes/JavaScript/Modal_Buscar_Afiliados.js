@@ -20,11 +20,10 @@
 			})
 		}
 
-	function Seleccionar(Nit,Nombre,Correo,Forma){
+	function Seleccionar(Nit,Nombre,Correo){
 		document.getElementById('Afiliado').value = Nit ;
 		document.getElementById('Nombre').value = Nombre ;
 		document.getElementById('Correo').value = Correo ;	
-		$('#Forma_Pago option[value='+Forma+']').prop('selected', true);	
 
 		}
 		function NuevoAfiliado(){
