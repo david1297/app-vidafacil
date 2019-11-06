@@ -146,6 +146,28 @@
 //echo $data['opt'];
 //$data = file_get_contents('http://69.162.85.4:10005/ProcessRest/1?TipoTrn=001&Interface=00440044&Bin=373737&Fecha=20171130113000&TipoId=CC&Id=79454636&Producto=79&Canal=79 ');
 //echo $data;
+
+
+$url = 'http://69.162.85.4:10005/ProcessRest/1?TipoTrn=017&Interface=00440044&Bin=373737&Fecha=20171130113000&TipoId=CC&Id=79454636&Producto=79&Canal=79 ';
+
+
+$ch = curl_init($url);
+$data = array(
+	'Nombre'      => 'juan david andrade',
+	'Telefono'    => '3004885454',
+	'Direccion'       => 'Carrera 95#2b-21',
+	'Valor' => 200000
+  );
+$payload = json_encode($data);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$result = curl_exec($ch);
+
+echo $result;
+
+curl_close($ch);
+
 					?>
 					<form class="form-horizontal" method="post" id="Guardar_Ventas" name="Guardar_Ventas">
 					<input type="text" class="form-control hidden" id="EstadoV" name="EstadoV"  value="<?php echo $EstadoV; ?>" > 
