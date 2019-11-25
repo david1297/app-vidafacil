@@ -149,6 +149,7 @@
 				url: "Componentes/Ajax/Solicitar_Pago.php",
 				data: parametros,
 				beforeSend: function(objeto){
+					$('#Solicitar').attr("disabled", true);
 					$('#outer_divc').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 				},
 				success: function(datos){
@@ -159,6 +160,8 @@
 			event.preventDefault();
 			CargarComisiones(1);
 			load(1);
+			$('#Solicitar').attr("disabled", false);
+
 			
 })
 

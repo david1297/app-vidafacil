@@ -94,6 +94,25 @@ elseif (
 						$numero_VEnta=$rw['last']+1;
 					}
 				}	
+				$Observaciones ='';
+				$Tipi=0;
+				$CargarOb ='NO';
+				$CargarTip = 'NO';
+				date_default_timezone_set('America/Bogota');
+				$Fecha =date("d-m-Y h:i:sa");	
+				$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));
+
+				if ($Observaciones!='') {
+					
+				$CargarOb = 'SI';	
+				}
+				$query1=mysqli_query($con, "select Estado_Campana from VENTAS where Numero = $numero_VEnta;");
+				$rw_Admin1=mysqli_fetch_array($query1);
+				$TipAnt =$rw_Admin1[0];
+				if ($TipAnt !=$Estado_Campana ){
+					$CargarTip = 'SI';
+					$Tipi=$Estado_Campana;
+				}
 
 				
 
@@ -117,32 +136,29 @@ elseif (
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
 						$messages[] = "La Venta Se Guardo Con Exito.";
-						$sql =  "Update AFILIADOS Set Tipificacion='".$Estado_Campana."' where Id =".$Afiliado.";";
+						$sql =  "Update AFILIADOS Set Tipificacion='".$Estado_Campana."' ,Comercio='".$Usuario."' where Id =".$Afiliado.";";
     					$query_update = mysqli_query($con,$sql);
                     } else {
                         $errors[] = $sql;
 					}
-					if (isset($_POST['Observaciones'])) {
-						$User=$_SESSION['Nit'];
-						$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));	
-						if ($Observaciones<>''){
-							$Fecha =date("Y-m-d");
-							$sql =  "INSERT INTO  OBSERVACIONES_VENTAS(Venta,Fecha,Observacion,Usuario) VALUES
-							('".$numero_VEnta."', '".$Fecha."', '".$Observaciones."', '".$User."')";
-						 $query_update = mysqli_query($con,$sql);
-						 if ($query_update) {
-							 $messages[] = "Los Datos Se Han Modificado Con Exito.";
-						 } else {
-							 $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
-						 }	
-						}
-					
+					if(($CargarOb=='SI')||($CargarTip=='SI')){
+
+
+						
+
+						$sql =  "INSERT INTO  OBSERVACIONES_VENTAS(Venta,Fecha,Observacion,Usuario,Tipificacion) VALUES
+						('".$numero_VEnta."', '".$Fecha."', '".$Observaciones."', '".$Usuario."',$Tipi)";
+					 $query_update = mysqli_query($con,$sql);
 					}
+
+					
 						$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento='".$numero_VEnta."'");
 
 
 						$Comision = 0;
-						if ($Porcentaje_Comision > 0 and ($Estado=='Aprobada')){
+						
+					
+						if ($Porcentaje_Comision > 0 and ($Estado==1)){
 						
 							$Comision = ($Valor*$Porcentaje_Comision)/100;	
 							$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
@@ -155,7 +171,7 @@ elseif (
 							}
 						}else{
 							
-							if ($Portafolio > 0 and ($Estado=='Aprobada')){
+							if ($Portafolio > 0 and ($Estado==1)){
 								
 								$Comision = ($Portafolio);	
 								$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)

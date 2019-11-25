@@ -408,7 +408,7 @@
 		  							</div>	
 									  <div class="col-md-12"><br>
 									  <div class="card border-secondary mb-3">
-									<?php echo $Observaciones_Cargadas ?>
+											<?php echo $Observaciones_Cargadas ?>
   										
 									</div>			
 									</div>			

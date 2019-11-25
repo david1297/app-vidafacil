@@ -87,16 +87,29 @@
 		$query = mysqli_query($con, $sql);
 		while ($row=mysqli_fetch_array($query)){
 			$Observaciones_Cargadas.=
-				
-			'<br>
-			<div class="card border-secondary mb-3">
-  				<div class="card-header">'.$row['Razon_Social'].'<em>&nbsp;&nbsp;&nbsp;&nbsp;('.$row['Fecha'].')</em></div>
-  				<div class="card-body text-secondary">
-    				<p class="card-text">'.$row['Observacion'].'</p>
-  				</div>
-			</div>
+			'<div class="card-header">'.$row['Razon_Social'].'<em>&nbsp;&nbsp;&nbsp;&nbsp;('.$row['Fecha'].')</em></div>
+				  <div class="card-body text-secondary">';
+			if($row['Tipificacion']!=0 ){
+				$Observaciones_Cargadas.='<b>Se Realiza Tipificacion a: </b>';
+				$sql1="SELECT * FROM TIPIFICACIONES WHERE Numero=".$row['Tipificacion']."";
+				$query1 = mysqli_query($con, $sql1);
+				$row1=mysqli_fetch_array($query1); 
+				$Observaciones_Cargadas.=utf8_encode($row1['Nombre']);
+				$Observaciones_Cargadas.='<br><br>';
+			}
+			
+			if($row['Observacion']!='' ){	
+			$Observaciones_Cargadas.='<b>Observacion:</b> '.$row['Observacion'].'';
+			}  
+			$Observaciones_Cargadas.='
+				  </div>
+				  
+				  
+
 		';
 		}
+
+		
 
 	}else{
 		$Nit=$_SESSION['Nit'];
@@ -147,7 +160,7 @@
 //$data = file_get_contents('http://69.162.85.4:10005/ProcessRest/1?TipoTrn=001&Interface=00440044&Bin=373737&Fecha=20171130113000&TipoId=CC&Id=79454636&Producto=79&Canal=79 ');
 //echo $data;
 
-
+/*
 $url = 'http://69.162.85.4:10005/ProcessRest/1?TipoTrn=017&Interface=00440044&Bin=373737&Fecha=20171130113000&TipoId=CC&Id=79454636&Producto=79&Canal=79 ';
 
 
@@ -166,7 +179,7 @@ $result = curl_exec($ch);
 
 echo $result;
 
-curl_close($ch);
+curl_close($ch);*/ 
 
 					?>
 					<form class="form-horizontal" method="post" id="Guardar_Ventas" name="Guardar_Ventas">
@@ -364,7 +377,10 @@ curl_close($ch);
   										<textarea class="form-control" rows="5" id="Observaciones" name="Observaciones"></textarea>
 									</div>	
 									<div class="col-md-12"><br>
-									<?php echo $Observaciones_Cargadas ?>
+									<div class="card border-secondary mb-3">
+											<?php echo $Observaciones_Cargadas ?>
+  										
+									</div>
   										
 									</div>									
 								</div>
@@ -440,7 +456,7 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 					$("#resultados_ajax2").html("Mensaje: Cargando...");
 				},
 				success: function(datos){
-				
+		
 					var Res = datos.split('*');
 					if(Res[1]=='Correcto'){
 						 $('#Numero').val(Res[2]);

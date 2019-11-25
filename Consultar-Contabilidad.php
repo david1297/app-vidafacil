@@ -66,6 +66,7 @@
 						<ul class="nav nav-tabs" role="tablist" Id="Navegador">
 							<li class="active"><a href="#Ingresos" role="tab" data-toggle="tab" id="ClickIngresos">Ingresos</a></li>
 							<li>               <a href="#Egresos" role="tab" data-toggle="tab" id="ClickEgresos">Egresos</a></li>
+							<li>               <a href="#Todo" role="tab" data-toggle="tab" id="ClickTodo">Todo</a></li>
 						</ul>	
 						<div class="tab-content content-profile">
 							<div class="tab-pane fade in active" id="Ingresos">
@@ -73,6 +74,9 @@
 							</div>
 							<div class="tab-pane fade" id="Egresos">
 								<div class='ResEgresos'></div>
+							</div>
+							<div class="tab-pane fade" id="Todo">
+								<div class='ResTodo'></div>
 							</div>
 						</div>
 						
@@ -98,18 +102,18 @@
 	<script>
 	$("#ClickIngresos").click(function( event){
 		document.getElementById('Pestana').value= 'ResIngresos';
-
 		$('#FEstado').removeClass("hidden");
-	load(1);
+		load(1);
 	})
 	$("#ClickEgresos").click(function( event){
-
 		document.getElementById('Pestana').value= 'ResEgresos';
 		$('#FEstado').addClass("hidden");
-	
-
-
-	load(1);
+		load(1);
+	})
+	$("#ClickTodo").click(function( event){
+		document.getElementById('Pestana').value= 'ResTodo';
+		$('#FEstado').addClass("hidden");
+		load(1);
 	})
 
 	function CambioEFiltro(){

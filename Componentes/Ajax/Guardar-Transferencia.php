@@ -37,9 +37,11 @@ require_once ("../../config/db.php");
 		$Valor_Aprovado = mysqli_real_escape_string($con,(strip_tags($_POST["Valor_Aprovado"],ENT_QUOTES)));
 		$Numero_Cuenta = mysqli_real_escape_string($con,(strip_tags($_POST["Numero_Cuenta"],ENT_QUOTES)));
 		$Titular_Cuenta = mysqli_real_escape_string($con,(strip_tags($_POST["Titular_Cuenta"],ENT_QUOTES)));
+		$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
+
 		$sql =  "Update TRANSACCIONESE Set Fecha_Revision='".$Fecha_Revision."',Valor_Rechazado=".$Valor_Rechazado.",
 		Banco='".$Banco."',Tipo_Cuenta='".$Tipo_Cuenta."',Valor_Aprovado=".$Valor_Aprovado.",Numero_Cuenta='".$Numero_Cuenta."',
-		Titular_Cuenta='".$Titular_Cuenta."',Estado='Revisada' where Numero =".$Numero.";";				
+		Titular_Cuenta='".$Titular_Cuenta."',Estado='".$Estado."' where Numero =".$Numero.";";				
 		$query_update = mysqli_query($con,$sql);
 		if ($query_update) {
 			
@@ -47,66 +49,78 @@ require_once ("../../config/db.php");
 			$sql =  "Update TRANSACCIONESD Set Estado='Rechazada' where Numero =".$Numero.";";				
 			$query_update = mysqli_query($con,$sql);
 			if ($query_update) {
-				foreach($_POST['NumeroVenta'] as $Venta){
-					$porciones = explode("-", $Venta);
-					$sql =  "Update TRANSACCIONESD Set Estado='Pagada' where Numero =".$Numero." and Tipo='".$porciones[0]."'
-					and NDocumento=".$porciones[1]."; ";			
-					$query_update = mysqli_query($con,$sql);
-				}	
+				if (isset($_POST['NumeroVenta'])) {
+					foreach($_POST['NumeroVenta'] as $Venta){
+						$porciones = explode("-", $Venta);
+						$sql =  "Update TRANSACCIONESD Set Estado='Pagada' where Numero =".$Numero." and Tipo='".$porciones[0]."'
+						and NDocumento=".$porciones[1]."; ";			
+						$query_update = mysqli_query($con,$sql);
+					}
+
+				}
+				
+
+					
 				$messages[] = "Estado de Venta";
 			}else{
 				$errors[] ="Error Al Actualizar Estado de Venta <br>".$sql;		
 			}
 		}
 		$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento=".$Numero." and Tipo ='T' ");
-		$sql="select TRANSACCIONESE.Usuario,TRANSACCIONESD.NDocumento,TRANSACCIONESD.Tipo,TRANSACCIONESD.Estado,TRANSACCIONESD.Valor from TRANSACCIONESE
-		inner join TRANSACCIONESD on TRANSACCIONESD.Numero = TRANSACCIONESE.Numero where TRANSACCIONESE.Numero=".$Numero." ";
-		
-		$query = mysqli_query($con, $sql);
-
-		while ($row=mysqli_fetch_array($query)){
-		$Usuario=$row['Usuario'];
-		$Tipo=$row['Tipo'];
-		$Valor=$row['Valor'];
-		$NDocumento=$row['NDocumento'];
-		$Estado=$row['Estado'];
-		$sql =  "Update CUENTA_VIRTUAL Set Estado='".$Estado."' where NDocumento =".$NDocumento." and Tipo ='".$Tipo."';";				
-		$query_update = mysqli_query($con,$sql);
-		$Debito=0;			
-		$Credito=0;
-		if ($Valor > 0){
-			$Debito = $Valor;
-			$Valor = $Valor*(-1);
-		}else{
-			$Valor = $Valor*(-1);
-			$Credito = $Valor;
-		}
-		;					
-
-		$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
-									VALUES('".$Usuario."','T','".$Numero."','".$Tipo."','".$NDocumento."','".$Credito."','".$Debito."','0','".$Valor."','Pagada','".date("Y-m-d")."')";
-		$query_update = mysqli_query($con,$sql);						
-
-		$sql =  "Update VENTAS Set Liquidada='True' where Numero =".$Venta.";";				
-		$query_update = mysqli_query($con,$sql);
-	
-		}
-		if (isset($_POST['Observaciones'])) {
-			$User=$_SESSION['Nit'];
-			$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));	
-			if ($Observaciones<>''){
-				$Fecha =date("Y-m-d");
-				$sql =  "INSERT INTO  OBSERVACIONES_TRANSFERENCIAS(Transferencia,Fecha,Observacion,Usuario) VALUES
-				('".$Numero."', '".$Fecha."', '".$Observaciones."', '".$User."')";
-			 $query_update = mysqli_query($con,$sql);
-			 if ($query_update) {
-				 $messages[] = "Los Datos Se Han Modificado Con Exito.";
-			 } else {
-				 $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
-			 }	
+			
+			
+			
+		if ($Estado =='Aprobada'){
+			$sql="select TRANSACCIONESE.Usuario,TRANSACCIONESD.NDocumento,TRANSACCIONESD.Tipo,TRANSACCIONESD.Estado,TRANSACCIONESD.Valor from TRANSACCIONESE
+			inner join TRANSACCIONESD on TRANSACCIONESD.Numero = TRANSACCIONESE.Numero where TRANSACCIONESE.Numero=".$Numero." ";
+			$query = mysqli_query($con, $sql);
+			while ($row=mysqli_fetch_array($query)){
+			$Usuario=$row['Usuario'];
+			$Tipo=$row['Tipo'];
+			$Valor=$row['Valor'];
+			$NDocumento=$row['NDocumento'];
+			$Estado=$row['Estado'];
+			$sql =  "Update CUENTA_VIRTUAL Set Estado='".$Estado."' where NDocumento =".$NDocumento." and Tipo ='".$Tipo."';";				
+			$query_update = mysqli_query($con,$sql);
+			$Debito=0;			
+			$Credito=0;
+			if ($Valor > 0){
+				$Debito = $Valor;
+				$Valor = $Valor*(-1);
+			}else{
+				$Valor = $Valor*(-1);
+				$Credito = $Valor;
 			}
+			;					
+	
+			$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
+										VALUES('".$Usuario."','T','".$Numero."','".$Tipo."','".$NDocumento."','".$Credito."','".$Debito."','0','".$Valor."','Pagada','".date("Y-m-d")."')";
+			$query_update = mysqli_query($con,$sql);						
+	
+			$sql =  "Update VENTAS Set Liquidada='True' where Numero =".$Venta.";";				
+			$query_update = mysqli_query($con,$sql);
 		
+			}
+			if (isset($_POST['Observaciones'])) {
+				$User=$_SESSION['Nit'];
+				$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));	
+				if ($Observaciones<>''){
+					$Fecha =date("Y-m-d");
+					$sql =  "INSERT INTO  OBSERVACIONES_TRANSFERENCIAS(Transferencia,Fecha,Observacion,Usuario) VALUES
+					('".$Numero."', '".$Fecha."', '".$Observaciones."', '".$User."')";
+				 $query_update = mysqli_query($con,$sql);
+				 if ($query_update) {
+					 $messages[] = "Los Datos Se Han Modificado Con Exito.";
+				 } else {
+					 $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
+				 }	
+				}
+			
+			}
 		}
+
+
+		
 		
 
 

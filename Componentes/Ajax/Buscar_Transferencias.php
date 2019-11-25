@@ -72,8 +72,9 @@
 						$Estado=$row['ESTADO'];
 					
 						
-						if ($Estado=="Revisada"){$label_class='label-success';}
-						if ($Estado=="Pendiente"){$label_class='label-warning';}
+						if ($Estado=="Aprobada"){$label_class='label-success';}
+						if ($Estado=="por revisar"){$label_class='label-warning';}
+						if ($Estado=="Negada"){$label_class='label-danger';}
 					
 						
 					?>

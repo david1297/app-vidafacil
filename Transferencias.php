@@ -21,11 +21,12 @@
 	$Numero_Cuenta="";
 	$Titular_Cuenta="";
     $Observaciones_Cargadas="";
+    $Estado="";
 
 	if (isset($_GET['Numero'])) {
 
         $query=mysqli_query($con, "select Numero,Usuario,USUARIOS.Razon_Social,
-         Fecha_Creacion,Fecha_Revision,Valor_Aprovado,Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,
+         Fecha_Creacion,Fecha_Revision,Valor_Aprovado,Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,TRANSACCIONESE.Estado,
          Titular_Cuenta from TRANSACCIONESE 
 		inner join USUARIOS on TRANSACCIONESE.Usuario = USUARIOS.Nit
 		where Numero='".$_GET['Numero']."' ");
@@ -41,13 +42,14 @@
 		}
 
 
+		$Estado =$rw_Admin['Estado'];
 		$Valor_Aprovado =$rw_Admin['Valor_Aprovado'];
 		$Valor_Rechazado =$rw_Admin['Valor_Rechazado'];
 		$Banco=$rw_Admin['Banco'];
 		$Tipo_Cuenta=$rw_Admin['Tipo_Cuenta'];
 		$Numero_Cuenta=$rw_Admin['Numero_Cuenta'];
 		$Titular_Cuenta=$rw_Admin['Titular_Cuenta'];
-
+       
         $Transferencia="Transferencia Numero: ".$Numero;
         $sql="SELECT * FROM OBSERVACIONES_TRANSFERENCIAS 
         inner join Usuarios on Usuarios.Nit=OBSERVACIONES_TRANSFERENCIAS.Usuario WHERE Transferencia=".$Numero."";
@@ -187,8 +189,26 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="empresa" class="control-label">Tipo de Cuenta</label>
-                                        <input type="text" class="form-control" id="Tipo_Cuenta" Name="Tipo_Cuenta"
-                                            placeholder="Tipo de Cuenta" value="<?php echo $Tipo_Cuenta;?>">
+                                        
+                                        <select name="Tipo_Cuenta" id="Tipo_Cuenta" class="form-control">
+                                        <?php
+                                        
+                                            if ($Tipo_Cuenta == 'Ahorros'){
+                                                ?>
+                                                <option value="Ahorros" selected>Ahorros</option>
+                                                    <option value="Corriente">Corriente</option>
+                                               <?php 
+                                            }else{
+                                                ?>
+                                                <option value="Ahorros" >Ahorros</option>
+                                                    <option value="Corriente" selected>Corriente</option>
+                                               <?php 
+                                            }
+                                        ?>
+                                                    
+                                        </select>
+
+                                       
                                     </div>
                                     <div class="col-md-4">
                                         <label for="empresa" class="control-label">Numero de Cuenta</label>
@@ -200,6 +220,40 @@
                                         <input type="text" class="form-control" id="Titular_Cuenta"
                                             Name="Titular_Cuenta" placeholder="Titular de la Cuenta"
                                             value="<?php echo $Titular_Cuenta;?>">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="empresa" class="control-label">Estado</label>
+                                        
+                                        <select name="Estado" id="Estado" class="form-control">
+                                        <?php
+                                        
+                                            if ($Estado == 'Aprobada'){
+                                                ?>
+                                                <option value="Aprobada" selected>Aprobada</option>
+                                                    <option value="por revisar">por revisar</option>
+                                                    <option value="Negada">Negada</option>
+                                               <?php 
+                                            }else{
+                                                if ($Estado == 'por revisar'){
+                                                    ?>
+                                                    <option value="Aprobada" >Aprobada</option>
+                                                    <option value="por revisar" selected>por revisar</option>
+                                                    <option value="Negada">Negada</option>
+                                               <?php 
+                                                }else{
+                                                    ?>
+                                                    <option value="Aprobada" >Aprobada</option>
+                                                    <option value="por revisar" >por revisar</option>
+                                                    <option value="Negada" selected>Negada</option>
+                                               <?php 
+                                                }
+                                                
+                                            }
+                                        ?>
+                                                    
+                                        </select>
+
+                                       
                                     </div>
                                     <div class="col-md-12">
   										<label for="Observaciones">Observaciones:</label>
@@ -219,7 +273,7 @@
                                                 <th class="text-center">Numero</th>
                                                 <th class="text-right">Valor</th>
                                                 <th class="text-center">Estado</th>
-                                                <th class="text-center">Seleccion</th>
+                                                <th class="text-left">Seleccion</th>
                                             </tr>
                                             <?php
 											$Total=0;

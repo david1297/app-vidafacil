@@ -86,7 +86,7 @@ if(!empty($_FILES['Archivo']['name'])){
 			}	
 			$Direccion = mysqli_real_escape_string($con,(strip_tags($Direccion,ENT_QUOTES)));
 			$Direccion_Adicional = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));
-			$Forma_Pago = mysqli_real_escape_string($con,(strip_tags('5',ENT_QUOTES)));
+			
 			$Telefono = mysqli_real_escape_string($con,(strip_tags($Celular ,ENT_QUOTES)));
 			$Estado = mysqli_real_escape_string($con,(strip_tags('Por Activar',ENT_QUOTES)));
 			$Correo = mysqli_real_escape_string($con,(strip_tags($Correo,ENT_QUOTES)));
@@ -106,13 +106,13 @@ if(!empty($_FILES['Archivo']['name'])){
 				$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,
 													Tipo_Identificacion,Ciudad,Departamento,
 													Direccion,Direccion_Adicional,
-													Forma_Pago,Telefono,Telefono2,Estado,
+													Telefono,Telefono2,Estado,
 													Correo,Comercio,Tipificacion) VALUES
 
 					('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
 					'".$Tipo_Identificacion."','".$Ciudad."', '".$Departamento."', 
 					'".$Direccion."', '".$Direccion_Adicional."',
-					'".$Forma_Pago."', '".$Telefono."', '".$Telefono."', 
+					'".$Telefono."', '".$Telefono."', 
 					'".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion."
 					);";
 						$query_update = mysqli_query($con,$sql);

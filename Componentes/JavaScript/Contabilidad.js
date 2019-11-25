@@ -45,6 +45,8 @@ $( "#ExportarExcel" ).click(function( event ) {
 			}else{
 				if(Pest =='ResIngresos'){
 					NombreXLS="Ingresos";		
+				}else{
+					NombreXLS="Todo";	
 				}
 			}
 			if(typeof XLSX == 'undefined') XLSX = require('xlsx');
