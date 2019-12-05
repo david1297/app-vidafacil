@@ -61,6 +61,16 @@ elseif (
 				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 				$Correo = mysqli_real_escape_string($con,(strip_tags($_POST["Correo"],ENT_QUOTES)));
 
+				$Nombre_Completo = $Primer_Nombre;
+				if($Segundo_Nombre != ''){
+					$Nombre_Completo =$Nombre_Completo.' '.$Segundo_Nombre;
+				} 
+				$Nombre_Completo =$Nombre_Completo.' '.$Primer_Apellido;
+				if($Segundo_Apellido != ''){
+					$Nombre_Completo =$Nombre_Completo.' '.$Segundo_Apellido;
+				}
+
+
 				$Comercio = mysqli_real_escape_string($con,(strip_tags($_POST["Comercio"],ENT_QUOTES)));
 				$Indicativo = mysqli_real_escape_string($con,(strip_tags($_POST["Indicativo"],ENT_QUOTES)));
 				$D1 = mysqli_real_escape_string($con,(strip_tags($_POST["D1"],ENT_QUOTES)));
@@ -88,12 +98,12 @@ elseif (
 					Tipo_Identificacion,Ciudad,Departamento,
 					Direccion,Direccion_Adicional,
 					Telefono,
-					Estado,Correo,Comercio,Tipificacion,Indicativo,D1,D2,D3,D4,Adicional,Telefono2,FechaCracion) VALUES
+					Estado,Correo,Comercio,Tipificacion,Indicativo,D1,D2,D3,D4,Adicional,Telefono2,FechaCracion,Nombre_Completo) VALUES
 
 						('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
 					'".$Tipo_Identificacion."', '".$Ciudad."', '".$Departamento."', 
 					'".$Direccion."', '".$Direccion_Adicional."', '".$Telefono."', 
-					'".$Estado."', '".$Correo."', '".$Comercio."', 5, '".$Indicativo."', '".$D1."', '".$D2."', '".$D3."', '".$D4."', '".$Adicional."', '".$Telefono2."',CURDATE()
+					'".$Estado."', '".$Correo."', '".$Comercio."', 5, '".$Indicativo."', '".$D1."', '".$D2."', '".$D3."', '".$D4."', '".$Adicional."', '".$Telefono2."',CURDATE(), '".$Nombre_Completo."'
 					);";
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {
@@ -137,7 +147,7 @@ elseif (
 					Telefono='".$Telefono."',
 					Estado='".$Estado."',
 					Correo='".$Correo."',Comercio='".$Comercio."',Indicativo='".$Indicativo."'
-					,D1='".$D1."',D2='".$D2."',D3='".$D3."',D4='".$D4."',Adicional='".$Adicional."',Telefono2='".$Telefono2."' WHERE Id = $Id";
+					,D1='".$D1."',D2='".$D2."',D3='".$D3."',D4='".$D4."',Adicional='".$Adicional."',Telefono2='".$Telefono2."',Nombre_Completo = '".$Nombre_Completo."' WHERE Id = $Id";
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {
 						$messages[] = "El Afiliado se a Actualizo con Exito!";

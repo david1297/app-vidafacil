@@ -15,15 +15,16 @@ if (empty($_POST['Numero'])){
 	$errors[] = "El Area de la Campaña Se Encuentra Vacio";
 }elseif (empty($_POST['Estado'])){
 	$errors[] = "El Estado de la Campaña Se Encuentra Vacio";
-}elseif (empty($_POST['Porcentaje'])){
-	$errors[] = "El Porcentaje de la Campaña Se Encuentra Vacio";
+}elseif ( (empty($_POST['Porcentaje']))&&(($_POST['Porcentaje']< 0)) ){
+
+		$errors[] = "El Porcentaje de la Campaña Se Encuentra Vacio";
+	
 }elseif (
 			!empty($_POST['Numero'])
 			&& !empty($_POST['Nombre'])
 			&& !empty($_POST['Contacto'])
 			&& !empty($_POST['Area'])
 			&& !empty($_POST['Estado'])
-			&& !empty($_POST['Porcentaje'])
           )
          {
             require_once ("../../config/db.php");

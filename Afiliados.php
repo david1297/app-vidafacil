@@ -144,7 +144,10 @@
 				  						<div class="col-sm-9 ">
 				   							<input type="text" class="form-control" id="Identificacion" name="Identificacion" placeholder="Identificacion" value="<?php echo $Identificacion; ?>" <?php echo $Read; ?> required onchange='ValidarDatos("Identificacion",$(this).val())'>
 											   <input type="text " class="form-control hidden" id="VIdentificacion" name="VIdentificacion" value="Yes" > 
-										</div>
+											   <div class="invalid-feedback">
+											   	El Numero de Identificacion Ya se Encuentra Registrado
+      											</div>
+											</div>
 			   						</div>
 									<div class="form-group" >
 										<label for="Tipo_Identificacion" class="col-sm-3 control-label">Tipo de Identificacion</label>

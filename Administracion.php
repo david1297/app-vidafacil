@@ -283,7 +283,7 @@ function UpdateDescFormaPago(Key,Numero){
 		$.ajax({
         type: "POST",
 				url: "Componentes/Ajax/Actualizar_FormaDePago.php",
-        data: "Numero="+Numero+"&Descripcion="+Descripcion,
+        data: "Numero="+Numero+"&Descripcion="+Descripcion+"&Campo=D",
 			beforeSend: function(objeto){
 				$('#loader_'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			},success: function(datos){
@@ -296,6 +296,26 @@ function UpdateDescFormaPago(Key,Numero){
 			}
 		});
   }
+}
+function UpdateTipoFormaPago(Numero){
+
+			var Tipo = $("#Tipo_"+Numero).val();
+		$.ajax({
+        type: "POST",
+				url: "Componentes/Ajax/Actualizar_FormaDePago.php",
+        data: "Numero="+Numero+"&Tipo="+Tipo+"&Campo=T",
+			beforeSend: function(objeto){
+				$('#loader_'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			},success: function(datos){
+				$('#loader_'+Numero).html(datos);
+				$('#loader_'+Numero).fadeOut(2000); 
+				setTimeout(function() { 
+					$('#loader_'+Numero).html('');	
+					$('#loader_'+Numero).fadeIn(1000); 
+				}, 1000);	
+			}
+		});
+  
 }
 function UpdateDescBancos(Key,Numero){
 	if (Key.keyCode == 13) {

@@ -154,7 +154,7 @@
 									<div class="form-group col-sm-8">
 										<label for="Porcentaje" class="col-sm-3 control-label">Porcentaje</label>
 										<div class="col-sm-8">
-											<input type="number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>"  min="1" max="100" step="0.5" onchange="UpdatePorcentaje()">
+											<input type="number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>"  min="0" max="100" step="0.5" onchange="UpdatePorcentaje()">
 										</div>
 									</div>
 									<div class="form-group col-sm-8">

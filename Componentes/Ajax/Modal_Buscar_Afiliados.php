@@ -16,7 +16,7 @@
 				$sWhere.= " and  (AFILIADOS.Identificacion like '%$Busc_Afiliado%' )";	
 			}else{
 				if ($Filtro =="Nombre"){
-					$sWhere.= " and  (AFILIADOS.Primer_Nombre like '%$Busc_Afiliado%')  or (AFILIADOS.Segundo_Nombre like '%$Busc_Afiliado%')  or (AFILIADOS.Primer_Apellido like '%$Busc_Afiliado%') or (AFILIADOS.Segundo_Apellido like '%$Busc_Afiliado%') ";	
+					$sWhere.= " and  (AFILIADOS.Nombre_Completo like '%$Busc_Afiliado%') ";	
 				}else{
 					if ($Filtro =="Ciudad"){
 						$sWhere.= " and  (CIUDADES.Nombre like '%$Busc_Afiliado%')";

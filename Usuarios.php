@@ -182,8 +182,12 @@
 				  						<div class="col-sm-9 ">
 				   							<input type="text" class="form-control" id="Nit" name="Nit" placeholder="Nit" value="<?php echo $Nit; ?>" <?php echo $Read; ?> required onchange='ValidarDatos("Nit",$(this).val())'> 
 				   							<input type="text " class="form-control hidden" id="VNit" name="VNit" value="Yes" > 
+											   <div class="invalid-feedback">
+											   	El Numero de Documento o Nit Ya se Encuentra Registrado
+      											</div>
 				  						</div>
-			   					</div>
+								   </div>
+								   
 									<div class="form-group col-sm-9" id="D_Razon_Social">
 										<label for="Razon_Social"  class="col-sm-3 control-label">Razon Social</label>
 				  						<div class="col-sm-9">
@@ -341,6 +345,9 @@
 											<div class="col-sm-9">
 												<input type="text" class="form-control" id="CC" name="CC" required placeholder="Numero de Documento" value="<?php echo $CC; ?>" onkeypress='return validaNumericos(event)' onchange='ValidarDatos("RepLegal",$(this).val())'>
 												<input type="text " class="form-control hidden" id="VCC" name="VCC" value="Yes" > 
+												<div class="invalid-feedback">
+												El Numero de Documento Del Representante Legal ya se Encuentra Registrado
+      											</div>
 											</div>
 										</div>
 									</div>
@@ -483,6 +490,9 @@
 											<label for="Tel_R1" class="col-sm-3 control-label">Telefono</label>
 											<div class="col-sm-8">
 												<input type="text" class="form-control" id="Tel_R1" name="Tel_R1" required placeholder="Telefono de Referencia 1" value="<?php echo $Tel_R1; ?>" maxlength="10"  onkeypress='return validaNumericos(event)' onchange='ValidarDatos("Ref1",$(this).val())'>
+												<div class="invalid-feedback">
+												Uno de los Numeros de Referencia ya se Encuentra Registrado
+      											</div>
 											</div>
 										</div>			
 										<div class="form-group col-sm-8">
@@ -496,7 +506,11 @@
 											<label for="Tel_R2" class="col-sm-3 control-label">Telefono</label>
 											<div class="col-sm-8">
 												<input type="text" class="form-control" id="Tel_R2" name="Tel_R2" required placeholder="Telefono de Referencia 2" value="<?php echo $Tel_R2; ?>" maxlength="10"  onkeypress='return validaNumericos(event)' onchange='ValidarDatos("Ref2",$(this).val())'>
+												<div class="invalid-feedback">
+												Uno de los Numeros de Referencia ya se Encuentra Registrado
+      											</div>
 											</div>
+											
 										</div>	
 										<input type="text" class="form-control hidden" id="VTel_R" name="VTel_R" value="Yes">
 

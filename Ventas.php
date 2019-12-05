@@ -32,12 +32,19 @@
 	$Valor="";
 	$Liquidada="";
 	$For_Pago="";
+	$Pin="";
+	$Cuotas="";
+	$TipoTarjeta="";
+	$NumeroTarjeta="";
+	$SCode="";
+	$FechaExp ="";
 	
 	
 
 	if (isset($_GET['Numero'])) {
 
-		$query=mysqli_query($con, "select VENTAS.Forma_Pago,VENTAS.Liquidada,VENTAS.Portafolio,VENTAS.Numero,VENTAS.Afiliado,VENTAS.Usuario,VENTAS.Campana,
+		$query=mysqli_query($con, "select VENTAS.Pin,VENTAS.Cuotas,VENTAS.TipoTarjeta,VENTAS.NumeroTarjeta,VENTAS.SCode,
+		VENTAS.FechaExp ,VENTAS.Forma_Pago,VENTAS.Liquidada,VENTAS.Portafolio,VENTAS.Numero,VENTAS.Afiliado,VENTAS.Usuario,VENTAS.Campana,
 		VENTAS.Estado_Campana,VENTAS.Estado,VENTAS.Fecha,VENTAS.Transportadora,VENTAS.Seguimiento,VENTAS.NumeroNip,VENTAS.DataCreditoTipo,
 		VENTAS.Servicio,VENTAS.Canal,VENTAS.NumeroCelular,VENTAS.OperadorVenta,VENTAS.OperadorDonante,VENTAS.NumeroSim,
 		VENTAS.Valor,VENTAS.Porcentaje_Comision,USUARIOS.Nit,USUARIOS.Razon_Social
@@ -67,6 +74,12 @@
 		$Razon_Social =$rw_Admin['Razon_Social'];
 		$Liquidada=$rw_Admin['Liquidada'];
 		$For_Pago = $rw_Admin['Forma_Pago'];
+		$Pin= $rw_Admin['Pin'];
+		$Cuotas= $rw_Admin['Cuotas'];
+		$TipoTarjeta= $rw_Admin['TipoTarjeta'];
+		$NumeroTarjeta= $rw_Admin['NumeroTarjeta'];
+		$SCode= $rw_Admin['SCode'];
+		$FechaExp = $rw_Admin['FechaExp'];
 
 		$query=mysqli_query($con, "select * from AFILIADOS where Id ='".$Afiliado."' ");
 		$rw_Admin=mysqli_fetch_array($query);
@@ -152,6 +165,8 @@
 					<div class="panel-body">
 					<?php 
 						include("Componentes/Modal/Buscar_Afiliados.php");
+						include("Componentes/Modal/FomaPago_Policia.php");
+						include("Componentes/Modal/FomaPago_Tarjeta.php");
 				
 						
 
@@ -208,7 +223,10 @@ curl_close($ch);*/
 										<label for="empresa" class="control-label">Usuario</label>
 										<input type="text" class="form-control" id="Usuario_N" placeholder="Usuario" value="<?php echo $Razon_Social;?>" readonly>
 											<input type="text" class="form-control hidden" id="Usuario" name="Usuario" placeholder="Usuario" value="<?php echo $Nit;?>" readonly>
+									</div>
 									</div>	
+
+									<div class="row">
 									<div class="col-md-4">
 										<label for="tel2" class="control-label">Fecha</label>
 										<input type="Date" class="form-control" id="fecha" name="fecha" value="<?php echo $Fecha?>"readonly>
@@ -233,6 +251,8 @@ curl_close($ch);*/
 									<input type="Text" class="form-control hidden" id="Est_camp" name="Est_camp" require value="<?php echo $Estado_Campana?>" readonly="readonly">
 									<input type="Text" class="form-control hidden" id="Seg_camp" name="Seg_camp" require value="<?php echo $Seguimiento?>" readonly="readonly">
 									<input type="Text" class="form-control hidden" id="Tran_camp" name="Tran_camp" require value="<?php echo $Transportadora?>" readonly="readonly">
+									<input type="Text" class="form-control hidden" id="Forp_camp" name="Forp_camp" require value="<?php echo $For_Pago?>" readonly="readonly">
+									
 									
 									<div  id="Estados">
 										
@@ -462,6 +482,20 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 						 $('#Numero').val(Res[2]);
 						 $('#LNumero').html("Venta Numero: "+Res[2]);
 						 $("#resultados_ajax2").html(Res[3]);
+						
+						 var F = $('#Forma_Pago').val();
+						 var Forma_Pago = F.split('_');
+						
+						 if (Forma_Pago[1]=='2'){
+							$('#NumeroVP').val(Res[2]);
+							$("#FormaPago_Policia").modal("show");
+						 }else{
+							if (Forma_Pago[1]=='1'){
+								$('#NumeroVT').val(Res[2]);
+							$("#FormaPago_Tarjeta").modal("show");
+						 } 
+						 }
+
 					}else{
 						$("#resultados_ajax2").html(datos);
 					}
@@ -474,15 +508,73 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 	}
 })
 
+$( "#FormPagoP" ).submit(function( event ) {
+			var parametros = $(this).serialize();
+			$.ajax({
+				type: "POST",
+				url: "Componentes/Ajax/Guardar_Forma_PagoVenta.php",
+				data: parametros,
+				beforeSend: function(objeto){
+					$("#resultados_ajax2").html("Mensaje: Cargando...");
+				},
+				success: function(datos){
+		
+					var Res = datos.split('*');
+					if(Res[1]=='Correcto'){
+					
+						 $("#resultados_ajax2").html(Res[3]);
+						 $("#FormaPago_Policia").modal("hide");
+						
+					}else{
+						$("#resultados_ajax2").html(datos);
+					}
+
+					
+				}
+			});
+			event.preventDefault();
+		
+	
+})
+$( "#FormPagoT" ).submit(function( event ) {
+			var parametros = $(this).serialize();
+			$.ajax({
+				type: "POST",
+				url: "Componentes/Ajax/Guardar_Forma_PagoVenta.php",
+				data: parametros,
+				beforeSend: function(objeto){
+					$("#resultados_ajax2").html("Mensaje: Cargando...");
+				},
+				success: function(datos){
+		
+					var Res = datos.split('*');
+					if(Res[1]=='Correcto'){
+					
+						 $("#resultados_ajax2").html(Res[3]);
+						 $("#FormaPago_Tarjeta").modal("hide");
+						
+					}else{
+						$("#resultados_ajax2").html(datos);
+					}
+
+					
+				}
+			});
+			event.preventDefault();
+		
+	
+})
+
 function CargarEstados(){
 			var Campana = $("#Campana").val();
 			var Est_camp = $("#Est_camp").val();
 			var Seg_camp = $("#Seg_camp").val();
 			var Tran_camp = $("#Tran_camp").val();
+			var Forp_camp = $("#Forp_camp").val();
 			$.ajax({
 				type: "POST",
 				url: "Componentes/Ajax/Cargar_Estados_Campana.php",
-				data: "Campana="+Campana+"&Est_camp="+Est_camp+"&Seg_camp="+Seg_camp+"&Tran_camp="+Tran_camp,
+				data: "Campana="+Campana+"&Est_camp="+Est_camp+"&Seg_camp="+Seg_camp+"&Tran_camp="+Tran_camp+"&Forp_camp="+Forp_camp,
 				beforeSend: function(objeto){
 				},success: function(datos){
 					$("#Estados").html(datos);
@@ -503,6 +595,13 @@ function CargarEstados(){
 			CargarEstados();
 			$("#Valor").keyup();
 		}
+
+	function validaNumericos(event) {
+    	if(event.charCode >= 48 && event.charCode <= 57){
+    		return true;
+    	}
+     	return false;        
+	}
 
 
 	</script>

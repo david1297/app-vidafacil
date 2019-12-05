@@ -21,7 +21,7 @@
 				$sWhere.= " and  (AFILIADOS.Identificacion like '%$q%' )";	
 			}else{
 				if ($Filtro =="Nombre"){
-					$sWhere.= " and  (AFILIADOS.Primer_Nombre like '%$q%')  or (AFILIADOS.Segundo_Nombre like '%$q%')  or (AFILIADOS.Primer_Apellido like '%$q%') or (AFILIADOS.Segundo_Apellido like '%$q%') ";	
+					$sWhere.= " and  (AFILIADOS.Nombre_Completo like '%$q%')  ";	
 				}else{
 					if ($Filtro =="Ciudad"){
 						$sWhere.= " and  (CIUDADES.Nombre like '%$q%')";
@@ -67,7 +67,7 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Afiliados.php';
-		$sql="SELECT USUARIOS.Razon_Social,AFILIADOS.Id,AFILIADOS.Comercio,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,Identificacion,Primer_Nombre,Primer_Apellido,DEPARTAMENTOS.Nombre as Departamento,CIUDADES.Nombre as Ciudad ,AFILIADOS.Direccion,AFILIADOS.Estado FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		$sql="SELECT AFILIADOS.FechaCracion,USUARIOS.Razon_Social,AFILIADOS.Id,AFILIADOS.Comercio,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,Identificacion,Primer_Nombre,Primer_Apellido,DEPARTAMENTOS.Nombre as Departamento,CIUDADES.Nombre as Ciudad ,AFILIADOS.Direccion,AFILIADOS.Estado FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
@@ -78,6 +78,7 @@
 					<th>Id</th>
 					<th>Nombres</th>
 					<th>Comercio</th>
+					<th>Fecha</th>
 					<th>Estado</th>
 					<th>Tipificacion</th>
 					<th class='text-right'>Editar</th>
@@ -94,6 +95,7 @@
 						$Ciudad=$row['Ciudad'];
 						$Direccion=$row['Direccion'];
 						$Estado=$row['Estado'];
+						$FechaCracion=$row['FechaCracion'];
 						if ($Estado=="Aprobado"){$label_class='label-success';}
 						if ($Estado=="Negado"){$label_class='label-danger';}
 						if ($Estado=="Por Activar"){$label_class='label-warning';}
@@ -163,6 +165,7 @@
 						<td><?php echo $Id; ?></td>
 						<td><?php echo $Nombre; ?></td>
 						<td><?php echo utf8_encode($Razon_Social); ?></td>
+						<td><?php echo $FechaCracion; ?></td>
 						<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>			
 						<td><span class="label <?php echo $label_classC;?>"><?php echo $Tipificacion; ?></span></td>			
 						<td class="text-right">

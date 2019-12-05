@@ -61,6 +61,8 @@ elseif (
 				$Porcentaje_Comision = mysqli_real_escape_string($con,(strip_tags($_POST["Porcentaje_Comision"],ENT_QUOTES)));
 				$Portafolio = mysqli_real_escape_string($con,(strip_tags($_POST["Portafolio"],ENT_QUOTES)));
 				$Forma_Pago = mysqli_real_escape_string($con,(strip_tags($_POST["Forma_Pago"],ENT_QUOTES)));
+				$fom=explode("_", $Forma_Pago);
+				$Forma_Pago = $fom[0];
 				$sig=',';
 				$Valor = str_replace($sig,'',$Valor1);
 
@@ -136,7 +138,7 @@ elseif (
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
 						$messages[] = "La Venta Se Guardo Con Exito.";
-						$sql =  "Update AFILIADOS Set Tipificacion='".$Estado_Campana."' ,Comercio='".$Usuario."' where Id =".$Afiliado.";";
+						$sql =  "Update AFILIADOS Set Tipificacion='".$Estado_Campana."' ,Comercio='".$Usuario."',FechaCracion='".$fecha."' where Id =".$Afiliado.";";
     					$query_update = mysqli_query($con,$sql);
                     } else {
                         $errors[] = $sql;
@@ -148,6 +150,9 @@ elseif (
 
 						$sql =  "INSERT INTO  OBSERVACIONES_VENTAS(Venta,Fecha,Observacion,Usuario,Tipificacion) VALUES
 						('".$numero_VEnta."', '".$Fecha."', '".$Observaciones."', '".$Usuario."',$Tipi)";
+					 $query_update = mysqli_query($con,$sql);
+					 $sql =  "INSERT INTO  OBSERVACIONES_AFILIADO(Afiliado,Fecha,Observacion,Usuario,Tipificacion) VALUES
+						('".$Afiliado."', '".$Fecha."', '".$Observaciones."', '".$Usuario."',$Tipi)";
 					 $query_update = mysqli_query($con,$sql);
 					}
 

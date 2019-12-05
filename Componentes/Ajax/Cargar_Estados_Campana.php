@@ -7,6 +7,7 @@ if (isset($_POST['Campana'])){$Campana=$_POST['Campana'];}
 if (isset($_POST['Est_camp'])){$Est_camp=$_POST['Est_camp'];}
 if (isset($_POST['Seg_camp'])){$Seg_camp=$_POST['Seg_camp'];}
 if (isset($_POST['Tran_camp'])){$Tran_camp=$_POST['Tran_camp'];}
+if (isset($_POST['Forp_camp'])){$Forp_camp=$_POST['Forp_camp'];}
 
 
 require_once ("../../config/db.php");
@@ -61,7 +62,7 @@ require_once ("../../config/conexion.php");
 					$query1=mysqli_query($con, "SELECT Numero,Nombre FROM CAMP_SEGUIMIENTO 
 					inner join SEGUIMIENTOS on CAMP_SEGUIMIENTO.Seguimiento =SEGUIMIENTOS.Numero Where Campana = $Campana ");
 					while($rw_Admin1=mysqli_fetch_array($query1)){
-						if ($Est_camp==$rw_Admin1[0]){
+						if ($Seg_camp==$rw_Admin1[0]){
 							echo '<option value="'.$rw_Admin1[0].'" selected>'.$rw_Admin1[1].'</option>';	
 						}else{
 							echo '<option value="'.$rw_Admin1[0].'">'.$rw_Admin1[1].'</option>';	
@@ -90,7 +91,7 @@ require_once ("../../config/conexion.php");
 					$query1=mysqli_query($con, "SELECT Numero,Nombre FROM CAMP_TRANSPORTADORA 
 					inner join TRANSPORTADORAS on CAMP_TRANSPORTADORA.Transportadora =TRANSPORTADORAS.Numero Where Campana = $Campana ");
 					while($rw_Admin1=mysqli_fetch_array($query1)){
-						if ($Est_camp==$rw_Admin1[0]){
+						if ($Tran_camp==$rw_Admin1[0]){
 							echo '<option value="'.$rw_Admin1[0].'" selected>'.$rw_Admin1[1].'</option>';	
 						}else{
 							echo '<option value="'.$rw_Admin1[0].'">'.$rw_Admin1[1].'</option>';	
@@ -116,13 +117,23 @@ require_once ("../../config/conexion.php");
 				<label for="email" class="control-label">Forma de Pago</label>
 				<select class="form-control" id="Forma_Pago" name ="Forma_Pago" placeholder="Estado Campaña">';
 					<?php
-					$query1=mysqli_query($con, "SELECT Codigo,Descripcion FROM CAMP_FORMASPAGO 
+					$query1=mysqli_query($con, "SELECT Codigo,Descripcion,Tipo FROM CAMP_FORMASPAGO 
 					inner join FORMAS_PAGO on CAMP_FORMASPAGO.FormaPago =FORMAS_PAGO.Codigo Where Campana = $Campana ");
 					while($rw_Admin1=mysqli_fetch_array($query1)){
-						if ($Est_camp==$rw_Admin1[0]){
-							echo '<option value="'.$rw_Admin1[0].'" selected>'.$rw_Admin1[1].'</option>';	
+						if ($rw_Admin1[2]=='Tarjeta'){
+							$Tip='1';
 						}else{
-							echo '<option value="'.$rw_Admin1[0].'">'.$rw_Admin1[1].'</option>';	
+							if ($rw_Admin1[2]=='Policia'){
+								$Tip='2';
+							}else{
+								$Tip='3';
+							}
+						}
+
+						if ($Forp_camp==$rw_Admin1[0]){
+							echo '<option value="'.$rw_Admin1[0].'_'.$Tip.'" selected>'.$rw_Admin1[1].'</option>';	
+						}else{
+							echo '<option value="'.$rw_Admin1[0].'_'.$Tip.'">'.$rw_Admin1[1].'</option>';	
 						}
 					
 						

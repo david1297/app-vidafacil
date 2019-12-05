@@ -15,7 +15,7 @@
 		}
 		if($Pest=='ResEgresos'){
 			$Naturaleza ='CUENTA_VIRTUAL.Debito <>0 and';
-			$SumValor ='sum(CUENTA_VIRTUAL.Debito)';
+			$SumValor ='sum(CUENTA_VIRTUAL.Credito-CUENTA_VIRTUAL.Debito)';
 		}
 		if($Pest=='ResTodo'){
 			$Naturaleza ='';
@@ -89,7 +89,14 @@
 							<td><?php echo $Usuario; ?></td>
 							<td><?php echo date("d-m-Y", strtotime($Fecha)); ?></td>
 							<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>
-							<td class="text-right"><?php echo '$'.number_format($Valor); ?></td>
+							<td class="text-right"><?php 
+							if ($Valor<0){
+								echo '<p class="text-danger"> $'.number_format($Valor).' </p>';
+
+							}else{
+								echo '<p class="text-success"> $'.number_format($Valor).' </p>';
+
+							} ?></td>
 	
 	
 						</tr>
@@ -101,8 +108,14 @@
 						 echo 'Total Pagina:'
 						?></span></b></td>
 						<td ><b><span class="pull-right"><?php
-					
-						 echo number_format($TValor);
+						if ($TValor<0){
+							echo '<p class="text-danger"> $'.number_format($TValor).' </p>';
+
+						}else{
+							echo '<p class="text-success"> $'.number_format($TValor).' </p>';
+
+						}
+						 
 						?></span></b></td>
 					</tr>
 					<tr>
@@ -113,7 +126,13 @@
 						<td ><h4><span class="pull-right"><?php
 						$query1=mysqli_query($con, "SELECT ".$SumValor." FROM $sTable $sWhere;");			
 						$rw_Admin1=mysqli_fetch_array($query1);
-						 echo number_format($rw_Admin1[0]);
+						if ($rw_Admin1[0]<0){
+							echo '<p class="text-danger"> $'.number_format($rw_Admin1[0]).' </p>';
+
+						}else{
+							echo '<p class="text-success"> $'.number_format($rw_Admin1[0]).' </p>';
+
+						}
 						?></span></h4></td>
 					</tr>
 					<tr>
