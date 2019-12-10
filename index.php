@@ -434,6 +434,14 @@
 								<h2 class="heading"><i class="fa fa-square"></i> Fuentas de ingreso</h2>
 								<canvas id="myChart" width="400" height="400"></canvas>
 							</div>
+						</div>
+						<div class="col-md-4">
+							<!-- TRAFFIC SOURCES -->
+							<div class="panel-content">
+								<h2 class="heading"><i class="fa fa-square"></i> Afiliados Tipificados</h2>
+								<canvas id="AfiliadosT" width="400" height="400"></canvas>
+							</div>
+						</div>
 							<!-- END TRAFFIC SOURCES 
 						</div>
 						<div class="col-md-4">
@@ -586,7 +594,7 @@
 					</div>
 				</div>
 						-->
-					</div>
+					
 				</div>
 				
 				
@@ -681,6 +689,64 @@ var myChart = new Chart(ctx, {
             borderColor: [
                 'rgba(255,99,132,1)',
                 'rgba(54, 162, 235, 1)'
+            ],
+			borderWidth: 1
+			
+        }]
+    },
+    options: {
+		responsive: true
+    }
+});
+
+var ctx = document.getElementById("AfiliadosT").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: [<?PHP
+				$Dis=0;
+				$Ope=0;
+				$query=mysqli_query($con, "SELECT TIPIFICACIONES.Categoria,count(TIPIFICACIONES.Categoria) FROM AFILIADOS inner join TIPIFICACIONES on TIPIFICACIONES.Numero = AFILIADOS.tipificacion
+				group by TIPIFICACIONES.Categoria;");
+				$h=0;
+				while($rw_Admin=mysqli_fetch_array($query)){
+					if($h==0){
+						echo '"'.$rw_Admin[0].'"';
+						$h=$h+1;
+					}else{
+					
+						echo ',"'.$rw_Admin[0].'"';
+					}
+				}
+		?>],
+        datasets: [{
+            label: 'Valor de Ventas',
+            data: [<?PHP
+				$Dis=0;
+				$Ope=0;
+				$query=mysqli_query($con, "SELECT TIPIFICACIONES.Categoria,count(TIPIFICACIONES.Categoria) FROM AFILIADOS inner join TIPIFICACIONES on TIPIFICACIONES.Numero = AFILIADOS.tipificacion
+				group by TIPIFICACIONES.Categoria;");
+				$h=0;
+				while($rw_Admin=mysqli_fetch_array($query)){
+					if($h==0){
+						echo $rw_Admin[1];
+						$h=$h+1;
+					}else{
+					
+						echo ','.$rw_Admin[1];
+					}
+				}
+		?>],
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+				'rgba(54, 162, 235, 1)',
+				'rgba(246, 255, 51, 1)',
+				'rgba(22, 212, 0, 1)',
+				'rgba(0, 212, 209, 1)',
+				'rgba(3, 0, 212, 1)',
+				'rgba(206, 0, 212, 1)',
+				'rgba(255, 4, 27, 1)',
+                
             ],
 			borderWidth: 1
 			

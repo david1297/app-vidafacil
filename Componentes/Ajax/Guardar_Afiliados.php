@@ -60,7 +60,8 @@ elseif (
 				$Telefono = mysqli_real_escape_string($con,(strip_tags($_POST["Telefono"],ENT_QUOTES)));
 				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 				$Correo = mysqli_real_escape_string($con,(strip_tags($_POST["Correo"],ENT_QUOTES)));
-
+				$Tipificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Tipificacion"],ENT_QUOTES)));
+				
 				$Nombre_Completo = $Primer_Nombre;
 				if($Segundo_Nombre != ''){
 					$Nombre_Completo =$Nombre_Completo.' '.$Segundo_Nombre;
@@ -89,9 +90,24 @@ elseif (
 				$Fecha =date("d-m-Y h:i:sa");	
 				$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));
 
+				$Observaciones ='';
+				$Tipi=0;
+				$CargarOb ='NO';
+				$CargarTip = 'NO';
+				date_default_timezone_set('America/Bogota');
+				$Fecha =date("d-m-Y h:i:sa");	
+				$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));
+
 				if ($Observaciones!='') {
 					
 				$CargarOb = 'SI';	
+				}
+				$query1=mysqli_query($con, "select Tipificacion from AFILIADOS where Identificacion = $Identificacion;");
+				$rw_Admin1=mysqli_fetch_array($query1);
+				$TipAnt =$rw_Admin1[0];
+				if ($TipAnt !=$Tipificacion ){
+					$CargarTip = 'SI';
+					$Tipi=$Tipificacion;
 				}
 				if($EstadoC=='Nuevo'){
 					$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,
@@ -103,26 +119,61 @@ elseif (
 						('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
 					'".$Tipo_Identificacion."', '".$Ciudad."', '".$Departamento."', 
 					'".$Direccion."', '".$Direccion_Adicional."', '".$Telefono."', 
-					'".$Estado."', '".$Correo."', '".$Comercio."', 5, '".$Indicativo."', '".$D1."', '".$D2."', '".$D3."', '".$D4."', '".$Adicional."', '".$Telefono2."',CURDATE(), '".$Nombre_Completo."'
+					'".$Estado."', '".$Correo."', '".$Comercio."', $Tipificacion, '".$Indicativo."', '".$D1."', '".$D2."', '".$D3."', '".$D4."', '".$Adicional."', '".$Telefono2."',CURDATE(), '".$Nombre_Completo."'
 					);";
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {
 						$messages[] = "El Afiliado se a Creado con Exito!";
 
+						$sql1="SELECT Id FROM AFILIADOS WHERE Identificacion='$Identificacion' ";
+						$query1 = mysqli_query($con, $sql1);
+						$row1=mysqli_fetch_array($query1); 
+						$Id=$row1[0];
+						if(($CargarOb=='SI')||($CargarTip=='SI')){
 
-						if(($CargarOb=='SI')){
 
-
-							$sql1="SELECT Id FROM AFILIADOS WHERE Identificacion='$Identificacion' ";
-							$query1 = mysqli_query($con, $sql1);
-							$row1=mysqli_fetch_array($query1); 
-							$Id=$row1[0];
+							
 
 
 							$sql =  "INSERT INTO  OBSERVACIONES_AFILIADO(Afiliado,Fecha,Observacion,Usuario,Tipificacion) VALUES
-							('".$Id."', '".$Fecha."', '".$Observaciones."', '".$User."',0)";
+							('".$Id."', '".$Fecha."', '".$Observaciones."', '".$User."',$Tipi)";
 						 $query_update = mysqli_query($con,$sql);
+						
 						}
+						$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from VENTAS order by Numero desc limit 0,1 ");
+						$rw=mysqli_fetch_array($sql);
+						$numero_VEnta=$rw['last']+1;
+
+						$sql=mysqli_query($con, "SELECT * FROM USUARIO_CAMP where Usuario ='$User'; ");
+						$rw=mysqli_fetch_array($sql);
+						$Campana=$rw[0];
+
+						$sql=mysqli_query($con, "SELECT * FROM CAMP_FORMASPAGO where Campana ='$Campana'; ");
+						$rw=mysqli_fetch_array($sql);
+						$FormaPago=$rw[0];
+
+						$NumeroNip = "";
+						$DataCreditoTipo = "";
+						$Servicio = "";
+						$Canal = "";
+						$NumeroCelular = "";
+						$OperadorVenta = "";
+						$OperadorDonante = "";
+						$NumeroSim = "";
+						$Fecha =date("Y-m-d");
+
+						$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
+											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
+											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago
+											) VALUES
+
+				('".$numero_VEnta."','".$Id."', '".$User."', '".$Fecha."', '".$Campana."'
+				, '5', '4', '0', '0'
+				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
+				, '".$NumeroSim."', '0', '0', 'False', '0', '".$FormaPago."'
+				)";
+				echo $sql;
+				   $query_update = mysqli_query($con,$sql);
 
 						
 
@@ -141,20 +192,32 @@ elseif (
 					Segundo_Apellido='".$Segundo_Apellido."',
 					Tipo_Identificacion = '".$Tipo_Identificacion."',
 					Ciudad='".$Ciudad."',
+					Tipificacion='".$Tipificacion."',
 					Departamento='".$Departamento."',
 					Direccion = '".$Direccion."',
 					Direccion_Adicional ='".$Direccion_Adicional."',
 					Telefono='".$Telefono."',
 					Estado='".$Estado."',
 					Correo='".$Correo."',Comercio='".$Comercio."',Indicativo='".$Indicativo."'
-					,D1='".$D1."',D2='".$D2."',D3='".$D3."',D4='".$D4."',Adicional='".$Adicional."',Telefono2='".$Telefono2."',Nombre_Completo = '".$Nombre_Completo."' WHERE Id = $Id";
+					,D1='".$D1."',D2='".$D2."',D3='".$D3."',D4='".$D4."',Adicional='".$Adicional."',Telefono2='".$Telefono2."',
+					Nombre_Completo = '".$Nombre_Completo."' WHERE Id = $Id";
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {
 						$messages[] = "El Afiliado se a Actualizo con Exito!";
-						if(($CargarOb=='SI')){
+						$sql1="SELECT Id FROM AFILIADOS WHERE Identificacion='$Identificacion' ";
+						$query1 = mysqli_query($con, $sql1);
+						$row1=mysqli_fetch_array($query1); 
+						$Id=$row1[0];
+						if(($CargarOb=='SI')||($CargarTip=='SI')){
+
+
+							
+
+
 							$sql =  "INSERT INTO  OBSERVACIONES_AFILIADO(Afiliado,Fecha,Observacion,Usuario,Tipificacion) VALUES
-							('".$Id."', '".$Fecha."', '".$Observaciones."', '".$User."',0)";
+							('".$Id."', '".$Fecha."', '".$Observaciones."', '".$User."',$Tipi)";
 						 $query_update = mysqli_query($con,$sql);
+						
 						}
 
 						

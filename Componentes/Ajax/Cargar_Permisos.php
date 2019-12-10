@@ -4,11 +4,9 @@
 
 include('is_logged.php');
 $session_id= session_id();
-if ($_SESSION['Rol']<>'1'){
-$j="disabled";
-}else{
+
 	$j='';
-}
+
 if (isset($_POST['Modulo'])){$Modulo=$_POST['Modulo'];}
 if (isset($_POST['Usuario'])){$Usuario=$_POST['Usuario'];}
 

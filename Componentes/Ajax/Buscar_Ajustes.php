@@ -28,6 +28,11 @@
 				}
 			}	
 		} 
+		$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Ajustes" and Permiso="ConsultarTodo" and  Usuario ="'.$_SESSION['Nit'].'";');
+		$rw_Admin1=mysqli_fetch_array($query1);
+		if($_SESSION['Rol']=='2' and $rw_Admin1['Estado']=='false'){
+			$sWhere.= " and  AJUSTES.UsuarioA='".$_SESSION['Nit']."' ";
+		}
 		$order=" order by AJUSTES.Numero ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;

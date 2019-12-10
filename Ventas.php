@@ -265,10 +265,6 @@ curl_close($ch);*/
 											echo '
 											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="4" >';
 										} else {
-											
-
-
-
 											$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Ventas" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
 										
 											$rw_Admin1=mysqli_fetch_array($query1);
@@ -291,6 +287,9 @@ curl_close($ch);*/
 													}
 												}
 												echo '</select>';
+											}else{
+												echo '
+											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="'.$Estado.'" >';
 											}
 											
 											

@@ -27,17 +27,29 @@ if (empty($_POST['Usuario'])){
 				$Permiso = mysqli_real_escape_string($con,(strip_tags($_POST["Permiso"],ENT_QUOTES)));
 				$Valor = mysqli_real_escape_string($con,(strip_tags($_POST["Valor"],ENT_QUOTES)));
 				
+				$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="'.$Modulo.'" and Permiso="'.$Permiso.'" and
+				  Usuario ="'.$_SESSION['Nit'].'";');
 				
-				$sql =  "Update PERMISOS Set Estado='".$Valor."' where Usuario='".$Usuario."' 
-						and Modulo='".$Modulo."' and Permiso='".$Permiso."'
-				; ";
+				$rw_Admin1=mysqli_fetch_array($query1);
+				
+				if($_SESSION['Rol']=='1' or $rw_Admin1['Estado']=='true'){
+					
+						$sql =  "Update PERMISOS Set Estado='".$Valor."' where Usuario='".$Usuario."' 
+							and Modulo='".$Modulo."' and Permiso='".$Permiso."'
+					; ";
+					$query_update = mysqli_query($con,$sql);
+					if ($query_update) {
+						$messages[] = "Los Datos Se Han Modificado Con Exito.";
+					} else {
+						$errors[] = $sql;
+					}
+				}
 
-                    $query_update = mysqli_query($con,$sql);
-                    if ($query_update) {
-                        $messages[] = "Los Datos Se Han Modificado Con Exito.";
-                    } else {
-                        $errors[] = $sql;
-                    }
+
+				
+
+                   
+                    
         } else {
             $errors[] = "Un error desconocido ocurrió.";
         }

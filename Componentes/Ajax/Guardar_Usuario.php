@@ -125,20 +125,29 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 						('Campanas', 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
 						('CuentaVirtual', 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
 						('Transferencias', 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
+						('Transferencias', 'ConsultarTodo', 'false', '".$Nit."', 'Consultar No Asignadas'),
 						('Usuarios', 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
 						('Ajustes', 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
 						('Ajustes', 'Crear', 'false', '".$Nit."', 'Crear Ajuste'),
 						('Ajustes', 'Consultar', 'false', '".$Nit."', 'Consultar'),
+						('Ajustes', 'ConsultarTodo', 'false', '".$Nit."', 'Consultar No Asignados'),
 						('Campanas', 'Crear', 'false', '".$Nit."', 'Crear Campaña'),
 						('Campanas', 'Consultar', 'false', '".$Nit."', 'Consultar Campañas'),
 						('Afiliados', 'Crear', 'false', '".$Nit."', 'Crear Afiliado'),
 						('Afiliados', 'Editar', 'false', '".$Nit."', 'Editar Afiliado'),
+						('Afiliados', 'ConsultarTodo', 'false', '".$Nit."', 'Consultar No Asignados'),
 						('Transacciones', 'CambiarEstado', 'false', '".$Nit."', 'Cambiar Estados'),
 						('Usuarios', 'Crear', 'false', '".$Nit."', 'Crear Usuario'),
 						('Usuarios', 'Editar', 'false', '".$Nit."', 'Editar Usuario'),
 						('Usuarios', 'CuentaVirtual', 'false', '".$Nit."', 'Ingreso Cuenta Virtual'),
+						
 						('Transacciones', 'Crear', 'false', '".$Nit."', 'Crear Transaccion'),
-						('Transacciones', 'Consultar', 'false', '".$Nit."', 'Consultar Transacciones');";
+						('Transacciones', 'Consultar', 'false', '".$Nit."', 'Consultar Transacciones'),
+						('Transacciones', 'ConsultarTodo', 'false', '".$Nit."', 'Consultar No Asignadas'),
+						('Transacciones', 'TipificaionesSeguimiento', 'false', '".$Nit."', 'Cambiar Tipificaciones y Seguimiento')
+						
+						
+						;";
 							$query_update = mysqli_query($con,$sql);
 							if ($query_update) {
 								$messages[] = "Los Datos Se Han Guardado Con Exito.";

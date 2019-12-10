@@ -16,10 +16,11 @@ data: "Modulo="+Modulo+"&Permiso="+Permiso+"&Usuario="+Usuario+"&Valor="+Valor,
 beforeSend: function(objeto){
 	$('#loader_'+Id).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 },success: function(datos){
+
 	$('#loader_'+Id).html('');
-if(Permiso =='Ingreso'){
-	$('#Click_'+Modulo).click();
-}
+
+		$('#Click_'+Modulo).click();
+
 
 		
 }
