@@ -41,6 +41,10 @@
 						<h4><i class='glyphicon glyphicon-search'></i> Consultar Afiliados</h4>
 					</div>
 					<div class="panel-body">
+					<div class="progress " id="Barra">
+  						<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+					<div id="DAfiliados">
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
 								<div class="col-md-2">		
@@ -85,12 +89,12 @@
 							</div>
 						</form>
 						<div id="ins"></div>
-						<div id="resultados"></div><!-- Carga los datos ajax -->
-						<div class='outer_div'></div><!-- Carga los datos ajax -->
+						<div id="resultados"></div>
+						<div class='outer_div'></div>
+					</div>				
 					</div>
 				</div>	
 			</div>
-			
 		</div>
 	</div>
 	</div>
@@ -141,9 +145,16 @@ if (r == true) {
     contentType: false,
     processData: false,
 			  beforeSend: function(objeto){
+				$('#Barra').removeClass("hidden");
+				
+				$('#DAfiliados').addClass("hidden");
 				console.log('Se Envian ');	
 			   },
 		   success: function(datos){ 
+				$('#DAfiliados').removeClass("hidden");
+				$('#Barra').addClass("hidden");
+
+
 			console.log(datos);	
 			
 				

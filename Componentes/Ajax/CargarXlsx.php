@@ -6,21 +6,22 @@ ini_set('display_startup_errors', TRUE);
 define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 set_time_limit(50000);
 session_start();
-require_once  '../../classes/PHPExcel/IOFactory.php'; 
+
 
 
 	
 if(!empty($_FILES['Archivo']['name'])){
 	$errors='';
 
-	$Ruta1= '/var/www/html/';
-	//$Ruta1= 'C:/xampp/htdocs/app-vidafacil/';
+	//$Ruta1= '/var/www/html/';
+	$Ruta1= 'C:/xampp/htdocs/app-vidafacil/';
 
 
 	$nombreArchivo =$_FILES['Archivo']['name'];
 	if(copy($_FILES['Archivo']['tmp_name'], $Ruta1.$_FILES['Archivo']['name'])){
 		require_once ("../../config/db.php");
 		require_once ("../../config/conexion.php");
+		require_once  '../../classes/PHPExcel/IOFactory.php'; 
 		
 		//Variable con el nombre del archivo
 		$nombreArchivo = $Ruta1.$nombreArchivo;	

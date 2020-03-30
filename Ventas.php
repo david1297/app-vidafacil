@@ -500,7 +500,6 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 							$("#FormaPago_Tarjeta").modal("show");
 						 } 
 						 }
-
 					}else{
 						$("#resultados_ajax2").html(datos);
 					}
