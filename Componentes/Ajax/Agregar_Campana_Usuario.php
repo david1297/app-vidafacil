@@ -53,7 +53,13 @@ $delete=mysqli_query($con, "DELETE FROM USUARIO_CAMP WHERE Campana='".$Campana."
 			<td class='text-center'><?php echo $Numero;?></td>
 			<td><?php echo $Nombre;?></td>
 			<td class='text-center'><?php echo $Porcentaje;?></td>
+			<?php			
+								if ( $_SESSION['Estado']=='Activo'){
+								?>
 			<td class='text-center'><a href="#" class='btn btn-default' onclick="eliminar('<?php echo $Numero ?>')"><i class="glyphicon glyphicon-trash"></i></a></td>
+			<?php
+								}
+								?>
 		</tr>		
 		<?php
 	}

@@ -24,7 +24,7 @@ if(!empty($_FILES['Archivo']['name'])){
 		
 		//Variable con el nombre del archivo
 		$nombreArchivo = $Ruta1.$nombreArchivo;	
-		// Cargo la hoja de cálculo
+		// Cargo la hoja de cÃ¡lculo
 		$objPHPExcel = PHPExcel_IOFactory::load($nombreArchivo);
 		
 		//Asigno la hoja de calculo activa
@@ -103,13 +103,14 @@ if(!empty($_FILES['Archivo']['name'])){
 			$query=mysqli_query($con, "select count(*) from AFILIADOS where Identificacion = '$Identificacion'; ");
 			$rw_Admin=mysqli_fetch_array($query);
 			if ($rw_Admin[0]==0){
-				$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,
+				$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,Nombre_Completo,
 													Tipo_Identificacion,Ciudad,Departamento,
 													Direccion,Direccion_Adicional,
 													Telefono,Telefono2,Estado,
 													Correo,Comercio,Tipificacion) VALUES
 
 					('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
+					'".$Nombres."',
 					'".$Tipo_Identificacion."','".$Ciudad."', '".$Departamento."', 
 					'".$Direccion."', '".$Direccion_Adicional."',
 					'".$Telefono."', '".$Telefono."', 
@@ -152,6 +153,7 @@ if(!empty($_FILES['Archivo']['name'])){
 				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
 				, '".$NumeroSim."', '0', '0', 'False', '0', '".$FormaPago."'
 				)";
+$query_update = mysqli_query($con,$sql);
 
 
 							$messages='bien';
@@ -208,14 +210,6 @@ if(!empty($_FILES['Archivo']['name'])){
 
 
 		}
-
-	
-
-		
-		
-	
-	
-		
 	}else{
 		$errors = "Lo sentimos , no se Cargo la Archivo .<br>";
 	}

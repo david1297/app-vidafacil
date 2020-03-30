@@ -180,38 +180,69 @@
 									<hr class="style1 col-sm-8">
 									<div class=" pull-right col-sm-8">
 										<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
-										<button type="submit" class="btn btn-primary">Guardar datos</button>
+										
+										<?php
+											if ( $_SESSION['Estado']=='Activo'){
+												?>
+												<button type="submit" class="btn btn-primary">Guardar datos</button>
+												<?php
+											}
+										?>
 		  							</div>		
 								</form>	
 							</div>
 							<div class="tab-pane fade" id="Transportadoras">
+								<?php
+									if ( $_SESSION['Estado']=='Activo'){
+									?>
 								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarTransportadora">
 									<i class="fas fa-plus"></i> Agregar Transportadora
 								</button>
+								<?php
+									}
+								?>
 								<br><br>
 								<div id="resultados_Transportadora"></div>
 								<div id="resultadosT" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->	
 							</div>
 							<div class="tab-pane fade" id="Seguimientos">
+								<?php
+									if ( $_SESSION['Estado']=='Activo'){
+									?>
 								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarSeguimiento">
 									<i class="fas fa-plus"></i> Agregar Seguimiento
 								</button>
+								<?php
+									}
+								?>
 								<br><br>
 								<div id="resultados_Seguimiento"></div>
 								<div id="resultadosS" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->	
 							</div>
 							<div class="tab-pane fade" id="FormasPagos">
+								<?php
+									if ( $_SESSION['Estado']=='Activo'){
+									?>
 								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarFormasPago">
 									<i class="fas fa-plus"></i> Agregar Forma de Pago
 								</button>
+								<?php
+									}
+								?>
 								<br><br>
 								<div id="resultados_FormasPago"></div>
 								<div id="resultadosF" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->	
 							</div>
 							<div class="tab-pane fade" id="Tipificaciones">
+								<?php
+									if ( $_SESSION['Estado']=='Activo'){
+									?>
 								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarTipificacion">
 									<i class="fas fa-plus"></i> Agregar Tipificacion
 								</button>
+								<?php
+									}
+								?>
 								<br><br>
 								<div id="resultados_Tipificacion"></div>
 								<div id="resultadosTr" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->	

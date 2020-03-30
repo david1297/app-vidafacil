@@ -135,8 +135,18 @@
 						?>
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="active"><a href="#Informacion" role="tab" data-toggle="tab">Informacion</a></li>
-							<li><a href="#Permisos" role="tab" data-toggle="tab" id="Click_Permisos">Permisos</a></li>
+							
+							<?php
+								if ($Perfil <>'Si'){
+									?>
+<li><a href="#Permisos" role="tab" data-toggle="tab" id="Click_Permisos">Permisos</a></li>
 							<li><a href="#CampanasU" role="tab" data-toggle="tab">Campañas</a></li>
+									<?php
+
+								}
+							?>
+							
+							
 						</ul>
 						<div class="tab-content content-profile">
 							<div class="tab-pane fade in active" id="Informacion">
@@ -517,14 +527,16 @@
 									</div>
 									
 									<?php
-										if ($EstadoU=="Editando"){
-											?>
-											<div class="form-group col-sm-8">
-												<div class="col-sm-8 col-md-offset-3">
-													<button type="button"  class="btn btn-primary"  data-toggle="modal" data-target="#CambiarPass">Cambiar Contraseña</button>
+										if ($EstadoU=="Editando"){		
+											if ( $_SESSION['Estado']=='Activo'){
+												?>
+												<div class="form-group col-sm-8">
+													<div class="col-sm-8 col-md-offset-3">
+														<button type="button"  class="btn btn-primary"  data-toggle="modal" data-target="#CambiarPass">Cambiar Contraseña</button>
+													</div>
 												</div>
-											</div>
-											<?php
+												<?php
+											}
 										}
 									?>
 									<div class=" col-sm-8">
@@ -535,7 +547,14 @@
 									<div class=" pull-right col-sm-8">
 									
 										<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
-										<button type="button" class="btn btn-primary" id="GUsuario">Guardar datos</button>
+										<?php
+											
+											if ( $_SESSION['Estado']=='Activo'){
+												?>
+													<button type="button" class="btn btn-primary" id="GUsuario">Guardar datos</button>
+												<?php
+											}
+										?>
 		  							</div>				
 								</form>	
 							</div>
@@ -577,14 +596,16 @@
 							</div>
 							<div class="tab-pane fade" id="CampanasU">
 								<!-- Campañas-->
-								<?php
-								if ($Perfil <>'Si'){
-									echo '
-									<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarCampana">
+								
+							<?php			
+								if ( $_SESSION['Estado']=='Activo'){
+								?>
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarCampana">
 									<i class="fas fa-plus"></i> Agregar Campaña
-								</button>';
+								</button>
+								<?php
 								}
-							?>
+								?>
 								<br><br>
 								<div id="resultados_Campana"></div>
 								<div id="resultados" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->			

@@ -67,9 +67,15 @@
 					<div class="panel-heading">
 					
 					<div class=" pull-right">
-					
+					<?php
+											if ( $_SESSION['Estado']=='Activo'){
+												?>
+													<button class="btn btn-default" id="SolicitarPago" data-toggle="modal" data-target="#Pago" onclick="CargarComisiones(0)"><i class="far fa-money-bill-alt"></i>Solicitar Pago</button>
+												<?php
+											}
+										?>
 				
-					<button class="btn btn-default" id="SolicitarPago" data-toggle="modal" data-target="#Pago" onclick="CargarComisiones(0)"><i class="far fa-money-bill-alt"></i>Solicitar Pago</button>
+					
 				
 
 					<button class="btn btn-success hidden" id="ExportarExcel" ><i class="fas fa-file-excel"></i>Exportar a Excel </button>

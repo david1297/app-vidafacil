@@ -46,7 +46,12 @@
 		$offset = ($page - 1) * $per_page;
 		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere $Group");
 		$row= mysqli_fetch_array($count_query);
-		$numrows = $row['numrows'];
+		if (empty($row['numrows'])){
+			$numrows=1;
+		}else{
+			$numrows = $row['numrows'];
+
+		}
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Contabilidad.php';
 			$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,".$SumValor." as Valor,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado FROM

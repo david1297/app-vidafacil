@@ -338,7 +338,14 @@
                             <div id="resultados_ajax2"></div>
                             <div class="modal-footer ">
                                 <button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">Guardar datos</button>
+                                
+                                <?php
+											if ( $_SESSION['Estado']=='Activo'){
+												?>
+													<button type="submit" class="btn btn-primary">Guardar datos</button>
+												<?php
+											}
+										?>
                             </div>
                         </form>
                     </div>

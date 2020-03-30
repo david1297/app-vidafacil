@@ -31,7 +31,13 @@ $delete=mysqli_query($con, "DELETE FROM CAMP_FORMASPAGO WHERE FormaPago='".$Form
 <tr>
 	<th class='text-center'>Numero</th>
 	<th>Nombre</th>
-    <th class='text-center'>Eliminar</th>
+    <?php
+		if ( $_SESSION['Estado']=='Activo'){
+			?>
+    		<th class='text-center'>Eliminar</th>
+			<?php
+		}
+	?>
 </tr>
 <?php
 	$sumador_total=0;
@@ -50,7 +56,13 @@ $delete=mysqli_query($con, "DELETE FROM CAMP_FORMASPAGO WHERE FormaPago='".$Form
 		<tr>
 			<td class='text-center'><?php echo $Numero;?></td>
 			<td><?php echo $Nombre;?></td>
+			<?php
+			if ( $_SESSION['Estado']=='Activo'){
+				?>
 			<td class='text-center'><a href="#" class='btn btn-default' onclick="EliminarF('<?php echo $Numero ?>')"><i class="glyphicon glyphicon-trash"></i></a></td>
+			<?php
+			}
+			?>
 		</tr>		
 		<?php
 	}

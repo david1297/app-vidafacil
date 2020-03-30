@@ -27,8 +27,8 @@ class Login
             }
             if (!$this->db_connection->connect_errno) {
                 $user_name = $this->db_connection->real_escape_string($_POST['user_name']);
-                $sql = "select Razon_Social,Correo,Clave,Tipo,Rol,Nit,Porcentaje,Portafolio from USUARIOS
-                        WHERE Estado='Activo' and ( Correo = '" . $user_name . "' OR Nit = '" . $user_name . "' );";
+                $sql = "select Razon_Social,Correo,Clave,Tipo,Rol,Nit,Porcentaje,Portafolio,Estado from USUARIOS
+                        WHERE (Estado='Activo' or Estado='Bloqueado') and ( Correo = '" . $user_name . "' OR Nit = '" . $user_name . "' );";
                     
                 $result_of_login_check = $this->db_connection->query($sql);
                 if ($result_of_login_check->num_rows == 1) {
@@ -42,6 +42,7 @@ class Login
                         $_SESSION['Porcentaje'] = $result_row->Porcentaje;
                         $_SESSION['Portafolio'] = $result_row->Portafolio;
                         $_SESSION['user_login_status'] = 1;
+                        $_SESSION['Estado'] = $result_row->Estado;
 
                       
                         

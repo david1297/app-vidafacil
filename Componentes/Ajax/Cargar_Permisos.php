@@ -75,7 +75,12 @@ echo'
 	}
 </style> ';
 $query1=mysqli_query($con, "select * from PERMISOS where Usuario ='".$Usuario."' and Modulo='".$Modulo."' ");
-$h="";
+
+if ($_SESSION['Estado']=='Activo'){
+	$h="";
+}else{
+	$h="disabled";
+}
 while($rw_Admin1=mysqli_fetch_array($query1)){										
 echo'   <div class="form-group row">
 			<label for="'.$rw_Admin1['Permiso'].'" class="col-sm-2 col-form-label">
@@ -95,7 +100,7 @@ echo '				<span class="slider round"></span>
 		</div>';
 	if($rw_Admin1['Permiso']=='Ingreso'){
 echo '	<div class="card">';
-	if($rw_Admin1['Estado']=='true'){
+	if( $rw_Admin1['Estado']=='true'){
 echo'		<div class="card-body" id="Cart_'.$rw_Admin1['Modulo'].'">';	
 	}else{
 		$h="disabled";

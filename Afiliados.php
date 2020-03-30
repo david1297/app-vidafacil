@@ -433,7 +433,14 @@
 									<hr class="style1">
 									<div class=" pull-right">
 										<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
-										<button type="button" class="btn btn-primary" id='GAfiliado'>Guardar datos</button>
+										<?php
+											if ( $_SESSION['Estado']=='Activo'){
+												?>
+													<button type="button" class="btn btn-primary" id='GAfiliado'>Guardar datos</button>
+												<?php
+											}
+										?>
+										
 		  							</div>	
 									  <div class="col-md-12"><br>
 									  <div class="card border-secondary mb-3">
