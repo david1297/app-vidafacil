@@ -16,7 +16,7 @@
 				if($Estado<>"Todos"){
 					$sWhere.= " and CUENTA_VIRTUAL.Estado ='".$Estado."'";	
 				} 
-				$order=" order by CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento ";
+				$order=" order by CUENTA_VIRTUAL.Fecha DESC ";
 			
 		}
 		$sWhere.='and CUENTA_VIRTUAL.Usuario = "'.$Nit.'" and CUENTA_VIRTUAL.Estado <>"Pagada" ';

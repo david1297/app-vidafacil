@@ -35,7 +35,7 @@
 					}
 				}	
 			} 
-			$Order =" order by CUENTA_VIRTUAL.Numero ";
+			$Order =" order by CUENTA_VIRTUAL.Fecha  DESC";
 			$Group = "group by CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado,CUENTA_VIRTUAL.Numero";
 		
 		

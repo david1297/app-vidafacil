@@ -51,4 +51,26 @@
 			echo '!Correcto!';
 		}
 	}
+	if($Tipo=='TelC'){
+		$Nit = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Nit'], ENT_QUOTES)));
+		$sql="SELECT count(*) FROM  USUARIOS where Tel_C='$Valor' and Nit <>'$Nit'";
+		$query = mysqli_query($con, $sql);
+		$row=mysqli_fetch_array($query);
+		if ($row[0]>0){
+			echo '!Existe!';
+		}else{
+			echo '!Correcto!';
+		}
+	}
+	if($Tipo=='CelC'){
+		$Nit = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Nit'], ENT_QUOTES)));
+		$sql="SELECT count(*) FROM  USUARIOS where Cel_C='$Valor' and Nit <>'$Nit'";
+		$query = mysqli_query($con, $sql);
+		$row=mysqli_fetch_array($query);
+		if ($row[0]>0){
+			echo '!Existe!';
+		}else{
+			echo '!Correcto!';
+		}
+	}
 ?>

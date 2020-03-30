@@ -44,7 +44,9 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 	$errors[] = "El Nombre de La Referencia 2 Se Encuentra Vacio";
 } elseif (($_POST['Tipo']=='Distribuidor') && (empty($_POST['Tel_R2']))){
 	$errors[] = "El Tefefono de La Referencia 2 Se Encuentra Vacio";	
-} elseif (
+}  elseif (($_POST['Portafolio']==0) && ($_POST['Porcentaje']==0)){
+	$errors[] = "El Valor de Porcentaje o Portafolio debe ser superior a 0";	
+}elseif (
 			!empty($_POST['Nit'])
 			&& !empty($_POST['Tipo_Persona'])
 			&& !empty($_POST['Rol'])

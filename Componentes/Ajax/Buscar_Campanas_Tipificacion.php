@@ -17,17 +17,19 @@
 			
 		
 		$sWhere.=" order by TIPIFICACIONES.Numero ";
-		include 'pagination.php';
+		include 'paginationTr.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 50;
+		$per_page = 20;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
 		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere");
+	
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
-		$reload = './Consultar-Usuarios.php';
+		$reload = './Campanas.php';
 		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
+	
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);

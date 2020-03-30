@@ -250,9 +250,14 @@
 									
 									<div class="form-group col-sm-9">
 										<label for="Tel_C" class="col-sm-3 control-label">Telefono de Contacto</label>
-										<div class="col-sm-9">
-				  							<input type="text" class="form-control"  onkeypress='return validaNumericos(event)' id="Tel_C" name="Tel_C" required placeholder="Telefono de Contacto" value="<?php echo $Tel_C; ?>" maxlength="7">
-										</div>
+										
+										<div class="col-sm-9 ">
+				   							<input type="text" class="form-control" id="Tel_C" name="Tel_C" placeholder="Telefono de Contacto" value="<?php echo $Tel_C; ?>" maxlength="7"  required onchange='ValidarDatos("TelC",$(this).val())'  onkeypress='return validaNumericos(event)'> 
+				   							<input type="text " class="form-control hidden" id="VTelC" name="VTelC" value="Yes" > 
+											   <div class="invalid-feedback">
+											   	El Numero de Telefono Ya se Encuentra Registrado
+      											</div>
+				  						</div>
 									</div>
 									<div class="form-group col-sm-9">
 										<label for="Direccion" class="col-sm-3 control-label">Direccion</label>
@@ -301,9 +306,14 @@
 			  						</div>
 									<div class="form-group col-sm-9">
 										<label for="Cel_C" class="col-sm-3 control-label">Celular de Contacto</label>
-										<div class="col-sm-9">
-				  							<input type="text" class="form-control" id="Cel_C" name="Cel_C"  required placeholder="Celular de Contacto" value="<?php echo $Cel_C; ?>" maxlength="10"  onkeypress='return validaNumericos(event)'>
-										</div>
+			
+										<div class="col-sm-9 ">
+				   							<input type="text" class="form-control" id="Cel_C" name="Cel_C" placeholder="Celular de Contacto" value="<?php echo $Cel_C; ?>" maxlength="10"  required onchange='ValidarDatos("CelC",$(this).val())'  onkeypress='return validaNumericos(event)'> 
+				   							<input type="text " class="form-control hidden" id="VCelC" name="VCelC" value="Yes" > 
+											   <div class="invalid-feedback">
+											   	El Numero de Celular Ya se Encuentra Registrado
+      											</div>
+				  						</div>
 									</div>
 									<div class="form-group col-sm-9">
 										<label for="Correo_C" class="col-sm-3 control-label">Correo de Contacto</label>
@@ -703,18 +713,27 @@ $("#GUsuario").click(function( event ) {
 		if($('#VTel_R').val()=='Nou'){
 			alert('Uno de los Numeros de Referencia ya se Encuentra Registrado');
 		}else{
-			if(document.getElementById('EstadoU').value== 'Editando'){
-				var r = confirm("Confirmas Actualizacion de Usuario");
-  				if (r == true) {
-					$( "#Guardar_Usuario" ).submit();
-  				} 
+			if($('#VTelC').val()=='Nou'){
+				alert('El Telefono de Contacto ya se Encuentra Registrado');
 			}else{
-				if($('#VNit').val()=='Nou'){
-					alert('El Numero de Documento o Nit Ya se Encuentra Registrado');
+				if($('#VCelC').val()=='Nou'){
+					alert('El Celular de Contacto ya se Encuentra Registrado');
 				}else{
-					$( "#Guardar_Usuario" ).submit();
-				}
-			}	
+					if(document.getElementById('EstadoU').value== 'Editando'){
+						var r = confirm("Confirmas Actualizacion de Usuario");
+						if (r == true) {
+							$( "#Guardar_Usuario" ).submit();
+						} 
+					}else{
+						if($('#VNit').val()=='Nou'){
+							alert('El Numero de Documento o Nit Ya se Encuentra Registrado');
+						}else{
+							$( "#Guardar_Usuario" ).submit();
+						}
+					}
+				}	
+			}
+				
 		}
 	}
 });
@@ -882,6 +901,16 @@ function ValidarDatos(Tipo,Valor){
 					$('#CC').addClass("is-valid");
 					$('#VCC').val('Yes');
 				}
+				if(Tipo=='TelC'){
+					$('#Tel_C').removeClass("is-invalid");
+					$('#Tel_C').addClass("is-valid");
+					$('#VTelC').val('Yes');
+				}
+				if(Tipo=='CelC'){
+					$('#Cel_C').removeClass("is-invalid");
+					$('#Cel_C').addClass("is-valid");
+					$('#VCelC').val('Yes');
+				}
 				if(Tipo=='Ref1'){
 					$('#Tel_R1').removeClass("is-invalid");
 					$('#Tel_R1').addClass("is-valid");
@@ -914,6 +943,16 @@ function ValidarDatos(Tipo,Valor){
 					$('#CC').removeClass("is-valid");
 					$('#CC').addClass("is-invalid");
 					$('#VCC').val('Nou');
+				}
+				if(Tipo=='TelC'){
+					$('#Tel_C').removeClass("is-valid");
+					$('#Tel_C').addClass("is-invalid");
+					$('#VTelC').val('Nou');
+				}
+				if(Tipo=='CelC'){
+					$('#Cel_C').removeClass("is-valid");
+					$('#Cel_C').addClass("is-invalid");
+					$('#VCelC').val('Nou');
 				}
 				if(Tipo=='Ref1'){
 					$('#Tel_R1').addClass("is-invalid");

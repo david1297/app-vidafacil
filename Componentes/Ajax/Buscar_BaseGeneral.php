@@ -67,10 +67,10 @@
 		}
 
 		 
-		$sWhere.=" order by VENTAS.Numero ";
+		$sWhere.=" order by VENTAS.Numero DESC ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 50;
+		$per_page = 100;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
 		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere");

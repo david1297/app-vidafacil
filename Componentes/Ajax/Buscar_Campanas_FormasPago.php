@@ -17,7 +17,7 @@
 			
 		
 		$sWhere.=" order by FORMAS_PAGO.Descripcion desc";
-		include 'pagination.php';
+		include 'paginationF.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 50;
 		$adjacents  = 4;

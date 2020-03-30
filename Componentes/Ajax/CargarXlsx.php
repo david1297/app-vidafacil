@@ -107,14 +107,14 @@ if(!empty($_FILES['Archivo']['name'])){
 													Tipo_Identificacion,Ciudad,Departamento,
 													Direccion,Direccion_Adicional,
 													Telefono,Telefono2,Estado,
-													Correo,Comercio,Tipificacion) VALUES
+													Correo,Comercio,Tipificacion,FechaCracion) VALUES
 
 					('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
 					'".$Nombres."',
 					'".$Tipo_Identificacion."','".$Ciudad."', '".$Departamento."', 
 					'".$Direccion."', '".$Direccion_Adicional."',
 					'".$Telefono."', '".$Telefono."', 
-					'".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion."
+					'".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion.",CURDATE()
 					);";
 						$query_update = mysqli_query($con,$sql);
 						if ($query_update) {

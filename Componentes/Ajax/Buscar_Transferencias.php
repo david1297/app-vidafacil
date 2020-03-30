@@ -31,7 +31,7 @@
 		if($_SESSION['Rol']=='2' and $rw_Admin1['Estado']=='false'){
 			$sWhere.= " and  TRANSACCIONESE.Usuario='".$_SESSION['Nit']."' ";
 		}
-		$order=" order by TRANSACCIONESE.Numero ";
+		$order=" order by TRANSACCIONESE.Fecha_Creacion DESC ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 50;
