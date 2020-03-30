@@ -35,6 +35,10 @@ if(!empty($_FILES['Archivo']['name'])){
 		date_default_timezone_set('America/Bogota');
 				$Fecha =date("d-m-Y h:i:sa");	
 				$User=$_SESSION['Nit'];
+				$Registros=$numRows-1;
+				echo 'Registros:'.$Registros;
+				$Completados=0;
+				$Erroneos=0;
 		for ($i = 2; $i <= $numRows; $i++) {
 			$Nombres = $objPHPExcel->getActiveSheet()->getCell('D'.$i)->getCalculatedValue();
 			$Documento = $objPHPExcel->getActiveSheet()->getCell('E'.$i)->getCalculatedValue();
@@ -119,46 +123,50 @@ if(!empty($_FILES['Archivo']['name'])){
 					);";
 						$query_update = mysqli_query($con,$sql);
 						if ($query_update) {
+							$Completados= $Completados+1;
+							echo $Completados;
 							$query=mysqli_query($con, "select Id from AFILIADOS where Identificacion = '$Identificacion'; ");
 							$rw_Admin=mysqli_fetch_array($query);
 							$Id=$rw_Admin[0];
 							$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from VENTAS order by Numero desc limit 0,1 ");
-						$rw=mysqli_fetch_array($sql);
-						$numero_VEnta=$rw['last']+1;
+							$rw=mysqli_fetch_array($sql);
+							$numero_VEnta=$rw['last']+1;
 
-						$sql=mysqli_query($con, "SELECT * FROM USUARIO_CAMP where Usuario ='$User'; ");
-						$rw=mysqli_fetch_array($sql);
-						$Campana=$rw[0];
+							$sql=mysqli_query($con, "SELECT * FROM USUARIO_CAMP where Usuario ='$User'; ");
+							$rw=mysqli_fetch_array($sql);
+							$Campana=$rw[0];
 
-						$sql=mysqli_query($con, "SELECT * FROM CAMP_FORMASPAGO where Campana ='$Campana'; ");
-						$rw=mysqli_fetch_array($sql);
-						$FormaPago=$rw[0];
+							$sql=mysqli_query($con, "SELECT * FROM CAMP_FORMASPAGO where Campana ='$Campana'; ");
+							$rw=mysqli_fetch_array($sql);
+							$FormaPago=$rw[0];
 
-						$NumeroNip = "";
-						$DataCreditoTipo = "";
-						$Servicio = "";
-						$Canal = "";
-						$NumeroCelular = "";
-						$OperadorVenta = "";
-						$OperadorDonante = "";
-						$NumeroSim = "";
-						$Fecha =date("Y-m-d");
+							$NumeroNip = "";
+							$DataCreditoTipo = "";
+							$Servicio = "";
+							$Canal = "";
+							$NumeroCelular = "";
+							$OperadorVenta = "";
+							$OperadorDonante = "";
+							$NumeroSim = "";
+							$Fecha =date("Y-m-d");
 
-						$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
+							$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
 											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
 											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago
 											) VALUES
 
-				('".$numero_VEnta."','".$Id."', '".$Comercio."', '".$Fecha."', '".$Campana."'
-				, '5', '4', '0', '0'
-				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
-				, '".$NumeroSim."', '0', '0', 'False', '0', '".$FormaPago."'
-				)";
-$query_update = mysqli_query($con,$sql);
+											('".$numero_VEnta."','".$Id."', '".$Comercio."', '".$Fecha."', '".$Campana."'
+											, '5', '4', '0', '0'
+											, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
+											, '".$NumeroSim."', '0', '0', 'False', '0', '".$FormaPago."'
+											)";
+							$query_update = mysqli_query($con,$sql);
 
 
 							$messages='bien';
 						} else {
+							$Erroneos = $Erroneos +1;
+							echo $Erroneos;
 							$errors = $errors.' Error en la Pagina 1 Fila: '.$i;
 						}
 			}
