@@ -8,6 +8,17 @@
 	require_once ("config/conexion.php");
 	
 	$Clientes="active";
+	$_SESSION['Completados1']=0;
+$_SESSION['Completados2']=0;
+$_SESSION['Erroneos1']=0;
+$_SESSION['Erroneos2']=0;
+$_SESSION['Registros1']=0;
+$_SESSION['Registros2']=0;
+$_SESSION['Recorridos1']=0;
+$_SESSION['Recorridos2']=0;
+$_SESSION['Estado']="Iniciado";
+$_SESSION['Proceso']=1;
+$_SESSION['Errores']="";
 	
 ?>
 <!doctype html>
@@ -41,9 +52,12 @@
 						<h4><i class='glyphicon glyphicon-search'></i> Consultar Afiliados</h4>
 					</div>
 					<div class="panel-body">
-					<div  id="Barra">
-  						
+					<div class="col-md-12">
+						<span id="loader1"></span>
 					</div>
+					<div  id="Barra">
+					</div>
+					
 					<div id="DAfiliados">
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
@@ -137,6 +151,7 @@ if (r == true) {
 
 	$( "#CargarXlsx" ).submit(function( event ) { 
   var parametros = $(this).serialize();
+  var id ;
 	  $.ajax({
 		url: "Componentes/Ajax/CargarXlsx.php",
 		   type: "POST",
@@ -145,19 +160,23 @@ if (r == true) {
     contentType: false,
     processData: false,
 			  beforeSend: function(objeto){
+				$('#loader1').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 				$('#DAfiliados').addClass("hidden");
-				setInterval(CargarBarra, 3000);
+				 id = setInterval(CargarBarra,100);
+				 
 			   },
 		   success: function(datos){ 
-				$('#DAfiliados').removeClass("hidden");
-				load(1);
+			$('#loader1').html('');
+			//	$('#DAfiliados').removeClass("hidden");
+			//	load(1);
+			clearInterval(id);
 		 }	 
    });
    event.preventDefault();
 });
 function CargarBarra(){
 	$.ajax({
-		url:'Componentes/Ajax/CargarAfiliadosProgreso.php',
+		url:'CargarAfiliadosProgreso.php',
 		 beforeSend: function(objeto){
 	  },
 		success:function(data){

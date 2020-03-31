@@ -5,10 +5,14 @@ ini_set('display_startup_errors', TRUE);
 define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 set_time_limit(50000);
 session_start();
-$_SESSION['Completados']=0;
-$_SESSION['Erroneos']=0;
-$_SESSION['Registros']=0;
-$_SESSION['Recorridos']=0;
+$_SESSION['Completados1']=0;
+$_SESSION['Completados2']=0;
+$_SESSION['Erroneos1']=0;
+$_SESSION['Erroneos2']=0;
+$_SESSION['Registros1']=0;
+$_SESSION['Registros2']=0;
+$_SESSION['Recorridos1']=0;
+$_SESSION['Recorridos2']=0;
 $_SESSION['Estado']="Iniciado";
 $_SESSION['Proceso']=1;
 $_SESSION['Errores']="";
@@ -33,7 +37,7 @@ if(!empty($_FILES['Archivo']['name'])){
 		date_default_timezone_set('America/Bogota');
 		$Fecha =date("d-m-Y h:i:sa");	
 		$User=$_SESSION['Nit'];
-		$_SESSION['Registros']=$numRows-1;
+		$_SESSION['Registros1']=$numRows-1;
 		$Completados=0;
 		$Erroneos=0;
 		for ($i = 2; $i <= $numRows; $i++) {
@@ -106,19 +110,24 @@ if(!empty($_FILES['Archivo']['name'])){
 				$query_update = mysqli_query($con,$sql);
 				if ($query_update) {
 					$Completados= $Completados+1;
-					$_SESSION['Completados']=$Completados;
+					$_SESSION['Completados1']=$Completados;
 					$query=mysqli_query($con, "select Id from AFILIADOS where Identificacion = '$Identificacion'; ");
 					$rw_Admin=mysqli_fetch_array($query);
 					$Id=$rw_Admin[0];
 					$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from VENTAS order by Numero desc limit 0,1 ");
 					$rw=mysqli_fetch_array($sql);
 					$numero_VEnta=$rw['last']+1;
-					$sql=mysqli_query($con, "SELECT * FROM USUARIO_CAMP where Usuario ='$User'; ");
+					$sql=mysqli_query($con, "SELECT * FROM USUARIO_CAMP where Usuario ='$Comercio'; ");
 					$rw=mysqli_fetch_array($sql);
 					$Campana=$rw[0];
 					$sql=mysqli_query($con, "SELECT * FROM CAMP_FORMASPAGO where Campana ='$Campana'; ");
 					$rw=mysqli_fetch_array($sql);
 					$FormaPago=$rw[0];
+					$sql=mysqli_query($con, "SELECT Portafolio,Porcentaje FROM USUARIOS where Nit ='$Comercio'; ");
+					$rw=mysqli_fetch_array($sql);
+					$Portafolio=$rw[0];
+					$Porcentaje=$rw[1];
+
 					$NumeroNip = "";
 					$DataCreditoTipo = "";
 					$Servicio = "";
@@ -133,22 +142,19 @@ if(!empty($_FILES['Archivo']['name'])){
 							Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago) VALUES
 							('".$numero_VEnta."','".$Id."', '".$Comercio."', '".$Fecha."', '".$Campana."', '5', '4', '0', '0'
 							, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
-							, '".$NumeroSim."', '0', '0', 'False', '0', '".$FormaPago."')";
+							, '".$NumeroSim."', '0', '$Porcentaje', 'False', '$Portafolio', '".$FormaPago."')";
 							$query_update = mysqli_query($con,$sql);
 				} else {
 					$Erroneos = $Erroneos +1;
-					$_SESSION['Erroneos']=$Erroneos;
+					$_SESSION['Erroneos1']=$Erroneos;
 					$errors = $errors.' Error en la Pagina 1 Fila: '.$i;
 				}
 			}
-			$_SESSION['Recorridos']=$_SESSION['Recorridos']+1; 
+			$_SESSION['Recorridos1']=$_SESSION['Recorridos1']+1; 
 		}
 		$objPHPExcel->setActiveSheetIndex(1);
 		$numRows = $objPHPExcel->setActiveSheetIndex(1)->getHighestRow();
-		$_SESSION['Completados']=0;
-		$_SESSION['Erroneos']=0;
-		$_SESSION['Registros']=$numRows-1;
-		$_SESSION['Recorridos']=0;
+		$_SESSION['Registros2']=$numRows-1;
 		for ($i = 2; $i <= $numRows; $i++) {
 			$_SESSION['Proceso']=2;
 			$Documento = $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getCalculatedValue();
@@ -171,12 +177,12 @@ if(!empty($_FILES['Archivo']['name'])){
 			('".$Id."', '".$Fecha."', '".$Observacion."', '".$User."',$Tipificacion)";
 			$query_update = mysqli_query($con,$sql);
 			if ($query_update) {
-				$_SESSION['Completados']=$_SESSION['Completados']+1;
+				$_SESSION['Completados2']=$_SESSION['Completados2']+1;
 			} else {
-				$_SESSION['Erroneos']=$_SESSION['Erroneos']+1;	
+				$_SESSION['Erroneos2']=$_SESSION['Erroneos2']+1;	
 				$errors = $errors.' Error en la Pagina 2 Fila: '.$i;
 			}
-			$_SESSION['Recorridos']=$_SESSION['Recorridos']+1;
+			$_SESSION['Recorridos2']=$_SESSION['Recorridos2']+1;
 		}
 	}else{
 		$errors = "Lo sentimos , no se Cargo la Archivo .<br>";
