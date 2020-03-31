@@ -41,8 +41,8 @@
 						<h4><i class='glyphicon glyphicon-search'></i> Consultar Afiliados</h4>
 					</div>
 					<div class="panel-body">
-					<div class="progress " id="Barra">
-  						<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+					<div  id="Barra">
+  						
 					</div>
 					<div id="DAfiliados">
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
@@ -145,27 +145,26 @@ if (r == true) {
     contentType: false,
     processData: false,
 			  beforeSend: function(objeto){
-				$('#Barra').removeClass("hidden");
-				
 				$('#DAfiliados').addClass("hidden");
-				console.log('Se Envian ');	
+				setInterval(CargarBarra, 3000);
 			   },
 		   success: function(datos){ 
 				$('#DAfiliados').removeClass("hidden");
-				$('#Barra').addClass("hidden");
-
-
-			console.log(datos);	
-			
-				
-				alert(datos);
 				load(1);
-			
-		
 		 }	 
    });
    event.preventDefault();
-})
+});
+function CargarBarra(){
+	$.ajax({
+		url:'Componentes/Ajax/CargarAfiliadosProgreso.php',
+		 beforeSend: function(objeto){
+	  },
+		success:function(data){
+			$("#Barra").html(data);	
+		}
+	})
+}
 	</script>
   </body>
 </html>

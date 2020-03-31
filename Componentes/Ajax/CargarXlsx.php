@@ -2,44 +2,42 @@
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
-
 define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 set_time_limit(50000);
 session_start();
+$_SESSION['Completados']=0;
+$_SESSION['Erroneos']=0;
+$_SESSION['Registros']=0;
+$_SESSION['Recorridos']=0;
+$_SESSION['Estado']="Iniciado";
+$_SESSION['Proceso']=1;
+$_SESSION['Errores']="";
 
-
-
-	
 if(!empty($_FILES['Archivo']['name'])){
 	$errors='';
-
 	//$Ruta1= '/var/www/html/';
 	$Ruta1= 'C:/xampp/htdocs/app-vidafacil/';
-
-
 	$nombreArchivo =$_FILES['Archivo']['name'];
 	if(copy($_FILES['Archivo']['tmp_name'], $Ruta1.$_FILES['Archivo']['name'])){
 		require_once ("../../config/db.php");
 		require_once ("../../config/conexion.php");
 		require_once  '../../classes/PHPExcel/IOFactory.php'; 
-		
 		//Variable con el nombre del archivo
 		$nombreArchivo = $Ruta1.$nombreArchivo;	
-		// Cargo la hoja de cÃ¡lculo
+		// Cargo la hoja de calculo
 		$objPHPExcel = PHPExcel_IOFactory::load($nombreArchivo);
-		
 		//Asigno la hoja de calculo activa
 		$objPHPExcel->setActiveSheetIndex(0);
 		//Obtengo el numero de filas del archivo
 		$numRows = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();
 		date_default_timezone_set('America/Bogota');
-				$Fecha =date("d-m-Y h:i:sa");	
-				$User=$_SESSION['Nit'];
-				$Registros=$numRows-1;
-				echo 'Registros:'.$Registros;
-				$Completados=0;
-				$Erroneos=0;
+		$Fecha =date("d-m-Y h:i:sa");	
+		$User=$_SESSION['Nit'];
+		$_SESSION['Registros']=$numRows-1;
+		$Completados=0;
+		$Erroneos=0;
 		for ($i = 2; $i <= $numRows; $i++) {
+			$_SESSION['Proceso']=1;
 			$Nombres = $objPHPExcel->getActiveSheet()->getCell('D'.$i)->getCalculatedValue();
 			$Documento = $objPHPExcel->getActiveSheet()->getCell('E'.$i)->getCalculatedValue();
 			$Direccion = $objPHPExcel->getActiveSheet()->getCell('F'.$i)->getCalculatedValue();
@@ -53,7 +51,6 @@ if(!empty($_FILES['Archivo']['name'])){
 			$Valor = $objPHPExcel->getActiveSheet()->getCell('N'.$i)->getCalculatedValue();
 			$Tipificacion = $objPHPExcel->getActiveSheet()->getCell('O'.$i)->getCalculatedValue();
 			$Observacion = $objPHPExcel->getActiveSheet()->getCell('P'.$i)->getCalculatedValue();
-			
 			$Identificacion = mysqli_real_escape_string($con,(strip_tags($Documento,ENT_QUOTES)));
 			$Nom = explode(" ", $Nombres);
 			if(count($Nom)==2){
@@ -61,14 +58,12 @@ if(!empty($_FILES['Archivo']['name'])){
 				$Segundo_Nombre = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));
 				$Primer_Apellido = mysqli_real_escape_string($con,(strip_tags($Nom[1],ENT_QUOTES)));
 				$Segundo_Apellido = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));	
-
 			}else{
 				if(count($Nom)==3){
 					$Primer_Nombre = mysqli_real_escape_string($con,(strip_tags($Nom[0],ENT_QUOTES)));
 					$Segundo_Nombre = mysqli_real_escape_string($con,(strip_tags($Nom[1],ENT_QUOTES)));
 					$Primer_Apellido = mysqli_real_escape_string($con,(strip_tags($Nom[2],ENT_QUOTES)));
-					$Segundo_Apellido = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));	
-		
+					$Segundo_Apellido = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));		
 				}else{
 					$Primer_Nombre = mysqli_real_escape_string($con,(strip_tags($Nom[0],ENT_QUOTES)));
 					$Segundo_Nombre = mysqli_real_escape_string($con,(strip_tags($Nom[1],ENT_QUOTES)));
@@ -76,9 +71,6 @@ if(!empty($_FILES['Archivo']['name'])){
 					$Segundo_Apellido = mysqli_real_escape_string($con,(strip_tags($Nom[3],ENT_QUOTES)));
 				}	
 			}
-
-			
-
 			$Tipo_Identificacion = mysqli_real_escape_string($con,(strip_tags('Cedula',ENT_QUOTES)));		
 			$query=mysqli_query($con, "select Codigo, Departamento from CIUDADES where  UPPER(Nombre) = UPPER('".$Ciudad1."') ");
 			$rw_Admin=mysqli_fetch_array($query);
@@ -91,16 +83,13 @@ if(!empty($_FILES['Archivo']['name'])){
 			}	
 			$Direccion = mysqli_real_escape_string($con,(strip_tags($Direccion,ENT_QUOTES)));
 			$Direccion_Adicional = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));
-			
 			$Telefono = mysqli_real_escape_string($con,(strip_tags($Celular ,ENT_QUOTES)));
 			$Estado = mysqli_real_escape_string($con,(strip_tags('Por Activar',ENT_QUOTES)));
 			$Correo = mysqli_real_escape_string($con,(strip_tags($Correo,ENT_QUOTES)));
-
-			$query=mysqli_query($con, "select Nit from USUARIOS where UPPER(Razon_Social) = 
-			UPPER('".$Comercio."') ");
+			$query=mysqli_query($con, "select Nit from USUARIOS where UPPER(Razon_Social) = UPPER('".$Comercio."') ");
 			$rw_Admin=mysqli_fetch_array($query);
 			if ($rw_Admin[0]<>'' ){
-			$Comercio = $rw_Admin[0];	
+				$Comercio = $rw_Admin[0];	
 			}else{
 				$Comercio = $_SESSION['Nit'];	
 			}
@@ -109,126 +98,92 @@ if(!empty($_FILES['Archivo']['name'])){
 			$rw_Admin=mysqli_fetch_array($query);
 			if ($rw_Admin[0]==0){
 				$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,Nombre_Completo,
-													Tipo_Identificacion,Ciudad,Departamento,
-													Direccion,Direccion_Adicional,
-													Telefono,Telefono2,Estado,
-													Correo,Comercio,Tipificacion,FechaCracion) VALUES
-
+						Tipo_Identificacion,Ciudad,Departamento,Direccion,Direccion_Adicional,Telefono,Telefono2,Estado,Correo,Comercio,Tipificacion,FechaCracion) VALUES
 					('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
-					'".$Nombres."',
-					'".$Tipo_Identificacion."','".$Ciudad."', '".$Departamento."', 
-					'".$Direccion."', '".$Direccion_Adicional."',
-					'".$Telefono."', '".$Telefono."', 
-					'".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion.",CURDATE()
+					'".$Nombres."','".$Tipo_Identificacion."','".$Ciudad."', '".$Departamento."', '".$Direccion."', '".$Direccion_Adicional."',
+					'".$Telefono."', '".$Telefono."', '".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion.",CURDATE()
 					);";
-						$query_update = mysqli_query($con,$sql);
-						if ($query_update) {
-							$Completados= $Completados+1;
-							echo $Completados;
-							$query=mysqli_query($con, "select Id from AFILIADOS where Identificacion = '$Identificacion'; ");
-							$rw_Admin=mysqli_fetch_array($query);
-							$Id=$rw_Admin[0];
-							$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from VENTAS order by Numero desc limit 0,1 ");
-							$rw=mysqli_fetch_array($sql);
-							$numero_VEnta=$rw['last']+1;
-
-							$sql=mysqli_query($con, "SELECT * FROM USUARIO_CAMP where Usuario ='$User'; ");
-							$rw=mysqli_fetch_array($sql);
-							$Campana=$rw[0];
-
-							$sql=mysqli_query($con, "SELECT * FROM CAMP_FORMASPAGO where Campana ='$Campana'; ");
-							$rw=mysqli_fetch_array($sql);
-							$FormaPago=$rw[0];
-
-							$NumeroNip = "";
-							$DataCreditoTipo = "";
-							$Servicio = "";
-							$Canal = "";
-							$NumeroCelular = "";
-							$OperadorVenta = "";
-							$OperadorDonante = "";
-							$NumeroSim = "";
-							$Fecha =date("Y-m-d");
-
-							$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
-											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
-											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago
-											) VALUES
-
-											('".$numero_VEnta."','".$Id."', '".$Comercio."', '".$Fecha."', '".$Campana."'
-											, '5', '4', '0', '0'
-											, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
-											, '".$NumeroSim."', '0', '0', 'False', '0', '".$FormaPago."'
-											)";
+				$query_update = mysqli_query($con,$sql);
+				if ($query_update) {
+					$Completados= $Completados+1;
+					$_SESSION['Completados']=$Completados;
+					$query=mysqli_query($con, "select Id from AFILIADOS where Identificacion = '$Identificacion'; ");
+					$rw_Admin=mysqli_fetch_array($query);
+					$Id=$rw_Admin[0];
+					$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from VENTAS order by Numero desc limit 0,1 ");
+					$rw=mysqli_fetch_array($sql);
+					$numero_VEnta=$rw['last']+1;
+					$sql=mysqli_query($con, "SELECT * FROM USUARIO_CAMP where Usuario ='$User'; ");
+					$rw=mysqli_fetch_array($sql);
+					$Campana=$rw[0];
+					$sql=mysqli_query($con, "SELECT * FROM CAMP_FORMASPAGO where Campana ='$Campana'; ");
+					$rw=mysqli_fetch_array($sql);
+					$FormaPago=$rw[0];
+					$NumeroNip = "";
+					$DataCreditoTipo = "";
+					$Servicio = "";
+					$Canal = "";
+					$NumeroCelular = "";
+					$OperadorVenta = "";
+					$OperadorDonante = "";
+					$NumeroSim = "";
+					$Fecha =date("Y-m-d");
+					$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
+							NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
+							Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago) VALUES
+							('".$numero_VEnta."','".$Id."', '".$Comercio."', '".$Fecha."', '".$Campana."', '5', '4', '0', '0'
+							, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
+							, '".$NumeroSim."', '0', '0', 'False', '0', '".$FormaPago."')";
 							$query_update = mysqli_query($con,$sql);
-
-
-							$messages='bien';
-						} else {
-							$Erroneos = $Erroneos +1;
-							echo $Erroneos;
-							$errors = $errors.' Error en la Pagina 1 Fila: '.$i;
-						}
+				} else {
+					$Erroneos = $Erroneos +1;
+					$_SESSION['Erroneos']=$Erroneos;
+					$errors = $errors.' Error en la Pagina 1 Fila: '.$i;
+				}
 			}
-
-
-			
-		
+			$_SESSION['Recorridos']=$_SESSION['Recorridos']+1; 
 		}
-
 		$objPHPExcel->setActiveSheetIndex(1);
-		//Obtengo el numero de filas del archivo
 		$numRows = $objPHPExcel->setActiveSheetIndex(1)->getHighestRow();
-
+		$_SESSION['Completados']=0;
+		$_SESSION['Erroneos']=0;
+		$_SESSION['Registros']=$numRows-1;
+		$_SESSION['Recorridos']=0;
 		for ($i = 2; $i <= $numRows; $i++) {
+			$_SESSION['Proceso']=2;
 			$Documento = $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getCalculatedValue();
 			$Observacion = $objPHPExcel->getActiveSheet()->getCell('F'.$i)->getCalculatedValue();
 			$Tipificacion = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
-
 			$query=mysqli_query($con, "select Id from AFILIADOS where Identificacion = '$Identificacion'; ");
 			$rw_Admin=mysqli_fetch_array($query);
 			$Id=$rw_Admin[0];
-
-			
-
-
 			$Identificacion = mysqli_real_escape_string($con,(strip_tags($Documento,ENT_QUOTES)));
-
-			$query=mysqli_query($con, "select Numero from TIPIFICACIONES where UPPER(Nombre) = 
-			UPPER('".$Tipificacion."') ");
+			$query=mysqli_query($con, "select Numero from TIPIFICACIONES where UPPER(Nombre) = UPPER('".$Tipificacion."') ");
 			$rw_Admin=mysqli_fetch_array($query);
 			if ($rw_Admin[0]<>'' ){
-			$Tipificacion = $rw_Admin[0];	
-			
-
+				$Tipificacion = $rw_Admin[0];	
 			}else{
 				$Tipificacion =5;	
 			}	
-			
 			$sql =  "UPDATE  AFILIADOS SET Tipificacion = $Tipificacion  WHERE Id = '".$Id."' ";
 			$query_update = mysqli_query($con,$sql);
-
 			$sql =  "INSERT INTO  OBSERVACIONES_AFILIADO(Afiliado,Fecha,Observacion,Usuario,Tipificacion) VALUES
 			('".$Id."', '".$Fecha."', '".$Observacion."', '".$User."',$Tipificacion)";
 			$query_update = mysqli_query($con,$sql);
 			if ($query_update) {
-				$messages='bien';
+				$_SESSION['Completados']=$_SESSION['Completados']+1;
 			} else {
+				$_SESSION['Erroneos']=$_SESSION['Erroneos']+1;	
 				$errors = $errors.' Error en la Pagina 2 Fila: '.$i;
 			}
-
-
+			$_SESSION['Recorridos']=$_SESSION['Recorridos']+1;
 		}
 	}else{
 		$errors = "Lo sentimos , no se Cargo la Archivo .<br>";
 	}
-	if ($errors ==''){
-		echo 'Los Datos Se Cargaron Correctamente';
-	}	else{
-		echo $errors;
-	}
+	$_SESSION['Errores']=$errors;
 
 	
 }
-
+$_SESSION['Estado']="Finalizado";
 ?>
