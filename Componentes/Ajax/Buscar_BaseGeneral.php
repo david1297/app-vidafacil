@@ -79,7 +79,7 @@
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-BaseGeneral.php';
 		$sql="SELECT VENTAS.Numero,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
-		VENTAS.Estado,VENTAS.Estado_Campana,
+		VENTAS.Estado,VENTAS.Estado_Campana,VENTAS.fecha,
 		CAMPANAS.NOMBRE AS Campana,CAMPANAS.Numero as Cam,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
@@ -91,10 +91,9 @@
 					<th class="text-center">Numero</th>
 					<th>Afiliado</th>
 					<th>Usuario</th>
-					<th>Campaña</th>
+				
 					<th class="text-right">Valor</th>
-					<th class="text-right">Porcentaje</th>
-					<th class="text-right">Comision</th>
+					<th class="text-center">Fecha</th>
 					<th class='text-right'>Estado</th>
 					<th>Tipificacion</th>
 					<th class='text-right'>Editar</th>
@@ -107,6 +106,7 @@
 						$Numero=$row['Numero'];
 						$Cam=$row['Cam'];
 						$Afiliado=$row['Primer_Nombre'].' '.$row['Primer_Apellido'] ;
+						$Fecha=$row['Fecha'];
 						$Valor=$row['Valor'];
 						$Usuario=$row['Razon_Social'];
 						$Campana=$row['Campana'];
@@ -183,20 +183,30 @@
 						<td class="text-center"><?php echo $Numero; ?></td>
 						<td><?php echo $Afiliado; ?></td>
 						<td><?php echo $Usuario; ?></td>
-						<td><?php echo $Campana; ?></td>
 						<td class="text-right"><?php echo '$'.number_format($Valor); ?></td>
-						<td class="text-right"><?php echo $Porcentaje_Comision.'%'; ?></td>
-						<td class="text-right"><?php echo '$'.number_format(($Valor*$Porcentaje_Comision)/100); ?></td>
+						<td class="text-center"><?php echo $Fecha; ?></td>
+
 						<td class="text-right">
 						<?php
 						$query1=mysqli_query($con, "select Id,".$_SESSION['Tipo']." from ESTADOS where Id ='$Estado'");
 						$rw_Admin1=mysqli_fetch_array($query1);
-						?>
+						
+							if ( $_SESSION['Estado']=='Activo'){
+								?>
 						<a href="#" class='btn btn-default' title='Editar Estado' onclick="obtener_datos('<?php echo $Numero;?>','<?php echo $rw_Admin1[1];?>');"  data-toggle="modal" data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i><?php echo $rw_Admin1[1]; ?></a>
+						<?php
+							}
+						?>
 						</td>
 						<td><span class="label <?php echo $label_classC;?>"><?php echo $Tipificacion; ?></span></td>
 						<td class="text-right">
+						<?php
+							if ( $_SESSION['Estado']=='Activo'){
+								?>
 							<a href="#" class='btn btn-default' title='Editar Venta' onclick="obtener_datos1('<?php echo $Numero;?>');"><i class="glyphicon glyphicon-edit"></i></a> 
+							<?php
+							}
+						?>
 						</td>
 						<td>
 
