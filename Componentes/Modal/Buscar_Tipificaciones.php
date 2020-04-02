@@ -15,10 +15,15 @@
 							<div class="col-md-5">
 								<input type="text" class="form-control" id="qTr" autocomplete="off" placeholder="Escriba Su Criterio de Busqueda" onkeyup='LoadTr(1);'>
 							</div>
+							
+							<div class="col-md-2">
+								<button class="btn btn-primary" onclick="AgregarTodas()">Agregar Todas</button>
+							</div>
 							<div class="col-md-2">
 								<span id="loaderTr"></span>
 							</div>
 					  </div>
+					 
 					</form>
 					<div id="loaderTr" style="position: absolute;	text-align: center;	top: 55px;	width: 100%;display:none;"></div><!-- Carga gif animado -->
 					<div class="outer_div" ></div><!-- Datos ajax Final -->

@@ -37,7 +37,7 @@
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Solicitar_Pago.php';
 		$sql="SELECT CUENTA_VIRTUAL.Cruce,CUENTA_VIRTUAL.NCruce,CUENTA_VIRTUAL.Fecha,
-		USUARIOS.Razon_Social,CUENTA_VIRTUAL.Usuario,sum(Credito-Debito) as Valor  FROM 
+		USUARIOS.Razon_Social,CUENTA_VIRTUAL.Usuario,sum((Credito-Debito)-Comision) as Valor  FROM 
 		 $sTable $sWhere $Group $order LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		

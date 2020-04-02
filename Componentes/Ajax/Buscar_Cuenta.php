@@ -50,6 +50,7 @@
 							<th class="text-right">Valor</th>
 							<th class="text-right">Porcentaje</th>
 							<th class="text-right">Comision</th>
+							<th class="text-right">Total</th>
 						</tr>
 						<?php
 						$TValor=0;
@@ -84,7 +85,7 @@
 							
 									
 								}
-								$TComision=$TComision+$Comision;
+								$TComision=$TComision+($Comision);
 								$TValor=$TValor+$Valor;	
 																if ($Valor >= 0){
 									$Spam_Class ='text-info'; 
@@ -103,6 +104,7 @@
 								<td class="text-right"><span class="<?php echo $Spam_Class;?>"><?php echo '$'.number_format($Valor); ?></span></td>
 								<td class="text-right"><?php echo $Porcentaje_Comision.'%'; ?></td>
 								<td class="text-right"><span class="<?php echo $Spam_Class;?>"><?php echo '$'.number_format($Comision); ?></span></td>
+								<td class="text-right"><span class="<?php echo $Spam_Class;?>"><?php echo '$'.number_format($Valor-$Comision); ?></span></td>
 		
 		
 							</tr>
@@ -113,16 +115,20 @@
 					<td colspan=5><b><span class="pull-right"><?php
 						 echo 'Total Movimiento:'
 						?></span></b></td>
+						
 						<td ><b><span class="pull-right"><?php
 					
 						 echo number_format($TValor);
 						?></span></b></td>
 						<td ><b><span class="pull-right"><?php
-						 echo 'Total Comision:'
+				
+				?></span></b></td>
+						<td ><b><span class="pull-right"><?php
+						 echo number_format($TComision);
 						?></span></b></td>
 						<td ><b><span class="pull-right"><?php
 					
-						 echo number_format($TComision);
+						 echo number_format($TValor-$TComision);
 						?></span></b></td>
 					</tr>
 					<tr>
@@ -136,12 +142,15 @@
 						$rw_Admin1=mysqli_fetch_array($query1);
 						 echo number_format($rw_Admin1[0]);
 						?></span></h4></td>
+						<td ><b><span class="pull-right"><?php
+				
+				?></span></b></td>
 					<td><h4><span class="pull-right"><?php
-						 echo 'Total General:'
+						  echo number_format($rw_Admin1[1]);
 						?></span></h4></td>
 						<td ><h4><span class="pull-right"><?php
 						
-						 echo number_format($rw_Admin1[1]);
+						 echo number_format($rw_Admin1[0]-$rw_Admin1[1]);
 						?></span></h4></td>
 						
 					</tr>

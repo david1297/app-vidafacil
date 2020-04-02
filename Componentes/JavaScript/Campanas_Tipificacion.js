@@ -30,6 +30,7 @@ function AgregarTr(Numero){
 		}
 	});
 }
+
 function EliminarTr(Tipificacion){
 	var NumeroC =$("#Numero").val();
 	$.ajax({

@@ -101,13 +101,13 @@
 									<div class="form-group col-sm-8" >
 										<label for="Nombre"  class="col-sm-3 control-label">Nombre</label>
 				  						<div class="col-sm-8">
- 				   							<input type="text" class="form-control" id="Nombre" name="Nombre"  placeholder="Nombre" value="<?php echo $Nombre; ?>">
+ 				   							<input type="text" class="form-control" id="Nombre" name="Nombre"  placeholder="Nombre" value="<?php echo $Nombre; ?>" onkeyup="javascript:this.value=this.value.toUpperCase();">
 				  						</div>
 			   						</div> 
 									<div class="form-group col-sm-8" >
 					  					<label for="Contacto" class="col-sm-3 control-label">Contacto</label>
 				  						<div class="col-sm-8">
- 				   							<input type="text" class="form-control" id="Contacto" name="Contacto"  placeholder="Contacto" value="<?php echo $Contacto; ?>"  onkeyup="RazonSocial()">
+ 				   							<input type="text" class="form-control" id="Contacto" name="Contacto"  placeholder="Contacto" value="<?php echo $Contacto; ?>"  onkeyup="javascript:this.value=this.value.toUpperCase();">
 				  						</div>
 			   						</div>
 									<div class="form-group col-sm-8" >
@@ -151,10 +151,10 @@
 										</div>';
 									}
 									?>
-									<div class="form-group col-sm-8">
+									<div class="form-group col-sm-8 hidden">
 										<label for="Porcentaje" class="col-sm-3 control-label">Porcentaje</label>
 										<div class="col-sm-8">
-											<input type="number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>"  min="0" max="100" step="0.5" onchange="UpdatePorcentaje()">
+											<input type="number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="0"  min="0" max="100" step="0.5" onchange="UpdatePorcentaje()">
 										</div>
 									</div>
 									<div class="form-group col-sm-8">
@@ -379,7 +379,21 @@ $("#Telefonica").click(function( event){
 		document.getElementById('Telefonica').value= 'False';
 
 	}
-})
+});
+function AgregarTodas(){
+	var NumeroC =$("#Numero").val();
+	$.ajax({
+    	type: "POST",
+        url: "Componentes/Ajax/Agregar_Campana_Tipificacion.php",
+        data: "NumeroC="+NumeroC+"&Todas=Todas",
+		beforeSend: function(objeto){
+			$("#resultadosTr").html("Mensaje: Cargando...");
+		},success: function(datos){
+			$("#resultadosTr").html(datos);
+		}
+	});
+	event.preventDefault();
+}
 
 	</script>
 </body>

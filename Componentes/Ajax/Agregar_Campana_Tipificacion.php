@@ -4,6 +4,7 @@ include('is_logged.php');
 $session_id= session_id();
 if (isset($_POST['Numero'])){$Numero=$_POST['Numero'];}
 if (isset($_POST['NumeroC'])){$NumeroC=$_POST['NumeroC'];}
+if (isset($_POST['Todas'])){$Todas=$_POST['Todas'];}
 
 require_once ("../../config/db.php");
 require_once ("../../config/conexion.php");
@@ -14,6 +15,17 @@ if (!empty($Numero) )
 {
 	$insert_tmp=mysqli_query($con, "INSERT INTO CAMP_TIPIFICACIONES (Campana,Tipificacion) VALUES ('$NumeroC','$Numero')");
 
+}
+if (!empty($Todas) )
+{
+	$sql=mysqli_query($con, "SELECT Numero FROM tipificaciones");
+	while ($row=mysqli_fetch_array($sql))
+	{
+		
+		$Numero=$row["Numero"];
+	
+		$insert_tmp=mysqli_query($con, "INSERT INTO CAMP_TIPIFICACIONES (Campana,Tipificacion) VALUES ('$NumeroC','$Numero')");
+	}
 }
 
 

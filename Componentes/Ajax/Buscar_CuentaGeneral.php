@@ -55,7 +55,7 @@
 		$per_page = 50;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
-		$sql="SELECT USUARIOS.Razon_Social,USUARIOS.Tipo,USUARIOS.Estado,USUARIOS.Nit,sum(Comision) Saldo FROM  $sTable $sWhere $Group  
+		$sql="SELECT USUARIOS.Razon_Social,USUARIOS.Tipo,USUARIOS.Estado,USUARIOS.Nit,sum((Credito-Debito)-CUENTA_VIRTUAL.Comision) Saldo FROM  $sTable $sWhere $Group  
 		order by sum(Comision)desc
 		LIMIT $offset,$per_page";
 
