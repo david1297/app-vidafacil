@@ -213,13 +213,13 @@
                                     <div class="col-md-4">
                                         <label for="empresa" class="control-label">Numero de Cuenta</label>
                                         <input type="text" class="form-control" id="Numero_Cuenta" Name="Numero_Cuenta"
-                                            placeholder="Numero de Cuenta" value="<?php echo $Numero_Cuenta;?>">
+                                            placeholder="Numero de Cuenta" value="<?php echo $Numero_Cuenta;?>" autocomplete="off">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="empresa" class="control-label">Titular de la Cuenta</label>
                                         <input type="text" class="form-control" id="Titular_Cuenta"
                                             Name="Titular_Cuenta" placeholder="Titular de la Cuenta"
-                                            value="<?php echo $Titular_Cuenta;?>">
+                                            value="<?php echo $Titular_Cuenta;?>" autocomplete="off">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="empresa" class="control-label">Estado</label>

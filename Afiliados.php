@@ -434,6 +434,7 @@
 									<div class=" pull-right">
 										<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
 										<?php
+										
 											if ( $_SESSION['Estado']=='Activo'){
 												?>
 													<button type="button" class="btn btn-primary" id='GAfiliado'>Guardar datos</button>

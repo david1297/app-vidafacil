@@ -25,7 +25,7 @@ if (empty($_POST['NumeroVenta'])){
 	$sql = "INSERT INTO TRANSACCIONESE(Numero,Usuario,Fecha_Creacion,Fecha_Revision,Valor_Aprovado,
 			Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,Titular_Cuenta,Estado)
 				VALUES('".$numero_Transaccion."','".$Usuario."','".$Fecha."','".$Fecha."',0,
-			0,NULL,NULL,NULL,NULL,'Pendiente')";				
+			0,NULL,NULL,NULL,NULL,'por revisar')";				
 	$query_update = mysqli_query($con,$sql);
 	if ($query_update) {
 		$messages[] = "Encabezado Guardado Con Exito";

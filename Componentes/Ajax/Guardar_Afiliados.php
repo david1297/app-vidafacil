@@ -152,6 +152,11 @@ elseif (
 						$rw=mysqli_fetch_array($sql);
 						$FormaPago=$rw[0];
 
+						$sql=mysqli_query($con, "SELECT Portafolio,Porcentaje FROM USUARIOS where Nit ='$User'; ");
+					$rw=mysqli_fetch_array($sql);
+					$Portafolio=$rw[0];
+					$Porcentaje=$rw[1];
+
 						$NumeroNip = "";
 						$DataCreditoTipo = "";
 						$Servicio = "";
@@ -170,9 +175,9 @@ elseif (
 				('".$numero_VEnta."','".$Id."', '".$User."', '".$Fecha."', '".$Campana."'
 				, '5', '4', '0', '0'
 				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
-				, '".$NumeroSim."', '0', '0', 'False', '0', '".$FormaPago."'
+				, '".$NumeroSim."', '0', '$Porcentaje', 'False', '$Portafolio', '".$FormaPago."'
 				)";
-				echo $sql;
+			
 				   $query_update = mysqli_query($con,$sql);
 
 						

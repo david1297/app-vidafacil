@@ -11,7 +11,7 @@
 		$sTable = "USUARIOS 
 		
 		left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.Usuario= USUARIOS.Nit";
-		$sWhere = "where 1=1";
+		$sWhere = "where 1=1 and CUENTA_VIRTUAL.Estado <>'Pagada'";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Razon_Social"){
 				
@@ -58,7 +58,7 @@
 		$sql="SELECT USUARIOS.Razon_Social,USUARIOS.Tipo,USUARIOS.Estado,USUARIOS.Nit,sum(Comision) Saldo FROM  $sTable $sWhere $Group  
 		order by sum(Comision)desc
 		LIMIT $offset,$per_page";
-	
+
 		$query = mysqli_query($con, $sql);
 		$numrows= 	mysqli_num_rows($query);
 		$total_pages = ceil($numrows/$per_page);

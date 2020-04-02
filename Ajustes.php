@@ -152,7 +152,7 @@
 
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Valor</label>
-									 	<input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" >
+									 	<input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>"autocomplete="off" >
 									</div>
 									
 									<div class="col-md-4">

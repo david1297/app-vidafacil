@@ -15,8 +15,6 @@ require_once ("../../config/db.php");
 		$errors[] = "Estado";
 	}elseif (empty($_POST['Fecha_Creacion'])){
 		$errors[] = "Fecha_Creacion";
-	}elseif (empty($_POST['Valor'])){
-		$errors[] = "Valor";
 	}elseif (empty($_POST['Tipo'])){
 		$errors[] = "Tipo";
 	}elseif (
@@ -24,7 +22,7 @@ require_once ("../../config/db.php");
 		&& !empty($_POST['UsuarioA'])
 		&& !empty($_POST['Estado'])
 		&& !empty($_POST['Fecha_Creacion'])
-		&& !empty($_POST['Valor'])
+
 		&& !empty($_POST['Tipo'])
 	  )
 	 {

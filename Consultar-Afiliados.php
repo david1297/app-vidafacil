@@ -16,7 +16,7 @@ $_SESSION['Registros1']=0;
 $_SESSION['Registros2']=0;
 $_SESSION['Recorridos1']=0;
 $_SESSION['Recorridos2']=0;
-$_SESSION['Estado']="Iniciado";
+$_SESSION['EstadoI']="Iniciado";
 $_SESSION['Proceso']=1;
 $_SESSION['Errores']="";
 	

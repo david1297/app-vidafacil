@@ -13,7 +13,7 @@ $_SESSION['Registros1']=0;
 $_SESSION['Registros2']=0;
 $_SESSION['Recorridos1']=0;
 $_SESSION['Recorridos2']=0;
-$_SESSION['Estado']="Iniciado";
+$_SESSION['EstadoI']="Iniciado";
 $_SESSION['Proceso']=1;
 $_SESSION['Errores']="";
 
@@ -88,7 +88,7 @@ if(!empty($_FILES['Archivo']['name'])){
 			$Direccion = mysqli_real_escape_string($con,(strip_tags($Direccion,ENT_QUOTES)));
 			$Direccion_Adicional = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));
 			$Telefono = mysqli_real_escape_string($con,(strip_tags($Celular ,ENT_QUOTES)));
-			$Estado = mysqli_real_escape_string($con,(strip_tags('Por Activar',ENT_QUOTES)));
+			$Estado = mysqli_real_escape_string($con,(strip_tags('Aprobado',ENT_QUOTES)));
 			$Correo = mysqli_real_escape_string($con,(strip_tags($Correo,ENT_QUOTES)));
 			$query=mysqli_query($con, "select Nit from USUARIOS where UPPER(Razon_Social) = UPPER('".$Comercio."') ");
 			$rw_Admin=mysqli_fetch_array($query);
@@ -191,5 +191,5 @@ if(!empty($_FILES['Archivo']['name'])){
 
 	
 }
-$_SESSION['Estado']="Finalizado";
+$_SESSION['EstadoI']="Finalizado";
 ?>

@@ -5,7 +5,7 @@
 ?>
 
 
-					<h3 class="text-center">Estado:<?php echo $_SESSION['Estado'];?></h3>
+					<h3 class="text-center">Estado:<?php echo $_SESSION['EstadoI'];?></h3>
 				<h3 class="text-center">Proceso:<?php echo $_SESSION['Proceso'];?>/2</h3>
 						<div class="progress " id="Barra">
   							<div class="progress-bar progress-bar-striped bg-success" role="progressbar" 
@@ -21,7 +21,7 @@
 						<?php
 							$_SESSION['Errores']="";
 
-							if($_SESSION['Estado']=="Finalizado"){
+							if($_SESSION['EstadoI']=="Finalizado"){
 								?>
 								<div class="text-center">
 								<button type="button" class="btn btn-success " onclick="location.reload();">Finalizar</button>
