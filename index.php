@@ -909,15 +909,10 @@ var chart = new Chart(ctx, {
 		$('.progress .progress-bar').progressbar({
 			display_text: 'none'
 		});
-
-		
-
-		// notification popup
 		toastr.options.closeButton = true;
 		toastr.options.positionClass = 'toast-bottom-right';
 		toastr.options.showDuration = 1000;
-		toastr['info']('Hola, bienvenidos a Gestor Vida Facil, un panel de administración único.');
-
+		toastr['info']('bienvenido a Bp System, un panel de administración único.');
 	});
 	</script>
 </body>
