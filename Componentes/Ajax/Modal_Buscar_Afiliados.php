@@ -10,7 +10,7 @@
 		
 		 $sTable = "AFILIADOS inner join DEPARTAMENTOS on AFILIADOS.Departamento = DEPARTAMENTOS.Codigo
 		 inner join CIUDADES on AFILIADOS.Ciudad =CIUDADES.Codigo and   DEPARTAMENTOS.Codigo = CIUDADES.Departamento		";
-		$sWhere = "where 1=1";
+		$sWhere = "where AFILIADOS.Visible ='S'";
 		if ( $_GET['Busc_Afiliado'] != "" ){
 			if ($Filtro == "Identificacion"){
 				$sWhere.= " and  (AFILIADOS.Identificacion like '%$Busc_Afiliado%' )";	

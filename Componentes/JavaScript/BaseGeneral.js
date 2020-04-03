@@ -34,10 +34,11 @@ $( "#Consultar" ).click(function( event ) {
 })
 function obtener_datos(Numero,Estado){
 	document.getElementById('resultados_ajax2').innerText='';
-	document.getElementById('Titulo_Venta').innerText = 'Actualizar Venta N. '+ Numero;
+	document.getElementById('Titulo_Venta').innerText = 'Actualizar Transaccion N. '+ Numero;
 	document.getElementById('Numero_Venta').value = Numero;
 	$("#Estado_Campana").html($("#Estado_Campana"+Numero+"").html());	
 	$("#Estado").html($("#Estado"+Numero+"").html());	
+
 }
 function obtener_datos1(Numero){
 	location.href='Ventas.php?Numero='+Numero;

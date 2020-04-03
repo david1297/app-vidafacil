@@ -24,6 +24,9 @@
 		document.getElementById('Afiliado').value = Nit ;
 		document.getElementById('Nombre').value = Nombre ;
 		document.getElementById('Correo').value = Correo ;	
+		$("#Correo").attr("readonly","readonly");
+		$("#Nombre").attr("readonly","readonly");
+		$("#SinAfiliado").val('N');
 
 		}
 		function NuevoAfiliado(){

@@ -20,7 +20,7 @@
 				<div class="row">
 					<label for="Numero" class="col-sm-4 control-label">Numero De la Tarjeta:</label>
 					<div class="col-sm-7">
-				  		<input type="Text" class="form-control" id="NumeroT" name="NumeroT" placeholder="Numero De la Tarjeta" required  maxlength="16" value="<?php echo $NumeroTarjeta;?>" onkeypress='return validaNumericos(event)'>
+				  		<input type="Text" class="form-control" id="NumeroT" name="NumeroT" placeholder="Numero De la Tarjeta" required minlength="16"  maxlength="16" value="<?php echo $NumeroTarjeta;?>" onkeypress='return validaNumericos(event)'>
 					</div>
 				</div>
 				<div class="row">

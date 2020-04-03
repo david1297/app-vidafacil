@@ -45,6 +45,7 @@
 	$Estado ="";
 	$Porcentaje =0;
 	$Perfil="";
+	$Comercio="";
 	if (isset($_GET['Nit'])) {
 		$query=mysqli_query($con, "select * from USUARIOS where Nit ='".$_GET['Nit']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
@@ -85,6 +86,7 @@
 		$D2=$rw_Admin['D2'];
 		$D3=$rw_Admin['D3'];
 		$CantAfiliados=$rw_Admin['CantAfiliados'];
+		$Comercio=$rw_Admin['Asignado'];
 
 		$EstadoU="Editando";
 		$Read= "readonly='readonly'";
@@ -394,6 +396,50 @@
 										<label for="CC" class="col-sm-3 control-label" id="Label-CC">Afiliados Diarios</label>
 										<div class="col-sm-9">
 				  							<input type="number" min="1" max="100" class="form-control" id="CantAfiliados" name="CantAfiliados" required placeholder="Afiliados Diarios" value="<?php echo $CantAfiliados; ?>">
+										</div>
+									</div>
+									<div class="form-group col-sm-9">
+										<label for="Comercio" class="col-sm-3 control-label">Asignado A:</label>
+										<div class="col-sm-9">
+										<?PHP
+										if( $_SESSION['Rol']<>'1'){
+											if($EstadoU == "Nuevo"){
+												$Comercio = $_SESSION['Nit'];
+												$NComercio = $_SESSION['Razon_Social'];
+											}else{
+												$query1=mysqli_query($con, "select Razon_Social from USUARIOS where Nit  = '".$Comercio."' ");
+												
+																				
+												$rw_Admin1=mysqli_fetch_array($query1);
+												$NComercio =$rw_Admin1['Razon_Social'];
+											}
+											?>
+												<input type="Text" class="form-control hidden" id="Asignado" name="Asignado" require value="<?php echo $Comercio?>" readonly="readonly">
+												<input type="Text" class="form-control " id="NAsignado" name="NAsignado" require value="<?php echo $NComercio?>" readonly="readonly">
+
+
+											<?php
+											
+										}	else{
+											if ($Comercio==""){
+												$Comercio = $_SESSION['Nit'];
+											}
+										
+											echo' <select class="form-control" id="Asignado" name ="Asignado" placeholder="Comercio">';
+											$query1=mysqli_query($con, "select * from USUARIOS where Estado = 'Activo' ");
+												
+																				
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													if ($Comercio ==$rw_Admin1['Nit']){
+														echo '<option value="'.$rw_Admin1['Nit'].'" selected >'.$rw_Admin1['Razon_Social'].'</option>';
+													} else{
+														echo '<option value="'.$rw_Admin1['Nit'].'">'.$rw_Admin1['Razon_Social'].'</option>';	
+													}
+												}
+												echo '</select>';
+											
+										}?>	
+												
 										</div>
 									</div>
 									<div class="col-sm-12">

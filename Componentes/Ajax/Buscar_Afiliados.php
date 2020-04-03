@@ -15,7 +15,7 @@
 							 inner join TIPIFICACIONES on TIPIFICACIONES.Numero = AFILIADOS.Tipificacion
 							 left join USUARIOS on AFILIADOS.Comercio= USUARIOS.Nit
 							 ";
-		$sWhere = "where 1=1";
+		$sWhere = "where AFILIADOS.Visible ='S'";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Identificacion"){
 				$sWhere.= " and  (AFILIADOS.Identificacion like '%$q%' )";	

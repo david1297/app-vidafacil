@@ -335,7 +335,9 @@
 										}	else{
 											echo' <select class="form-control" id="Comercio" name ="Comercio" placeholder="Comercio">';
 											$query1=mysqli_query($con, "select * from USUARIOS where Estado = 'Activo' ");
-												
+											if ($Comercio==""){
+												$Comercio = $_SESSION['Nit'];
+											}
 																				
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Comercio ==$rw_Admin1['Nit']){

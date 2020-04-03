@@ -22,13 +22,19 @@
 				$sWhere.= " and  (VENTAS.Numero like '%$q%' )";	
 			}else{
 				if ($Filtro =="Nombre"){
-					$sWhere.= " and  ((AFILIADOS.Primer_Nombre like '%$q%') OR (AFILIADOS.Segundo_Nombre like '%$q%')OR (AFILIADOS.Primer_Apellido like '%$q%') OR (AFILIADOS.Segundo_Apellido like '%$q%'))";	
+					$sWhere.= " and  (VENTAS.Nombre_Completo like '%$q%' )";	
 				}else {
 					if ($Filtro =="Identificacion"){
 						$sWhere.= " and  (AFILIADOS.Identificacion like '%$q%' )";	
 					}else{
 						if($Filtro =="Telefono"){
 							$sWhere.= " and  (AFILIADOS.Telefono like '%$q%' )";	
+						}else{
+							if ($Filtro =="Correo"){
+								$sWhere.= " and  (VENTAS.Correo like '%$q%' )";	
+							}else{
+								
+							}
 						}
 					}
 
@@ -36,6 +42,9 @@
 
 			}
 			
+		}
+		if ($Filtro =="SAfiliado"){
+			$sWhere.= " and  (VENTAS.SAfiliado='S' )";	
 		}
 		if($EFiltro<>"Todos"){
 			if($EFiltro=='Usuario'){
@@ -80,7 +89,7 @@
 		$reload = './Consultar-BaseGeneral.php';
 		$sql="SELECT VENTAS.Numero,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
 		VENTAS.Estado,VENTAS.Estado_Campana,VENTAS.fecha,
-		CAMPANAS.NOMBRE AS Campana,CAMPANAS.Numero as Cam,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		CAMPANAS.NOMBRE AS Campana,CAMPANAS.Numero as Cam,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana,VENTAS.Nombre_Completo,VENTAS.SAfiliado FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
@@ -105,7 +114,14 @@
 
 						$Numero=$row['Numero'];
 						$Cam=$row['Cam'];
-						$Afiliado=$row['Primer_Nombre'].' '.$row['Primer_Apellido'] ;
+						if($row['SAfiliado']=='S'){
+							$Afiliado='('.$row['Nombre_Completo'].')';
+						}else{
+							$Afiliado=$row['Nombre_Completo'];
+						}
+
+
+						
 						$Fecha=$row['Fecha'];
 						$Valor=$row['Valor'];
 						$Usuario=$row['Razon_Social'];
@@ -211,6 +227,11 @@
 						<td>
 
 						<?php
+						$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Transacciones" and Permiso="TipificaionesSeguimiento" and  Usuario ="'.$_SESSION['Nit'].'";');
+						$rw_Admin1=mysqli_fetch_array($query1);
+						
+						
+						if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
 						
 						echo' <select class="form-control hidden " id="Estado_Campana'.$Numero.'" name ="Estado_Campana" placeholder="Estado Campaña">';
 						$query1=mysqli_query($con, "SELECT Numero,Nombre FROM CAMP_TIPIFICACIONES 
@@ -227,12 +248,13 @@
 
 						
 						echo '</select>';
+				}
 						?>
 						</td>
 						<td>
 						<?php
 
-$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Ventas" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
+$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Transacciones" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
 $rw_Admin1=mysqli_fetch_array($query1);
 
 

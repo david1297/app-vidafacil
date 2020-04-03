@@ -26,6 +26,11 @@
 				}
 			}
 		}
+		$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Usuarios" and Permiso="ConsultarTodo" and  Usuario ="'.$_SESSION['Nit'].'";');
+		$rw_Admin1=mysqli_fetch_array($query1);
+		if($_SESSION['Rol']=='2' and $rw_Admin1['Estado']=='false'){
+			$sWhere.= " and  USUARIOS.Asignado='".$_SESSION['Nit']."' ";
+		}
 		$sWhere.= " and Estado ='Activo'";	
 		$sWhere.=" order by USUARIOS.Razon_Social desc";
 		include 'pagination.php'; 

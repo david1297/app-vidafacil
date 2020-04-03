@@ -88,8 +88,17 @@ if(!empty($_FILES['Archivo']['name'])){
 			$Direccion = mysqli_real_escape_string($con,(strip_tags($Direccion,ENT_QUOTES)));
 			$Direccion_Adicional = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));
 			$Telefono = mysqli_real_escape_string($con,(strip_tags($Celular ,ENT_QUOTES)));
-			$Estado = mysqli_real_escape_string($con,(strip_tags('Aprobado',ENT_QUOTES)));
+			
 			$Correo = mysqli_real_escape_string($con,(strip_tags($Correo,ENT_QUOTES)));
+
+			$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Afiliados" and Permiso="ImportarAprobados" and  Usuario ="'.$_SESSION['Nit'].'";');
+			$rw_Admin1=mysqli_fetch_array($query1);
+			if($_SESSION['Rol']=='2' and $rw_Admin1['Estado']=='false'){
+				$Estado =mysqli_real_escape_string($con,(strip_tags('Por Activar',ENT_QUOTES)));
+			}else{
+				$Estado = mysqli_real_escape_string($con,(strip_tags('Aprobado',ENT_QUOTES)));
+			}
+
 			$query=mysqli_query($con, "select Nit from USUARIOS where UPPER(Razon_Social) = UPPER('".$Comercio."') ");
 			$rw_Admin=mysqli_fetch_array($query);
 			if ($rw_Admin[0]<>'' ){

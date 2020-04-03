@@ -5,15 +5,13 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 } else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
     require_once("../../libraries/password_compatibility_library.php");
 }		
-if (empty($_POST['Estado_Campana'])){
-	$errors[] = "El Estado Se Encuentra Vacio";
-} elseif (!empty($_POST['Estado_Campana'])){
+
     require_once ("../../config/db.php");
 	require_once ("../../config/conexion.php");
 	$Numero_Venta = mysqli_real_escape_string($con,(strip_tags($_POST["Numero_Venta"],ENT_QUOTES)));			
-	$Estado_Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Estado_Campana"],ENT_QUOTES)));
+	
 
-	$query1=mysqli_query($con, 'SELECT Usuario,Valor,Porcentaje_Comision,Liquidada,Portafolio,Fecha,Afiliado FROM VENTAS where   Numero ='.$Numero_Venta.';');
+	$query1=mysqli_query($con, 'SELECT Usuario,Valor,Porcentaje_Comision,Liquidada,Portafolio,Fecha,Afiliado,Estado_Campana FROM VENTAS where   Numero ='.$Numero_Venta.';');
 	$rw_Admin1=mysqli_fetch_array($query1);
 	$Porcentaje_Comision=$rw_Admin1['Porcentaje_Comision'];
 	$Portafolio=$rw_Admin1['Portafolio'];
@@ -22,6 +20,12 @@ if (empty($_POST['Estado_Campana'])){
 	$Valor=$rw_Admin1['Valor'];
 	$Afiliado=$rw_Admin1['Afiliado'];
 	$Liquidada=$rw_Admin1['Liquidada'];
+
+	if (isset($_POST['Estado_Campana'])){
+		$Estado_Campana = mysqli_real_escape_string($con,(strip_tags($_POST["Estado_Campana"],ENT_QUOTES)));
+	}else{
+		$Estado_Campana =$rw_Admin1['Estado_Campana'];
+	}
 
 	$User=$_SESSION['Nit'];
 	$Observaciones ='';
@@ -115,9 +119,7 @@ if (empty($_POST['Estado_Campana'])){
 
 
 
-} else {
-    $errors[] = "Un error desconocido ocurrió.";
-}
+
 if (isset($errors)){	
 	?>
 	<div class="alert alert-danger" role="alert">

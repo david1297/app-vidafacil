@@ -41,8 +41,10 @@
 									<select class='form-control ' id="Filtro" name ="Filtro" placeholder="Estado" onchange='load(1);'>
 										<option value="Identificacion">Identificacion</option>
 										<option value="Nombre">Nombre o Apellido</option>
+										<option value="Correo">Correo</option>
 										<option value="Telefono">Telefono</option>
 										<option value="Numero">Numero</option>								
+										<option value="SAfiliado">Sin Afiliado</option>								
 									</select>
 								</div>
 								<div class="col-md-2">		

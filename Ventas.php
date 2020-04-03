@@ -38,6 +38,9 @@
 	$NumeroTarjeta="";
 	$SCode="";
 	$FechaExp ="";
+	$SAfiliado = "";
+	$Correo = "";
+	$Nombre_Completo = "";
 	
 	
 
@@ -47,7 +50,7 @@
 		VENTAS.FechaExp ,VENTAS.Forma_Pago,VENTAS.Liquidada,VENTAS.Portafolio,VENTAS.Numero,VENTAS.Afiliado,VENTAS.Usuario,VENTAS.Campana,
 		VENTAS.Estado_Campana,VENTAS.Estado,VENTAS.Fecha,VENTAS.Transportadora,VENTAS.Seguimiento,VENTAS.NumeroNip,VENTAS.DataCreditoTipo,
 		VENTAS.Servicio,VENTAS.Canal,VENTAS.NumeroCelular,VENTAS.OperadorVenta,VENTAS.OperadorDonante,VENTAS.NumeroSim,
-		VENTAS.Valor,VENTAS.Porcentaje_Comision,USUARIOS.Nit,USUARIOS.Razon_Social
+		VENTAS.Valor,VENTAS.Porcentaje_Comision,USUARIOS.Nit,USUARIOS.Razon_Social,VENTAS.Nombre_Completo,VENTAS.Correo,VENTAS.SAfiliado
 			from VENTAS inner join USUARIOS on VENTAS.Usuario=USUARIOS.Nit  where Numero ='".$_GET['Numero']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 		$Numero =$rw_Admin['Numero'];
@@ -80,11 +83,10 @@
 		$NumeroTarjeta= $rw_Admin['NumeroTarjeta'];
 		$SCode= $rw_Admin['SCode'];
 		$FechaExp = $rw_Admin['FechaExp'];
-
-		$query=mysqli_query($con, "select * from AFILIADOS where Id ='".$Afiliado."' ");
-		$rw_Admin=mysqli_fetch_array($query);
-		$Nombre =$rw_Admin['Primer_Nombre'].' '.$rw_Admin['Primer_Apellido'];
-		$Correo=$rw_Admin['Correo'];
+		$SAfiliado = $rw_Admin['SAfiliado'];
+		$Correo = $rw_Admin['Correo'];
+		$Nombre_Completo = $rw_Admin['Nombre_Completo'];
+		
 		
 		
 
@@ -93,7 +95,7 @@
 		$EstadoV="Editando";
 		$Read= "readonly='readonly'";
 
-		$Numero_venta="Venta Numero: ".$Numero;
+		$Numero_venta="Transaccion Numero: ".$Numero;
 
 		$sql="SELECT * FROM  OBSERVACIONES_VENTAS inner join USUARIOS on USUARIOS.Nit=OBSERVACIONES_VENTAS.Usuario WHERE VENTA=".$Numero."";
 
@@ -131,7 +133,7 @@
 		$Portafolio=$_SESSION['Portafolio'];
 		$EstadoV="Nuevo";
 		$Read= "";
-		$Numero_venta="Nueva Venta";
+		$Numero_venta="Nueva Transaccion";
 	}
 
 
@@ -156,7 +158,7 @@
 					<div class="panel-heading">
 		    		<div class="btn-group pull-right">
 							<button type="button" class="btn btn-default" id="Consultar">
-								<span class="fa fa-shopping-cart"></span> Consultar Ventas
+								<span class="fa fa-shopping-cart"></span> Consultar Transacciones
 							</button>
 							
 						</div>
@@ -206,17 +208,21 @@ curl_close($ch);*/
 									<div class="col-md-4">
 										<label for="Afiliado" class="control-label">Afiliado</label>
 								 		<div class="input-group">
-								 			<input class="form-control hidden" type="text" id="Numero" name="Numero" VALUE="<?php echo $Numero;?>"   readonly>
-								 			<input class="form-control hidden" type="text" id="Afiliado" name="Afiliado" VALUE="<?php echo $Afiliado;?>"  required readonly>
-											<input class="form-control" type="text" id="Nombre" placeholder="Nombre del Afiliado" VALUE="<?php echo $Nombre;?>" required readonly>
-											<span class="input-group-btn">
+										 <span class="input-group-btn">
 												<button type="button" class="btn btn-default" data-toggle="modal" data-target="#BuscarAfiliado"><span class="glyphicon glyphicon-search"></span></button>
+											</span>
+								 			<input class="form-control hidden" type="text" id="Numero" name="Numero" VALUE="<?php echo $Numero;?>"   readonly>
+								 			<input class="form-control hidden" type="text" id="SinAfiliado" name="SinAfiliado" VALUE="<?php echo $SAfiliado;?>"   readonly>
+								 			<input class="form-control hidden" type="text" id="Afiliado" name="Afiliado" VALUE="<?php echo $Afiliado;?>"  required >
+											<input class="form-control" type="text" id="Nombre" name="Nombre" placeholder="Nombre del Afiliado" VALUE="<?php echo $Nombre_Completo;?>" required  <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off'>
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-default" onclick="FSinAfiliado()" ><span class="glyphicon glyphicon-remove"></span></button>
 											</span>
 										</div>
 									</div>
 									<div class="col-md-4">
 										<label for="mail" class="control-label">Correo</label>
-										<input type="text" class="form-control" id="Correo"VALUE="<?php echo $Correo;?>" placeholder="Correo" readonly>
+										<input type="text" class="form-control" id="Correo"  name ="Correo"VALUE="<?php echo $Correo;?>" placeholder="Correo" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off'>
 									</div>	
 									
 									<div class="col-md-4">
@@ -265,7 +271,7 @@ curl_close($ch);*/
 											echo '
 											<input type="Text" class="form-control hidden" id="Estado" name="Estado" require value="4" >';
 										} else {
-											$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Ventas" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
+											$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Transacciones" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
 										
 											$rw_Admin1=mysqli_fetch_array($query1);
 											
@@ -485,7 +491,7 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 					var Res = datos.split('*');
 					if(Res[1]=='Correcto'){
 						 $('#Numero').val(Res[2]);
-						 $('#LNumero').html("Venta Numero: "+Res[2]);
+						 $('#LNumero').html("Transaccion Numero: "+Res[2]);
 						 $("#resultados_ajax2").html(Res[3]);
 						
 						 var F = $('#Forma_Pago').val();
@@ -605,6 +611,14 @@ function CargarEstados(){
     		return true;
     	}
      	return false;        
+	}
+	function FSinAfiliado(){
+		$("#SinAfiliado").val('S');
+		$("#Afiliado").val('1');
+		
+		$("#Correo").removeAttr("readonly");
+		
+		$("#Nombre").removeAttr("readonly");
 	}
 
 

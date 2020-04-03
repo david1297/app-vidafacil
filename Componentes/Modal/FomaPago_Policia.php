@@ -19,7 +19,7 @@
 
 				<label for="PIN" class="col-sm-4 control-label">PIN:</label>
 				<div class="col-sm-8">
-				  <input type="Text" class="form-control" id="PIN" name="PIN" placeholder="PIN" required maxlength="10"  value="<?php echo $Pin;?>" onkeypress='return validaNumericos(event)'>
+				  <input type="Text" class="form-control" id="PIN" name="PIN" placeholder="PIN" required maxlength="8" minlength="8"  value="<?php echo $Pin;?>" onkeypress='return validaNumericos(event)'>
 				</div>
 				<label for="Cuotas" class="col-sm-4 control-label">Cuotas:</label>
 				<div class="col-sm-2">
