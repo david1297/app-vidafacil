@@ -42,6 +42,7 @@ if(!empty($_FILES['Archivo']['name'])){
 		$Erroneos=0;
 		for ($i = 2; $i <= $numRows; $i++) {
 			$_SESSION['Proceso']=1;
+			$NContrato = $objPHPExcel->getActiveSheet()->getCell('B'.$i)->getCalculatedValue();
 			$Nombres = $objPHPExcel->getActiveSheet()->getCell('D'.$i)->getCalculatedValue();
 			$Documento = $objPHPExcel->getActiveSheet()->getCell('E'.$i)->getCalculatedValue();
 			$Direccion = $objPHPExcel->getActiveSheet()->getCell('F'.$i)->getCalculatedValue();
@@ -111,10 +112,10 @@ if(!empty($_FILES['Archivo']['name'])){
 			$rw_Admin=mysqli_fetch_array($query);
 			if ($rw_Admin[0]==0){
 				$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,Nombre_Completo,
-						Tipo_Identificacion,Ciudad,Departamento,Direccion,Direccion_Adicional,Telefono,Telefono2,Estado,Correo,Comercio,Tipificacion,FechaCracion) VALUES
+						Tipo_Identificacion,Ciudad,Departamento,Direccion,Direccion_Adicional,Telefono,Telefono2,Estado,Correo,Comercio,Tipificacion,FechaCracion,NContrato) VALUES
 					('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
 					'".$Nombres."','".$Tipo_Identificacion."','".$Ciudad."', '".$Departamento."', '".$Direccion."', '".$Direccion_Adicional."',
-					'".$Telefono."', '".$Telefono."', '".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion.",CURDATE()
+					'".$Telefono."', '".$Telefono."', '".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion.",CURDATE(),'".$NContrato."'
 					);";
 				$query_update = mysqli_query($con,$sql);
 				if ($query_update) {
@@ -148,11 +149,12 @@ if(!empty($_FILES['Archivo']['name'])){
 					$Fecha =date("Y-m-d");
 					$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
 							NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
-							Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago) VALUES
+							Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago,Nombre_Completo,Identificacion,SAfiliado) VALUES
 							('".$numero_VEnta."','".$Id."', '".$Comercio."', '".$Fecha."', '".$Campana."', '5', '4', '0', '0'
 							, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
-							, '".$NumeroSim."', '0', '$Porcentaje', 'False', '$Portafolio', '".$FormaPago."')";
+							, '".$NumeroSim."', '0', '$Porcentaje', 'False', '$Portafolio', '".$FormaPago."','".$Nombres."','".$Identificacion."','N')";
 							$query_update = mysqli_query($con,$sql);
+							
 				} else {
 					$Erroneos = $Erroneos +1;
 					$_SESSION['Erroneos1']=$Erroneos;

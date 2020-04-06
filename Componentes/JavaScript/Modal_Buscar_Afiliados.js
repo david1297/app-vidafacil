@@ -20,11 +20,11 @@
 			})
 		}
 
-	function Seleccionar(Nit,Nombre,Correo){
+	function Seleccionar(Nit,Nombre,Identificacion){
 		document.getElementById('Afiliado').value = Nit ;
 		document.getElementById('Nombre').value = Nombre ;
-		document.getElementById('Correo').value = Correo ;	
-		$("#Correo").attr("readonly","readonly");
+		document.getElementById('Identificacion').value = Identificacion ;	
+		$("#Identificacion").attr("readonly","readonly");
 		$("#Nombre").attr("readonly","readonly");
 		$("#SinAfiliado").val('N');
 

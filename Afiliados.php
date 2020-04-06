@@ -31,6 +31,8 @@
 	$D3='';
 	$D4='';
 	$Adicional='';
+	$NFactura='';
+	$NContrato='';
 
 
 	if (isset($_GET['Identificacion'])) {
@@ -59,6 +61,9 @@
 		$D3=$rw_Admin['D3'];
 		$D4=$rw_Admin['D4'];
 		$Adicional= $rw_Admin['Adicional'];
+		$NFactura= $rw_Admin['NFactura'];
+		$NContrato= $rw_Admin['NContrato'];
+	
 
 		$EstadoC="Editando";
 		$Read= "readonly='readonly'";
@@ -414,6 +419,18 @@
 												?>
 												<input type="Text" class="form-control hidden" id="Tip" name="Tip" require value="<?php echo $Tipificacion?>" readonly="readonly">
 												<div class="col-sm-4" id="Tipi">	
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="NFactura" class="col-sm-3 control-label">Numero de Factura</label>
+										<div class="col-sm-9">
+											<input type="Text" class="form-control" id="NFactura" name="NFactura" required placeholder="Numero de Factura" value="<?php echo $NFactura;?>">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="NContrato" class="col-sm-3 control-label">Numero de Contrato</label>
+										<div class="col-sm-9">
+											<input type="Text" class="form-control" id="NContrato" name="NContrato" required placeholder="Numero de Contrato" value="<?php echo $NContrato;?>">
 										</div>
 									</div>
 									 <div class="col-md-12">

@@ -37,8 +37,8 @@ if (empty($_POST['Afiliado'])){
 		$errors[] = "El Numero de Sim Se Encuentra Vacio";
 }elseif (empty($_POST['Nombre'])){
 	$errors[] = "El Nombre Del Afiliado se Encuentra Vacio";
-}elseif (empty($_POST['Correo'])){
-	$errors[] = "El Correo Del Afiliado se Encuentra Vacio";
+}elseif (empty($_POST['Identificacion'])){
+	$errors[] = "El Identificacion Del Afiliado se Encuentra Vacio";
 }
 
 
@@ -52,7 +52,7 @@ elseif (
 		&& !empty($_POST['Estado'])
 		&& !empty($_POST['Forma_Pago'])
 		&& !empty($_POST['Nombre'])
-		&& !empty($_POST['Correo'])
+		&& !empty($_POST['Identificacion'])
 
         ){
             require_once ("../../config/db.php");
@@ -70,7 +70,7 @@ elseif (
 				$Portafolio = mysqli_real_escape_string($con,(strip_tags($_POST["Portafolio"],ENT_QUOTES)));
 				$Forma_Pago = mysqli_real_escape_string($con,(strip_tags($_POST["Forma_Pago"],ENT_QUOTES)));
 				$Nombre = mysqli_real_escape_string($con,(strip_tags($_POST["Nombre"],ENT_QUOTES)));
-				$Correo = mysqli_real_escape_string($con,(strip_tags($_POST["Correo"],ENT_QUOTES)));
+				$Identificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Identificacion"],ENT_QUOTES)));
 				$SinAfiliado = mysqli_real_escape_string($con,(strip_tags($_POST["SinAfiliado"],ENT_QUOTES)));
 				$fom=explode("_", $Forma_Pago);
 				$Forma_Pago = $fom[0];
@@ -131,21 +131,21 @@ elseif (
 
 				$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
 											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
-											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago,Nombre_Completo,Correo,SAfiliado
+											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago,Nombre_Completo,Identificacion,SAfiliado
 											) VALUES
 
 				('".$numero_VEnta."','".$Afiliado."', '".$Usuario."', '".$fecha."', '".$Campana."'
 				, '".$Estado_Campana."', '".$Estado."', '".$Seguimiento."', '".$Transportadora."'
 				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
 				, '".$NumeroSim."', '".$Valor."', '".$Porcentaje_Comision."', 'False', '".$Portafolio."', ".$Forma_Pago.",
-				'".$Nombre."','".$Correo."','".$SinAfiliado."'
+				'".$Nombre."','".$Identificacion."','".$SinAfiliado."'
 				) ON DUPLICATE  KEY UPDATE
 				Afiliado = '".$Afiliado."',Usuario ='".$Usuario."',fecha='".$fecha."',Campana='".$Campana."'
 				,Estado_Campana='".$Estado_Campana."',Estado='".$Estado."',Seguimiento='".$Seguimiento."',Transportadora='".$Transportadora."'
 				,NumeroNip='".$NumeroNip."',DataCreditoTipo='".$DataCreditoTipo."',Servicio='".$Servicio."',Canal='".$Canal."'
 				,NumeroCelular='".$NumeroCelular."',OperadorVenta='".$OperadorVenta."',OperadorDonante='".$OperadorDonante."'
 				,NumeroSim='".$NumeroSim."',Valor='".$Valor."',Porcentaje_Comision='".$Porcentaje_Comision."',Liquidada='False',Portafolio='".$Portafolio."'
-				,Forma_Pago=".$Forma_Pago.",Nombre_Completo='".$Nombre."',Correo='".$Correo."',SAfiliado='".$SinAfiliado."'
+				,Forma_Pago=".$Forma_Pago.",Nombre_Completo='".$Nombre."',Identificacion='".$Identificacion."',SAfiliado='".$SinAfiliado."'
 				;";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {

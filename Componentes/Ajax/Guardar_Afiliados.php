@@ -25,6 +25,8 @@ if (empty($_POST['Identificacion'])){
 	$errors[] = "El Telefono2 Se Encuentra Vacio";
 }elseif (empty($_POST['Estado'])){
 	$errors[] = "El Estado Se Encuentra Vacio";
+}elseif (empty($_POST['NContrato'])){
+	$errors[] = "El Numero de Contrato Se Encuentra Vacio";
 }elseif (!filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)) {
 	$errors[] = "La dirección de correo electrónico no está en un formato de correo electrónico válida";
 }
@@ -41,6 +43,7 @@ elseif (
 			&& !empty($_POST['Direccion'])
 			&& !empty($_POST['Telefono'])
 			&& !empty($_POST['Estado'])
+			&& !empty($_POST['NContrato'])
 			&& filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)
           )
          {
@@ -61,6 +64,8 @@ elseif (
 				$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 				$Correo = mysqli_real_escape_string($con,(strip_tags($_POST["Correo"],ENT_QUOTES)));
 				$Tipificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Tipificacion"],ENT_QUOTES)));
+				$NFactura = mysqli_real_escape_string($con,(strip_tags($_POST["NFactura"],ENT_QUOTES)));
+				$NContrato = mysqli_real_escape_string($con,(strip_tags($_POST["NContrato"],ENT_QUOTES)));
 				
 				$Nombre_Completo = $Primer_Nombre;
 				if($Segundo_Nombre != ''){
@@ -114,12 +119,14 @@ elseif (
 					Tipo_Identificacion,Ciudad,Departamento,
 					Direccion,Direccion_Adicional,
 					Telefono,
-					Estado,Correo,Comercio,Tipificacion,Indicativo,D1,D2,D3,D4,Adicional,Telefono2,FechaCracion,Nombre_Completo) VALUES
+					Estado,Correo,Comercio,Tipificacion,Indicativo,D1,D2,D3,D4,Adicional,Telefono2,FechaCracion,Nombre_Completo,
+					NFactura,NContrato) VALUES
 
 						('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
 					'".$Tipo_Identificacion."', '".$Ciudad."', '".$Departamento."', 
 					'".$Direccion."', '".$Direccion_Adicional."', '".$Telefono."', 
-					'".$Estado."', '".$Correo."', '".$Comercio."', $Tipificacion, '".$Indicativo."', '".$D1."', '".$D2."', '".$D3."', '".$D4."', '".$Adicional."', '".$Telefono2."',CURDATE(), '".$Nombre_Completo."'
+					'".$Estado."', '".$Correo."', '".$Comercio."', $Tipificacion, '".$Indicativo."', '".$D1."', '".$D2."', '".$D3."', '".$D4."', 
+					'".$Adicional."', '".$Telefono2."',CURDATE(), '".$Nombre_Completo."','".$NFactura."','".$NContrato."'
 					);";
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {
@@ -169,13 +176,13 @@ elseif (
 
 						$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
 											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
-											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago
+											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago,Nombre_Completo,Identificacion,SAfiliado
 											) VALUES
 
 				('".$numero_VEnta."','".$Id."', '".$User."', '".$Fecha."', '".$Campana."'
 				, '5', '4', '0', '0'
 				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
-				, '".$NumeroSim."', '0', '$Porcentaje', 'False', '$Portafolio', '".$FormaPago."'
+				, '".$NumeroSim."', '0', '$Porcentaje', 'False', '$Portafolio', '".$FormaPago."','".$Nombre_Completo."','".$Identificacion."','N'
 				)";
 			
 				   $query_update = mysqli_query($con,$sql);
@@ -205,7 +212,10 @@ elseif (
 					Estado='".$Estado."',
 					Correo='".$Correo."',Comercio='".$Comercio."',Indicativo='".$Indicativo."'
 					,D1='".$D1."',D2='".$D2."',D3='".$D3."',D4='".$D4."',Adicional='".$Adicional."',Telefono2='".$Telefono2."',
-					Nombre_Completo = '".$Nombre_Completo."' WHERE Id = $Id";
+					Nombre_Completo = '".$Nombre_Completo."',
+					NFactura = '".$NFactura."',
+					NContrato = '".$NContrato."'					
+					WHERE Id = $Id";
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {
 						$messages[] = "El Afiliado se a Actualizo con Exito!";

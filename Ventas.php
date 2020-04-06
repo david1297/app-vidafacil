@@ -41,6 +41,7 @@
 	$SAfiliado = "";
 	$Correo = "";
 	$Nombre_Completo = "";
+	$Identificacion="";
 	
 	
 
@@ -50,7 +51,7 @@
 		VENTAS.FechaExp ,VENTAS.Forma_Pago,VENTAS.Liquidada,VENTAS.Portafolio,VENTAS.Numero,VENTAS.Afiliado,VENTAS.Usuario,VENTAS.Campana,
 		VENTAS.Estado_Campana,VENTAS.Estado,VENTAS.Fecha,VENTAS.Transportadora,VENTAS.Seguimiento,VENTAS.NumeroNip,VENTAS.DataCreditoTipo,
 		VENTAS.Servicio,VENTAS.Canal,VENTAS.NumeroCelular,VENTAS.OperadorVenta,VENTAS.OperadorDonante,VENTAS.NumeroSim,
-		VENTAS.Valor,VENTAS.Porcentaje_Comision,USUARIOS.Nit,USUARIOS.Razon_Social,VENTAS.Nombre_Completo,VENTAS.Correo,VENTAS.SAfiliado
+		VENTAS.Valor,VENTAS.Porcentaje_Comision,USUARIOS.Nit,USUARIOS.Razon_Social,VENTAS.Nombre_Completo,VENTAS.Identificacion,VENTAS.SAfiliado
 			from VENTAS inner join USUARIOS on VENTAS.Usuario=USUARIOS.Nit  where Numero ='".$_GET['Numero']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 		$Numero =$rw_Admin['Numero'];
@@ -84,7 +85,7 @@
 		$SCode= $rw_Admin['SCode'];
 		$FechaExp = $rw_Admin['FechaExp'];
 		$SAfiliado = $rw_Admin['SAfiliado'];
-		$Correo = $rw_Admin['Correo'];
+		$Identificacion = $rw_Admin['Identificacion'];
 		$Nombre_Completo = $rw_Admin['Nombre_Completo'];
 		
 		
@@ -221,8 +222,8 @@ curl_close($ch);*/
 										</div>
 									</div>
 									<div class="col-md-4">
-										<label for="mail" class="control-label">Correo</label>
-										<input type="text" class="form-control" id="Correo"  name ="Correo"VALUE="<?php echo $Correo;?>" placeholder="Correo" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off'>
+										<label for="mail" class="control-label">Identificacion</label>
+										<input type="text" class="form-control" id="Identificacion"  name ="Identificacion"VALUE="<?php echo $Identificacion;?>" placeholder="Identificacion" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off'>
 									</div>	
 									
 									<div class="col-md-4">
@@ -616,7 +617,7 @@ function CargarEstados(){
 		$("#SinAfiliado").val('S');
 		$("#Afiliado").val('1');
 		
-		$("#Correo").removeAttr("readonly");
+		$("#Identificacion").removeAttr("readonly");
 		
 		$("#Nombre").removeAttr("readonly");
 	}

@@ -84,7 +84,7 @@
 						<td><?php echo $Correo; ?></td>
 						
 						
-						<td class='text-center'><a class='btn btn-success'href="#" data-dismiss="modal" onclick="Seleccionar('<?php echo $Id ?>','<?php echo $Nombre ?>','<?php echo $Correo ?>')"><i class="glyphicon glyphicon-ok"></i></a></td>
+						<td class='text-center'><a class='btn btn-success'href="#" data-dismiss="modal" onclick="Seleccionar('<?php echo $Id ?>','<?php echo $Nombre ?>','<?php echo $Identificacion ?>')"><i class="glyphicon glyphicon-ok"></i></a></td>
 					</tr>
 					<?php
 				}
