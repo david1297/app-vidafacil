@@ -72,6 +72,7 @@ elseif (
 				$Nombre = mysqli_real_escape_string($con,(strip_tags($_POST["Nombre"],ENT_QUOTES)));
 				$Identificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Identificacion"],ENT_QUOTES)));
 				$SinAfiliado = mysqli_real_escape_string($con,(strip_tags($_POST["SinAfiliado"],ENT_QUOTES)));
+				$Token = mysqli_real_escape_string($con,(strip_tags($_POST["Token"],ENT_QUOTES)));
 				$fom=explode("_", $Forma_Pago);
 				$Forma_Pago = $fom[0];
 				$sig=',';
@@ -131,21 +132,21 @@ elseif (
 
 				$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
 											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
-											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago,Nombre_Completo,Identificacion,SAfiliado
+											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago,Nombre_Completo,Identificacion,SAfiliado,Token
 											) VALUES
 
 				('".$numero_VEnta."','".$Afiliado."', '".$Usuario."', '".$fecha."', '".$Campana."'
 				, '".$Estado_Campana."', '".$Estado."', '".$Seguimiento."', '".$Transportadora."'
 				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
 				, '".$NumeroSim."', '".$Valor."', '".$Porcentaje_Comision."', 'False', '".$Portafolio."', ".$Forma_Pago.",
-				'".$Nombre."','".$Identificacion."','".$SinAfiliado."'
+				'".$Nombre."','".$Identificacion."','".$SinAfiliado."','".$Token."'
 				) ON DUPLICATE  KEY UPDATE
 				Afiliado = '".$Afiliado."',Usuario ='".$Usuario."',fecha='".$fecha."',Campana='".$Campana."'
 				,Estado_Campana='".$Estado_Campana."',Estado='".$Estado."',Seguimiento='".$Seguimiento."',Transportadora='".$Transportadora."'
 				,NumeroNip='".$NumeroNip."',DataCreditoTipo='".$DataCreditoTipo."',Servicio='".$Servicio."',Canal='".$Canal."'
 				,NumeroCelular='".$NumeroCelular."',OperadorVenta='".$OperadorVenta."',OperadorDonante='".$OperadorDonante."'
 				,NumeroSim='".$NumeroSim."',Valor='".$Valor."',Porcentaje_Comision='".$Porcentaje_Comision."',Liquidada='False',Portafolio='".$Portafolio."'
-				,Forma_Pago=".$Forma_Pago.",Nombre_Completo='".$Nombre."',Identificacion='".$Identificacion."',SAfiliado='".$SinAfiliado."'
+				,Forma_Pago=".$Forma_Pago.",Nombre_Completo='".$Nombre."',Identificacion='".$Identificacion."',SAfiliado='".$SinAfiliado."',Token='".$Token."'
 				;";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {

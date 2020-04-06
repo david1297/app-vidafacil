@@ -147,7 +147,7 @@
 									<div class="form-group">
 				  						<label for="Identificacion" class="col-sm-3  control-label">Identificacion</label>
 				  						<div class="col-sm-9 ">
-				   							<input type="text" class="form-control" id="Identificacion" name="Identificacion" placeholder="Identificacion" value="<?php echo $Identificacion; ?>" <?php echo $Read; ?> required onchange='ValidarDatos("Identificacion",$(this).val())'>
+				   							<input type="text" class="form-control" id="Identificacion" name="Identificacion" placeholder="Identificacion" value="<?php echo $Identificacion; ?>" <?php echo $Read; ?> required onchange='ValidarDatos("Identificacion",$(this).val())' onkeyup="javascript:this.value=this.value.toUpperCase();">
 											   <input type="text " class="form-control hidden" id="VIdentificacion" name="VIdentificacion" value="Yes" > 
 											   <div class="invalid-feedback">
 											   	El Numero de Identificacion Ya se Encuentra Registrado

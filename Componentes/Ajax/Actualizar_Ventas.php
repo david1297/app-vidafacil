@@ -9,6 +9,7 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
     require_once ("../../config/db.php");
 	require_once ("../../config/conexion.php");
 	$Numero_Venta = mysqli_real_escape_string($con,(strip_tags($_POST["Numero_Venta"],ENT_QUOTES)));			
+	$Token = mysqli_real_escape_string($con,(strip_tags($_POST["Token"],ENT_QUOTES)));			
 	
 
 	$query1=mysqli_query($con, 'SELECT Usuario,Valor,Porcentaje_Comision,Liquidada,Portafolio,Fecha,Afiliado,Estado_Campana FROM VENTAS where   Numero ='.$Numero_Venta.';');
@@ -49,6 +50,8 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 					$CargarTip = 'SI';
 					$Tipi=$Estado_Campana;
 				}
+				$sql =  "Update VENTAS Set Token='".$Token."' where Numero =".$Numero_Venta.";";
+    		$query_update = mysqli_query($con,$sql);
 
 	if($Liquidada == 'True'){
 		$errors[]='La Factura Ya Fue Liquidada No se Puede Editar';

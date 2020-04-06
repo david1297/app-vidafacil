@@ -19,7 +19,7 @@
 							if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
 								?>
 								<label for="Estado" class="control-label">Estado</label>
-									<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
+									<select class="form-control" id="Estado" name ="Estado" placeholder="Estado" onchange="ValidarEstado(event)" >';
 															
 									</select>								
 								<?php
@@ -38,6 +38,10 @@
 								<?php
 							}
 							?>
+
+						<label for="Token" class="control-label">Numero de Aprobacion</label>
+						<input type="text" class="form-control" id="Token" Name="Token" placeholder="Numero de Aprobacion" value="" autocomplete="off" >
+										<input type="text" class="form-control hidden" id="EstadoA" placeholder="Numero de Aprobacion" value="" autocomplete="off" >
 							
 								</div>		
 								<div class="col-md-12">

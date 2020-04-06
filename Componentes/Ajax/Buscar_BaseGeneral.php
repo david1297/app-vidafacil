@@ -87,7 +87,7 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-BaseGeneral.php';
-		$sql="SELECT VENTAS.Numero,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
+		$sql="SELECT VENTAS.Numero, VENTAS.Token,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
 		VENTAS.Estado,VENTAS.Estado_Campana,VENTAS.fecha,
 		CAMPANAS.NOMBRE AS Campana,CAMPANAS.Numero as Cam,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana,VENTAS.Nombre_Completo,VENTAS.SAfiliado FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
@@ -123,6 +123,7 @@
 
 						
 						$Fecha=$row['Fecha'];
+						$Token=$row['Token'];
 						$Valor=$row['Valor'];
 						$Usuario=$row['Razon_Social'];
 						$Campana=$row['Campana'];
@@ -262,7 +263,7 @@ if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
 	
 	
 	$query1=mysqli_query($con, "select Id,".$_SESSION['Tipo']." from ESTADOS");
-	echo' <select class="form-control hidden" id="Estado'.$Numero.'" name ="Estado"  placeholder="Campaña" onchange="CargarEstados()">';
+	echo' <select class="form-control hidden" id="Estado'.$Numero.'" name ="Estado"  placeholder="Campaña" onchange="ValidarEstado(event)">';
 	while($rw_Admin1=mysqli_fetch_array($query1)){
 		if($Estado==$rw_Admin1[0]){
 			echo '<option value="'.$rw_Admin1[0].'" selected>'.utf8_encode($rw_Admin1[1]).'</option>';	
@@ -276,6 +277,9 @@ if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
 }				
 
 						?>
+						</td>
+						<td>
+						<input type="text" class="form-control hidden" id="Token<?php echo $Numero;?>" placeholder="Numero de Aprobacion" value="<?php echo $Token;?>" autocomplete="off" >
 						</td>
 
 					</tr>

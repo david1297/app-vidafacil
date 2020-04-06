@@ -38,7 +38,8 @@ function obtener_datos(Numero,Estado){
 	document.getElementById('Numero_Venta').value = Numero;
 	$("#Estado_Campana").html($("#Estado_Campana"+Numero+"").html());	
 	$("#Estado").html($("#Estado"+Numero+"").html());	
-
+	$("#Token").val($("#Token"+Numero).val());
+	$("#EstadoA").val($("#Estado"+Numero).val());
 }
 function obtener_datos1(Numero){
 	location.href='Ventas.php?Numero='+Numero;
@@ -65,7 +66,25 @@ $( "#Actualizar_Ventas" ).submit(function( event ) {
 		}
 	load(1);
 
-})
+});
+function ValidarEstado(valor){
+	var Estado =$('#Estado').val();
+	var EstadoA =$('#EstadoA').val();
+	var Token =$('#Token').val();
+	if (Token ==''){
+		if(Estado==1 ){	
+			event.preventDefault();
+			$("#Estado").val(EstadoA);
+			$('#Estado').change();
+			alert('No se Puede Aprobar la Transaccion sin Numero de Aprobacion');				
+		}else{
+			$('#EstadoA').val(Estado);
+		}
+	}else{
+		$('#EstadoA').val(Estado);
+	}
+
+}
 
 	
 		
