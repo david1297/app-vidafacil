@@ -44,6 +44,7 @@
 		if ($numrows>0){
 			echo mysqli_error($con);
 			?>
+			<input type="text" class="hidden" name="Usuario" id="Usuario" value="<?php echo $Nit;?>">
 			<div class="table-responsive">
 			  <table class="table table-hover">
 				<tr  class="warning">

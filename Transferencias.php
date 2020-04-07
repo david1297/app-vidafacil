@@ -22,12 +22,15 @@
 	$Titular_Cuenta="";
     $Observaciones_Cargadas="";
     $Estado="";
+    $TotalPago=0;
+    $DescBancario=0;
+    $FPrevencion=0;
 
 	if (isset($_GET['Numero'])) {
 
         $query=mysqli_query($con, "select Numero,Usuario,USUARIOS.Razon_Social,
          Fecha_Creacion,Fecha_Revision,Valor_Aprovado,Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,TRANSACCIONESE.Estado,
-         Titular_Cuenta from TRANSACCIONESE 
+         Titular_Cuenta,TRANSACCIONESE.TotalPago,TRANSACCIONESE.DescBancario,TRANSACCIONESE.FPrevencion from TRANSACCIONESE 
 		inner join USUARIOS on TRANSACCIONESE.Usuario = USUARIOS.Nit
 		where Numero='".$_GET['Numero']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
@@ -136,6 +139,15 @@
                                             <input type="text" class="form-control" id="Valor_Rechazado1"
                                             Name="Valor_Rechazado1" placeholder="Valor_Rechazado"
                                             value="<?php echo $Valor_Rechazado;?>"  readonly>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="empresa" class="control-label">Total a Pagar</label>
+                                        <input type="text" class="form-control hidden" id="TotalPago"
+                                            Name="TotalPago" placeholder="TotalPago"
+                                            value="<?php echo $TotalPago;?>" readonly>
+                                            <input type="text" class="form-control" id="TotalPago1"
+                                            Name="TotalPago1" placeholder="TotalPago"
+                                            value="<?php echo $TotalPago;?>"  readonly>
                                     </div>
 
                                     <div class="col-md-4">

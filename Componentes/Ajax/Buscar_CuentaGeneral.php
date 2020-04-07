@@ -126,7 +126,7 @@
 						 echo 'Total General:'
 						?></span></h4></td>
 						<td ><h4><span class="pull-right"><?php
-						$query1=mysqli_query($con, "SELECT sum(CUENTA_VIRTUAL.Comision)Comision FROM $sTable $sWhere  ;");			
+						$query1=mysqli_query($con, "SELECT sum((Credito-Debito)-CUENTA_VIRTUAL.Comision)Comision FROM $sTable $sWhere  ;");			
 						$rw_Admin1=mysqli_fetch_array($query1);
 						 echo number_format($rw_Admin1[0]);
 						?></span></h4></td>

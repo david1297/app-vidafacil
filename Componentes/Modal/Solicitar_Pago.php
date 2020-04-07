@@ -9,7 +9,7 @@
 				  </div>
 				  <div class="modal-body">
 					<form class="form-horizontal" method="post"ACTION="Pago.php"  method="post" id="formPago" name="formPago" >
-					  
+					  	
 						
 						<div id="resultados_ajax2"></div>
 						<div id="outer_divc" ></div>

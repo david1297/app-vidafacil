@@ -46,11 +46,17 @@
 	$Porcentaje =0;
 	$Perfil="";
 	$Comercio="";
+	$DescBancario=0;
+	$FPrevencion=0;
+	$CFondo=3;
 	if (isset($_GET['Nit'])) {
 		$query=mysqli_query($con, "select * from USUARIOS where Nit ='".$_GET['Nit']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 
 		$Nit =$rw_Admin['Nit'];
+		$DescBancario =$rw_Admin['DescBancario'];
+		$CFondo =$rw_Admin['CFondo'];
+		$FPrevencion =$rw_Admin['FPrevencion'];
 		$Tipo_Persona =$rw_Admin['Tipo_Persona'];
 		$Razon_Social =$rw_Admin['Razon_Social'];
 		$Nombre =$rw_Admin['Nombre'];
@@ -137,18 +143,15 @@
 						?>
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="active"><a href="#Informacion" role="tab" data-toggle="tab">Informacion</a></li>
-							
+							<li><a href="#Configuracion" role="tab" data-toggle="tab">Configuracion</a></li>
 							<?php
 								if ($Perfil <>'Si'){
 									?>
-<li><a href="#Permisos" role="tab" data-toggle="tab" id="Click_Permisos">Permisos</a></li>
-							<li><a href="#CampanasU" role="tab" data-toggle="tab">Campañas</a></li>
+									<li><a href="#Permisos" role="tab" data-toggle="tab" id="Click_Permisos">Permisos</a></li>
+									<li><a href="#CampanasU" role="tab" data-toggle="tab">Campañas</a></li>
 									<?php
-
 								}
 							?>
-							
-							
 						</ul>
 						<div class="tab-content content-profile">
 							<div class="tab-pane fade in active" id="Informacion">
@@ -157,21 +160,21 @@
 									   	<input type="text" class="form-control hidden" id="EstadoU" name="EstadoU"  value="<?php echo $EstadoU; ?>" > 
 										<input type="text" class="form-control hidden" id="Perfil" name="Perfil"  value="<?php echo $Perfil; ?>" > 
 										<div class="form-group col-sm-9">
-										<label for="Tipo_Persona" class="col-sm-3 control-label">Tipo</label>
-										<div class="col-md-9 col-sm-9">
-											<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo" onchange="TipoU()">
-												<?php 
-												if($Tipo == 'Operador'){
-													echo '<option value="Operador">OPERADOR</option>';
-													echo '<option value="Distribuidor">DISTRIBUIDOR</option>';
-												}else{
-													echo '<option value="Distribuidor">DISTRIBUIDOR</option>';
-													echo '<option value="Operador">OPERADOR</option>';
-												}
-							  					?>
-											</select>
-										</div>
-									</div> 
+											<label for="Tipo_Persona" class="col-sm-3 control-label">Tipo</label>
+											<div class="col-md-9 col-sm-9">
+												<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo" onchange="TipoU()">
+													<?php 
+													if($Tipo == 'Operador'){
+														echo '<option value="Operador">OPERADOR</option>';
+														echo '<option value="Distribuidor">DISTRIBUIDOR</option>';
+													}else{
+														echo '<option value="Distribuidor">DISTRIBUIDOR</option>';
+														echo '<option value="Operador">OPERADOR</option>';
+													}
+													?>
+												</select>
+											</div>
+										</div> 
 									
 									<div class="form-group col-sm-9">
 										<label for="Tipo_Persona" class="col-sm-3 control-label">Tipo Persona</label>
@@ -323,38 +326,7 @@
 											<input type="email" class="form-control" id="Correo_C" name="Correo_C" require placeholder="Correo de Contacto" value="<?php echo $Correo_C; ?>" onkeyup="javascript:this.value=this.value.toUpperCase();">				  
 										</div>
 			  						</div>
-				  					<div class="form-group col-sm-9">
-										<label for="Porcentaje" class="col-sm-3 control-label">Porcentaje Comision</label>
-										<div class="col-sm-9">
-											<?php
-												if($_SESSION['Rol'] == '2'){
-											?>
-											<input type="Number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>" min="1" max="100" step="0.5" <?php echo $Read; ?> onchange="UpdatePorcentaje()" >
-											<?php
-												}else{
-											?>
-											<input type="Number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>" min="1" max="100" step="0.5" onchange="UpdatePorcentaje()"> 
-											<?php
-												}
-											?>
-										</div>
-									</div>
-									<div class="form-group col-sm-9">
-										<label for="Portafolio" class="col-sm-3 control-label">Valor Portafolio</label>
-										<div class="col-sm-9">
-											<?php
-												if($_SESSION['Rol'] == '2'){
-											?>
-											<input type="Number" class="form-control" id="Portafolio" name="Portafolio" required placeholder="Portafolio" value="<?php echo $Portafolio;?>" min="100"  step="1000" <?php echo $Read; ?> onchange="UpdatePortafolio()" >
-											<?php
-												}else{
-											?>
-											<input type="Number" class="form-control" id="Portafolio" name="Portafolio" required placeholder="Portafolio" value="<?php echo $Portafolio;?>" min="100"  step="1000" onchange="UpdatePortafolio()"> 
-											<?php
-												}
-											?>
-										</div>
-									</div>
+				  					
 									<div id='Replegal'>
 										<div class="form-group col-sm-9">
 											<label for="Rep_Legal" class="col-sm-3 control-label" id="Label-Rep_Legal">Representante Legal</label>
@@ -392,12 +364,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-group col-sm-9">
-										<label for="CC" class="col-sm-3 control-label" id="Label-CC">Afiliados Diarios</label>
-										<div class="col-sm-9">
-				  							<input type="number" min="1" max="100" class="form-control" id="CantAfiliados" name="CantAfiliados" required placeholder="Afiliados Diarios" value="<?php echo $CantAfiliados; ?>">
-										</div>
-									</div>
+									
 									<div class="form-group col-sm-9">
 										<label for="Comercio" class="col-sm-3 control-label">Asignado A:</label>
 										<div class="col-sm-9">
@@ -596,7 +563,7 @@
 										}
 									?>
 									<div class=" col-sm-8">
-									<div id="resultados_ajax2"></div>
+									<div class="resultados_ajax2"></div>
 									<hr class="style1">
 									</div>
 									
@@ -607,11 +574,96 @@
 											
 											if ( $_SESSION['Estado']=='Activo'){
 												?>
-													<button type="button" class="btn btn-primary" id="GUsuario">Guardar datos</button>
+													<button type="button" class="btn btn-primary GUsuario" >Guardar datos</button>
 												<?php
 											}
 										?>
 		  							</div>				
+								
+							</div>
+							<div class="tab-pane fade" id="Configuracion">
+								<div class="form-group col-sm-9">	
+									<label for="DescBancario"  class="col-sm-3 control-label">Descuento Bancario</label>
+				  					<div class="col-sm-9">
+ 				   						<input type="text"  class="form-control" id="DescBancario" name="DescBancario"  placeholder="Descuento Bancario" value="<?php echo $DescBancario;?>"  onkeypress='return validaNumericos(event)'>
+				  					</div>
+								</div> 
+								<div class="form-group col-sm-9">
+											<label for="CFondo" class="col-sm-3 control-label">Tiempo Fondo</label>
+											<div class="col-md-9 col-sm-9">
+												<select class='form-control' id="CFondo" name ="CFondo" placeholder="CFondo" >
+													<?php 
+													if($CFondo == 3){
+														echo '<option value="3" selected>3 Meses</option>';
+														echo '<option value="6">6 Meses</option>';
+													}else{
+														echo '<option value="3">3 Meses</option>';
+														echo '<option value="6" selected>6 Meses</option>';
+													}
+													?>
+												</select>
+											</div>
+										</div> 
+								<div class="form-group col-sm-9">	
+									<label for="FPrevencion"  class="col-sm-3 control-label">Fondo de Prevencion%</label>
+				  					<div class="col-sm-9">
+ 				   						<input type="number"  class="form-control" id="FPrevencion" name="FPrevencion"  placeholder="Fondo de Prevencion" value="<?php echo $FPrevencion;?>" min="1" max="100" step="0.5">
+				  					</div>
+								</div> 
+								<div class="form-group col-sm-9">
+									<label for="Porcentaje" class="col-sm-3 control-label">Porcentaje Comision</label>
+									<div class="col-sm-9">
+										<?php
+											if($_SESSION['Rol'] == '2'){
+										?>
+										<input type="Number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>" min="1" max="100" step="0.5" <?php echo $Read; ?> onchange="UpdatePorcentaje()" >
+										<?php
+											}else{
+										?>
+										<input type="Number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>" min="1" max="100" step="0.5" onchange="UpdatePorcentaje()"> 
+										<?php
+											}
+										?>
+									</div>
+								</div>
+								<div class="form-group col-sm-9">
+									<label for="Portafolio" class="col-sm-3 control-label">Valor Portafolio</label>
+									<div class="col-sm-9">
+										<?php
+											if($_SESSION['Rol'] == '2'){
+										?>
+										<input type="text" class="form-control" id="Portafolio" name="Portafolio" required placeholder="Portafolio" value="<?php echo $Portafolio;?>"  <?php echo $Read; ?> onchange="UpdatePortafolio()"  onkeypress='return validaNumericos(event)'>
+										<?php
+											}else{
+										?>
+										<input type="text" class="form-control" id="Portafolio" name="Portafolio" required placeholder="Portafolio" value="<?php echo $Portafolio;?>"  onchange="UpdatePortafolio()"  onkeypress='return validaNumericos(event)'> 
+										<?php
+											}
+										?>
+									</div>
+								</div>
+								<div class="form-group col-sm-9">
+									<label for="CC" class="col-sm-3 control-label" id="Label-CC">Afiliados Diarios</label>
+									<div class="col-sm-9">
+										<input type="number" min="1" max="100" class="form-control" id="CantAfiliados" name="CantAfiliados" required placeholder="Afiliados Diarios" value="<?php echo $CantAfiliados; ?>">
+									</div>
+								</div>
+								<div class=" col-sm-8">
+									<div class="resultados_ajax2"></div>
+									<hr class="style1">
+								</div>
+								<div class=" pull-right col-sm-8">
+									
+										<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
+										<?php
+											
+											if ( $_SESSION['Estado']=='Activo'){
+												?>
+													<button type="button" class="btn btn-primary GUsuario" >Guardar datos</button>
+												<?php
+											}
+										?>
+		  							</div>	
 								</form>	
 							</div>
 							<div class="tab-pane fade" id="Permisos">
@@ -752,7 +804,7 @@ $( "#Consultar" ).click(function( event ) {
 		location.href='Consultar-Usuarios.php';
 })
 
-$("#GUsuario").click(function( event ) {
+$(".GUsuario").click(function( event ) {
 	if($('#VCC').val()=='Nou'){
 		alert('El Numero de Documento Del Representante Legal ya se Encuentra Registrado');
 	}else{
@@ -791,10 +843,10 @@ $("#GUsuario").click(function( event ) {
 			url: "Componentes/Ajax/Guardar_Usuario.php",
 			data: parametros,
 			 beforeSend: function(objeto){
-				$("#resultados_ajax2").html("Mensaje: Cargando...");
+				$(".resultados_ajax2").html("Mensaje: Cargando...");
 			  },
 			success: function(datos){
-			$("#resultados_ajax2").html(datos);
+			$(".resultados_ajax2").html(datos);
 			
 		  }
 	});
@@ -875,6 +927,8 @@ function Cargar() {
 	}
 	CargarCampanas();
 	TipoU();
+	$("#DescBancario").keyup();
+	$("#Portafolio").keyup();
 	
 }
 function RazonSocial(){
@@ -1024,6 +1078,29 @@ function validaNumericos(event) {
      }
      return false;        
 }
+$("#DescBancario").on({
+    "focus": function (event) {
+        $(event.target).select();
+    },
+    "keyup": function (event) {
+        $(event.target).val(function (index, value ) {
+            return value.replace(/\D/g, "")       
+                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+        });
+    }
+});
+$("#Portafolio").on({
+    "focus": function (event) {
+        $(event.target).select();
+    },
+    "keyup": function (event) {
+        $(event.target).val(function (index, value ) {
+            return value.replace(/\D/g, "")       
+                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+        });
+    }
+});
+
 	</script>
 </body>
 

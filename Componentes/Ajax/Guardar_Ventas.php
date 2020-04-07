@@ -170,7 +170,7 @@ elseif (
 					}
 
 					
-						$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento='".$numero_VEnta."'");
+						$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento='".$numero_VEnta."' and Tipo='V'");
 
 
 						$Comision = 0;
