@@ -253,14 +253,14 @@
 										<div class="col-sm-2">
 											<input type="text" class="form-control" id="D1" name="D1"   value="<?php echo $D1;?>" onchange="CambioDir()">
 										</div>
-										<div class="col-sm-1" style="padding-left: 0px; padding-right: 0px;width: 32px;">
-											<label for="" class="col-sm-1 control-label">#</label>
+										<div class="col-sm-1" style="padding-left: 0px; padding-right: 0px;width: 10px;">
+											<label for="" class="col-sm-1 control-label" style="padding-left: 0px;padding-right: 0px;">#</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" class="form-control" id="D2" name="D2"   value="<?php echo $D2;?>" onchange="CambioDir()">
 										</div>
-										<div class="col-sm-1" style="padding-left: 0px; padding-right: 0px;width: 32px;">
-											<label for="" class="col-sm-1 control-label">-</label>
+										<div class="col-sm-1" style="padding-left: 0px; padding-right: 0px;width: 10px;">
+											<label for="" class="col-sm-1 control-label" style="padding-left: 0px;padding-right: 0px;">-</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" class="form-control" id="D3" name="D3"   value="<?php echo $D3;?>" onchange="CambioDir()">

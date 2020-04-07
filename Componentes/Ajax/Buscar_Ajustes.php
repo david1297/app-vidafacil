@@ -13,7 +13,7 @@
 
 		$sTable = "AJUSTES	
 		INNER JOIN USUARIOS ON AJUSTES.USUARIOA = USUARIOS.NIT
-		left join TIPIFICACIONES on TIPIFICACIONES.Numero = AJUSTES.Tipificacion
+		
 		";
 		$sWhere = "where (AJUSTES.Fecha_Creacion >= '$fechaIni' and  AJUSTES.Fecha_Creacion <= '$fechaFin') ";
 		if ( $_GET['q'] != "" ){
@@ -49,8 +49,8 @@
 				
 
 
-		$sql="SELECT TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AJUSTES.Numero,AJUSTES.UsuarioA,USUARIOS.RAZON_SOCIAL,AJUSTES.Fecha_Creacion,
-		AJUSTES.ESTADO,AJUSTES.Valor,AJUSTES.Tipo FROM  $sTable $sWhere   
+		$sql="SELECT AJUSTES.Numero,AJUSTES.UsuarioA,USUARIOS.RAZON_SOCIAL,AJUSTES.Fecha_Creacion,
+		AJUSTES.ESTADO,AJUSTES.Valor,AJUSTES.Tipo,AJUSTES.Cuenta FROM  $sTable $sWhere   
 		$order LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
@@ -65,7 +65,7 @@
             <th>Tipo</th>
             <th>Valor</th>
             <th>Estado</th>
-			<th>Tipificacion</th>
+			<th>Aplica</th>
             <th class='text-right'>Editar</th>
         </tr>
         <?php
@@ -73,6 +73,7 @@
 
 						$Numero=$row['Numero'];
 						$Nit=$row['UsuarioA'];
+						$Cuenta=$row['Cuenta'];
 					
 						$Usuario=$row['RAZON_SOCIAL'];
 						$FechaCreacion=$row['Fecha_Creacion'];
@@ -89,64 +90,10 @@
 							$label_class='label-warning';
 							$Estado='Anulado';
 						}
-						$NCategoria = $row['NCategoria'];
-						$Tipificacion = $row['Categoria'];
-						if ($NCategoria=="1"){
-							$label_classC='label-success';
+						if ($Cuenta=='Virtual'){
+							$DCuenta='Cuenta Virtual';
 						}else{
-							if ($NCategoria=="2"){
-								$label_classC='label-danger';
-							}else{
-								if ($NCategoria=="3"){
-									$label_classC='label-info';
-								}else{
-									if ($NCategoria=="4"){
-										$label_classC='label-warning';
-									}else{
-										if ($NCategoria=="5"){
-											$label_classC='label-primary';
-										}else{
-											if ($NCategoria=="6"){
-												$label_classC='label-primary';
-											}else{
-												if ($NCategoria=="7"){
-													$label_classC='label-danger';
-												}else{
-													if ($NCategoria=="8"){
-														$label_classC='label-success';
-													}else{
-														if ($NCategoria=="9"){
-															$label_classC='label-info';
-														}else{
-															if ($NCategoria=="10"){
-																$label_classC='label-warning';
-															}else{
-																if ($NCategoria=="11"){
-																	$label_classC='label-info';
-																}else{
-																	if ($NCategoria=="12"){
-																		$label_classC='label-info';
-																	}else{
-																		if ($NCategoria=="13"){
-																			$label_classC='label-info';
-																		}else{
-																			if ($NCategoria=="14"){
-																				$label_classC='label-info';
-																			}else{
-																				$label_classC='label-info';
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
+							$DCuenta ='Fondo de Prevencion';
 						}
 					
 						
@@ -160,7 +107,7 @@
             <td><?php echo '$'.number_format($Valor); ?></td>
 
             <td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>
-            <td><span class="label <?php echo $label_classC;?>"><?php echo $Tipificacion; ?></span></td>
+            <td><?php echo $DCuenta; ?></td>
 
 
             <td class="text-right">

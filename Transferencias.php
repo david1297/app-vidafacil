@@ -40,6 +40,9 @@
 		$Usario_Nombre=$rw_Admin['Razon_Social'];
 		$Fecha_Creacion =$rw_Admin['Fecha_Creacion'];
 		$Fecha_Revision =$rw_Admin['Fecha_Revision'];
+		$TotalPago =$rw_Admin['TotalPago'];
+		$DescBancario =$rw_Admin['DescBancario'];
+		$FPrevencion =$rw_Admin['FPrevencion'];
 		if ($Fecha_Revision ==$Fecha_Creacion ){
 			$Fecha_Revision = date("Y-m-d");
 		}
@@ -129,7 +132,7 @@
                                             value="<?php echo $Valor_Aprovado;?>" onchange="CambioAprovado()" readonly>
                                             <input type="text" class="form-control" id="Valor_Aprovado1"
                                             Name="Valor_Aprovado1" placeholder="Valor_Aprovado"
-                                            value="<?php echo $Valor_Aprovado;?>"  readonly>
+                                            value="<?php echo $Valor_Aprovado;?>"  readonly onkeyup="format(this)" >
                                     </div>
                                     <div class="col-md-4">
                                         <label for="empresa" class="control-label">Valor Rechazado</label>
@@ -138,18 +141,40 @@
                                             value="<?php echo $Valor_Rechazado;?>" onchange="CambioRechazado()" readonly>
                                             <input type="text" class="form-control" id="Valor_Rechazado1"
                                             Name="Valor_Rechazado1" placeholder="Valor_Rechazado"
-                                            value="<?php echo $Valor_Rechazado;?>"  readonly>
+                                            value="<?php echo $Valor_Rechazado;?>"  readonly onkeyup="format(this)" >
                                     </div>
                                     <div class="col-md-4">
                                         <label for="empresa" class="control-label">Total a Pagar</label>
                                         <input type="text" class="form-control hidden" id="TotalPago"
                                             Name="TotalPago" placeholder="TotalPago"
-                                            value="<?php echo $TotalPago;?>" readonly>
+                                            value="<?php echo $TotalPago;?>" readonly >
                                             <input type="text" class="form-control" id="TotalPago1"
                                             Name="TotalPago1" placeholder="TotalPago"
-                                            value="<?php echo $TotalPago;?>"  readonly>
+                                            value="<?php echo $TotalPago;?>"  readonly onkeyup="format(this)" >
                                     </div>
-
+                                    <div class="col-md-4">
+                                        <label for="empresa" class="control-label">Descuento Bancario</label>
+                                        <input type="text" class="form-control hidden" id="DescBancario"
+                                            Name="DescBancario" placeholder="DescBancario"
+                                            value="<?php echo $DescBancario;?>" readonly>
+                                            <input type="text" class="form-control" id="DescBancario1"
+                                            Name="DescBancario1" placeholder="DescBancario"
+                                            value="<?php echo $DescBancario;?>"  readonly onkeyup="format(this)" >
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="empresa" class="control-label">Fondo de Prevencion %</label>
+                                        <input type="text" class="form-control " id="FPrevencion"
+                                            Name="FPrevencion" placeholder="FPrevencion"
+                                            value="<?php echo $FPrevencion;?>%" readonly>
+                                           
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="empresa" class="control-label">Fondo de Prevencion $</label>
+                                        
+                                            <input type="text" class="form-control" id="FPrevencion1"
+                                            Name="FPrevencion1" placeholder="FPrevencion"
+                                            value="<?php echo (($Valor_Aprovado-$DescBancario)*$FPrevencion/100);?>"  readonly onkeyup="format(this)" >
+                                    </div>
                                     <div class="col-md-4">
                                         <label for="email" class="control-label">Banco</label>
                                         <?PHP
@@ -379,28 +404,7 @@
     <script src="assets/scripts/common.js"></script>
 
     <script>
-    $("#Valor_Aprovado1").on({
-        "focus": function(event) {
-            $(event.target).select();
-        },
-        "keyup": function(event) {
-            $(event.target).val(function(index, value) {
-                return value.replace(/\D/g, "")
-                    .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-            });
-        }
-    });
-    $("#Valor_Rechazado1").on({
-        "focus": function(event) {
-            $(event.target).select();
-        },
-        "keyup": function(event) {
-            $(event.target).val(function(index, value) {
-                return value.replace(/\D/g, "")
-                    .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-            });
-        }
-    });
+  
 
     function OnVenta(Valor, id) {
         var ch = $('#' + id).prop('checked');
@@ -422,21 +426,53 @@
     function CambioAprovado() {
         var apro = parseFloat(document.getElementById('Valor_Aprovado').value);
         var Total = parseFloat(document.getElementById('Total').value);
+        var Desc = parseFloat(document.getElementById('DescBancario').value);
+
         document.getElementById('Valor_Rechazado').value = Total - apro;
-        document.getElementById('Valor_Rechazado1').value = Total - apro;
+        document.getElementById('Valor_Rechazado1').value = Total - apro;  
+        document.getElementById('TotalPago').value = apro-Desc;
+        document.getElementById('TotalPago1').value =  apro-Desc;
+     
+        $("#TotalPago1").keyup();
         $("#Valor_Aprovado1").keyup();
         $("#Valor_Rechazado1").keyup();
+        CambioTotal();
+
+
+
     }
 
     function CambioRechazado() {
         var recha = parseFloat(document.getElementById('Valor_Rechazado').value);
         var Total = parseFloat(document.getElementById('Total').value);
+        var Desc = parseFloat(document.getElementById('DescBancario').value);
        
-
         document.getElementById('Valor_Aprovado1').value = Total - recha;
         document.getElementById('Valor_Aprovado').value = Total - recha;
+        
+        
+        document.getElementById('TotalPago').value = Total - recha-Desc;
+        document.getElementById('TotalPago1').value = Total - recha-Desc;
+     
+        $("#TotalPago1").keyup();
         $("#Valor_Aprovado1").keyup();
         $("#Valor_Rechazado1").keyup();
+        CambioTotal();
+    }
+    function CambioTotal(){
+        var Total = parseFloat(document.getElementById('TotalPago').value);
+        var Fondo = parseFloat(document.getElementById('FPrevencion').value);
+        var TotalP = Total-(Total*Fondo/100);
+        var TFondo = (Total*Fondo/100);
+
+        document.getElementById('TotalPago').value =TotalP;
+        document.getElementById('TotalPago1').value =TotalP;
+        document.getElementById('FPrevencion1').value =TFondo;
+
+        
+        $("#TotalPago1").keyup();
+        $("#FPrevencion1").keyup();
+
     }
 
     $("#Cancelar").click(function(event) {
@@ -489,9 +525,23 @@ if (Banco == Banco2 ){
 function Cargar(){
     $("#Valor_Aprovado1").keyup();
         $("#Valor_Rechazado1").keyup();
+        $("#TotalPago1").keyup();
+        $("#DescBancario1").keyup();
+        $("#FPrevencion1").keyup();
 }
 
-
+function format(input){
+var num = input.value.replace(/\,/g,'');
+if(!isNaN(num)){
+num = num.toString().split('').reverse().join('').replace(/(?=\d*\,?)(\d{3})/g,'$1,');
+num = num.split('').reverse().join('').replace(/^[\,]/,'');
+input.value = '$ '+num;
+}
+ 
+else{ alert('Solo se permiten numeros');
+input.value = input.value.replace(/[^\d\,]*/g,'');
+}
+}
 
   
 

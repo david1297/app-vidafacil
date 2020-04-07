@@ -38,69 +38,106 @@ require_once ("../../config/db.php");
 		$Numero_Cuenta = mysqli_real_escape_string($con,(strip_tags($_POST["Numero_Cuenta"],ENT_QUOTES)));
 		$Titular_Cuenta = mysqli_real_escape_string($con,(strip_tags($_POST["Titular_Cuenta"],ENT_QUOTES)));
 		$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
+		$TotalPago = mysqli_real_escape_string($con,(strip_tags($_POST["TotalPago"],ENT_QUOTES)));
+		$DescBancario = mysqli_real_escape_string($con,(strip_tags($_POST["DescBancario"],ENT_QUOTES)));
+
+		$Fondo =0;
+		
+		if($Estado<>'Aprobada'){
+			$Valor_Aprovado=0;
+			$Valor_Rechazado=0;
+			$TotalPago=0;	
+			$Fondo=0;
+		}
 
 		$sql =  "Update TRANSACCIONESE Set Fecha_Revision='".$Fecha_Revision."',Valor_Rechazado=".$Valor_Rechazado.",
 		Banco='".$Banco."',Tipo_Cuenta='".$Tipo_Cuenta."',Valor_Aprovado=".$Valor_Aprovado.",Numero_Cuenta='".$Numero_Cuenta."',
-		Titular_Cuenta='".$Titular_Cuenta."',Estado='".$Estado."' where Numero =".$Numero.";";				
+		Titular_Cuenta='".$Titular_Cuenta."',Estado='".$Estado."',
+		TotalPago=".$TotalPago.",
+		DescBancario=".$DescBancario."
+		
+		where Numero =".$Numero."
+		
+		
+		;";				
 		$query_update = mysqli_query($con,$sql);
 		if ($query_update) {
-			
+			$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento=".$Numero." and Tipo ='T' ");
+			$delete=mysqli_query($con, "DELETE FROM  FONDO_PREVENCION where  NDocumento=".$Numero." and Tipo ='T' ");
 			$messages[] = "Encabezado Actualizado";
-			$sql =  "Update TRANSACCIONESD Set Estado='Rechazada' where Numero =".$Numero.";";				
-			$query_update = mysqli_query($con,$sql);
-			if ($query_update) {
-				if (isset($_POST['NumeroVenta'])) {
-					foreach($_POST['NumeroVenta'] as $Venta){
-						$porciones = explode("-", $Venta);
-						$sql =  "Update TRANSACCIONESD Set Estado='Pagada' where Numero =".$Numero." and Tipo='".$porciones[0]."'
-						and NDocumento=".$porciones[1]."; ";			
-						$query_update = mysqli_query($con,$sql);
-					}
-
-				}
+			if($Estado=='por revisar'){
+				$sql =  "Update TRANSACCIONESD Set Estado='Pendiente' where Numero =".$Numero.";";				
+				$query_update = mysqli_query($con,$sql);
 				
+			}else{
+				if($Estado=='Aprobada'){
+					$query1=mysqli_query($con, "SELECT Usuario,FPrevencion FROM TRANSACCIONESE where Numero =".$Numero." ");
+					$rw_Admin1=mysqli_fetch_array($query1);
+					$Usuario=$rw_Admin1['Usuario'];
+					$FPrevencion=$rw_Admin1['FPrevencion'];
+
+					$Fondo = (($Valor_Aprovado-$DescBancario)*($FPrevencion/100));
+
 
 					
-				$messages[] = "Estado de Venta";
-			}else{
-				$errors[] ="Error Al Actualizar Estado de Venta <br>".$sql;		
+					$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
+										VALUES('".$Usuario."','T','".$Numero."','T','".$Numero."','0','".$TotalPago."','0','0','Pagada','".date("Y-m-d")."')";
+					$query_update = mysqli_query($con,$sql);
+
+					$sql = "INSERT INTO FONDO_PREVENCION(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
+										VALUES('".$Usuario."','T','".$Numero."','T','".$Numero."','".$Fondo."','0','0','0','Pagada','".date("Y-m-d")."')";
+					$query_update = mysqli_query($con,$sql);
+
+					$sql =  "Update TRANSACCIONESD Set Estado='Rechazada' where Numero =".$Numero.";";				
+					$query_update = mysqli_query($con,$sql);
+					if (isset($_POST['NumeroVenta'])) {
+						foreach($_POST['NumeroVenta'] as $Venta){
+							$porciones = explode("-", $Venta);
+							$sql =  "Update TRANSACCIONESD Set Estado='Pagada' where Numero =".$Numero." and Tipo='".$porciones[0]."'
+							and NDocumento=".$porciones[1]."; ";			
+							$query_update = mysqli_query($con,$sql);
+						}
+	
+					}
+				}else{
+					$sql =  "Update TRANSACCIONESD Set Estado='Rechazada' where Numero =".$Numero.";";				
+					$query_update = mysqli_query($con,$sql);
+					
+				}
 			}
-		}
-		$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento=".$Numero." and Tipo ='T' ");
 			
 			
 			
-		if ($Estado =='Aprobada'){
+
 			$sql="select TRANSACCIONESE.Usuario,TRANSACCIONESD.NDocumento,TRANSACCIONESD.Tipo,TRANSACCIONESD.Estado,TRANSACCIONESD.Valor from TRANSACCIONESE
 			inner join TRANSACCIONESD on TRANSACCIONESD.Numero = TRANSACCIONESE.Numero where TRANSACCIONESE.Numero=".$Numero." ";
 			$query = mysqli_query($con, $sql);
 			while ($row=mysqli_fetch_array($query)){
-			$Usuario=$row['Usuario'];
-			$Tipo=$row['Tipo'];
-			$Valor=$row['Valor'];
-			$NDocumento=$row['NDocumento'];
-			$Estado=$row['Estado'];
-			$sql =  "Update CUENTA_VIRTUAL Set Estado='".$Estado."' where NDocumento =".$NDocumento." and Tipo ='".$Tipo."';";				
-			$query_update = mysqli_query($con,$sql);
-			$Debito=0;			
-			$Credito=0;
-			if ($Valor > 0){
-				$Debito = $Valor;
-				$Valor = $Valor*(-1);
-			}else{
-				$Valor = $Valor*(-1);
-				$Credito = $Valor;
+				$Usuario=$row['Usuario'];
+				$Tipo=$row['Tipo'];
+				$Valor=$row['Valor'];
+				$NDocumento=$row['NDocumento'];
+				$Estado=$row['Estado'];
+				if ($Estado=='Rechazada'){
+					$Estado='Pendiente';
+				}else{
+					if ($Estado=='Pendiente'){
+						$Estado='Solicitada';
+					}		
+				}
+				$sql =  "Update CUENTA_VIRTUAL Set Estado='".$Estado."' where NDocumento =".$NDocumento." and Tipo ='".$Tipo."';";				
+				$query_update = mysqli_query($con,$sql);
+								
+				if (($Estado =='Pagada')&&($Tipo=='V')){
+					$sql =  "Update VENTAS Set Liquidada='True' where Numero =".$NDocumento.";";				
+					$query_update = mysqli_query($con,$sql);
+				}
 			}
-			;					
-	
-			$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
-										VALUES('".$Usuario."','T','".$Numero."','".$Tipo."','".$NDocumento."','".$Credito."','".$Debito."','0','".$Valor."','Pagada','".date("Y-m-d")."')";
-			$query_update = mysqli_query($con,$sql);						
-	
-			$sql =  "Update VENTAS Set Liquidada='True' where Numero =".$Venta.";";				
-			$query_update = mysqli_query($con,$sql);
-		
-			}
+
+		}else{
+			echo $sql;
+		}
+			
 			if (isset($_POST['Observaciones'])) {
 				$User=$_SESSION['Nit'];
 				$Observaciones = mysqli_real_escape_string($con,(strip_tags($_POST["Observaciones"],ENT_QUOTES)));	
@@ -117,7 +154,7 @@ require_once ("../../config/db.php");
 				}
 			
 			}
-		}
+
 
 
 		

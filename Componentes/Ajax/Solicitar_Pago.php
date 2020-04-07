@@ -22,15 +22,20 @@ require_once ("../../config/db.php");
 			</div>
 			<?php
 		}else{
+
+			$sql=mysqli_query($con, "select DescBancario,FPrevencion from USUARIOS where Nit ='".$Usuario."' ");
+			$rw=mysqli_fetch_array($sql);
+			$DescBancario=$rw[0];
+			$FPrevencion=$rw[1];
 			$sql=mysqli_query($con, "select LAST_INSERT_ID(Numero) as last from TRANSACCIONESE order by Numero desc limit 0,1 ");
 			$rw=mysqli_fetch_array($sql);
 			$numero_Transaccion=$rw['last']+1;
 			$Usuario = $_POST['Nit'];
 			$Fecha=date("Y-m-d"); 
 			$sql = "INSERT INTO TRANSACCIONESE(Numero,Usuario,Fecha_Creacion,Fecha_Revision,Valor_Aprovado,
-					Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,Titular_Cuenta,Estado)
+					Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,Titular_Cuenta,Estado,DescBancario,FPrevencion)
 						VALUES('".$numero_Transaccion."','".$Usuario."','".$Fecha."','".$Fecha."',0,
-					0,NULL,NULL,NULL,NULL,'por revisar')";				
+					0,NULL,NULL,NULL,NULL,'por revisar',$DescBancario,$FPrevencion)";				
 			$query_update = mysqli_query($con,$sql);
 			if ($query_update) {
 				$messages[] = "Encabezado Guardado Con Exito";

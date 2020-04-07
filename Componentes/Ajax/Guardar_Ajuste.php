@@ -33,7 +33,7 @@ require_once ("../../config/db.php");
 		$Valor1 = mysqli_real_escape_string($con,(strip_tags($_POST["Valor"],ENT_QUOTES)));
 		$Tipo = mysqli_real_escape_string($con,(strip_tags($_POST["Tipo"],ENT_QUOTES)));
 		$Observacion = mysqli_real_escape_string($con,(strip_tags($_POST["Observacion"],ENT_QUOTES)));
-		$Tipificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Tipificacion"],ENT_QUOTES)));
+		$Cuenta = mysqli_real_escape_string($con,(strip_tags($_POST["Cuenta"],ENT_QUOTES)));
 		$sig=',';
 		$Valor = str_replace($sig,'',$Valor1);
 		if (isset($_POST['Numero'])) {
@@ -47,35 +47,42 @@ require_once ("../../config/db.php");
 			}
 		}
 
-		$sql =  "INSERT INTO  AJUSTES(Numero,UsuarioC,UsuarioA,Estado,Fecha_Creacion,Valor,Tipo,Observacion,Tipificacion) VALUES
+		$sql =  "INSERT INTO  AJUSTES(Numero,UsuarioC,UsuarioA,Estado,Fecha_Creacion,Valor,Tipo,Observacion,Cuenta) VALUES
 		('".$Numero_Ajuste."', '".$UsuarioC."', '".$UsuarioA."', '".$Estado."', '".$Fecha_Creacion."', '".$Valor."', '".$Tipo."', 
-		'".$Observacion."', '".$Tipificacion."') 
+		'".$Observacion."', '".$Cuenta."') 
 		 ON DUPLICATE  KEY UPDATE UsuarioC = '".$UsuarioC."',UsuarioA = '".$UsuarioA."',
-		 Estado = '".$Estado."',Fecha_Creacion = '".$Fecha_Creacion."',Valor = '".$Valor."',Tipo = '".$Tipo."',Observacion = '".$Observacion."',Tipificacion='".$Tipificacion."'";				
+		 Estado = '".$Estado."',Fecha_Creacion = '".$Fecha_Creacion."',Valor = '".$Valor."',Tipo = '".$Tipo."',Observacion = '".$Observacion."',Cuenta='".$Cuenta."'";				
 		$query_update = mysqli_query($con,$sql);
 		if ($query_update) {
+			if($Cuenta=='Virtual'){
+				$Tabla ='CUENTA_VIRTUAL';	
+			}else{
+				$Tabla ='FONDO_PREVENCION';	
+			}
+			$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento='".$Numero_Ajuste."' and Tipo= 'A'");
+			$delete=mysqli_query($con, "DELETE FROM  FONDO_PREVENCION where  NDocumento='".$Numero_Ajuste."' and Tipo= 'A'");
 			
 			$messages[] = "Ajuste Almacenado con Exito";
 			if ($Tipo =='Debito'){
 				$Debito = $Valor * (-1);
-				$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento='".$Numero_Ajuste."' and Tipo= 'A'");
-				$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Debito,Porcentaje,Comision,Estado,Fecha)
+				
+				$sql = "INSERT INTO ".$Tabla."(Usuario,Tipo,NDocumento,Cruce,NCruce,Debito,Porcentaje,Comision,Estado,Fecha)
 						VALUES('".$UsuarioA."','A','".$Numero_Ajuste."','A','".$Numero_Ajuste."','".$Valor."','0','0','Pendiente','".$Fecha_Creacion."')";
 				$query_update = mysqli_query($con,$sql);
 				if ($query_update) {
-					$messages[] = "La Cuanta Virtual Se Registro Correctamente,";
+					$messages[] = "La Cuanta Se Registro Correctamente,";
 				} else {
 					$errors[] = $sql;
 				}
 			}else{
 				
 					$Credito = $Valor;
-					$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento='".$Numero_Ajuste."'");
-					$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
+					
+					$sql = "INSERT INTO ".$Tabla."(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
 							VALUES('".$UsuarioA."','A','".$Numero_Ajuste."','A','".$Numero_Ajuste."','".$Valor."','0','".$Credito."','Pendiente','".$Fecha_Creacion."')";
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {
-						$messages[] = "La Cuanta Virtual Se Registro Correctamente,";
+						$messages[] = "La Cuanta Se Registro Correctamente,";
 					} else {
 						$errors[] = $sql;
 					}
