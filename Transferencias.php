@@ -126,7 +126,7 @@
                                             name="Fecha_Revision" value="<?php echo $Fecha_Revision?>" readonly>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="empresa" class="control-label">Valor Aprovado</label>
+                                        <label for="empresa" class="control-label">Valor Aprobado</label>
                                         <input type="text" class="form-control hidden" id="Valor_Aprovado"
                                             Name="Valor_Aprovado" placeholder="Valor_Aprovado"
                                             value="<?php echo $Valor_Aprovado;?>" onchange="CambioAprovado()" readonly>
