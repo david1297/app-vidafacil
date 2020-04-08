@@ -54,7 +54,7 @@
 		}
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Contabilidad.php';
-			$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,".$SumValor." as Valor,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado FROM
+			$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,sum(CUENTA_VIRTUAL.Comision)as Comision,".$SumValor." as Valor,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado FROM
 			  $sTable $sWhere $Group $Order LIMIT $offset,$per_page";	
 			$query = mysqli_query($con, $sql);
 			if ($numrows>0){
@@ -69,6 +69,8 @@
 						<th>Fecha</th>
 						<th>Estado</th>
 						<th class="text-right">Valor</th>
+						<th class="text-right">Comision</th>
+						<th class="text-right">Total</th>
 					</tr>
 					<?php
 					$TValor=0;
@@ -77,6 +79,7 @@
 							$Tipo=$row['Tipo'];
 							$NDocumento=$row['NDocumento'];
 							$Valor=$row['Valor'];
+							$Comision=$row['Comision'];
 							$Usuario=$row['Razon_Social'];
 							$Estado=$row['Estado'];
 							$Fecha=$row['Fecha'];
@@ -85,7 +88,7 @@
 							if ($Estado=="Pendiente"){$label_class='label-warning';}
 							
 							
-							$TValor= $TValor+$Valor;
+							$TValor= $TValor+($Valor-$Comision);
 							
 						?>
 						<tr>
@@ -102,6 +105,22 @@
 								echo '<p class="text-success"> $'.number_format($Valor).' </p>';
 
 							} ?></td>
+							<td class="text-right"><?php 
+							if ($Comision<0){
+								echo '<p class=""> $'.number_format($Comision).' </p>';
+
+							}else{
+								echo '<p class=""> $'.number_format($Comision).' </p>';
+
+							} ?></td>
+							<td class="text-right"><?php 
+							if (($Valor-$Comision)<0){
+								echo '<p class="text-danger"> $'.number_format($Valor-$Comision).' </p>';
+
+							}else{
+								echo '<p class="text-success"> $'.number_format($Valor-$Comision).' </p>';
+
+							} ?></td>
 	
 	
 						</tr>
@@ -109,7 +128,7 @@
 					}
 					?>
 					<tr>
-					<td colspan=5><b><span class="pull-right"><?php
+					<td colspan=7><b><span class="pull-right"><?php
 						 echo 'Total Pagina:'
 						?></span></b></td>
 						<td ><b><span class="pull-right"><?php
@@ -125,23 +144,23 @@
 					</tr>
 					<tr>
 					<tr>
-					<td colspan=5><h4><span class="pull-right"><?php
+					<td colspan=7><h4><span class="pull-right"><?php
 						 echo 'Total General:'
 						?></span></h4></td>
 						<td ><h4><span class="pull-right"><?php
-						$query1=mysqli_query($con, "SELECT ".$SumValor." FROM $sTable $sWhere;");			
+						$query1=mysqli_query($con, "SELECT ".$SumValor.",sum(CUENTA_VIRTUAL.Comision) FROM $sTable $sWhere;");			
 						$rw_Admin1=mysqli_fetch_array($query1);
-						if ($rw_Admin1[0]<0){
-							echo '<p class="text-danger"> $'.number_format($rw_Admin1[0]).' </p>';
+						if (($rw_Admin1[0]-$rw_Admin1[1])<0){
+							echo '<p class="text-danger"> $'.number_format($rw_Admin1[0]-$rw_Admin1[1]).' </p>';
 
 						}else{
-							echo '<p class="text-success"> $'.number_format($rw_Admin1[0]).' </p>';
+							echo '<p class="text-success"> $'.number_format($rw_Admin1[0]-$rw_Admin1[1]).' </p>';
 
 						}
 						?></span></h4></td>
 					</tr>
 					<tr>
-						<td colspan=7><span class="pull-right"><?php
+						<td colspan=8><span class="pull-right"><?php
 						 echo paginate($reload, $page, $total_pages, $adjacents);
 						?></span></td>
 					</tr>

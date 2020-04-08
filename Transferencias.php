@@ -115,7 +115,7 @@
                                         <label for="Afiliado" class="control-label">Usuario</label>
                                         <input class="form-control hidden" type="text" id="Numero" name="Numero"
                                             VALUE="<?php echo $Numero;?>" readonly>
-                                        <input class="form-control " type="text" id="Tipo" name="Tipo"
+                                        <input class="form-control hidden" type="text" id="Tipo" name="Tipo"
                                             VALUE="<?php echo $Tipo;?>" readonly>
                                         <input class="form-control hidden" type="text" id="Usuario" name="Usuario"
                                             VALUE="<?php echo $Usuario;?>" required readonly>
@@ -438,8 +438,8 @@
 
         document.getElementById('Valor_Rechazado').value = Total - apro;
         document.getElementById('Valor_Rechazado1').value = Total - apro;  
-        document.getElementById('TotalPago').value = apro-Desc;
-        document.getElementById('TotalPago1').value =  apro-Desc;
+        document.getElementById('TotalPago').value = apro;
+        document.getElementById('TotalPago1').value =  apro;
      
         $("#TotalPago1").keyup();
         $("#Valor_Aprovado1").keyup();
@@ -459,8 +459,8 @@
         document.getElementById('Valor_Aprovado').value = Total - recha;
         
         
-        document.getElementById('TotalPago').value = Total - recha-Desc;
-        document.getElementById('TotalPago1').value = Total - recha-Desc;
+        document.getElementById('TotalPago').value = Total - recha;
+        document.getElementById('TotalPago1').value = Total - recha;
      
         $("#TotalPago1").keyup();
         $("#Valor_Aprovado1").keyup();
@@ -468,9 +468,10 @@
         CambioTotal();
     }
     function CambioTotal(){
-        var Total = parseFloat(document.getElementById('TotalPago').value);
+        var Desc = parseFloat(document.getElementById('DescBancario').value);
+        var Total = parseFloat(document.getElementById('Valor_Aprovado').value);
         var Fondo = parseFloat(document.getElementById('FPrevencion').value);
-        var TotalP = Total-(Total*Fondo/100);
+        var TotalP = Total-(Total*Fondo/100)-Desc;
         var TFondo = (Total*Fondo/100);
 
         document.getElementById('TotalPago').value =TotalP;

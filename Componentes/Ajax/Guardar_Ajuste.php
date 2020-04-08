@@ -34,8 +34,13 @@ require_once ("../../config/db.php");
 		$Tipo = mysqli_real_escape_string($con,(strip_tags($_POST["Tipo"],ENT_QUOTES)));
 		$Observacion = mysqli_real_escape_string($con,(strip_tags($_POST["Observacion"],ENT_QUOTES)));
 		$Cuenta = mysqli_real_escape_string($con,(strip_tags($_POST["Cuenta"],ENT_QUOTES)));
+		$Comision1 = mysqli_real_escape_string($con,(strip_tags($_POST["Comision"],ENT_QUOTES)));
+
 		$sig=',';
 		$Valor = str_replace($sig,'',$Valor1);
+		$Comision = str_replace($sig,'',$Comision1);
+		$Total = $Valor +$Comision;
+
 		if (isset($_POST['Numero'])) {
 			$Numero = mysqli_real_escape_string($con,(strip_tags($_POST["Numero"],ENT_QUOTES)));	
 			if ($Numero<>''){
@@ -47,11 +52,12 @@ require_once ("../../config/db.php");
 			}
 		}
 
-		$sql =  "INSERT INTO  AJUSTES(Numero,UsuarioC,UsuarioA,Estado,Fecha_Creacion,Valor,Tipo,Observacion,Cuenta) VALUES
+		$sql =  "INSERT INTO  AJUSTES(Numero,UsuarioC,UsuarioA,Estado,Fecha_Creacion,Valor,Tipo,Observacion,Cuenta,Comision) VALUES
 		('".$Numero_Ajuste."', '".$UsuarioC."', '".$UsuarioA."', '".$Estado."', '".$Fecha_Creacion."', '".$Valor."', '".$Tipo."', 
-		'".$Observacion."', '".$Cuenta."') 
+		'".$Observacion."', '".$Cuenta."','$Comision') 
 		 ON DUPLICATE  KEY UPDATE UsuarioC = '".$UsuarioC."',UsuarioA = '".$UsuarioA."',
-		 Estado = '".$Estado."',Fecha_Creacion = '".$Fecha_Creacion."',Valor = '".$Valor."',Tipo = '".$Tipo."',Observacion = '".$Observacion."',Cuenta='".$Cuenta."'";				
+		 Estado = '".$Estado."',Fecha_Creacion = '".$Fecha_Creacion."',Valor = '".$Valor."',Tipo = '".$Tipo."',
+		 Observacion = '".$Observacion."',Cuenta='".$Cuenta."',Comision='$Comision'  ";				
 		$query_update = mysqli_query($con,$sql);
 		if ($query_update) {
 			if($Cuenta=='Virtual'){
@@ -66,8 +72,9 @@ require_once ("../../config/db.php");
 			if ($Tipo =='Debito'){
 				$Debito = $Valor * (-1);
 				
+				
 				$sql = "INSERT INTO ".$Tabla."(Usuario,Tipo,NDocumento,Cruce,NCruce,Debito,Porcentaje,Comision,Estado,Fecha)
-						VALUES('".$UsuarioA."','A','".$Numero_Ajuste."','A','".$Numero_Ajuste."','".$Valor."','0','0','Pendiente','".$Fecha_Creacion."')";
+						VALUES('".$UsuarioA."','A','".$Numero_Ajuste."','A','".$Numero_Ajuste."','".$Valor."','0','$Comision','Pendiente','".$Fecha_Creacion."')";
 				$query_update = mysqli_query($con,$sql);
 				if ($query_update) {
 					$messages[] = "La Cuanta Se Registro Correctamente,";
@@ -77,9 +84,9 @@ require_once ("../../config/db.php");
 			}else{
 				
 					$Credito = $Valor;
-					
+					$Comision = $Comision * (-1);
 					$sql = "INSERT INTO ".$Tabla."(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
-							VALUES('".$UsuarioA."','A','".$Numero_Ajuste."','A','".$Numero_Ajuste."','".$Valor."','0','".$Credito."','Pendiente','".$Fecha_Creacion."')";
+							VALUES('".$UsuarioA."','A','".$Numero_Ajuste."','A','".$Numero_Ajuste."','".$Valor."','$Comision','".$Credito."','Pendiente','".$Fecha_Creacion."')";
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {
 						$messages[] = "La Cuanta Se Registro Correctamente,";

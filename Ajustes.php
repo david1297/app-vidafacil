@@ -20,11 +20,12 @@
 	$Tipo="";
 	$Observacion="";
 	$Cuenta="";
+	$Comision=0;
 	if (isset($_GET['Numero'])) {
 
 		$query=mysqli_query($con, "Select AJUSTES.Numero,AJUSTES.Fecha_Creacion,AJUSTES.Valor,AJUSTES.
 		Tipo,AJUSTES.Observacion,AJUSTES.Estado,UC.Razon_Social as NombreC,UA.Razon_Social as NombreA,UsuarioC,UsuarioA,
-		AJUSTES.Cuenta
+		AJUSTES.Cuenta,AJUSTES.Comision
 		from AJUSTES 
 		inner join USUARIOS as UC on UC.Nit =  AJUSTES.UsuarioC
 		inner join USUARIOS as UA on UA.Nit =  AJUSTES.UsuarioA
@@ -40,6 +41,7 @@
 		$Fecha_Creacion =$rw_Admin['Fecha_Creacion'];
 		$Valor=$rw_Admin['Valor'];
 		$Tipo=$rw_Admin['Tipo'];
+		$Comision=$rw_Admin['Comision'];
 		$Observacion=$rw_Admin['Observacion'];
 	
 
@@ -168,6 +170,11 @@
 										<label for="empresa" class="control-label">Valor</label>
 									 	<input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>"autocomplete="off" >
 									</div>
+									<div class="col-md-4">
+										<label for="empresa" class="control-label">Comision</label>
+									 	<input type="text" class="form-control" id="Comision" Name="Comision" placeholder="Comision" value="<?php echo $Comision;?>"autocomplete="off" >
+									</div>
+									
 									
 									
 									
@@ -236,6 +243,17 @@
 			});
 		}
 	$("#Valor").on({
+    "focus": function (event) {
+        $(event.target).select();
+    },
+    "keyup": function (event) {
+        $(event.target).val(function (index, value ) {
+            return value.replace(/\D/g, "")       
+                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+        });
+    }
+});
+$("#Comision").on({
     "focus": function (event) {
         $(event.target).select();
     },
