@@ -25,8 +25,6 @@ if (empty($_POST['Identificacion'])){
 	$errors[] = "El Telefono2 Se Encuentra Vacio";
 }elseif (empty($_POST['Estado'])){
 	$errors[] = "El Estado Se Encuentra Vacio";
-}elseif (empty($_POST['NContrato'])){
-	$errors[] = "El Numero de Contrato Se Encuentra Vacio";
 }elseif (!filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)) {
 	$errors[] = "La dirección de correo electrónico no está en un formato de correo electrónico válida";
 }
@@ -43,7 +41,7 @@ elseif (
 			&& !empty($_POST['Direccion'])
 			&& !empty($_POST['Telefono'])
 			&& !empty($_POST['Estado'])
-			&& !empty($_POST['NContrato'])
+		
 			&& filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)
           )
          {

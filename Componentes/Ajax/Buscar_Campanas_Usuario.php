@@ -29,6 +29,13 @@
 		} else{
 			$sWhere = " where Estado ='Activa'";	
 		}
+		$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Usuarios" and Permiso="CamapansAsignadas" and  Usuario ="'.$_SESSION['Nit'].'";');
+		$rw_Admin1=mysqli_fetch_array($query1);
+		if($_SESSION['Rol']=='2' and $rw_Admin1['Estado']<>'true'){
+			$sWhere.= " and Numero in(SELECT campana FROM USUARIO_CAMP WHERE Usuario ='".$_SESSION['Nit']."')   ";
+		}
+		
+
 		$sWhere.=" order by CAMPANAS.Nombre desc";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
@@ -41,7 +48,6 @@
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Usuarios.php';
 		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
-
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
@@ -72,7 +78,6 @@
 						<td class="text-left"><?php echo $Contacto; ?></td>
 						<td class="text-left"><?php echo $Area; ?></td>
 						<td class="text-center"><?php echo $Porcentaje; ?></td>		
-						
 						<td class='text-right'><a class='btn btn-info'href="#" onclick="agregar('<?php echo $Numero ?>')"><i class="glyphicon glyphicon-plus"></i></a></td>
 
 					
