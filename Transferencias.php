@@ -30,12 +30,13 @@
 
         $query=mysqli_query($con, "select Numero,Usuario,USUARIOS.Razon_Social,
          Fecha_Creacion,Fecha_Revision,Valor_Aprovado,Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,TRANSACCIONESE.Estado,
-         Titular_Cuenta,TRANSACCIONESE.TotalPago,TRANSACCIONESE.DescBancario,TRANSACCIONESE.FPrevencion from TRANSACCIONESE 
+         Titular_Cuenta,TRANSACCIONESE.TotalPago,TRANSACCIONESE.DescBancario,TRANSACCIONESE.FPrevencion,TRANSACCIONESE.Tipo from TRANSACCIONESE 
 		inner join USUARIOS on TRANSACCIONESE.Usuario = USUARIOS.Nit
 		where Numero='".$_GET['Numero']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 
 		$Numero =$rw_Admin['Numero'];
+		$Tipo =$rw_Admin['Tipo'];
 		$Usuario =$rw_Admin['Usuario'];
 		$Usario_Nombre=$rw_Admin['Razon_Social'];
 		$Fecha_Creacion =$rw_Admin['Fecha_Creacion'];
@@ -45,7 +46,12 @@
 		$FPrevencion =$rw_Admin['FPrevencion'];
 		if ($Fecha_Revision ==$Fecha_Creacion ){
 			$Fecha_Revision = date("Y-m-d");
-		}
+        }
+        if($Tipo=='Prevencion'){
+            $Tipo='F.Prevencion';
+        }else{
+            $Tipo='C.Virtual';
+        }
 
 
 		$Estado =$rw_Admin['Estado'];
@@ -56,7 +62,7 @@
 		$Numero_Cuenta=$rw_Admin['Numero_Cuenta'];
 		$Titular_Cuenta=$rw_Admin['Titular_Cuenta'];
        
-        $Transferencia="Transferencia Numero: ".$Numero;
+        $Transferencia="Transferencia Numero: ".$Numero." Tipo: ".$Tipo;
         $sql="SELECT * FROM OBSERVACIONES_TRANSFERENCIAS 
         inner join Usuarios on Usuarios.Nit=OBSERVACIONES_TRANSFERENCIAS.Usuario WHERE Transferencia=".$Numero."";
 
@@ -109,6 +115,8 @@
                                         <label for="Afiliado" class="control-label">Usuario</label>
                                         <input class="form-control hidden" type="text" id="Numero" name="Numero"
                                             VALUE="<?php echo $Numero;?>" readonly>
+                                        <input class="form-control " type="text" id="Tipo" name="Tipo"
+                                            VALUE="<?php echo $Tipo;?>" readonly>
                                         <input class="form-control hidden" type="text" id="Usuario" name="Usuario"
                                             VALUE="<?php echo $Usuario;?>" required readonly>
                                         <input class="form-control" type="text" id="Razon_Social"

@@ -48,7 +48,7 @@
 
 
 		$sql="SELECT TRANSACCIONESE.Numero,TRANSACCIONESE.Usuario,USUARIOS.RAZON_SOCIAL,TRANSACCIONESE.Fecha_Creacion,
-		TRANSACCIONESE.Fecha_Revision,TRANSACCIONESE.ESTADO FROM  $sTable $sWhere   
+		TRANSACCIONESE.Fecha_Revision,TRANSACCIONESE.ESTADO,TRANSACCIONESE.Tipo FROM  $sTable $sWhere   
 		$order LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
@@ -62,6 +62,7 @@
             <th>Fecha de Solicitud</th>
             <th>Fecha de Revision</th>
             <th>Valor</th>
+            <th>Tipo</th>
             <th>Estado</th>
             <th class='text-right'>Editar</th>
         </tr>
@@ -70,6 +71,13 @@
 
 						$Numero=$row['Numero'];
 						$Nit=$row['Usuario'];
+						$Tipo=$row['Tipo'];
+
+						if($Tipo=='Prevencion'){
+							$Tipo='F.Prevencion';
+						}else{
+							$Tipo='C.Virtual';
+						}
 					
 						$Usuario=$row['RAZON_SOCIAL'];
 						$FechaCreacion=$row['Fecha_Creacion'];
@@ -94,6 +102,7 @@
 			$row1=mysqli_fetch_array($query1)
 ?>
             <td><?php echo '$'.number_format($row1[0]); ?></td>
+            <td><?php echo $Tipo; ?></td>
 
             <td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>
             

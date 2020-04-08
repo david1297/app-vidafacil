@@ -40,6 +40,7 @@ require_once ("../../config/db.php");
 		$Estado = mysqli_real_escape_string($con,(strip_tags($_POST["Estado"],ENT_QUOTES)));
 		$TotalPago = mysqli_real_escape_string($con,(strip_tags($_POST["TotalPago"],ENT_QUOTES)));
 		$DescBancario = mysqli_real_escape_string($con,(strip_tags($_POST["DescBancario"],ENT_QUOTES)));
+		$Tipo = mysqli_real_escape_string($con,(strip_tags($_POST["Tipo"],ENT_QUOTES)));
 
 		$Fondo =0;
 		
@@ -55,16 +56,17 @@ require_once ("../../config/db.php");
 		Titular_Cuenta='".$Titular_Cuenta."',Estado='".$Estado."',
 		TotalPago=".$TotalPago.",
 		DescBancario=".$DescBancario."
-		
-		where Numero =".$Numero."
-		
-		
-		;";				
+		where Numero =".$Numero.";";				
 		$query_update = mysqli_query($con,$sql);
 		if ($query_update) {
 			$delete=mysqli_query($con, "DELETE FROM  CUENTA_VIRTUAL where  NDocumento=".$Numero." and Tipo ='T' ");
 			$delete=mysqli_query($con, "DELETE FROM  FONDO_PREVENCION where  NDocumento=".$Numero." and Tipo ='T' ");
 			$messages[] = "Encabezado Actualizado";
+			if ($Tipo =='F.Prevencion'){
+				$Tabla='FONDO_PREVENCION';	
+			}else{
+				$Tabla='CUENTA_VIRTUAL';
+			}
 			if($Estado=='por revisar'){
 				$sql =  "Update TRANSACCIONESD Set Estado='Pendiente' where Numero =".$Numero.";";				
 				$query_update = mysqli_query($con,$sql);
@@ -78,16 +80,51 @@ require_once ("../../config/db.php");
 
 					$Fondo = (($Valor_Aprovado-$DescBancario)*($FPrevencion/100));
 
-
-					
-					$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
+					if ($Tipo =='F.Prevencion'){
+						
+						$sql = "INSERT INTO FONDO_PREVENCION(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
 										VALUES('".$Usuario."','T','".$Numero."','T','".$Numero."','0','".$TotalPago."','0','0','Pagada','".date("Y-m-d")."')";
-					$query_update = mysqli_query($con,$sql);
+						$query_update = mysqli_query($con,$sql);
+						$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
+										VALUES('".$Usuario."','T','".$Numero."','T','".$Numero."','0','".$TotalPago."','0','0','Pagada','".date("Y-m-d")."')";
+						$query_update = mysqli_query($con,$sql);
+					}else{
+						
+						$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
+										VALUES('".$Usuario."','T','".$Numero."','T','".$Numero."','0','".$TotalPago."','0','0','Pagada','".date("Y-m-d")."')";
+						$query_update = mysqli_query($con,$sql);
 
-					$sql = "INSERT INTO FONDO_PREVENCION(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
-										VALUES('".$Usuario."','T','".$Numero."','T','".$Numero."','".$Fondo."','0','0','0','Pagada','".date("Y-m-d")."')";
-					$query_update = mysqli_query($con,$sql);
+						$sql = "INSERT INTO FONDO_PREVENCION(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Debito,Porcentaje,Comision,Estado,Fecha)
+											VALUES('".$Usuario."','T','".$Numero."','T','".$Numero."','".$Fondo."','0','0','0','Pendiente','".date("Y-m-d")."')";
+						$query_update = mysqli_query($con,$sql);
+						$query1=mysqli_query($con, "SELECT F1,CFondo FROM USUARIOS WHERE  Nit ='".$Usuario."' ");
+						$rw_Admin1=mysqli_fetch_array($query1);
+						$F1=$rw_Admin1[0];
+						$CFondo=$rw_Admin1[1];
+						
+						if(empty($F1)){
+							$F1 = date("Y-m-d");
+							if($CFondo==3){
+								$Dias = 90;
+							}else{
+								$Dias= 180;
+							}
+		
+							$F2 = strtotime($F1."+ ".$Dias." days");
+							$F3 = strtotime($F1."+ ".($Dias*2)." days");
+							$F4 = strtotime($F1."+ ".($Dias*3)." days");
 
+							
+							$sql =  "Update USUARIOS Set F1='".$F1."' where Nit ='".$Usuario."';";				
+							$query_update = mysqli_query($con,$sql);
+							$sql =  "Update USUARIOS Set F2='".date("Y-m-d",$F2)."' where Nit ='".$Usuario."';";				
+							$query_update = mysqli_query($con,$sql);
+							$sql =  "Update USUARIOS Set F3='".date("Y-m-d",$F3)."' where Nit ='".$Usuario."';";				
+							$query_update = mysqli_query($con,$sql);
+							$sql =  "Update USUARIOS Set F4='".date("Y-m-d",$F4)."' where Nit ='".$Usuario."';";				
+							$query_update = mysqli_query($con,$sql);
+						}
+					}
 					$sql =  "Update TRANSACCIONESD Set Estado='Rechazada' where Numero =".$Numero.";";				
 					$query_update = mysqli_query($con,$sql);
 					if (isset($_POST['NumeroVenta'])) {
@@ -97,7 +134,6 @@ require_once ("../../config/db.php");
 							and NDocumento=".$porciones[1]."; ";			
 							$query_update = mysqli_query($con,$sql);
 						}
-	
 					}
 				}else{
 					$sql =  "Update TRANSACCIONESD Set Estado='Rechazada' where Numero =".$Numero.";";				
@@ -125,7 +161,7 @@ require_once ("../../config/db.php");
 						$Estado='Solicitada';
 					}		
 				}
-				$sql =  "Update CUENTA_VIRTUAL Set Estado='".$Estado."' where NDocumento =".$NDocumento." and Tipo ='".$Tipo."';";				
+				$sql =  "Update ".$Tabla." Set Estado='".$Estado."' where NDocumento =".$NDocumento." and Tipo ='".$Tipo."';";				
 				$query_update = mysqli_query($con,$sql);
 								
 				if (($Estado =='Pagada')&&($Tipo=='V')){
