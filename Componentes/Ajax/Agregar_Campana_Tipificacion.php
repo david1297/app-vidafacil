@@ -18,7 +18,7 @@ if (!empty($Numero) )
 }
 if (!empty($Todas) )
 {
-	$sql=mysqli_query($con, "SELECT Numero FROM tipificaciones");
+	$sql=mysqli_query($con, "SELECT Numero FROM TIPIFICACIONES");
 	while ($row=mysqli_fetch_array($sql))
 	{
 		

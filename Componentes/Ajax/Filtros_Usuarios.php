@@ -14,6 +14,7 @@ if($Filtro== 'Estado'){
 		<option value="Activo">Activo</option>
 		<option value="Pendiente">Pendiente</option>										
 		<option value="InActivo">InActivo</option>
+		<option value="Bloqueado">Bloqueado</option>
 	</select>
 	<?php
 }else{

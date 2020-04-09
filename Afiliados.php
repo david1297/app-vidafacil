@@ -396,7 +396,7 @@
 										}
 										$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Afiliados" and Permiso="Tipificaiones" and  Usuario ="'.$_SESSION['Nit'].'";');
 										$rw_Admin1=mysqli_fetch_array($query1);
-										if($_SESSION['Rol']=='2' and $rw_Admin1['Estado']=='true'){
+										if($_SESSION['Rol']=='2' or $rw_Admin1['Estado']<>'true'){
 										
 											?>
 											
