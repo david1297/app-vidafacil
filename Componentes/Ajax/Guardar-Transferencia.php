@@ -155,7 +155,7 @@ require_once ("../../config/db.php");
 				$NDocumento=$row['NDocumento'];
 				$Estado=$row['Estado'];
 				if ($Estado=='Rechazada'){
-					$Estado='Pendiente';
+					$Estado='Rechazada';
 				}else{
 					if ($Estado=='Pendiente'){
 						$Estado='Solicitada';

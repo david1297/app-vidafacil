@@ -205,7 +205,7 @@
 						<div class="card-body text-warning  ">
 							<p class="card-text">
 								<?php
-								$query1=mysqli_query($con, "SELECT sum((Credito-Debito)-CUENTA_VIRTUAL.Comision) as valor FROM CUENTA_VIRTUAL Where Usuario='".$Nit."' and Estado= 'Pendiente';");			
+								$query1=mysqli_query($con, "SELECT sum((Credito-Debito)-CUENTA_VIRTUAL.Comision) as valor FROM CUENTA_VIRTUAL Where Usuario='".$Nit."' and (Estado= 'Pendiente'or Estado= 'Rechazada');");			
 								$rw_Admin1=mysqli_fetch_array($query1);
 								echo '$ '.number_format($rw_Admin1[0]);
 								?>

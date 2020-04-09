@@ -394,33 +394,48 @@
 												</div>
 											</div>';
 										}
-									?>
-									<div class="form-group">
-										<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Tipificacion</label>
-										<div class="col-sm-5">
-										<?PHP
-										
-										$query1=mysqli_query($con, "select NCategoria from TIPIFICACIONES where Numero = $Tipificacion");
+										$query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Afiliados" and Permiso="Tipificaiones" and  Usuario ="'.$_SESSION['Nit'].'";');
 										$rw_Admin1=mysqli_fetch_array($query1);
-										$Categoria =$rw_Admin1[0];		
+										if($_SESSION['Rol']=='2' and $rw_Admin1['Estado']=='true'){
+										
+											?>
 											
-												$query1=mysqli_query($con, "select Categoria,NCategoria from TIPIFICACIONES GROUP BY Categoria,NCategoria ORDER BY NCategoria ASC");
-												echo' <select class="form-control" id="TipificacionC" name ="TipificacionC" placeholder="TipificacionC" onchange="CargarTipificaciones()" >';
-																				
-												while($rw_Admin1=mysqli_fetch_array($query1)){
-													if ($Categoria ==$rw_Admin1['NCategoria']){
-														echo '<option value="'.$rw_Admin1['NCategoria'].'" selected >'.$rw_Admin1['Categoria'].'</option>';
-													} else{
-														echo '<option value="'.$rw_Admin1['NCategoria'].'">'.$rw_Admin1['Categoria'].'</option>';	
+											<div class="form-group">
+											<label for="Fecha_Nacimiento" class="col-sm-3 control-label">Tipificacion</label>
+											<div class="col-sm-5">
+											<?PHP
+											
+											$query1=mysqli_query($con, "select NCategoria from TIPIFICACIONES where Numero = $Tipificacion");
+											$rw_Admin1=mysqli_fetch_array($query1);
+											$Categoria =$rw_Admin1[0];		
+												
+													$query1=mysqli_query($con, "select Categoria,NCategoria from TIPIFICACIONES GROUP BY Categoria,NCategoria ORDER BY NCategoria ASC");
+													echo' <select class="form-control" id="TipificacionC" name ="TipificacionC" placeholder="TipificacionC" onchange="CargarTipificaciones()" >';
+																					
+													while($rw_Admin1=mysqli_fetch_array($query1)){
+														if ($Categoria ==$rw_Admin1['NCategoria']){
+															echo '<option value="'.$rw_Admin1['NCategoria'].'" selected >'.$rw_Admin1['Categoria'].'</option>';
+														} else{
+															echo '<option value="'.$rw_Admin1['NCategoria'].'">'.$rw_Admin1['Categoria'].'</option>';	
+														}
 													}
-												}
-												echo '</select></div>
-												';
-												?>
-												<input type="Text" class="form-control hidden" id="Tip" name="Tip" require value="<?php echo $Tipificacion?>" readonly="readonly">
-												<div class="col-sm-4" id="Tipi">	
+													echo '</select></div>
+													';
+													?>
+													<input type="Text" class="form-control hidden" id="Tip" name="Tip" require value="<?php echo $Tipificacion?>" readonly="readonly">
+													<div class="col-sm-4" id="Tipi">	
+											</div>
 										</div>
-									</div>
+												<?php
+										}else{
+											?>
+											<input type="text" class='form-control hidden' name='Tipificacion' id='Tipificacion' value='<?php echo $Tipificacion;?>'>
+											<?php
+										}
+
+									?>
+									
+									
 									<div class="form-group">
 										<label for="NFactura" class="col-sm-3 control-label">Numero de Factura</label>
 										<div class="col-sm-9">

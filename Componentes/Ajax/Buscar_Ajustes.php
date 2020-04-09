@@ -50,7 +50,7 @@
 
 
 		$sql="SELECT AJUSTES.Numero,AJUSTES.UsuarioA,USUARIOS.RAZON_SOCIAL,AJUSTES.Fecha_Creacion,
-		AJUSTES.ESTADO,AJUSTES.Valor,AJUSTES.Tipo,AJUSTES.Cuenta FROM  $sTable $sWhere   
+		AJUSTES.ESTADO,AJUSTES.Valor,AJUSTES.Tipo,AJUSTES.Cuenta,AJUSTES.Comision FROM  $sTable $sWhere   
 		$order LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
@@ -64,6 +64,8 @@
             <th>Fecha</th>
             <th>Tipo</th>
             <th>Valor</th>
+            <th>Comision</th>
+            <th>Total</th>
             <th>Estado</th>
 			<th>Aplica</th>
             <th class='text-right'>Editar</th>
@@ -74,6 +76,7 @@
 						$Numero=$row['Numero'];
 						$Nit=$row['UsuarioA'];
 						$Cuenta=$row['Cuenta'];
+						$Comision=$row['Comision'];
 					
 						$Usuario=$row['RAZON_SOCIAL'];
 						$FechaCreacion=$row['Fecha_Creacion'];
@@ -105,6 +108,8 @@
             <td><?php echo $Tipo; ?></td>
 				
             <td><?php echo '$'.number_format($Valor); ?></td>
+            <td><?php echo '$'.number_format($Comision); ?></td>
+            <td><?php echo '$'.number_format($Valor+$Comision); ?></td>
 
             <td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>
             <td><?php echo $DCuenta; ?></td>
