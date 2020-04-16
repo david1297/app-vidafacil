@@ -28,6 +28,11 @@
 			include("Componentes/Modal/Agregar_Seguimiento.php");
 			include("Componentes/Modal/Agregar_Area.php");
 			include("Componentes/Modal/Agregar_Tipificacion.php");
+			include("Componentes/Modal/Agregar_Gestion.php");
+			include("Componentes/Modal/Agregar_Estado.php");
+
+			
+			
 		?>
 		<div id="main-content">
 			<div class="container-fluid">
@@ -42,6 +47,8 @@
 					<li><a href="#Transportadoras" role="tab" data-toggle="tab" id="ClickTransportadoras">Transportadoras</a></li>
 					<li><a href="#Seguimientos" role="tab" data-toggle="tab" id="ClickSeguimientos">Seguimiento</a></li>
 					<li><a href="#Tipificaciones" role="tab" data-toggle="tab" id="ClickTipificaciones">Tipificaciones</a></li>
+					<li><a href="#Estados" role="tab" data-toggle="tab" id="ClickEstados">Estados</a></li>
+					<li><a href="#Gestion" role="tab" data-toggle="tab" id="ClickGestion">Gestion</a></li>
 				</ul>				
 				<div class="tab-content content-profile">
 					<div class="tab-pane fade active in" id="General">
@@ -142,6 +149,22 @@
 						<div id="RTipificaciones">
 						</div>
 					</div>
+					<div class="tab-pane fade" id="Estados">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarEstados">
+							<i class="fas fa-plus"></i> Agregar Estado
+						</button>
+						<br><br>
+						<div id="REstados">
+						</div>
+					</div>
+					<div class="tab-pane fade" id="Gestion">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarGestion">
+							<i class="fas fa-plus"></i> Agregar Gestion
+						</button>
+						<br><br>
+						<div id="RGestion">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -176,11 +199,18 @@ $("#ClickSeguimientos").click(function( event){
 $("#ClickTipificaciones").click(function( event){
 	CargarTipificaiones();
 	$('#CatPre').val(0);
+});
+$("#ClickGestion").click(function( event){
+	CargarGestiones();
+});
+$("#ClickEstados").click(function( event){
+	CargarEstados();
 })
 
 
 
-	$( "#Administracion" ).submit(function( event ) {
+
+$( "#Administracion" ).submit(function( event ) {
   $('#actualizar_datos2').attr("disabled", true);
 
  var parametros = $(this).serialize();
@@ -260,7 +290,6 @@ function CargarSeguimientos(){
 		}
 	});
 }
-
 function CargarTipificaiones(){
 	$.ajax({
     	type: "POST",
@@ -274,6 +303,30 @@ function CargarTipificaiones(){
 				$('#BC-'+$('#CatPre').val()).click();
 				
 			}
+		}
+	});
+}
+function CargarGestiones(){
+	$.ajax({
+    	type: "POST",
+        url: "Componentes/Ajax/Cargar_Gestiones.php",
+        data: "",
+		beforeSend: function(objeto){
+			$('#RGestion').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');	
+		},success: function(datos){
+			$("#RGestion").html(datos);
+		}
+	});
+}
+function CargarEstados(){
+	$.ajax({
+    	type: "POST",
+        url: "Componentes/Ajax/Cargar_Estados.php",
+        data: "",
+		beforeSend: function(objeto){
+			$('#REstados').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');	
+		},success: function(datos){
+			$("#REstados").html(datos);
 		}
 	});
 }
@@ -332,6 +385,46 @@ function UpdateDescBancos(Key,Numero){
 				setTimeout(function() { 
 					$('#loader_B'+Numero).html('');	
 					$('#loader_B'+Numero).fadeIn(1000); 
+				}, 1000);	
+			}
+		});
+  }
+}
+function UpdateDescGestiones(Key,Numero){
+	if (Key.keyCode == 13) {
+			var Descripcion = $("#Descripcion_G"+Numero).val();
+		$.ajax({
+        type: "POST",
+				url: "Componentes/Ajax/Actualizar_Gestion.php",
+        data: "Numero="+Numero+"&Descripcion="+Descripcion,
+			beforeSend: function(objeto){
+				$('#loader_G'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			},success: function(datos){
+				$('#loader_G'+Numero).html(datos);
+				$('#loader_G'+Numero).fadeOut(2000); 
+				setTimeout(function() { 
+					$('#loader_G'+Numero).html('');	
+					$('#loader_G'+Numero).fadeIn(1000); 
+				}, 1000);	
+			}
+		});
+  }
+}
+function UpdateDescEstados(Key,Numero){
+	if (Key.keyCode == 13) {
+			var Descripcion = $("#Descripcion_E"+Numero).val();
+		$.ajax({
+        type: "POST",
+				url: "Componentes/Ajax/Actualizar_Estado.php",
+        data: "Numero="+Numero+"&Descripcion="+Descripcion,
+			beforeSend: function(objeto){
+				$('#loader_E'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			},success: function(datos){
+				$('#loader_E'+Numero).html(datos);
+				$('#loader_E'+Numero).fadeOut(2000); 
+				setTimeout(function() { 
+					$('#loader_E'+Numero).html('');	
+					$('#loader_E'+Numero).fadeIn(1000); 
 				}, 1000);	
 			}
 		});
@@ -459,6 +552,58 @@ function eliminarBanco (Numero){
 		}
 	});
 }
+function eliminarGestion (Numero){
+	$.ajax({
+        type: "GET",
+        url: "Componentes/Ajax/Cargar_Gestiones.php",
+        data: "Numero="+Numero,
+		beforeSend: function(objeto){
+
+		},success: function(datos){
+			if (datos=='Error'){
+				$("#RGestion").html('<div class="alert alert-danger" role="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Error!</strong> Lo sentimos , No se Puede Eliminar La Gestion.<br></div>');
+				$('#RGestion').fadeOut(2000); 
+				
+				setTimeout(function() { 
+					$('#RGestion').fadeIn('fast'); 
+					$('#RGestion').html('');	
+				
+					CargarGestiones();
+				}, 2000);	
+			
+			}else{
+					$("#RGestion").html(datos);
+
+			}
+		}
+	});
+}
+function eliminarEstado (Numero){
+	$.ajax({
+        type: "GET",
+        url: "Componentes/Ajax/Cargar_Estados.php",
+        data: "Numero="+Numero,
+		beforeSend: function(objeto){
+
+		},success: function(datos){
+			if (datos=='Error'){
+				$("#REstados").html('<div class="alert alert-danger" role="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Error!</strong> Lo sentimos , No se Puede Eliminar El Estado.<br></div>');
+				$('#REstados').fadeOut(2000); 
+				
+				setTimeout(function() { 
+					$('#REstados').fadeIn('fast'); 
+					$('#REstados').html('');	
+				
+					CargarEstados();
+				}, 2000);	
+			
+			}else{
+					$("#REstados").html(datos);
+
+			}
+		}
+	});
+}
 function eliminarTransportadora (Numero){
 	$.ajax({
         type: "GET",
@@ -573,8 +718,6 @@ $( "#New_FormaPago" ).submit(function( event ) {
 })
 
 $( "#New_Banco" ).submit(function( event ) {
-  
-  
 	var parametros = $(this).serialize();
 		$.ajax({
 			 type: "POST",
@@ -596,7 +739,53 @@ $( "#New_Banco" ).submit(function( event ) {
 			 }
 	 });
 	 event.preventDefault();
- })
+ });
+ $( "#New_Estado" ).submit(function( event ) {
+	var parametros = $(this).serialize();
+		$.ajax({
+			 type: "POST",
+			 url: "Componentes/Ajax/Guardar_Estado.php",
+			 data: parametros,
+				beforeSend: function(objeto){
+				 $("#resultados_ajax3E").html("Mensaje: Cargando...");
+				 },
+			 success: function(datos){
+			 $("#resultados_ajax3E").html(datos);
+			 $('#actualizar_datos3E').attr("disabled", false);
+			 $('#resultados_ajax3E').fadeOut(2000); 
+				 setTimeout(function() { 
+					 $('#resultados_ajax3E').html('');	
+					 $('#resultados_ajax3E').fadeIn(1000); 
+				 }, 1000);	
+			 CargarEstados();
+			 document.getElementById('New_DescripcionE').value = '';
+			 }
+	 });
+	 event.preventDefault();
+ });
+ $( "#New_Gestion" ).submit(function( event ) {
+	var parametros = $(this).serialize();
+		$.ajax({
+			 type: "POST",
+			 url: "Componentes/Ajax/Guardar_Gestion.php",
+			 data: parametros,
+				beforeSend: function(objeto){
+				 $("#resultados_ajax3G").html("Mensaje: Cargando...");
+				 },
+			 success: function(datos){
+			 $("#resultados_ajax3G").html(datos);
+			 $('#actualizar_datos3G').attr("disabled", false);
+			 $('#resultados_ajax3G').fadeOut(2000); 
+				 setTimeout(function() { 
+					 $('#resultados_ajax3G').html('');	
+					 $('#resultados_ajax3G').fadeIn(1000); 
+				 }, 1000);	
+			 CargarGestiones();
+			 document.getElementById('New_DescripcionG').value = '';
+			 }
+	 });
+	 event.preventDefault();
+ });
  $( "#New_Transportadora" ).submit(function( event ) {
   
   

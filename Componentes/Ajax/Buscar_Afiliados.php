@@ -86,7 +86,8 @@
 					<th>Fecha</th>
 					<th>Estado</th>
 					<th>Tipificacion</th>
-					<th class='text-right'>Editar</th>
+					<th class='text-center'>Ver</th>
+					<th class='text-center'>Editar</th>
 				</tr>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
@@ -172,10 +173,14 @@
 						<td><?php echo utf8_encode($Razon_Social); ?></td>
 						<td><?php echo $FechaCracion; ?></td>
 						<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>			
-						<td><span class="label <?php echo $label_classC;?>"><?php echo $Tipificacion; ?></span></td>			
-						<td class="text-right">
-							<a href="#" class='btn btn-default' title='Editar Campañas' onclick="obtener_datos('<?php echo $Identificacion;?>');"><i class="glyphicon glyphicon-edit"></i></a> 
+						<td><span class="label <?php echo $label_classC;?>"><?php echo $Tipificacion; ?></span></td>		
+						<td class="text-center">
+							<a href="#" class='btn btn-default' title='Ver Afiliado' onclick="VerAfiliado('<?php echo $Id;?>');"><i class="glyphicon glyphicon-eye-open"></i></a> 
+						</td>	
+						<td class="text-center">
+							<a href="#" class='btn btn-default' title='Editar Afiliado' onclick="obtener_datos('<?php echo $Identificacion;?>');"><i class="glyphicon glyphicon-edit"></i></a> 
 						</td>
+						
 					</tr>
 					<?php
 				}

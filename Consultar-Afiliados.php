@@ -31,6 +31,8 @@ $_SESSION['Errores']="";
 	<div id="wrapper">
 		<?php
 			include("Menu.php");
+			include("Componentes/Modal/Ver_Afiliado.php");
+
 		?>
 		<div id="main-content">
 			<div class="container-fluid">
@@ -112,6 +114,54 @@ $_SESSION['Errores']="";
 		</div>
 	</div>
 	</div>
+	<div class="modal  " id="GenerarAgendamiento" tabindex="-1" role="dialog" aria-labelledby="GenerarAgendamiento">
+		<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h2>Generar Agendamiento</h2>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" method="post"  id="GuardarAgendamiento" name="GuardarAgendamiento">
+					<div class="row">
+						<input type="text" class="form-control hidden" id="GId" name="GId">
+						<div class="col-md-3">
+							<label for="GFecha">Fecha</label>
+							<input type="date" class="form-control" name="GFecha" id="GFecha">
+						</div>
+						<div class="col-md-3">
+							<label for="Gestion">Gestion</label>
+							<?PHP		
+							$query1=mysqli_query($con, "select Codigo,Nombre from GESTION ");
+							echo' <select class="form-control" id="Gestion" name ="Gestion" placeholder="AEstado">';									
+							while($rw_Admin1=mysqli_fetch_array($query1)){
+							
+									echo '<option value="'.$rw_Admin1['Codigo'].'">'.$rw_Admin1['Nombre'].'</option>';	
+								
+							}
+							echo '</select>';
+							?>
+						</div>
+						<div class="col-md-6">
+							<label for="GDescripcion">Descripcion</label>
+							<input type="text" class="form-control" name="GDescripcion" id="GDescripcion" placeholder="Descripcion" onkeyup="javascript:this.value=this.value.toUpperCase();">
+						</div>
+					</div>
+					<div id="RAgendamiento"></div>
+					
+						
+						
+				  </div>
+				  <div class="modal-footer">
+					<button type="submit" class="btn btn-primary">Guardar datos</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+					
+					</form>
+					
+				  </div>
+				</div>
+			  </div>
+			</div>
 	<script src="assets/vendor/jquery/jquery.min.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="assets/vendor/metisMenu/metisMenu.js"></script>
@@ -184,6 +234,91 @@ function CargarBarra(){
 		}
 	})
 }
+function VerAfiliado(Id){
+	
+			$.ajax({
+				url:'Componentes/Ajax/Ver_Afiliado.php?Id='+Id,
+				 beforeSend: function(objeto){
+					$('#VAfiliado').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			  },
+				success:function(data){			
+					$("#VAfiliado").html(data);
+					CargarTipificaciones();
+					CargarAgendamientos(Id);
+					$('#VerAfiliado').modal('show'); 	
+				}
+			})
+	
+
+}
+function CargarTipificaciones(){
+			var Categoria = $("#TipificacionC").val();
+			var Tip = $("#Tip").val();
+		
+			$.ajax({
+				type: "POST",
+				url: "Componentes/Ajax/Cargar_Tipificaciones.php",
+				data: "Categoria="+Categoria+"&Tip="+Tip,
+				beforeSend: function(objeto){
+				},success: function(datos){
+					$("#Tipi").html(datos);
+				}	
+			});
+		}
+function GenerarGestion(Id){
+	$("#GId").val(Id);
+	$('#GenerarAgendamiento').modal('show'); 	
+}
+
+$( "#GuardarAgendamiento" ).submit(function( event ) { 
+  var parametros = $(this).serialize();
+	  $.ajax({
+		url: "Componentes/Ajax/Guardar_Agendamiento.php",
+		   type: "POST",
+		   data: parametros,
+			  beforeSend: function(objeto){ 
+			   },
+		   success: function(datos){ 
+			var Id=$("#GId").val();
+			$('#RAgendamiento').html(datos); 
+			CargarAgendamientos(Id);
+		
+		 }	 
+   });
+   event.preventDefault();
+});
+$( "#Actualizar_Afiliado" ).submit(function( event ) { 
+  var parametros = $(this).serialize();
+	  $.ajax({
+		url: "Componentes/Ajax/Actualizar_Afiliado.php",
+		   type: "POST",
+		   data: parametros,
+			  beforeSend: function(objeto){ 
+				$('#RActualizarAfilido').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			   },
+		   success: function(datos){ 
+			$('#RActualizarAfilido').html(datos); 
+		 }	 
+   });
+   event.preventDefault();
+});
+
+
+
+function CargarAgendamientos(Id){
+		
+			$.ajax({
+				type: "POST",
+				url: "Componentes/Ajax/Cargar_Agendamientos.php",
+				data: "Id="+Id,
+				beforeSend: function(objeto){
+				},success: function(datos){
+					$("#RAgendamientos").html(datos);
+				}	
+			});
+		}
+
+
 	</script>
   </body>
 </html>
