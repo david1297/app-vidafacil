@@ -44,9 +44,7 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 	$errors[] = "El Nombre de La Referencia 2 Se Encuentra Vacio";
 } elseif (($_POST['Tipo']=='Distribuidor') && (empty($_POST['Tel_R2']))){
 	$errors[] = "El Tefefono de La Referencia 2 Se Encuentra Vacio";	
-}  elseif (($_POST['Portafolio']==0) && ($_POST['Porcentaje']==0)){
-	$errors[] = "El Valor de Porcentaje o Portafolio debe ser superior a 0";	
-}elseif (
+}  elseif (
 			!empty($_POST['Nit'])
 			&& !empty($_POST['Tipo_Persona'])
 			&& !empty($_POST['Rol'])
@@ -71,6 +69,7 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 				$Tipo = mysqli_real_escape_string($con,(strip_tags($_POST["Tipo"],ENT_QUOTES)));
 				$Tel_C = mysqli_real_escape_string($con,(strip_tags($_POST["Tel_C"],ENT_QUOTES)));
 				$Direccion = mysqli_real_escape_string($con,(strip_tags($_POST["Direccion"],ENT_QUOTES)));
+				$Direccion_Adicional = mysqli_real_escape_string($con,(strip_tags($_POST["Direccion_Adicional"],ENT_QUOTES)));
 				$Correo = mysqli_real_escape_string($con,(strip_tags($_POST["Correo"],ENT_QUOTES)));
 				$Cel_C = mysqli_real_escape_string($con,(strip_tags($_POST["Cel_C"],ENT_QUOTES)));
 				$Correo_C = mysqli_real_escape_string($con,(strip_tags($_POST["Correo_C"],ENT_QUOTES)));
@@ -104,6 +103,8 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 				$D1 = mysqli_real_escape_string($con,(strip_tags($_POST["D1"],ENT_QUOTES)));
 				$D2 = mysqli_real_escape_string($con,(strip_tags($_POST["D2"],ENT_QUOTES)));
 				$D3 = mysqli_real_escape_string($con,(strip_tags($_POST["D3"],ENT_QUOTES)));
+				$Adicional = mysqli_real_escape_string($con,(strip_tags($_POST["Adicional"],ENT_QUOTES)));
+				$D4 = mysqli_real_escape_string($con,(strip_tags($_POST["D4"],ENT_QUOTES)));
 				$CantAfiliados = mysqli_real_escape_string($con,(strip_tags($_POST["CantAfiliados"],ENT_QUOTES)));
 				$Area = mysqli_real_escape_string($con,(strip_tags($_POST["Area"],ENT_QUOTES)));
 				$Asignado = mysqli_real_escape_string($con,(strip_tags($_POST["Asignado"],ENT_QUOTES)));
@@ -112,19 +113,21 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 				$sql =  "INSERT INTO  USUARIOS(Nit,Tipo_Persona,Razon_Social,Nombre,Apellido,Rol,Estado,Tipo,Tel_C,Direccion,
 				Correo,Cel_C,Correo_C,Porcentaje,Portafolio,Rep_Legal,CC,Nombre_R1,Tel_R1,Nombre_R2,Tel_R2,Banco_1,Tipo_Banco_1,
 				Numero_Cuenta_1,Banco_2,Tipo_Banco_2,Numero_Cuenta_2,Titular_1,Titular_2,Indicativo,D1,D2,D3,CantAfiliados,Area,Asignado,
-				FPrevencion,DescBancario,CFondo) VALUES
+				FPrevencion,DescBancario,CFondo,Direccion_Adicional,D4,Adicional) VALUES
 
 				('".$Nit."', '".$Tipo_Persona."', '".$Razon_Social."', '".$Nombre."', '".$Apellido."', '".$Rol."', '".$Estado."', '".$Tipo."', '".$Tel_C."', '".$Direccion."'
 				, '".$Correo."', '".$Cel_C."', '".$Correo_C."',".$Porcentaje.",".$Portafolio.", '".$Rep_Legal."', '".$CC."', '".$Nombre_R1."', '".$Tel_R1."', '".$Nombre_R2."', '".$Tel_R2."'
 				, '".$Banco_1."', '".$Tipo_Banco_1."', '".$Numero_Cuenta_1."', '".$Banco_2."', '".$Tipo_Banco_2."', '".$Numero_Cuenta_2."', '".$Titular_1."', '".$Titular_2."', '".$Indicativo."', 
 				'".$D1."', '".$D2."', '".$D3."',".$CantAfiliados.",".$Area.",'".$Asignado."',".$FPrevencion.",".$DescBancario.",".$CFondo."
+				,'".$Direccion_Adicional."','".$D4."','".$Adicional."'
 				) ON DUPLICATE  KEY UPDATE
 				Tipo_Persona = '".$Tipo_Persona."',Razon_Social ='".$Razon_Social."',Nombre='".$Nombre."',Apellido='".$Apellido."',Rol='".$Rol."',Estado='".$Estado."',Tipo='".$Tipo."',Tel_C='".$Tel_C."',Direccion='".$Direccion."' 
 				,Correo='".$Correo."',Cel_C='".$Cel_C."',Correo_C='".$Correo_C."',Porcentaje=".$Porcentaje.",Portafolio=".$Portafolio.",Rep_Legal='".$Rep_Legal."',CC='".$CC."',Nombre_R1='".$Nombre_R1."',Tel_R1='".$Tel_R1."',Nombre_R2='".$Nombre_R2."',Tel_R2='".$Tel_R2."'
 				,Banco_1='".$Banco_1."',Tipo_Banco_1='".$Tipo_Banco_1."',Numero_Cuenta_1='".$Numero_Cuenta_1."',Banco_2='".$Banco_2."',Tipo_Banco_2='".$Tipo_Banco_2."',Numero_Cuenta_2='".$Numero_Cuenta_2."'
 				,Titular_1='".$Titular_1."',Titular_2='".$Titular_2."',Indicativo='".$Indicativo."'
 				,D1='".$D1."',D2='".$D2."',D3='".$D3."',CantAfiliados =".$CantAfiliados." ,Area =".$Area.",Asignado ='".$Asignado."'
-				,FPrevencion=".$FPrevencion.",DescBancario=".$DescBancario.",CFondo=".$CFondo." ;";
+				,FPrevencion=".$FPrevencion.",DescBancario=".$DescBancario.",CFondo=".$CFondo.",
+				Direccion_Adicional ='".$Direccion_Adicional."',D4='".$D4."',Adicional='".$Adicional."' ;";
 				
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
@@ -153,6 +156,7 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 						('Afiliados', 'Crear', 'false', '".$Nit."', 'Crear Afiliado'),
 						('Afiliados', 'Editar', 'false', '".$Nit."', 'Editar Afiliado'),
 						('Afiliados', 'ConsultarTodo', 'false', '".$Nit."', 'Ver Todo'),
+						('Afiliados', 'ConsultarTodoA', 'false', '".$Nit."', 'Ver Todo Agendamientos'),
 						('Afiliados', 'ImportarAprobados', 'false', '".$Nit."', 'Importar Xlsx Aprobado'),
 						('Afiliados', 'Tipificaiones', 'false', '".$Nit."', 'Cambiar Tipificaciones'),
 						('Transacciones', 'CambiarEstado', 'false', '".$Nit."', 'Cambiar Estados'),

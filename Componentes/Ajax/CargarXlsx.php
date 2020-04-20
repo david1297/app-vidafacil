@@ -52,10 +52,12 @@ if(!empty($_FILES['Archivo']['name'])){
 			$Correo = $objPHPExcel->getActiveSheet()->getCell('J'.$i)->getCalculatedValue();
 			$Comercio = $objPHPExcel->getActiveSheet()->getCell('K'.$i)->getCalculatedValue();
 			$Duracion = $objPHPExcel->getActiveSheet()->getCell('L'.$i)->getCalculatedValue();
-			$Estado = $objPHPExcel->getActiveSheet()->getCell('M'.$i)->getCalculatedValue();
+			$AEstado = $objPHPExcel->getActiveSheet()->getCell('M'.$i)->getCalculatedValue();
 			$Valor = $objPHPExcel->getActiveSheet()->getCell('N'.$i)->getCalculatedValue();
 			$Tipificacion = $objPHPExcel->getActiveSheet()->getCell('O'.$i)->getCalculatedValue();
 			$Observacion = $objPHPExcel->getActiveSheet()->getCell('P'.$i)->getCalculatedValue();
+			$SubTipificacion = $objPHPExcel->getActiveSheet()->getCell('Q'.$i)->getCalculatedValue();
+			$Agendamiento = $objPHPExcel->getActiveSheet()->getCell('R'.$i)->getCalculatedValue();
 			$Identificacion = mysqli_real_escape_string($con,(strip_tags($Documento,ENT_QUOTES)));
 			$Nom = explode(" ", $Nombres);
 			if(count($Nom)==2){
@@ -107,15 +109,34 @@ if(!empty($_FILES['Archivo']['name'])){
 			}else{
 				$Comercio = $_SESSION['Nit'];	
 			}
-			$Tipificacion =5;
+			$query=mysqli_query($con, "select Numero from TIPIFICACIONES where UPPER(Nombre) = UPPER('".$SubTipificacion."')");
+			$rw_Admin=mysqli_fetch_array($query);
+			if ($rw_Admin[0]<>'' ){
+				$Tipificacion = $rw_Admin[0];	
+			}else{
+				$query=mysqli_query($con, "select Numero from TIPIFICACIONES where UPPER(Categoria) = UPPER('".$Tipificacion."') ");
+				$rw_Admin=mysqli_fetch_array($query);
+				if ($rw_Admin[0]<>'' ){
+					$Tipificacion = $rw_Admin[0];	
+				}else{
+					$Tipificacion =5;	
+				}
+			}
+			$query=mysqli_query($con, "select Codigo from AESTADOS where UPPER(Nombre) = UPPER('".$AEstado."')");
+			$rw_Admin=mysqli_fetch_array($query);
+			if ($rw_Admin[0]<>'' ){
+				$AEstado = $rw_Admin[0];	
+			}else{
+				$AEstado =0;
+			}
 			$query=mysqli_query($con, "select count(*) from AFILIADOS where Identificacion = '$Identificacion'; ");
 			$rw_Admin=mysqli_fetch_array($query);
 			if ($rw_Admin[0]==0){
 				$sql =  "INSERT INTO  AFILIADOS(Identificacion,Primer_Nombre,Segundo_Nombre,Primer_Apellido,Segundo_Apellido,Nombre_Completo,
-						Tipo_Identificacion,Ciudad,Departamento,Direccion,Direccion_Adicional,Telefono,Telefono2,Estado,Correo,Comercio,Tipificacion,FechaCracion,NContrato) VALUES
+						Tipo_Identificacion,Ciudad,Departamento,Direccion,Direccion_Adicional,Telefono,Telefono2,Estado,Correo,Comercio,Tipificacion,FechaCracion,NContrato,AEstado) VALUES
 					('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
 					'".$Nombres."','".$Tipo_Identificacion."','".$Ciudad."', '".$Departamento."', '".$Direccion."', '".$Direccion_Adicional."',
-					'".$Telefono."', '".$Telefono."', '".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion.",CURDATE(),'".$NContrato."'
+					'".$Telefono."', '".$Telefono."', '".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion.",CURDATE(),'".$NContrato."','".$AEstado."'
 					);";
 				$query_update = mysqli_query($con,$sql);
 				if ($query_update) {
@@ -169,21 +190,28 @@ if(!empty($_FILES['Archivo']['name'])){
 		for ($i = 2; $i <= $numRows; $i++) {
 			$_SESSION['Proceso']=2;
 			$Documento = $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getCalculatedValue();
-			$Observacion = $objPHPExcel->getActiveSheet()->getCell('F'.$i)->getCalculatedValue();
-			$Tipificacion = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
+			$Observacion = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getCalculatedValue();
+			$Tipificacion = $objPHPExcel->getActiveSheet()->getCell('I'.$i)->getCalculatedValue();
+			$SubTipificacion = $objPHPExcel->getActiveSheet()->getCell('J'.$i)->getCalculatedValue();
 			$query=mysqli_query($con, "select Id from AFILIADOS where Identificacion = '$Identificacion'; ");
 			$rw_Admin=mysqli_fetch_array($query);
 			$Id=$rw_Admin[0];
 			$Identificacion = mysqli_real_escape_string($con,(strip_tags($Documento,ENT_QUOTES)));
-			$query=mysqli_query($con, "select Numero from TIPIFICACIONES where UPPER(Nombre) = UPPER('".$Tipificacion."') ");
+			$query=mysqli_query($con, "select Numero from TIPIFICACIONES where UPPER(Nombre) = UPPER('".$SubTipificacion."')");
 			$rw_Admin=mysqli_fetch_array($query);
 			if ($rw_Admin[0]<>'' ){
 				$Tipificacion = $rw_Admin[0];	
 			}else{
-				$Tipificacion =5;	
+				$query=mysqli_query($con, "select Numero from TIPIFICACIONES where UPPER(Categoria) = UPPER('".$Tipificacion."') ");
+				$rw_Admin=mysqli_fetch_array($query);
+				if ($rw_Admin[0]<>'' ){
+					$Tipificacion = $rw_Admin[0];	
+				}else{
+					$Tipificacion =5;	
+				}
 			}	
-			$sql =  "UPDATE  AFILIADOS SET Tipificacion = $Tipificacion  WHERE Id = '".$Id."' ";
-			$query_update = mysqli_query($con,$sql);
+			//$sql =  "UPDATE  AFILIADOS SET Tipificacion = $Tipificacion  WHERE Id = '".$Id."' ";
+			//$query_update = mysqli_query($con,$sql);
 			$sql =  "INSERT INTO  OBSERVACIONES_AFILIADO(Afiliado,Fecha,Observacion,Usuario,Tipificacion) VALUES
 			('".$Id."', '".$Fecha."', '".$Observacion."', '".$User."',$Tipificacion)";
 			$query_update = mysqli_query($con,$sql);

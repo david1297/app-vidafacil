@@ -311,7 +311,7 @@
 									<div class="form-group">
 										<label for="Correo" class="col-sm-3 control-label">Correo</label>
 										<div class="col-sm-9">
-											<input type="Email" class="form-control" id="Correo" name="Correo" required placeholder="Correo" value="<?php echo $Correo;?>">
+											<input type="Email" class="form-control" id="Correo" name="Correo" required placeholder="Correo" value="<?php echo $Correo;?>"  onkeyup="javascript:this.value=this.value.toUpperCase();">
 										</div>
 									</div>	
 									

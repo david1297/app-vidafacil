@@ -249,7 +249,8 @@ require_once ("config/conexion.php");
                         </i>
                         <li class="<?php echo $Transferencias;?>">
                                 <a href="Consultar-Transferencias.php"><i class="fas fa-exchange-alt"></i><span>Transferencias</span></a>
-                        </li>            
+                        </li> 
+                                 
                 <?php	
 						}
 					?>

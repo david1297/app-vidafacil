@@ -40,7 +40,6 @@
 										<option value="Numero">Numero</option>
 										<option value="Nombre">Nombre</option>
 										<option value="Area">Area</option>
-										<option value="Contacto">Contacto</option>
 									</select>
 								</div>		
 								<div class="col-md-5">

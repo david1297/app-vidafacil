@@ -6,15 +6,12 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
     require_once("../../libraries/password_compatibility_library.php");
 }		
 
-if (empty($_POST['GId'])){
-	$errors[] = "GId";
-} elseif (empty($_POST['GFecha'])){
+if (empty($_POST['GFecha'])){
 	$errors[] = "GFecha";
-}elseif (empty($_POST['Gestion'])){
+} elseif (empty($_POST['Gestion'])){
 	$errors[] = "Gestion";
 }elseif (
-			!empty($_POST['GId'])
-			&& !empty($_POST['GFecha'])
+			!empty($_POST['GFecha'])
 			&& !empty($_POST['Gestion'])
           )
          {
@@ -24,22 +21,36 @@ if (empty($_POST['GId'])){
 				$GFecha = mysqli_real_escape_string($con,(strip_tags($_POST["GFecha"],ENT_QUOTES)));
 				$Gestion = mysqli_real_escape_string($con,(strip_tags($_POST["Gestion"],ENT_QUOTES)));
 				$GDescripcion = mysqli_real_escape_string($con,(strip_tags($_POST["GDescripcion"],ENT_QUOTES)));
-				$Usuario= $_SESSION['Nit'];
-				
-				
-				
-				$sql =  "INSERT INTO  AGENDAMIENTOS(Afiliado,Fecha,Gestion,Descripcion,Usuario) VALUES
+				$Afiliado = mysqli_real_escape_string($con,(strip_tags($_POST["Afiliado"],ENT_QUOTES)));
+				$GRespuesta = mysqli_real_escape_string($con,(strip_tags($_POST["GRespuesta"],ENT_QUOTES)));
+				$Usuario = mysqli_real_escape_string($con,(strip_tags($_POST["Usuario"],ENT_QUOTES)));
 
-				('".$GId."', '".$GFecha."', '".$Gestion."', '".$GDescripcion."','$Usuario'
-				) ON DUPLICATE  KEY UPDATE
-				Afiliado = '".$GId."',Gestion ='".$Gestion."',Fecha='".$GFecha."',Descripcion='".$GDescripcion."';";
-				
+				if($GId==0){
+					$sql =  "INSERT INTO  AGENDAMIENTOS(Afiliado,Fecha,Gestion,Descripcion,Usuario,Respuesta) VALUES
+
+					('".$Afiliado."', '".$GFecha."', '".$Gestion."', '".$GDescripcion."','$Usuario','$GRespuesta') ";
+					
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
                         $messages[] = "Los Datos Se Han Modificado Con Exito.";
                     } else {
                         $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
                     }
+				}else{
+					$sql =  "UPDATE AGENDAMIENTOS SET Afiliado = '".$Afiliado."',Gestion ='".$Gestion."',Fecha='".$GFecha."',
+					Descripcion='".$GDescripcion."',Respuesta='$GRespuesta' WHERE Id=$GId ;";
+					
+                    $query_update = mysqli_query($con,$sql);
+                    if ($query_update) {
+                        $messages[] = "Los Datos Se Han Modificado Con Exito.";
+                    } else {
+                        $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
+                    }
+				}
+				
+				
+				
+				
         } else {
             $errors[] = "Un error desconocido ocurrió.";
         }

@@ -17,6 +17,7 @@
 	$Apellido ="";
 	$Tel_C ="";
 	$Direccion ="";
+	$Direccion_Adicional="";
 	$Correo ="";
 	$Cel_C ="";
 	$Correo_C ="";
@@ -40,6 +41,8 @@
 	$D1='';
 	$D2='';
 	$D3='';	
+	$D4='';
+	$Adicional='';
 	$CantAfiliados=0;
 	$Tipo ="";
 	$Estado ="";
@@ -69,6 +72,7 @@
 		$Portafolio =$rw_Admin['Portafolio'];
 		$Tel_C =$rw_Admin['Tel_C'];
 		$Direccion =$rw_Admin['Direccion'];
+		$Direccion_Adicional=$rw_Admin['Direccion_Adicional'];
 		$Correo =$rw_Admin['Correo'];
 		$Cel_C =$rw_Admin['Cel_C'];
 		$Correo_C =$rw_Admin['Correo_C'];
@@ -91,6 +95,8 @@
 		$D1=$rw_Admin['D1'];
 		$D2=$rw_Admin['D2'];
 		$D3=$rw_Admin['D3'];
+		$D4=$rw_Admin['D4'];
+		$Adicional= $rw_Admin['Adicional'];
 		$CantAfiliados=$rw_Admin['CantAfiliados'];
 		$Comercio=$rw_Admin['Asignado'];
 
@@ -301,6 +307,33 @@
 										</div>
 										<div class="col-sm-9 col-sm-offset-3">
 											<input type="text" class="form-control" id="Direccion" name="Direccion"  placeholder="Direccion" value="<?php echo $Direccion;?>" readonly='readonly'>
+										</div>
+									</div>
+									<div class="form-group col-sm-9">
+										<label for="Direccion_Adicional" class="col-sm-3 control-label">Direccion Adicional</label>
+										<div class="col-sm-5">
+											<?PHP
+												$query=mysqli_query($con, "select * from ADMINISTRACION");
+												echo' <select class="form-control" id="Adicional" name ="Adicional" placeholder="OperadorVenta" onchange="CambioDirA()">';
+												$rw_Admin=mysqli_fetch_array($query);
+												$tuArray = explode("\r\n", $rw_Admin['Adicionales']);
+												foreach($tuArray as  $indice => $palabra){
+													if ($Adicional==$palabra){
+														echo '<option value="'.$palabra.'" selected>'.$palabra.'</option>';	
+											
+													} else{
+														echo '<option value="'.$palabra.'" >'.$palabra.'</option>';	
+											
+													}
+												}  	
+												echo '</select>';
+											?>
+										</div>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="D4" name="D4"   value="<?php echo $D4;?>" onchange="CambioDirA()">
+										</div>
+										<div class="col-sm-9 col-sm-offset-3">
+											<input type="text" class="form-control" id="Direccion_Adicional" name="Direccion_Adicional"  placeholder="Direccion Adicional" value="<?php echo $Direccion_Adicional;?>" readonly='readonly'>
 										</div>
 									</div>
 									<div class="form-group col-sm-9">
@@ -1100,6 +1133,9 @@ $("#Portafolio").on({
         });
     }
 });
+function CambioDirA(){
+		$('#Direccion_Adicional').val($('#Adicional').val()+' '+$('#D4').val());
+	}
 
 	</script>
 </body>

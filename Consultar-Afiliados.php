@@ -39,7 +39,7 @@ $_SESSION['Errores']="";
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
-						<button type="button" class="btn btn-success" onclick='$("#Archivo").trigger("click");'>
+							<button type="button" class="btn btn-success" onclick='$("#Archivo").trigger("click");'>
 								<span class="fas fa-file-excel"></span> Importar xlsx
 							</button>
 							<button type="button" class="btn btn-default" onclick="NuevoAfiliado()">
@@ -51,7 +51,12 @@ $_SESSION['Errores']="";
 							<button type="submit" class="btn btn-primary hidden" id="Cargar_Archivo">Guardar</button>
 							</form>
 						</div>
-						<h4><i class='glyphicon glyphicon-search'></i> Consultar Afiliados</h4>
+						
+							<a href="Consultar-Agendamientos.php" class="btn btn-default" target="_blank">
+							<span class="fas fa-calendar-alt"></span> Agendamiento</a>
+							
+						
+						
 					</div>
 					<div class="panel-body">
 					<div class="col-md-12">
@@ -119,49 +124,21 @@ $_SESSION['Errores']="";
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h2>Generar Agendamiento</h2>
+					<h2>Editar Agendamiento</h2>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" method="post"  id="GuardarAgendamiento" name="GuardarAgendamiento">
-					<div class="row">
-						<input type="text" class="form-control hidden" id="GId" name="GId">
-						<div class="col-md-3">
-							<label for="GFecha">Fecha</label>
-							<input type="date" class="form-control" name="GFecha" id="GFecha">
-						</div>
-						<div class="col-md-3">
-							<label for="Gestion">Gestion</label>
-							<?PHP		
-							$query1=mysqli_query($con, "select Codigo,Nombre from GESTION ");
-							echo' <select class="form-control" id="Gestion" name ="Gestion" placeholder="AEstado">';									
-							while($rw_Admin1=mysqli_fetch_array($query1)){
-							
-									echo '<option value="'.$rw_Admin1['Codigo'].'">'.$rw_Admin1['Nombre'].'</option>';	
-								
-							}
-							echo '</select>';
-							?>
-						</div>
-						<div class="col-md-6">
-							<label for="GDescripcion">Descripcion</label>
-							<input type="text" class="form-control" name="GDescripcion" id="GDescripcion" placeholder="Descripcion" onkeyup="javascript:this.value=this.value.toUpperCase();">
-						</div>
-					</div>
+					<div id="VerAgandamiento"></div>
 					<div id="RAgendamiento"></div>
-					
-						
-						
-				  </div>
-				  <div class="modal-footer">
+				</div>
+				<div class="modal-footer">
 					<button type="submit" class="btn btn-primary">Guardar datos</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
-					
 					</form>
-					
-				  </div>
 				</div>
-			  </div>
-			</div>
+			</div>	
+		</div>
+	</div>
 	<script src="assets/vendor/jquery/jquery.min.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="assets/vendor/metisMenu/metisMenu.js"></script>
@@ -266,27 +243,34 @@ function CargarTipificaciones(){
 			});
 		}
 function GenerarGestion(Id){
-	$("#GId").val(Id);
-	$('#GenerarAgendamiento').modal('show'); 	
+	$.ajax({
+		type: "POST",
+		url: "Componentes/Ajax/Ver_Agendamiento.php",
+		data: "Afiliado="+Id,
+		beforeSend: function(objeto){
+		},success: function(datos){
+			$("#VerAgandamiento").html(datos);
+			$('#GenerarAgendamiento').modal('show'); 
+			('#RAgendamiento').html(''); 
+		}	
+	});	
+}
+function VerGestion(Id){
+	$.ajax({
+		type: "POST",
+		url: "Componentes/Ajax/Ver_Agendamiento.php",
+		data: "Id="+Id,
+		beforeSend: function(objeto){
+		},success: function(datos){
+			$("#VerAgandamiento").html(datos);
+			$('#GenerarAgendamiento').modal('show'); 
+			$('#RAgendamiento').html(''); 
+		}	
+	});	
 }
 
-$( "#GuardarAgendamiento" ).submit(function( event ) { 
-  var parametros = $(this).serialize();
-	  $.ajax({
-		url: "Componentes/Ajax/Guardar_Agendamiento.php",
-		   type: "POST",
-		   data: parametros,
-			  beforeSend: function(objeto){ 
-			   },
-		   success: function(datos){ 
-			var Id=$("#GId").val();
-			$('#RAgendamiento').html(datos); 
-			CargarAgendamientos(Id);
-		
-		 }	 
-   });
-   event.preventDefault();
-});
+
+
 $( "#Actualizar_Afiliado" ).submit(function( event ) { 
   var parametros = $(this).serialize();
 	  $.ajax({
@@ -317,6 +301,23 @@ function CargarAgendamientos(Id){
 				}	
 			});
 		}
+		$( "#GuardarAgendamiento" ).submit(function( event ) { 
+  var parametros = $(this).serialize();
+	  $.ajax({
+		url: "Componentes/Ajax/Guardar_Agendamiento.php",
+		   type: "POST",
+		   data: parametros,
+			  beforeSend: function(objeto){ 
+			   },
+		   success: function(datos){ 
+			$('#RAgendamiento').html(datos); 
+			var Id = $("#Afiliado").val();
+			CargarAgendamientos(Id);
+		
+		 }	 
+   });
+   event.preventDefault();
+});
 
 
 	</script>

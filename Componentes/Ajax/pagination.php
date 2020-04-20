@@ -7,7 +7,7 @@ function paginate($reload, $page, $tpages, $adjacents) {
 	// previous label
 
 	if($page==1) {
-		$out.= "<li class='disabled'><a>$prevlabel</a></li>";
+		$out.= "";
 	} else if($page==2) {
 		$out.= "<li><a href='javascript:void(0);' onclick='load(1)'>$prevlabel</a></li>";
 	}else {
@@ -55,7 +55,7 @@ function paginate($reload, $page, $tpages, $adjacents) {
 	if($page<$tpages) {
 		$out.= "<li><a href='javascript:void(0);' onclick='load(".($page+1).")'>$nextlabel</a></li>";
 	}else {
-		$out.= "<li class='disabled'><a>$nextlabel</a></li>";
+		$out.= "";
 	}
 	
 	$out.= "</ul>";
