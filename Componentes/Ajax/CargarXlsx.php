@@ -19,8 +19,8 @@ $_SESSION['Errores']="";
 
 if(!empty($_FILES['Archivo']['name'])){
 	$errors='';
-	//$Ruta1= '/var/www/html/';
-	$Ruta1= 'C:/xampp/htdocs/app-vidafacil/';
+	$Ruta1= '/var/www/html/';
+	//$Ruta1= 'C:/xampp/htdocs/app-vidafacil/';
 	$nombreArchivo =$_FILES['Archivo']['name'];
 	if(copy($_FILES['Archivo']['tmp_name'], $Ruta1.$_FILES['Archivo']['name'])){
 		require_once ("../../config/db.php");
@@ -58,6 +58,18 @@ if(!empty($_FILES['Archivo']['name'])){
 			$Observacion = $objPHPExcel->getActiveSheet()->getCell('P'.$i)->getCalculatedValue();
 			$SubTipificacion = $objPHPExcel->getActiveSheet()->getCell('Q'.$i)->getCalculatedValue();
 			$Agendamiento = $objPHPExcel->getActiveSheet()->getCell('R'.$i)->getCalculatedValue();
+			$Fecha1= $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getCalculatedValue();
+			$Direccion_Adicional = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));
+			
+		//	$fecha_excel = objWorksheet->getCell('A1')->getValue();
+			// utilizo la función y obtengo el timestamp
+			$timestamp = PHPExcel_Shared_Date::ExcelToPHP($Fecha1);
+			$timestamp = strtotime("+1 day",$timestamp);
+			$Fecha = date("Y-m-d",$timestamp);
+			//$Fecha = date("Y-m-d", $Fecha1); 
+			//$Fecha = date("Y-m-d", PHPExcel_Shared_Date::ExcelToPHP( $objPHPExcel->getCellByColumnAndRow(2, $i)->getValue() + 1 ) );
+
+
 			$Identificacion = mysqli_real_escape_string($con,(strip_tags($Documento,ENT_QUOTES)));
 			$Nom = explode(" ", $Nombres);
 			if(count($Nom)==2){
@@ -89,7 +101,7 @@ if(!empty($_FILES['Archivo']['name'])){
 				$Departamento = mysqli_real_escape_string($con,(strip_tags('33',ENT_QUOTES)));
 			}	
 			$Direccion = mysqli_real_escape_string($con,(strip_tags($Direccion,ENT_QUOTES)));
-			$Direccion_Adicional = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));
+			
 			$Telefono = mysqli_real_escape_string($con,(strip_tags($Celular ,ENT_QUOTES)));
 			
 			$Correo = mysqli_real_escape_string($con,(strip_tags($Correo,ENT_QUOTES)));
@@ -136,7 +148,7 @@ if(!empty($_FILES['Archivo']['name'])){
 						Tipo_Identificacion,Ciudad,Departamento,Direccion,Direccion_Adicional,Telefono,Telefono2,Estado,Correo,Comercio,Tipificacion,FechaCracion,NContrato,AEstado) VALUES
 					('".$Identificacion."', '".$Primer_Nombre."', '".$Segundo_Nombre."', '".$Primer_Apellido."', '".$Segundo_Apellido."', 
 					'".$Nombres."','".$Tipo_Identificacion."','".$Ciudad."', '".$Departamento."', '".$Direccion."', '".$Direccion_Adicional."',
-					'".$Telefono."', '".$Telefono."', '".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion.",CURDATE(),'".$NContrato."','".$AEstado."'
+					'".$Telefono."', '".$Telefono."', '".$Estado."', '".$Correo."', '".$Comercio."', ".$Tipificacion.",'".$Fecha."','".$NContrato."','".$AEstado."'
 					);";
 				$query_update = mysqli_query($con,$sql);
 				if ($query_update) {
@@ -193,10 +205,11 @@ if(!empty($_FILES['Archivo']['name'])){
 			$Observacion = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getCalculatedValue();
 			$Tipificacion = $objPHPExcel->getActiveSheet()->getCell('I'.$i)->getCalculatedValue();
 			$SubTipificacion = $objPHPExcel->getActiveSheet()->getCell('J'.$i)->getCalculatedValue();
-			$query=mysqli_query($con, "select Id from AFILIADOS where Identificacion = '$Identificacion'; ");
+			$AEstado = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
+			$query=mysqli_query($con, "select Id,Comercio from AFILIADOS where Identificacion = '$Documento'; ");
 			$rw_Admin=mysqli_fetch_array($query);
 			$Id=$rw_Admin[0];
-			$Identificacion = mysqli_real_escape_string($con,(strip_tags($Documento,ENT_QUOTES)));
+			$Comercio=$rw_Admin[1];
 			$query=mysqli_query($con, "select Numero from TIPIFICACIONES where UPPER(Nombre) = UPPER('".$SubTipificacion."')");
 			$rw_Admin=mysqli_fetch_array($query);
 			if ($rw_Admin[0]<>'' ){
@@ -210,10 +223,17 @@ if(!empty($_FILES['Archivo']['name'])){
 					$Tipificacion =5;	
 				}
 			}	
-			//$sql =  "UPDATE  AFILIADOS SET Tipificacion = $Tipificacion  WHERE Id = '".$Id."' ";
-			//$query_update = mysqli_query($con,$sql);
+			$query=mysqli_query($con, "select Codigo from AESTADOS where UPPER(Nombre) = UPPER('".$AEstado."')");
+			$rw_Admin=mysqli_fetch_array($query);
+			if ($rw_Admin[0]<>'' ){
+				$AEstado = $rw_Admin[0];	
+			}else{
+				$AEstado =0;
+			}
+			$sql =  "UPDATE  AFILIADOS SET Tipificacion = $Tipificacion,AEstado=$AEstado  WHERE Id = '".$Id."' ";
+			$query_update = mysqli_query($con,$sql);
 			$sql =  "INSERT INTO  OBSERVACIONES_AFILIADO(Afiliado,Fecha,Observacion,Usuario,Tipificacion) VALUES
-			('".$Id."', '".$Fecha."', '".$Observacion."', '".$User."',$Tipificacion)";
+			('".$Id."', '".$Fecha."', '".$Observacion."', '".$Comercio."',$Tipificacion)";
 			$query_update = mysqli_query($con,$sql);
 			if ($query_update) {
 				$_SESSION['Completados2']=$_SESSION['Completados2']+1;
