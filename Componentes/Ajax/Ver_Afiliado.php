@@ -113,7 +113,7 @@
 		}
 	?>
 		<div class="col-md-4">
-			<label for="AEstado" class="control-label">Estado</label>
+			<label for="AEstado" class="control-label">Estado Tx</label>
 			<?PHP		
 			$query1=mysqli_query($con, "select Codigo,Nombre from AESTADOS ");
 			echo' <select class="form-control" id="AEstado" name ="AEstado" placeholder="AEstado">';									

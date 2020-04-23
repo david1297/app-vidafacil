@@ -84,6 +84,7 @@ $_SESSION['Errores']="";
 									<select class='form-control' id="EFiltro" name ="EFiltro" placeholder="Filtro" onchange='CambioEFiltro();'>
 										<option value="Todos">Todos</option>
 										<option value="Estado">Estado</option>
+										<option value="EstadoTx">Estado Tx</option>
 										<option value="Tipificacion">Tipificacion</option>
 									</select>
 								</div>

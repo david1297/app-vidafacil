@@ -14,6 +14,7 @@
 							 inner join CIUDADES on AFILIADOS.Ciudad =CIUDADES.Codigo and  DEPARTAMENTOS.Codigo = CIUDADES.Departamento 
 							 inner join TIPIFICACIONES on TIPIFICACIONES.Numero = AFILIADOS.Tipificacion
 							 left join USUARIOS on AFILIADOS.Comercio= USUARIOS.Nit
+							 inner join AESTADOS on AESTADOS.Codigo = AFILIADOS.AEstado
 							 ";
 		$sWhere = "where AFILIADOS.Visible ='S'";
 		if ( $_GET['q'] != "" ){
@@ -44,6 +45,10 @@
 			}else{
 					if($EFiltro=='Tipificacion'){
 						$sWhere.= " and TIPIFICACIONES.NCategoria ='".$VFiltro."'";		
+					}else{
+						if($EFiltro=='EstadoTx'){
+							$sWhere.= " and AFILIADOS.AEstado ='".$VFiltro."'";		
+						}
 					}
 			}
 
@@ -72,7 +77,7 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Afiliados.php';
-		$sql="SELECT AFILIADOS.FechaCracion,USUARIOS.Razon_Social,AFILIADOS.Id,AFILIADOS.Comercio,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,Identificacion,Primer_Nombre,Primer_Apellido,DEPARTAMENTOS.Nombre as Departamento,CIUDADES.Nombre as Ciudad ,AFILIADOS.Direccion,AFILIADOS.Estado FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		$sql="SELECT AESTADOS.Nombre as AEstado,AFILIADOS.FechaCracion,USUARIOS.Razon_Social,AFILIADOS.Id,AFILIADOS.Comercio,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,Identificacion,Primer_Nombre,Primer_Apellido,DEPARTAMENTOS.Nombre as Departamento,CIUDADES.Nombre as Ciudad ,AFILIADOS.Direccion,AFILIADOS.Estado FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		if ($numrows>0){
 			echo mysqli_error($con);
@@ -85,6 +90,7 @@
 					<th>Comercio</th>
 					<th>Fecha</th>
 					<th>Estado</th>
+					<th>Estado Tx</th>
 					<th>Tipificacion</th>
 					<th class='text-center'>Ver</th>
 					<th class='text-center'>Editar</th>
@@ -101,6 +107,8 @@
 						$Ciudad=$row['Ciudad'];
 						$Direccion=$row['Direccion'];
 						$Estado=$row['Estado'];
+						$AEstado=$row['AEstado'];
+
 						$FechaCracion=$row['FechaCracion'];
 						if ($Estado=="Aprobado"){$label_class='label-success';}
 						if ($Estado=="Negado"){$label_class='label-danger';}
@@ -173,6 +181,7 @@
 						<td><?php echo utf8_encode($Razon_Social); ?></td>
 						<td><?php echo $FechaCracion; ?></td>
 						<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>			
+						<td><?php echo $AEstado; ?></td>			
 						<td><span class="label <?php echo $label_classC;?>"><?php echo $Tipificacion; ?></span></td>		
 						<td class="text-center">
 							<a href="#" class='btn btn-default' title='Ver Afiliado' onclick="VerAfiliado('<?php echo $Id;?>');"><i class="glyphicon glyphicon-eye-open"></i></a> 

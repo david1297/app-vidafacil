@@ -33,6 +33,8 @@
 	$Adicional='';
 	$NFactura='';
 	$NContrato='';
+	$Mesaje='';
+			$Bloqueo='';
 
 
 	if (isset($_GET['Identificacion'])) {
@@ -98,6 +100,28 @@
 	}else{
 		$EstadoC="Nuevo";
 		$Read= "";
+		$User=$_SESSION['Nit'];
+		$query=mysqli_query($con, "SELECT count(FechaCracion)AS Cantidad FROM AFILIADOS WHERE Comercio = '$User'
+		 and FechaCracion = CURRENT_DATE ");
+		$rw_Admin=mysqli_fetch_array($query);
+		$Creados=$rw_Admin[0];
+
+		$query=mysqli_query($con, "SELECT CantAfiliados FROM `USUARIOS` WHERE Nit ='$User'");
+		$rw_Admin=mysqli_fetch_array($query);
+		$Cantidad=$rw_Admin[0];
+
+		if($Creados >= $Cantidad){
+		$Mesaje = '<div class="alert alert-danger" role="alert">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong>Error! </strong> 
+			Afiliados Creados: '.$Creados.' Derecho de Afiliados por dia: '.$Cantidad.'
+	</div>';
+	$Bloqueo='disabled';
+		}else{
+			$Mesaje='';
+			$Bloqueo='';
+		}
+
 	}
 
 ?>
@@ -131,6 +155,7 @@
 			   						<div id="resultados_ajax"></div>
 									<input type="text" class="form-control hidden" id="EstadoC" name="EstadoC"  value="<?php echo $EstadoC; ?>" > 
 									<?php
+									echo $Mesaje;
 										if ($EstadoC=='Editando'){
 											?>
 											<div class="form-group">
@@ -435,7 +460,7 @@
 										
 											if ( $_SESSION['Estado']=='Activo'){
 												?>
-													<button type="button" class="btn btn-primary" id='GAfiliado'>Guardar datos</button>
+													<button type="button" class="btn btn-primary" id='GAfiliado' <?php echo $Bloqueo; ?>>Guardar datos</button>
 												<?php
 											}
 										?>
