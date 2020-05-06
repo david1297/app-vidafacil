@@ -26,7 +26,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
-							
+						<button class="btn btn-success" id="ExportarExcel" ><i class="fas fa-file-excel"></i>Exportar a Excel </button>
 						</div>
 						<h4><i class='glyphicon glyphicon-search'></i>Base General</h4>
 						
@@ -85,6 +85,32 @@
 		</div>
 	</div>
 	</div>
+	<div class="modal fade" id="FitroForPago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="AgregarArea">Opcion</h4>
+		  </div>
+		<div class="modal-body">
+			<div class="form-group">
+				<div class="">
+					<select class='form-control ' id="Forma_Pago" name ="Forma_Pago" placeholder="Forma_Pago">
+									<option value="Ponal">Ponal</option>
+										<option value="Soluciones">Soluciones</option>
+										
+									</select>
+				</div>
+			</div>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+			<button type="button" class="btn btn-primary" onclick="Exportat()">Exportar</button>
+		  </div>
+		
+		</div>
+	  </div>
+	</div>
 	<script src="assets/vendor/jquery/jquery.min.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="assets/vendor/metisMenu/metisMenu.js"></script>
@@ -92,6 +118,7 @@
 	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 	<script src="assets/scripts/common.js"></script>
 	<script type="text/javascript" src="Componentes/JavaScript/BaseGeneral.js"></script>
+	<script lang = "javascript"  src = "js-xlsx-master/dist/xlsx.full.min.js"> </script>
 	<script>
 	function CambioEFiltro(){
 		var Filtro =  $("#EFiltro").val();
@@ -108,6 +135,56 @@
 				}
 			})
 	}
+
+	$( "#ExportarExcel" ).click(function( event ) {
+
+		$("#FitroForPago").modal("show");
+
+
+	
+});
+
+function Exportat(){
+	var q= $("#q").val();
+			var Filtro = $("#Filtro").val();
+			var fechaIni = $("#fechaIni").val();
+			var fechaFin = $("#fechaFin").val();
+			var EFiltro = $("#EFiltro").val();
+			var VFiltro = $("#VFiltro").val();
+			var Forma_Pago = $("#Forma_Pago").val();
+			
+			$("#loader").fadeIn('slow');
+			$.ajax({
+				url:'Componentes/Ajax/Exportar_BaseGeneral.php?action=ajax&q='+q+'&Filtro='+Filtro+
+				'&fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&EFiltro='+EFiltro+'&VFiltro='+VFiltro
+				+'&Forma_Pago='+Forma_Pago,
+				 beforeSend: function(objeto){
+				 $('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			  },
+			  success:function(dataR){
+			
+			var string ='{"user_id": "1", "auth_id": "1"}';
+			var data=JSON.parse('['+dataR+']');
+			var NombreXLS='';
+			$('#loader').html('');
+			if(Forma_Pago =='Ponal'){
+				NombreXLS="Base General Ponal";
+			}else{
+				NombreXLS="Base General Soluciones";	
+			}	
+			if(typeof XLSX == 'undefined') XLSX = require('xlsx');
+			var ws = XLSX.utils.json_to_sheet(data);
+			var wb = XLSX.utils.book_new();
+			XLSX.utils.book_append_sheet(wb, ws, NombreXLS);
+			
+			XLSX.writeFile(wb, NombreXLS+".xlsx");
+		}
+			})
+	
+}
+
+
+
 	</script>
   </body>
 </html>

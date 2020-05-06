@@ -40,7 +40,7 @@
 		
 		
 		
-			$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,".$SumValor." as Valor,
+			$sql="SELECT CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,sum(CUENTA_VIRTUAL.Comision)as Comision,".$SumValor." as Valor,
 			USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado FROM $sTable $sWhere $Group $Order ";	
 			$query = mysqli_query($con, $sql);
 			echo mysqli_error($con);
@@ -52,10 +52,12 @@
 				$Usuario=$row['Razon_Social'];
 				$Estado=$row['Estado'];
 				$Fecha=$row['Fecha'];
+				$Comision=$row['Comision'];
+				$Total =$Valor-$Comision;
 				if($Array==''){
-					$Array.='{"Tipo":"'.$Tipo.'", "Numero": "'.$NDocumento.'", "Usuario": "'.$Usuario.'", "Estado": "'.$Estado.'", "Fecha": "'.date("d-m-Y", strtotime($Fecha)).'",  "Valor": "'.$Valor.'"}';
+					$Array.='{"Tipo":"'.$Tipo.'", "Numero": "'.$NDocumento.'", "Usuario": "'.$Usuario.'", "Estado": "'.$Estado.'", "Fecha": "'.date("d-m-Y", strtotime($Fecha)).'",  "Valor": "'.$Valor.'",  "Comision": "'.$Comision.'",  "Total": "'.$Total.'"}';
 				}else{
-					$Array.=',{"Tipo":"'.$Tipo.'", "Numero": "'.$NDocumento.'", "Usuario": "'.$Usuario.'", "Estado": "'.$Estado.'", "Fecha": "'.date("d-m-Y", strtotime($Fecha)).'",  "Valor": "'.$Valor.'"}';
+					$Array.=',{"Tipo":"'.$Tipo.'", "Numero": "'.$NDocumento.'", "Usuario": "'.$Usuario.'", "Estado": "'.$Estado.'", "Fecha": "'.date("d-m-Y", strtotime($Fecha)).'",  "Valor": "'.$Valor.'",  "Comision": "'.$Comision.'",  "Total": "'.$Total.'"}';
 				}						
 			}
 				
