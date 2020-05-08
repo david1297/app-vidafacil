@@ -39,6 +39,7 @@ $_SESSION['Errores']="";
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
+						<button class="btn btn-success" id="ExportarExcel" ><i class="fas fa-file-excel"></i>Exportar a Excel </button>
 							<button type="button" class="btn btn-success" onclick='$("#Archivo").trigger("click");'>
 								<span class="fas fa-file-excel"></span> Importar xlsx
 							</button>
@@ -148,6 +149,7 @@ $_SESSION['Errores']="";
 	<script src="assets/scripts/common.js"></script>
 
 	<script type="text/javascript" src="Componentes/JavaScript/Afiliados.js"></script>
+	<script lang = "javascript"  src = "js-xlsx-master/dist/xlsx.full.min.js"> </script>
 	<script>
 	function CambioEFiltro(){
 		var Filtro =  $("#EFiltro").val();
@@ -169,12 +171,12 @@ $_SESSION['Errores']="";
 	function SubirAfiliados(){
 		var Archivo = document.getElementById('Archivo').files[0].name;
 		var txt;
-var r = confirm('Desea Importar el archivo: '+Archivo);
-if (r == true) {
-	$('#Cargar_Archivo').click();
-} else {
- 
-}
+		var r = confirm('Desea Importar el archivo: '+Archivo);
+		if (r == true) {
+			$('#Cargar_Archivo').click();
+		} else {
+		
+		}
 	}
 
 	$( "#CargarXlsx" ).submit(function( event ) { 
@@ -318,6 +320,38 @@ function CargarAgendamientos(Id){
 		 }	 
    });
    event.preventDefault();
+});
+$( "#ExportarExcel" ).click(function( event ) {
+	var q= $("#q").val();
+			var Filtro = $("#Filtro").val();
+			var EFiltro = $("#EFiltro").val();
+			var VFiltro = $("#VFiltro").val();
+			var FComercio = $("#FComercio").val();
+			
+	$("#loader").fadeIn('slow');
+	$.ajax({
+		url:'Componentes/Ajax/Exportar_Afiliados.php?action=ajax&q='+q+'&Filtro='+Filtro+'&EFiltro='+EFiltro+'&VFiltro='+VFiltro+'&FComercio='+FComercio,
+			beforeSend: function(objeto){
+			$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+		},
+		success:function(dataR){
+
+			var string ='{"user_id": "1", "auth_id": "1"}';
+			var data=JSON.parse('['+dataR+']');
+			var NombreXLS='';
+			$('#loader').html('');
+				NombreXLS="Afiliados";
+			if(typeof XLSX == 'undefined') XLSX = require('xlsx');
+			var ws = XLSX.utils.json_to_sheet(data);
+			var wb = XLSX.utils.book_new();
+			XLSX.utils.book_append_sheet(wb, ws, NombreXLS);
+			
+			XLSX.writeFile(wb, NombreXLS+".xlsx");
+		}
+	})
+
+
+	
 });
 
 

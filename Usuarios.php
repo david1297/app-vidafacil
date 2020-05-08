@@ -708,6 +708,7 @@
 									<li><a href="#Campanas" class="Permisos"role="tab" data-toggle="tab" id="Click_Campanas">Campañas</a></li>
 									<li><a href="#Afiliados" class="Permisos" role="tab" data-toggle="tab" id="Click_Afiliados">Afiliados</a></li>
 									<li><a href="#Contabilidad"class="Permisos" role="tab" data-toggle="tab" id="Click_Contabilidad">Contabilidad</a></li>
+									<li><a href="#Directorio"class="Permisos" role="tab" data-toggle="tab" id="Click_Directorio">Directorio</a></li>
 									
 									
 									<li><a href="#CuentaVirtual" class="Permisos" role="tab" data-toggle="tab" id="Click_CuentaVirtual">Cuenta Virtual</a></li>
@@ -730,6 +731,8 @@
 									<div class="tab-pane fade" id="CuentaVirtual">
 									</div>
 									<div class="tab-pane fade" id="Transferencias">
+									</div>
+									<div class="tab-pane fade" id="Directorio">
 									</div>
 									
 								</div>

@@ -167,7 +167,10 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 						('Transacciones', 'Crear', 'false', '".$Nit."', 'Crear Transaccion'),
 						('Transacciones', 'Consultar', 'false', '".$Nit."', 'Consultar Transacciones'),
 						('Transacciones', 'ConsultarTodo', 'false', '".$Nit."', 'Ver Todo'),
-						('Transacciones', 'TipificaionesSeguimiento', 'false', '".$Nit."', 'Cambiar Tipificaciones y Seguimiento')
+						('Transacciones', 'TipificaionesSeguimiento', 'false', '".$Nit."', 'Cambiar Tipificaciones y Seguimiento'),
+						('Directorio', 'Ingreso', 'false', '".$Nit."', 'Ingreso al Modulo'),
+						('Directorio', 'Editar', 'false', '".$Nit."', 'Editar'),
+						('Directorio', 'Eliminar', 'false', '".$Nit."', 'Eliminar')
 						
 						
 						;";

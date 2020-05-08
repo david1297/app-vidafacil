@@ -30,6 +30,7 @@
 			include("Componentes/Modal/Agregar_Tipificacion.php");
 			include("Componentes/Modal/Agregar_Gestion.php");
 			include("Componentes/Modal/Agregar_Estado.php");
+			include("Componentes/Modal/Agregar_Categoria.php");
 
 			
 			
@@ -49,6 +50,7 @@
 					<li><a href="#Tipificaciones" role="tab" data-toggle="tab" id="ClickTipificaciones">Tipificaciones</a></li>
 					<li><a href="#Estados" role="tab" data-toggle="tab" id="ClickEstados">Estados</a></li>
 					<li><a href="#Gestion" role="tab" data-toggle="tab" id="ClickGestion">Gestion</a></li>
+					<li><a href="#Categorias" role="tab" data-toggle="tab" id="ClickCategorias">Categorias</a></li>
 				</ul>				
 				<div class="tab-content content-profile">
 					<div class="tab-pane fade active in" id="General">
@@ -165,6 +167,14 @@
 						<div id="RGestion">
 						</div>
 					</div>
+					<div class="tab-pane fade" id="Categorias">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#AgregarCategorias">
+							<i class="fas fa-plus"></i> Agregar Caterogia
+						</button>
+						<br><br>
+						<div id="RCategorias">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -205,6 +215,9 @@ $("#ClickGestion").click(function( event){
 });
 $("#ClickEstados").click(function( event){
 	CargarEstados();
+});
+$("#ClickCategorias").click(function( event){
+	CargarCategorias();
 })
 
 
@@ -315,6 +328,18 @@ function CargarGestiones(){
 			$('#RGestion').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');	
 		},success: function(datos){
 			$("#RGestion").html(datos);
+		}
+	});
+}
+function CargarCategorias(){
+	$.ajax({
+    	type: "POST",
+        url: "Componentes/Ajax/Cargar_Categorias.php",
+        data: "",
+		beforeSend: function(objeto){
+			$('#RCategorias').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');	
+		},success: function(datos){
+			$("#RCategorias").html(datos);
 		}
 	});
 }
@@ -485,6 +510,26 @@ function UpdateDescAreas(Key,Numero){
 				setTimeout(function() { 
 					$('#loader_A'+Numero).html('');	
 					$('#loader_A'+Numero).fadeIn(1000); 
+				}, 1000);	
+			}
+		});
+  }
+}
+function UpdateDescCategorias(Key,Numero){
+	if (Key.keyCode == 13) {
+			var Descripcion = $("#Descripcion_C"+Numero).val();
+		$.ajax({
+        type: "POST",
+				url: "Componentes/Ajax/Actualizar_Categoria.php",
+        data: "Numero="+Numero+"&Descripcion="+Descripcion,
+			beforeSend: function(objeto){
+				$('#loader_C'+Numero).html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
+			},success: function(datos){
+				$('#loader_C'+Numero).html(datos);
+				$('#loader_C'+Numero).fadeOut(2000); 
+				setTimeout(function() { 
+					$('#loader_C'+Numero).html('');	
+					$('#loader_C'+Numero).fadeIn(1000); 
 				}, 1000);	
 			}
 		});
@@ -691,6 +736,32 @@ function eliminarArea (Numero){
 		}
 	});
 }
+function eliminarCategoria (Numero){
+	$.ajax({
+        type: "GET",
+        url: "Componentes/Ajax/Cargar_Categorias.php",
+        data: "Numero="+Numero,
+		beforeSend: function(objeto){
+
+		},success: function(datos){
+			if (datos=='Error'){
+				$("#RCategorias").html('<div class="alert alert-danger" role="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Error!</strong> Lo sentimos , No se Puede Eliminar El Estado.<br></div>');
+				$('#RCategorias').fadeOut(2000); 
+				
+				setTimeout(function() { 
+					$('#RCategorias').fadeIn('fast'); 
+					$('#RCategorias').html('');	
+				
+					CargarEstados();
+				}, 2000);	
+			
+			}else{
+					$("#RCategorias").html(datos);
+
+			}
+		}
+	});
+}
 $( "#New_FormaPago" ).submit(function( event ) {
   
   
@@ -887,6 +958,29 @@ $( "#New_Seguimiento" ).submit(function( event ) {
    });
    event.preventDefault();
 })
+$( "#New_Categoria" ).submit(function( event ) {
+	var parametros = $(this).serialize();
+		$.ajax({
+			 type: "POST",
+			 url: "Componentes/Ajax/Guardar_Categoria.php",
+			 data: parametros,
+				beforeSend: function(objeto){
+				 $("#resultados_ajax3C").html("Mensaje: Cargando...");
+				 },
+			 success: function(datos){
+			 $("#resultados_ajax3C").html(datos);
+			 $('#actualizar_datos3C').attr("disabled", false);
+			 $('#resultados_ajax3C').fadeOut(2000); 
+				 setTimeout(function() { 
+					 $('#resultados_ajax3C').html('');	
+					 $('#resultados_ajax3C').fadeIn(1000); 
+				 }, 1000);	
+			 CargarCategorias();
+			 document.getElementById('New_DescripcionC').value = '';
+			 }
+	 });
+	 event.preventDefault();
+ });
 function UpdateTipi(Key,Numero){
 	if (Key.keyCode == 13) {
 			var Descripcion = $("#Input-"+Numero).val();

@@ -15,6 +15,7 @@
 	$Reportes="";
 	$Garantias="";
 	$Ajustes="";
+	$Transferencias="";
 ?>
 <!doctype html>
 <html lang="ES">
