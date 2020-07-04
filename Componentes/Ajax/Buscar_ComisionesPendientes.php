@@ -13,9 +13,9 @@
 		$sTable = "CUENTA_VIRTUAL
 		inner join USUARIOS on CUENTA_VIRTUAL.Usuario = USUARIOS.Nit";
 		
-		$sWhere = " Where CUENTA_VIRTUAL.Usuario = '".$Nit."' and  (CUENTA_VIRTUAL.Estado ='Pendiente' or CUENTA_VIRTUAL.Estado ='Rechazada')";	
+		$sWhere = " Where CUENTA_VIRTUAL.Usuario = '".$Nit."' and CUENTA_VIRTUAL.Tipo <>'I' and (CUENTA_VIRTUAL.Estado ='Pendiente' or CUENTA_VIRTUAL.Estado ='Rechazada')";	
 		$Group=" Group by CUENTA_VIRTUAL.Cruce,CUENTA_VIRTUAL.NCruce,CUENTA_VIRTUAL.Usuario,
-				USUARIOS.Razon_Social,CUENTA_VIRTUAL.Fecha
+				USUARIOS.Razon_Social,CUENTA_VIRTUAL.Fecha 
 		";
 
 

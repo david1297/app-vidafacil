@@ -21,8 +21,6 @@ if (empty($_POST['Identificacion'])){
 	$errors[] = "La Direccion Se Encuentra Vacia";
 }elseif (empty($_POST['Telefono'])){
 	$errors[] = "El Telefono Se Encuentra Vacio";
-}elseif (empty($_POST['Telefono2'])){
-	$errors[] = "El Telefono2 Se Encuentra Vacio";
 }elseif (empty($_POST['Estado'])){
 	$errors[] = "El Estado Se Encuentra Vacio";
 }elseif (!filter_var($_POST['Correo'], FILTER_VALIDATE_EMAIL)) {
@@ -64,6 +62,7 @@ elseif (
 				$Tipificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Tipificacion"],ENT_QUOTES)));
 				$NFactura = mysqli_real_escape_string($con,(strip_tags($_POST["NFactura"],ENT_QUOTES)));
 				$NContrato = mysqli_real_escape_string($con,(strip_tags($_POST["NContrato"],ENT_QUOTES)));
+				$Numero = mysqli_real_escape_string($con,(strip_tags($_POST["Numero"],ENT_QUOTES)));
 				
 				$Nombre_Completo = $Primer_Nombre;
 				if($Segundo_Nombre != ''){
@@ -171,8 +170,13 @@ elseif (
 						$OperadorDonante = "";
 						$NumeroSim = "";
 						$Fecha =date("Y-m-d");
+						if($Numero<>''){
+							$sql =  " UPDATE VENTAS Set 
+					SAfiliado ='N',Afiliado= $Id WHERE VENTAS.Numero=$Numero";
+$query_update = mysqli_query($con,$sql);
 
-						$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
+						}else{
+							$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
 											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
 											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago,Nombre_Completo,Identificacion,SAfiliado
 											) VALUES
@@ -184,6 +188,9 @@ elseif (
 				)";
 			
 				   $query_update = mysqli_query($con,$sql);
+						}
+
+						
 
 						
 

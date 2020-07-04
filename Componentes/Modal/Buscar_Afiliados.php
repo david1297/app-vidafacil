@@ -8,7 +8,7 @@
 				  <div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					
-					<button type="button" class="btn btn-default" onclick="NuevoAfiliado()">
+					<button type="button" class="btn btn-default" onclick="NuevoAfiliadoa()">
 								<span class="fas fa-user-tie"></span> Nuevo Afiliado
 							</button>
 				  </div>

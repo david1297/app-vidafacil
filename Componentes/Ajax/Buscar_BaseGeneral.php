@@ -15,6 +15,7 @@
 		inner join USUARIOS on USUARIOS.Nit=VENTAS.Usuario
 		inner join CAMPANAS on CAMPANAS.Numero=VENTAS.Campana
 		inner join TIPIFICACIONES on TIPIFICACIONES.Numero = VENTAS.Estado_Campana
+		inner join FORMAS_PAGO on FORMAS_PAGO.Codigo = VENTAS.Forma_Pago
 		";
 		$sWhere = "where (Fecha >= '$fechaIni' and  Fecha <= '$fechaFin') ";
 		if ( $_GET['q'] != "" ){
@@ -87,10 +88,12 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-BaseGeneral.php';
-		$sql="SELECT VENTAS.Numero, VENTAS.Token,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
+		$sql="SELECT VENTAS.Numero,VENTAS.Porcentaje_Comision,FORMAS_PAGO.tipo As TPago, VENTAS.Token,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
 		VENTAS.Estado,VENTAS.Estado_Campana,VENTAS.fecha,
-		CAMPANAS.NOMBRE AS Campana,CAMPANAS.Numero as Cam,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana,VENTAS.Nombre_Completo,VENTAS.SAfiliado FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		CAMPANAS.NOMBRE AS Campana,CAMPANAS.Numero as Cam,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana,
+		VENTAS.Nombre_Completo,VENTAS.SAfiliado FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
+		
 		if ($numrows>0){
 			echo mysqli_error($con);
 			?>
@@ -124,6 +127,8 @@
 						
 						$Fecha=$row['Fecha'];
 						$Token=$row['Token'];
+						$TPago=$row['TPago'];
+						$Comision=$row['Porcentaje_Comision'];
 						$Valor=$row['Valor'];
 						$Usuario=$row['Razon_Social'];
 						$Campana=$row['Campana'];
@@ -205,12 +210,12 @@
 
 						<td class="text-right">
 						<?php
-						$query1=mysqli_query($con, "select Id,".$_SESSION['Tipo']." from ESTADOS where Id ='$Estado'");
+						$query1=mysqli_query($con, "select Id,Tx from ESTADOS where Id ='$Estado'");
 						$rw_Admin1=mysqli_fetch_array($query1);
 						
 							if ( $_SESSION['Estado']=='Activo'){
 								?>
-						<a href="#" class='btn btn-default' title='Editar Estado' onclick="obtener_datos('<?php echo $Numero;?>','<?php echo $rw_Admin1[1];?>');"  data-toggle="modal" data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i><?php echo $rw_Admin1[1]; ?></a>
+						<a href="#" class='btn btn-default' title='Editar Estado' onclick="obtener_datosV('<?php echo $Numero;?>','<?php echo $rw_Admin1[1];?>');"  data-toggle="modal" data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i><?php echo $rw_Admin1[1]; ?></a>
 						<?php
 							}
 						?>
@@ -262,7 +267,7 @@ $rw_Admin1=mysqli_fetch_array($query1);
 if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
 	
 	
-	$query1=mysqli_query($con, "select Id,".$_SESSION['Tipo']." from ESTADOS");
+	$query1=mysqli_query($con, "select Id,Tx from ESTADOS");
 	echo' <select class="form-control hidden" id="Estado'.$Numero.'" name ="Estado"  placeholder="Campaña" onchange="ValidarEstado(event)">';
 	while($rw_Admin1=mysqli_fetch_array($query1)){
 		if($Estado==$rw_Admin1[0]){
@@ -279,7 +284,11 @@ if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
 						?>
 						</td>
 						<td>
-						<input type="text" class="form-control hidden" id="Token<?php echo $Numero;?>" placeholder="Numero de Aprobacion" value="<?php echo $Token;?>" autocomplete="off" >
+						<input type="text" class="form-control hidden" id="Token<?php echo $Numero;?>"  value="<?php echo $Token;?>" autocomplete="off" >
+						<input type="text" class="form-control hidden" id="Valor<?php echo $Numero;?>"  value="<?php echo $Valor;?>" autocomplete="off" >
+						<input type="text" class="form-control hidden" id="Comision<?php echo $Numero;?>"  value="<?php echo $Comision;?>" autocomplete="off" >
+						<input type="text" class="form-control hidden" id="TPago<?php echo $Numero;?>"  value="<?php echo $TPago;?>" autocomplete="off" >
+						
 						</td>
 
 					</tr>

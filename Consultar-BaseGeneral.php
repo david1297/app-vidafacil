@@ -143,6 +143,79 @@
 
 	
 });
+function obtener_datosV(Numero,Estado){
+	document.getElementById('resultados_ajax2').innerText='';
+	document.getElementById('Titulo_Venta').innerText = 'Actualizar Transaccion N. '+ Numero;
+	document.getElementById('Numero_Venta').value = Numero;
+	$("#Estado_Campana").html($("#Estado_Campana"+Numero+"").html());	
+	$("#Estado").html($("#Estado"+Numero+"").html());	
+	$("#Token").val($("#Token"+Numero).val());
+	$("#Comision").val($("#Comision"+Numero).val());
+	$("#ComisionG7").val($("#Comision"+Numero).val());
+	
+	$("#Valor").val($("#Valor"+Numero).val());
+	$("#TPago").val($("#TPago"+Numero).val());
+	$("#EstadoA").val($("#Estado"+Numero).val());
+	Descuentos();
+	$.ajax({
+				url:'Componentes/Ajax/CardFormaPago.php?Numero='+Numero,
+				 beforeSend: function(objeto){
+			  },
+				success:function(data){
+					$("#FormaDePago").html(data);
+				}
+			})
+}
+$(".valor").on({
+    "focus": function (event) {
+        $(event.target).select();
+    },
+    "keyup": function (event) {
+        $(event.target).val(function (index, value ) {
+            return value.replace(/\D/g, "")       
+                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+        });
+    }
+});
+function Descuentos(){
+		$('#Descuentos').removeClass("hidden");
+		var F = $('#TPago').val();
+					
+		if (F=='Tarjeta'){
+			var TotalDevengado = $('#Valor').val();
+			var VVenta=TotalDevengado.replace(/,/g, "");
+			$('#VVenta').val(VVenta);
+			var ComisionT=$('#ComisionT').val();
+			var ComisionG7 =$('#ComisionG7').val();
+			TotalDevengado = $('#ComisionF').val();
+			var ComisionF=TotalDevengado.replace(/,/g, "");
+			var IvaG7 = $('#IvaG7').val();
+			var Retefuente = $('#Retefuente').val();
+			var ReteIca = $('#ReteIca').val();		
+			var VComisionT=VVenta*ComisionT/100;
+			$('#VComisionT').val(VComisionT);
+			var VComisionG7 = VVenta* ComisionG7 /100;
+			$('#VComisionG7').val(VComisionG7);
+			var TotalComisionG7 =(ComisionF*1)+(VComisionG7);
+			$('#TotalComisionG7').val(TotalComisionG7);
+			var VIvaG7 = TotalComisionG7*IvaG7/100;
+			$('#VIvaG7').val(VIvaG7);
+			var VRetefuente = VVenta*Retefuente/100;
+			$('#VRetefuente').val(VRetefuente);
+			var VReteIca = VVenta*ReteIca/100;
+			$('#VReteIca').val(VReteIca);
+			var TotalDescuento = VComisionT+TotalComisionG7+VIvaG7+VRetefuente+VReteIca;
+			$('#TotalDescuento').val(TotalDescuento);
+			var TotalCuenta = VVenta-TotalDescuento;
+			$('#TotalCuenta').val(TotalCuenta);
+			$(".valor").keyup();
+		}else{
+			$('#VVenta').val( $('#Valor').val());
+			$('#TotalCuenta').val($('#Valor').val());
+
+			$('#Descuentos').addClass("hidden");
+		}
+	}
 
 function Exportat(){
 	var q= $("#q").val();

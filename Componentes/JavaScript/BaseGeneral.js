@@ -32,15 +32,7 @@ $( "#Consultar" ).click(function( event ) {
 	location.href='Consultar-Ventas.php';
 
 })
-function obtener_datos(Numero,Estado){
-	document.getElementById('resultados_ajax2').innerText='';
-	document.getElementById('Titulo_Venta').innerText = 'Actualizar Transaccion N. '+ Numero;
-	document.getElementById('Numero_Venta').value = Numero;
-	$("#Estado_Campana").html($("#Estado_Campana"+Numero+"").html());	
-	$("#Estado").html($("#Estado"+Numero+"").html());	
-	$("#Token").val($("#Token"+Numero).val());
-	$("#EstadoA").val($("#Estado"+Numero).val());
-}
+
 function obtener_datos1(Numero){
 	location.href='Ventas.php?Numero='+Numero;
 }

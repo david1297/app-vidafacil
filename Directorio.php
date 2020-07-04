@@ -3,7 +3,8 @@
 	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
         header("location: login.php");
 		exit;
-    }
+	}
+	
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
 	

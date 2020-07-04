@@ -60,6 +60,12 @@
 		$Read= "";
 		$Numero_Ajuste="Nuevo Ajuste";
 	}
+if ($_SESSION['Rol']==1){
+	$editar="";
+}else{
+	$editar="disabled";
+
+}
 
 
 
@@ -105,7 +111,7 @@
 								 			<input class="form-control hidden" type="text" id="UsuarioA" name="UsuarioA" VALUE="<?php echo $UsuarioA;?>"  required readonly>
 											<input class="form-control" type="text" id="NombreA" placeholder="Nombre del Usuario" VALUE="<?php echo $NombreA;?>" required readonly>
 											<span class="input-group-btn">
-												<button type="button" class="btn btn-default" data-toggle="modal" data-target="#BuscarUsuario"><span class="glyphicon glyphicon-search"></span></button>
+												<button type="button" class="btn btn-default" data-toggle="modal" data-target="#BuscarUsuario" <?php echo $editar;?>><span class="glyphicon glyphicon-search"></span></button>
 											</span>
 										</div>
 									</div>
@@ -123,7 +129,7 @@
 									<div class="col-md-4">
 										<label for="email" class="control-label">Tipo</label>
 										<?PHP
-												echo' <select class="form-control" id="Tipo" name ="Tipo" placeholder="Tipo">';
+												echo' <select class="form-control" id="Tipo" name ="Tipo" placeholder="Tipo" '.$editar.'>';
 										
 													if($Tipo=='Credito'){
 														echo '<option value="Credito" selected>Credito</option>';	
@@ -151,7 +157,7 @@
 									<div class="col-md-4">
 										<label for="email" class="control-label">Aplicar A</label>
 										<?PHP
-												echo' <select class="form-control" id="Cuenta" name ="Cuenta" placeholder="Cuenta">';
+												echo' <select class="form-control" id="Cuenta" name ="Cuenta" placeholder="Cuenta" '.$editar.'>';
 										
 													if($Cuenta=='Virtual'){
 														echo '<option value="Virtual" selected>Cuenta Virtual</option>';	
@@ -168,11 +174,11 @@
 
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Valor</label>
-									 	<input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>"autocomplete="off" >
+									 	<input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>"autocomplete="off" <?php echo $editar;?>>
 									</div>
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Comision</label>
-									 	<input type="text" class="form-control" id="Comision" Name="Comision" placeholder="Comision" value="<?php echo $Comision;?>"autocomplete="off" >
+									 	<input type="text" class="form-control" id="Comision" Name="Comision" placeholder="Comision" value="<?php echo $Comision;?>"autocomplete="off"<?php echo $editar;?> >
 									</div>
 									
 									
@@ -185,7 +191,7 @@
 									</div>
 									<div class="col-md-12">
   										<label for="Observaciones">Observaciones:</label>
-  										<textarea class="form-control" rows="5" id="Observacion" name="Observacion"><?PHP ECHO $Observacion;?></textarea>
+  										<textarea class="form-control" rows="5" id="Observacion" name="Observacion" <?php echo $editar;?>><?PHP ECHO $Observacion;?></textarea>
 									</div>	
 																		
 								</div>
@@ -200,7 +206,7 @@
 						<?php
 							if ( $_SESSION['Estado']=='Activo'){
 								?>
-								<button type="submit" class="btn btn-primary">Guardar datos</button>
+								<button type="submit" class="btn btn-primary" <?php echo $editar;?>>Guardar datos</button>
 								<?php
 							}
 						?>

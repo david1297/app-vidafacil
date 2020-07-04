@@ -4,6 +4,7 @@
         header("location: login.php");
 		exit;
         }
+        
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
 	
@@ -79,7 +80,13 @@
 			</div>
 		';
 		}
-	}
+    }
+    if ($_SESSION['Rol']==1){
+        $editar="";
+    }else{
+        $editar="disabled";
+    
+    }
 ?>
 <!doctype html>
 <html lang="es">
@@ -187,7 +194,7 @@
                                         <label for="email" class="control-label">Banco</label>
                                         <?PHP
 												$query1=mysqli_query($con, "SELECT Banco_1,Tipo_Banco_1,Numero_Cuenta_1,Titular_1,Banco_2,Tipo_Banco_2,Numero_Cuenta_2,Titular_2 FROM USUARIOS where Nit ='".$Usuario."'");
-												echo' <select class="form-control" id="Banco" name ="Banco" placeholder="Banco" onchange="CambioBanco()">';
+												echo' <select class="form-control" id="Banco" name ="Banco" placeholder="Banco" onchange="CambioBanco()"  '.$editar.'>';
 												$rw_Admin1=mysqli_fetch_array($query1);
 													if($Banco==$rw_Admin1['Banco_1']){
 														echo '<option value="'.$rw_Admin1['Banco_1'].'" selected>'.$rw_Admin1['Banco_1'].'</option>';	
@@ -235,7 +242,7 @@
                                     <div class="col-md-4">
                                         <label for="empresa" class="control-label">Tipo de Cuenta</label>
                                         
-                                        <select name="Tipo_Cuenta" id="Tipo_Cuenta" class="form-control">
+                                        <select name="Tipo_Cuenta" id="Tipo_Cuenta" class="form-control" <?php echo $editar; ?>>
                                         <?php
                                         
                                             if ($Tipo_Cuenta == 'Ahorros'){
@@ -258,18 +265,18 @@
                                     <div class="col-md-4">
                                         <label for="empresa" class="control-label">Numero de Cuenta</label>
                                         <input type="text" class="form-control" id="Numero_Cuenta" Name="Numero_Cuenta"
-                                            placeholder="Numero de Cuenta" value="<?php echo $Numero_Cuenta;?>" autocomplete="off">
+                                            placeholder="Numero de Cuenta" value="<?php echo $Numero_Cuenta;?>" autocomplete="off" <?php echo $editar; ?>>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="empresa" class="control-label">Titular de la Cuenta</label>
                                         <input type="text" class="form-control" id="Titular_Cuenta"
                                             Name="Titular_Cuenta" placeholder="Titular de la Cuenta"
-                                            value="<?php echo $Titular_Cuenta;?>" autocomplete="off">
+                                            value="<?php echo $Titular_Cuenta;?>" autocomplete="off" <?php echo $editar; ?>>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="empresa" class="control-label">Estado</label>
                                         
-                                        <select name="Estado" id="Estado" class="form-control">
+                                        <select name="Estado" id="Estado" class="form-control" <?php echo $editar; ?>>
                                         <?php
                                         
                                             if ($Estado == 'Aprobada'){
@@ -302,7 +309,7 @@
                                     </div>
                                     <div class="col-md-12">
   										<label for="Observaciones">Observaciones:</label>
-  										<textarea class="form-control" rows="5" id="Observaciones" name="Observaciones"></textarea>
+  										<textarea class="form-control" rows="5" id="Observaciones" name="Observaciones" <?php echo $editar; ?>></textarea>
 									</div>	
 
                                     <?php
@@ -360,7 +367,7 @@
                                                 <td><input type="checkbox" class="form-control" name="NumeroVenta[]"
                                                         id="<?php echo $Tipo.'-'.$NDocumento;?>" value="<?php echo $Tipo.'-'.$NDocumento;?>"
                                                         <?php echo $CHE;?>
-                                                        onclick="OnVenta(<?php echo $Valor;?>,'<?php echo $Tipo.'-'.$NDocumento;?>')">
+                                                        onclick="OnVenta(<?php echo $Valor;?>,'<?php echo $Tipo.'-'.$NDocumento;?>')" <?php echo $editar; ?>>
                                                 </td>
                                             </tr>
                                             <?php
@@ -387,7 +394,7 @@
                                 <?php
 											if ( $_SESSION['Estado']=='Activo'){
 												?>
-													<button type="submit" class="btn btn-primary">Guardar datos</button>
+													<button type="submit" class="btn btn-primary" <?php echo $editar; ?>>Guardar datos</button>
 												<?php
 											}
 										?>

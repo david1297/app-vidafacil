@@ -31,6 +31,7 @@ require_once ("../../config/db.php");
 			$rw=mysqli_fetch_array($sql);
 			$numero_Transaccion=$rw['last']+1;
 			$Usuario = $_POST['Nit'];
+			date_default_timezone_set('America/Bogota');
 			$Fecha=date("Y-m-d"); 
 			$sql = "INSERT INTO TRANSACCIONESE(Numero,Usuario,Fecha_Creacion,Fecha_Revision,Valor_Aprovado,
 					Valor_Rechazado,Banco,Tipo_Cuenta,Numero_Cuenta,Titular_Cuenta,Estado,DescBancario,FPrevencion,Tipo)

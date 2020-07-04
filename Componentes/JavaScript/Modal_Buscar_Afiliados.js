@@ -29,7 +29,4 @@
 		$("#SinAfiliado").val('N');
 
 		}
-		function NuevoAfiliado(){
-			
-			window.open("Afiliados.php", "Diseño Web", "");
-		}
+	

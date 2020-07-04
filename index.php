@@ -3,7 +3,8 @@
 	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
         header("location: login.php");
 		exit;
-        }
+		}
+
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
 	$Inicio="active";
@@ -51,12 +52,25 @@
 									<div class="mini-stat">
 										<div id="number-chart1" class="inlinesparkline">
 										<?PHP	
+										$Usuario=$_SESSION['Nit'];
 										$Total_Semana_Ant=0;
+										if($_SESSION['Rol']=='1'){
 											$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR  FROM VENTAS WHERE WEEK(VENTAS.fecha) =WEEK(NOW())-1 ;");
+										}else{
+											$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR  FROM VENTAS WHERE WEEK(VENTAS.fecha) =WEEK(NOW())-1 and VENTAS.Usuario='".$Usuario."';");
+
+										}
+											
 											$rw_Admin1=mysqli_fetch_array($query1);
 											$Total_Semana_Ant=$rw_Admin1['VALOR'];
 											$Total_Semana=0;
-											$query1=mysqli_query($con, "SELECT SUM(VALOR) VALOR,day(VENTAS.fecha) AS DIA  FROM VENTAS WHERE WEEK(VENTAS.fecha) =WEEK(NOW())  group by DIA;");
+											if($_SESSION['Rol']=='1'){
+											$query1=mysqli_query($con, "SELECT SUM(VALOR) VALOR,day(VENTAS.fecha) AS DIA  FROM VENTAS WHERE WEEK(VENTAS.fecha) =WEEK(NOW())    group by DIA;");
+
+											}else{
+											$query1=mysqli_query($con, "SELECT SUM(VALOR) VALOR,day(VENTAS.fecha) AS DIA  FROM VENTAS WHERE WEEK(VENTAS.fecha) =WEEK(NOW()) and VENTAS.Usuario='".$Usuario."'   group by DIA;");
+												
+											}
 											$h=0;
 											while($rw_Admin1=mysqli_fetch_array($query1)){
 												if ($h==0){
@@ -90,15 +104,35 @@
 										<div id="number-chart2" class="inlinesparkline">
 										<?PHP	
 										$Total_Semana_Ant=0;
-											$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR  FROM CUENTA_VIRTUAL 
+											
+if($_SESSION['Rol']=='1'){
+	$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR  FROM CUENTA_VIRTUAL 
 								
-											WHERE WEEK(fecha) =WEEK(NOW())-1 ;");
+											WHERE    WEEK(fecha) =WEEK(NOW())-1 ;");
+
+	}else{
+		$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR  FROM CUENTA_VIRTUAL 
+								
+		WHERE   CUENTA_VIRTUAL.Usuario='".$Usuario."' and WEEK(fecha) =WEEK(NOW())-1 ;");
+
+	}
 											$rw_Admin1=mysqli_fetch_array($query1);
 											$Total_Semana_Ant=$rw_Admin1['VALOR'];
 											$Total_Semana=0;
-											$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR,day(fecha) AS DIA  FROM CUENTA_VIRTUAL 
+											
+
+																						
+if($_SESSION['Rol']=='1'){
+	$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR,day(fecha) AS DIA  FROM CUENTA_VIRTUAL 
 										
 											WHERE WEEK(fecha) =WEEK(NOW())   group by DIA;");
+
+	}else{
+		$query1=mysqli_query($con, "SELECT SUM(Comision) VALOR,day(fecha) AS DIA  FROM CUENTA_VIRTUAL 
+										
+											WHERE  CUENTA_VIRTUAL.Usuario='".$Usuario."' and  WEEK(fecha) =WEEK(NOW())   group by DIA;");
+
+	}
 											$h=0;
 											while($rw_Admin1=mysqli_fetch_array($query1)){
 												if ($h==0){
@@ -144,9 +178,17 @@
 										<li class="clearfix">Ingresos
 											<span>
 											<?php
+											if($_SESSION['Rol']=='1'){
 												$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM(CUENTA_VIRTUAL.Comision)Comision
                                                 FROM VENTAS left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
 												where VENTAS.fecha=CURDATE()  ; ");
+												}else{
+													$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,SUM(CUENTA_VIRTUAL.Comision)Comision
+                                                FROM VENTAS left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
+												where VENTAS.fecha=CURDATE() and VENTAS.Usuario='".$Usuario."' ; ");
+												}
+												
+												
 																			$rw_Admin1=mysqli_fetch_array($query1);
 												echo '$ '.number_format($rw_Admin1['VALOR']).'</span></li>
 												<li class="clearfix">Comisiones <span>$ '.number_format($rw_Admin1['Comision']).'</span></li>
@@ -164,11 +206,21 @@
 										$Total_Semana_Ant=0;
 										$NVentas_Semana_Ant=0;
 										$Comision_Semana_Ant=0;
-										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,
+										
+
+if($_SESSION['Rol']=='1'){
+	$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,
 										SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
 										left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
 									
 										where WEEK(VENTAS.fecha) =WEEK(NOW())-1 ; ");
+	}else{
+		$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,
+										SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
+										left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
+									
+										where VENTAS.Usuario='".$Usuario."' and WEEK(VENTAS.fecha) =WEEK(NOW())-1 ; ");
+	}
 										$rw_Admin1=mysqli_fetch_array($query1);
 										$Total_Semana_Ant=$rw_Admin1['VALOR'];
 										$NVentas_Semana_Ant=$rw_Admin1['NVentas'];
@@ -177,10 +229,19 @@
 										$Total_Semana=0;
 										$NVentas_Semana=0;
 										$Comision_Semana=0;
-										$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,
+										
+
+if($_SESSION['Rol']=='1'){
+	$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,
 										SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
 										left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
 										where WEEK(VENTAS.fecha) =WEEK(NOW()) ; ");
+	}else{
+		$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,count(valor)as NVentas,
+										SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
+										left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
+										where VENTAS.Usuario='".$Usuario."' and WEEK(VENTAS.fecha) =WEEK(NOW()) ; ");
+	}
 										$rw_Admin1=mysqli_fetch_array($query1);
 										$Total_Semana=$rw_Admin1['VALOR'];
 										$NVentas_Semana=$rw_Admin1['NVentas'];
@@ -287,12 +348,22 @@
 											</thead>
 											<tbody>
 												<?php
-													$query1=mysqli_query($con, "SELECT CAMPANAS.Nombre, SUM(VALOR)VALOR,count(valor)as NVentas,
+													
+													if($_SESSION['Rol']=='1'){
+														$query1=mysqli_query($con, "SELECT CAMPANAS.Nombre, SUM(VALOR)VALOR,count(valor)as NVentas,
 													
 													SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
 													left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
 													INNER JOIN CAMPANAS ON CAMPANAS.Numero = VENTAS.Campana
-													where VENTAS.fecha=CURDATE()  group by CAMPANAS.Nombre;");
+													where  VENTAS.fecha=CURDATE()  group by CAMPANAS.Nombre;");
+														}else{
+															$query1=mysqli_query($con, "SELECT CAMPANAS.Nombre, SUM(VALOR)VALOR,count(valor)as NVentas,
+													
+													SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
+													left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
+													INNER JOIN CAMPANAS ON CAMPANAS.Numero = VENTAS.Campana
+													where VENTAS.Usuario='".$Usuario."' and VENTAS.fecha=CURDATE()  group by CAMPANAS.Nombre;");
+														}
 													$h=0;
 													while($rw_Admin1=mysqli_fetch_array($query1)){
 														echo '
@@ -329,20 +400,42 @@
 											</thead>
 											<tbody>
 												<?php
-													$query1=mysqli_query($con, "SELECT CAMPANAS.Nombre,CAMPANAS.Numero, SUM(VALOR)VALOR,count(valor)as NVentas,
+													
+if($_SESSION['Rol']=='1'){
+	$query1=mysqli_query($con, "SELECT CAMPANAS.Nombre,CAMPANAS.Numero, SUM(VALOR)VALOR,count(valor)as NVentas,
 													
 													SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
 													INNER JOIN CAMPANAS ON CAMPANAS.Numero = VENTAS.Campana
 													left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
-													where WEEK(VENTAS.fecha) =WEEK(NOW())  group by CAMPANAS.Nombre,CAMPANAS.Numero;");
+													where  WEEK(VENTAS.fecha) =WEEK(NOW())  group by CAMPANAS.Nombre,CAMPANAS.Numero;");
+
+	}else{
+		$query1=mysqli_query($con, "SELECT CAMPANAS.Nombre,CAMPANAS.Numero, SUM(VALOR)VALOR,count(valor)as NVentas,
+													
+		SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
+		INNER JOIN CAMPANAS ON CAMPANAS.Numero = VENTAS.Campana
+		left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
+		where VENTAS.Usuario='".$Usuario."' and WEEK(VENTAS.fecha) =WEEK(NOW())  group by CAMPANAS.Nombre,CAMPANAS.Numero;");
+
+	}
 													$h=0;
 													while($rw_Admin1=mysqli_fetch_array($query1)){
-														$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,count(valor)as NVentas,
+														
+														if($_SESSION['Rol']=='1'){
+															$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,count(valor)as NVentas,
 														SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
 													INNER JOIN CAMPANAS ON CAMPANAS.Numero = VENTAS.Campana
 													left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
-													where WEEK(VENTAS.fecha) =WEEK(NOW())-1  and CAMPANAS.Numero=".$rw_Admin1['Numero'].";");
-														$rw_Admin=mysqli_fetch_array($query);
+													where  WEEK(VENTAS.fecha) =WEEK(NOW())-1  and CAMPANAS.Numero=".$rw_Admin1['Numero'].";");
+														
+															}else{
+																$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,count(valor)as NVentas,
+														SUM(CUENTA_VIRTUAL.Comision)Comision FROM VENTAS 
+													INNER JOIN CAMPANAS ON CAMPANAS.Numero = VENTAS.Campana
+													left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.tipo ='V' and CUENTA_VIRTUAL.NDocumento = VENTAS.numero
+													where  VENTAS.Usuario='".$Usuario."' and WEEK(VENTAS.fecha) =WEEK(NOW())-1  and CAMPANAS.Numero=".$rw_Admin1['Numero'].";");
+														
+															}$rw_Admin=mysqli_fetch_array($query);
 														echo '
 														<tr>
 															<td>'.$rw_Admin1['Nombre'].'</td>
@@ -426,180 +519,36 @@
 							<canvas id="Recorrido" height='100px' ></canvas>	
 						</div>
 					</div>
-
+					<?php 
+if($_SESSION['Rol']=='1'){
+	$ocultar="";
+}else{
+	$ocultar="hidden";
+}
+	?>
 					
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-4 <?php echo $ocultar; ?>">
 							<!-- TRAFFIC SOURCES -->
 							<div class="panel-content">
 								<h2 class="heading"><i class="fa fa-square"></i> Fuentas de ingreso</h2>
 								<canvas id="myChart" width="400" height="400"></canvas>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-4 <?php echo $ocultar; ?>">
 							<!-- TRAFFIC SOURCES -->
 							<div class="panel-content">
 								<h2 class="heading"><i class="fa fa-square"></i> Afiliados Tipificados</h2>
 								<canvas id="AfiliadosT" width="400" height="400"></canvas>
 							</div>
 						</div>
-							<!-- END TRAFFIC SOURCES 
-						</div>
-						<div class="col-md-4">
-						
-							<div class="panel-content">
-								<h2 class="heading"><i class="fa fa-square"></i> Visitas</h2>
-								<ul class="list-unstyled list-referrals">
-									<li>
-										<p><span class="value">3,454</span><span class="text-muted">Visitas por Facebook</span></p>
-										<div class="progress progress-xs progress-transparent custom-color-blue">
-											<div class="progress-bar" data-transitiongoal="87"></div>
-										</div>
-									</li>
-									<li>
-										<p><span class="value">2,102</span><span class="text-muted">Visitas por Twitter</span></p>
-										<div class="progress progress-xs progress-transparent custom-color-purple">
-											<div class="progress-bar" data-transitiongoal="34"></div>
-										</div>
-									</li>
-									<li>
-										<p><span class="value">2,874</span><span class="text-muted">Visitas por Affiliates</span></p>
-										<div class="progress progress-xs progress-transparent custom-color-green">
-											<div class="progress-bar" data-transitiongoal="67"></div>
-										</div>
-									</li>
-									<li>
-										<p><span class="value">2,623</span><span class="text-muted">Visitas por Search</span></p>
-										<div class="progress progress-xs progress-transparent custom-color-yellow">
-											<div class="progress-bar" data-transitiongoal="54"></div>
-										</div>
-									</li>
-								</ul>
-							</div>
-							
-						</div>
-						<div class="col-md-4">
-							<div class="panel-content">
-								
-								<h2 class="heading"><i class="fa fa-square"></i> Navegadores</h2>
-								<div class="table-responsive">
-									<table class="table no-margin">
-										<thead>
-											<tr>
-												<th>Navegadores</th>
-												<th>Sesiones</th>
-												<th>% Sesiones</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>Chrome</td>
-												<td>1,756</td>
-												<td>23%</td>
-											</tr>
-											<tr>
-												<td>Firefox</td>
-												<td>1,379</td>
-												<td>14%</td>
-											</tr>
-											<tr>
-												<td>Safari</td>
-												<td>1,100</td>
-												<td>17%</td>
-											</tr>
-											<tr>
-												<td>Edge</td>
-												<td>982</td>
-												<td>25%</td>
-											</tr>
-											<tr>
-												<td>Opera</td>
-												<td>967</td>
-												<td>19%</td>
-											</tr>
-											<tr>
-												<td>IE</td>
-												<td>896</td>
-												<td>12%</td>
-											</tr>
-											<tr>
-												<td>Android Browser</td>
-												<td>752</td>
-												<td>27%</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								
-							</div>
-						</div>
-						<div class="dashboard-section">
-					
-					<div class="row">
-						<div class="col-md-12">
-							<div class="panel-content">
-								<h3 class="heading"><i class="fa fa-square"></i> Compras recientes</h3>
-								<div class="table-responsive">
-									<table class="table table-striped no-margin">
-										<thead>
-											<tr>
-												<th>N º de pedido.</th>
-												<th>Nombre</th>
-												<th>Cantidad</th>
-												<th>Fecha y hora</th>
-												<th>Estado</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td><a href="#">763648</a></td>
-												<td>Steve</td>
-												<td>$122</td>
-												<td>21 de octubre de 2018</td>
-												<td><span class="label label-success">TERMINADO</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763649</a></td>
-												<td>Amber</td>
-												<td>$62</td>
-												<td>21 de octubre de 2018</td>
-												<td><span class="label label-warning">PENDIENTE</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763650</a></td>
-												<td>Michael</td>
-												<td>$34</td>
-												<td>18 de octubre de 2018</td>
-												<td><span class="label label-danger">CANCELADO</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763651</a></td>
-												<td>Roger</td>
-												<td>$186</td>
-												<td>17 de octubre de 2018</td>
-												<td><span class="label label-success">TERMINADO</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763652</a></td>
-												<td>Smith</td>
-												<td>$362</td>
-												<td>16 de octubre de 2018</td>
-												<td><span class="label label-success">TERMINADO</span></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-						
 					</div>
-				</div>
-						-->
-					
-				</div>
 				
 				
-				
+				<?php 
+if($_SESSION['Rol']=='1'){
+	?>
+
 				<div class="dashboard-section no-margin">
 					<div class="section-heading clearfix">
 						<h2 class="section-title"><i class="fa fa-user-circle"></i> Asociados <span class="section-subtitle">(Actualizado)</span></h2>
@@ -637,6 +586,10 @@
 						</div>
 					</div>
 				</div>
+				<?php
+}
+
+				?>
 				<!-- END SOCIAL -->
 			</div>
 		</div>
@@ -668,10 +621,10 @@ var myChart = new Chart(ctx, {
             data: [<?PHP
 				$Dis=0;
 				$Ope=0;
-				$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,USUARIOS.Tipo FROM vidafacil.ventas 
-				INNER JOIN USUARIOS ON USUARIOS.Nit = ventas.Usuario 
+				$query=mysqli_query($con, "SELECT  SUM(VALOR)VALOR,USUARIOS.Tipo FROM VENTAS 
+				INNER JOIN USUARIOS ON USUARIOS.Nit = VENTAS.Usuario 
 
-				where  WEEK(ventas.fecha) =WEEK(NOW()) group by USUARIOS.Tipo;  ");
+				where   WEEK(VENTAS.fecha) =WEEK(NOW()) group by USUARIOS.Tipo;  ");
 				while($rw_Admin=mysqli_fetch_array($query)){
 				if ($rw_Admin['Tipo']=='Distribuidor'){
 					$Dis=$rw_Admin['VALOR'];
@@ -780,7 +733,14 @@ var chart = new Chart(ctx, {
 						$Oct=0;
 						$Nov=0;
 						$Dic=0;
-							$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,month(VENTAS.fecha) mes FROM VENTAS WHERE year(VENTAS.fecha) =year(NOW())  group by mes;  ");
+							if($_SESSION['Rol']=='1'){
+								$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,month(VENTAS.fecha) mes FROM VENTAS WHERE  year(VENTAS.fecha) =year(NOW())  group by mes;  ");
+
+							}else{
+								$query1=mysqli_query($con, "SELECT SUM(VALOR)VALOR,month(VENTAS.fecha) mes FROM VENTAS WHERE VENTAS.Usuario='".$Usuario."' and year(VENTAS.fecha) =year(NOW())  group by mes;  ");
+
+							}
+							
 							while($rw_Admin1=mysqli_fetch_array($query1)){
 								if($rw_Admin1['mes']=='1'){
 									$Ene=$rw_Admin1['VALOR'];

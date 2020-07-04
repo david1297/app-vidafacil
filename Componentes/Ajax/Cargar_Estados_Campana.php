@@ -138,7 +138,7 @@ Usuario ="'.$_SESSION['Nit'].'";');
 			?>
 			<div class="col-md-4"> 
 				<label for="email" class="control-label">Forma de Pago</label>
-				<select class="form-control" id="Forma_Pago" name ="Forma_Pago" placeholder="Estado Campaña">';
+				<select class="form-control" id="Forma_Pago" name ="Forma_Pago" placeholder="Estado Campaña" onchange="Descuentos()">';
 					<?php
 					$query1=mysqli_query($con, "SELECT Codigo,Descripcion,Tipo FROM CAMP_FORMASPAGO 
 					inner join FORMAS_PAGO on CAMP_FORMASPAGO.FormaPago =FORMAS_PAGO.Codigo Where Campana = $Campana ");

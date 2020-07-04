@@ -12,13 +12,14 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 	$Token = mysqli_real_escape_string($con,(strip_tags($_POST["Token"],ENT_QUOTES)));			
 	
 
-	$query1=mysqli_query($con, 'SELECT Usuario,Valor,Porcentaje_Comision,Liquidada,Portafolio,Fecha,Afiliado,Estado_Campana FROM VENTAS where   Numero ='.$Numero_Venta.';');
+	$query1=mysqli_query($con, 'SELECT Usuario,Valor,CVirtual,Porcentaje_Comision,Liquidada,Portafolio,Fecha,Afiliado,Estado_Campana FROM VENTAS where   Numero ='.$Numero_Venta.';');
 	$rw_Admin1=mysqli_fetch_array($query1);
 	$Porcentaje_Comision=$rw_Admin1['Porcentaje_Comision'];
 	$Portafolio=$rw_Admin1['Portafolio'];
 	$Fecha=$rw_Admin1['Fecha'];
 	$Usuario=$rw_Admin1['Usuario'];
 	$Valor=$rw_Admin1['Valor'];
+	$CVirtual=$rw_Admin1['CVirtual'];
 	$Afiliado=$rw_Admin1['Afiliado'];
 	$Liquidada=$rw_Admin1['Liquidada'];
 
@@ -83,7 +84,7 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 						
 							$Comision = ($Valor*$Porcentaje_Comision)/100;	
 							$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
-									VALUES('".$Usuario."','V','".$Numero_Venta."','V','".$Numero_Venta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$Fecha."')";
+									VALUES('".$Usuario."','V','".$Numero_Venta."','V','".$Numero_Venta."','".$CVirtual."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$Fecha."')";
 							$query_update = mysqli_query($con,$sql);
 							if ($query_update) {
 								$messages[] = "La Cuanta Virtual Se Registro Correctamente,";
@@ -96,7 +97,7 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 								
 								$Comision = ($Portafolio);	
 								$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
-									VALUES('".$Usuario."','V','".$Numero_Venta."','V','".$Numero_Venta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$Fecha."')";
+									VALUES('".$Usuario."','V','".$Numero_Venta."','V','".$Numero_Venta."','".$CVirtual."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$Fecha."')";
 							$query_update = mysqli_query($con,$sql);
 								if ($query_update) {
 									$messages[] = "La Cuanta Virtual Se Registro Correctamente,";

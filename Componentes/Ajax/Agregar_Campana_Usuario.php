@@ -21,7 +21,7 @@ if (!empty($Numero) )
 if (isset($_GET['Campana']))//codigo elimina un elemento del array
 {
 $Campana=intval($_GET['Campana']);	
-$Nit=intval($_GET['Nit']);
+$Nit=$_GET['Nit'];
 $delete=mysqli_query($con, "DELETE FROM USUARIO_CAMP WHERE Campana='".$Campana."' and Usuario='".$Nit."' ");
 }
 

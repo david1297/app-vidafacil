@@ -3,7 +3,8 @@
 	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
         header("location: login.php");
 		exit;
-    }
+	}
+	
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
 	
@@ -108,8 +109,10 @@
 		$Read= "";
 		$Rol="2";
 	}
+	$Editar="";
 	if (isset($_GET['Perfil'])) {
 		$Perfil="Si";
+		$Editar="readonly";
 	}
 ?>
 <!doctype html>
@@ -120,7 +123,7 @@
 		
 	?>
 </head>
-<body onload='Cargar()'>
+<body onload='CargarI()'>
 	<div id="wrapper">
 		<?php
 			include("Menu.php");
@@ -218,13 +221,13 @@
 									<div class="form-group col-sm-9" id="D_Nombre">
 					  					<label for="Nombre" class="col-sm-3 control-label">Nombre</label>
 				  						<div class="col-sm-9">
- 				   							<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Nombre" name="Nombre"  placeholder="Nombre" value="<?php echo $Nombre; ?>"  onkeyup="RazonSocial()">
+ 				   							<input type="text"   class="form-control" id="Nombre" name="Nombre"  placeholder="Nombre" value="<?php echo $Nombre; ?>"  onkeyup=" javascript:this.value=this.value.toUpperCase(); RazonSocial();">
 				  						</div>
 			   						</div>
 									<div class="form-group col-sm-9" id="D_Apellido">
-										<label for="Apellido"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="col-sm-3 control-label">Apellido</label>
+										<label for="Apellido"  class="col-sm-3 control-label">Apellido</label>
 										<div class="col-sm-9">
-				  							<input type="text" class="form-control" id="Apellido" name="Apellido"  placeholder="Apellido" value="<?php echo $Apellido; ?>"  onkeyup="RazonSocial()">
+				  							<input type="text"  class="form-control" id="Apellido" name="Apellido"  placeholder="Apellido" value="<?php echo $Apellido; ?>"  onkeyup=" javascript:this.value=this.value.toUpperCase(); RazonSocial();">
 										</div>
 									</div>
 									<input type="Text" class="form-control hidden" id="Rol" name="Rol" require value="<?php echo $Rol; ?>" readonly="readonly">
@@ -618,13 +621,23 @@
 								<div class="form-group col-sm-9">	
 									<label for="DescBancario"  class="col-sm-3 control-label">Descuento Bancario</label>
 				  					<div class="col-sm-9">
- 				   						<input type="text"  class="form-control" id="DescBancario" name="DescBancario"  placeholder="Descuento Bancario" value="<?php echo $DescBancario;?>"  onkeypress='return validaNumericos(event)'>
+ 				   						<input type="text"  class="form-control" <?php echo $Editar;?> id="DescBancario" name="DescBancario"  placeholder="Descuento Bancario" value="<?php echo $DescBancario;?>"  onkeypress='return validaNumericos(event)'>
 				  					</div>
 								</div> 
 								<div class="form-group col-sm-9">
 											<label for="CFondo" class="col-sm-3 control-label">Tiempo Fondo</label>
+											
+												
 											<div class="col-md-9 col-sm-9">
-												<select class='form-control' id="CFondo" name ="CFondo" placeholder="CFondo" >
+											<?php 
+											if($Perfil=='Si'){
+												?>
+ 				   						<input type="text" <?php echo $Editar;?>  class="form-control" id="CFondo" name="CFondo"  placeholder="Fondo de Prevencion" value="<?php echo $CFondo;?> Meses">
+
+												<?php
+											}else{
+?>
+<select class='form-control' id="CFondo" name ="CFondo" placeholder="CFondo" >
 													<?php 
 													if($CFondo == 3){
 														echo '<option value="3" selected>3 Meses</option>';
@@ -635,12 +648,17 @@
 													}
 													?>
 												</select>
+												<?php
+											}
+											
+											?>
+												
 											</div>
 										</div> 
 								<div class="form-group col-sm-9">	
 									<label for="FPrevencion"  class="col-sm-3 control-label">Fondo de Prevencion%</label>
 				  					<div class="col-sm-9">
- 				   						<input type="number"  class="form-control" id="FPrevencion" name="FPrevencion"  placeholder="Fondo de Prevencion" value="<?php echo $FPrevencion;?>" min="1" max="100" step="0.5">
+ 				   						<input type="number" <?php echo $Editar;?>  class="form-control" id="FPrevencion" name="FPrevencion"  placeholder="Fondo de Prevencion" value="<?php echo $FPrevencion;?>" min="1" max="100" step="0.5">
 				  					</div>
 								</div> 
 								<div class="form-group col-sm-9">
@@ -649,11 +667,11 @@
 										<?php
 											if($_SESSION['Rol'] == '2'){
 										?>
-										<input type="Number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>" min="1" max="100" step="0.5" <?php echo $Read; ?> onchange="UpdatePorcentaje()" >
+										<input type="Number"  <?php echo $Editar;?> class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>" min="1" max="100" step="0.5" <?php echo $Read; ?> onchange="UpdatePorcentaje()" >
 										<?php
 											}else{
 										?>
-										<input type="Number" class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>" min="1" max="100" step="0.5" onchange="UpdatePorcentaje()"> 
+										<input type="Number"   <?php echo $Editar;?> class="form-control" id="Porcentaje" name="Porcentaje" required placeholder="Porcentaje" value="<?php echo $Porcentaje;?>" min="1" max="100" step="0.5" onchange="UpdatePorcentaje()"> 
 										<?php
 											}
 										?>
@@ -665,11 +683,11 @@
 										<?php
 											if($_SESSION['Rol'] == '2'){
 										?>
-										<input type="text" class="form-control" id="Portafolio" name="Portafolio" required placeholder="Portafolio" value="<?php echo $Portafolio;?>"  <?php echo $Read; ?> onchange="UpdatePortafolio()"  onkeypress='return validaNumericos(event)'>
+										<input type="text"  <?php echo $Editar;?> class="form-control" id="Portafolio" name="Portafolio" required placeholder="Portafolio" value="<?php echo $Portafolio;?>"  <?php echo $Read; ?> onchange="UpdatePortafolio()"  onkeypress='return validaNumericos(event)'>
 										<?php
 											}else{
 										?>
-										<input type="text" class="form-control" id="Portafolio" name="Portafolio" required placeholder="Portafolio" value="<?php echo $Portafolio;?>"  onchange="UpdatePortafolio()"  onkeypress='return validaNumericos(event)'> 
+										<input type="text"  <?php echo $Editar;?> class="form-control" id="Portafolio" name="Portafolio" required placeholder="Portafolio" value="<?php echo $Portafolio;?>"  onchange="UpdatePortafolio()"  onkeypress='return validaNumericos(event)'> 
 										<?php
 											}
 										?>
@@ -678,7 +696,7 @@
 								<div class="form-group col-sm-9">
 									<label for="CC" class="col-sm-3 control-label" id="Label-CC">Afiliados Diarios</label>
 									<div class="col-sm-9">
-										<input type="number" min="1" max="100" class="form-control" id="CantAfiliados" name="CantAfiliados" required placeholder="Afiliados Diarios" value="<?php echo $CantAfiliados; ?>">
+										<input type="number"  <?php echo $Editar;?> min="1" max="100" class="form-control" id="CantAfiliados" name="CantAfiliados" required placeholder="Afiliados Diarios" value="<?php echo $CantAfiliados; ?>">
 									</div>
 								</div>
 								<div class=" col-sm-8">
@@ -777,6 +795,22 @@
 
 
 	<script>
+	function CargarI() {
+	if (document.getElementById('Tipo_Persona').value=='Natural'){
+		$('#D_Nombre').removeClass("hidden");
+		$('#D_Apellido').removeClass("hidden");
+		$('#D_Razon_Social').addClass("hidden");
+	} else{
+		$('#D_Nombre').addClass("hidden");
+		$('#D_Apellido').addClass("hidden");
+		$('#D_Razon_Social').removeClass("hidden");
+	}
+	CargarCampanas();
+	TipoU();
+	$("#DescBancario").keyup();
+	$("#Portafolio").keyup();
+	
+}
 	function CambioDir(){
 		$('#Direccion').val($('#Indicativo').val()+' '+$('#D1').val()+' # '+$('#D2').val()+' - '+$('#D3').val());
 	}
@@ -880,11 +914,22 @@ $(".GUsuario").click(function( event ) {
 			data: parametros,
 			 beforeSend: function(objeto){
 				$(".resultados_ajax2").html("Mensaje: Cargando...");
+			
 			  },
 			success: function(datos){
-			$(".resultados_ajax2").html(datos);
+				var Res = datos.split('*');
+					if(Res[1]=='Correcto'){
+						 $('#EstadoU').val('Editando');
+						
+						 $(".resultados_ajax2").html(Res[3]);
+						 
+					}else{
+						$(".resultados_ajax2").html(datos);
+					}
+			  }
 			
-		  }
+			
+		  
 	});
   event.preventDefault();
 })
@@ -951,22 +996,7 @@ function TipoPersona(){
 	}
 	
 }
-function Cargar() {
-	if (document.getElementById('Tipo_Persona').value=='Natural'){
-		$('#D_Nombre').removeClass("hidden");
-		$('#D_Apellido').removeClass("hidden");
-		$('#D_Razon_Social').addClass("hidden");
-	} else{
-		$('#D_Nombre').addClass("hidden");
-		$('#D_Apellido').addClass("hidden");
-		$('#D_Razon_Social').removeClass("hidden");
-	}
-	CargarCampanas();
-	TipoU();
-	$("#DescBancario").keyup();
-	$("#Portafolio").keyup();
-	
-}
+
 function RazonSocial(){
 	document.getElementById('Razon_Social').value = document.getElementById('Nombre').value	 +' '+document.getElementById('Apellido').value;
 }

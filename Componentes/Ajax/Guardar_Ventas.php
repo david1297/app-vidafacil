@@ -73,6 +73,13 @@ elseif (
 				$Identificacion = mysqli_real_escape_string($con,(strip_tags($_POST["Identificacion"],ENT_QUOTES)));
 				$SinAfiliado = mysqli_real_escape_string($con,(strip_tags($_POST["SinAfiliado"],ENT_QUOTES)));
 				$Token = mysqli_real_escape_string($con,(strip_tags($_POST["Token"],ENT_QUOTES)));
+				$TotalCuenta1 = mysqli_real_escape_string($con,(strip_tags($_POST["TotalCuenta"],ENT_QUOTES)));
+				$Telefono = mysqli_real_escape_string($con,(strip_tags($_POST["Telefono"],ENT_QUOTES)));
+				$Correo = mysqli_real_escape_string($con,(strip_tags($_POST["Correo"],ENT_QUOTES)));
+
+				$sig=',';
+				$TotalCuenta = str_replace($sig,'',$TotalCuenta1);
+
 				$fom=explode("_", $Forma_Pago);
 				$Forma_Pago = $fom[0];
 				$sig=',';
@@ -127,26 +134,35 @@ elseif (
 					$CargarTip = 'SI';
 					$Tipi=$Estado_Campana;
 				}
+				$sql="select count(*) from AFILIADOS where Identificacion = '$Identificacion';";
 
-				
+				$query1=mysqli_query($con, $sql);
+				$rw_Admin1=mysqli_fetch_array($query1);
+				$Rest =$rw_Admin1[0];
+			
 
-				$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
+				if(($SinAfiliado=='S')&&($Rest > 0)&&($Estado==1)){
+					$errors[] = "El Afiliado asociado ya se encuentra creado";
+				}else{
+					$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,
 											NumeroNip,DataCreditoTipo,Servicio,Canal,NumeroCelular,OperadorVenta,OperadorDonante,NumeroSim,
-											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago,Nombre_Completo,Identificacion,SAfiliado,Token
+											Valor,Porcentaje_Comision,Liquidada,Portafolio,Forma_Pago,Nombre_Completo,
+											Identificacion,SAfiliado,Token,CVirtual,Correo,Telefono
 											) VALUES
 
 				('".$numero_VEnta."','".$Afiliado."', '".$Usuario."', '".$fecha."', '".$Campana."'
 				, '".$Estado_Campana."', '".$Estado."', '".$Seguimiento."', '".$Transportadora."'
 				, '".$NumeroNip."', '".$DataCreditoTipo."', '".$Servicio."', '".$Canal."', '".$NumeroCelular."', '".$OperadorVenta."', '".$OperadorDonante."'
 				, '".$NumeroSim."', '".$Valor."', '".$Porcentaje_Comision."', 'False', '".$Portafolio."', ".$Forma_Pago.",
-				'".$Nombre."','".$Identificacion."','".$SinAfiliado."','".$Token."'
+				'".$Nombre."','".$Identificacion."','".$SinAfiliado."','".$Token."',$TotalCuenta,'$Correo','$Telefono'
 				) ON DUPLICATE  KEY UPDATE
 				Afiliado = '".$Afiliado."',Usuario ='".$Usuario."',fecha='".$fecha."',Campana='".$Campana."'
 				,Estado_Campana='".$Estado_Campana."',Estado='".$Estado."',Seguimiento='".$Seguimiento."',Transportadora='".$Transportadora."'
 				,NumeroNip='".$NumeroNip."',DataCreditoTipo='".$DataCreditoTipo."',Servicio='".$Servicio."',Canal='".$Canal."'
 				,NumeroCelular='".$NumeroCelular."',OperadorVenta='".$OperadorVenta."',OperadorDonante='".$OperadorDonante."'
 				,NumeroSim='".$NumeroSim."',Valor='".$Valor."',Porcentaje_Comision='".$Porcentaje_Comision."',Liquidada='False',Portafolio='".$Portafolio."'
-				,Forma_Pago=".$Forma_Pago.",Nombre_Completo='".$Nombre."',Identificacion='".$Identificacion."',SAfiliado='".$SinAfiliado."',Token='".$Token."'
+				,Forma_Pago=".$Forma_Pago.",Nombre_Completo='".$Nombre."',Identificacion='".$Identificacion."',
+				SAfiliado='".$SinAfiliado."',Token='".$Token."',CVirtual=$TotalCuenta,Correo='".$Correo."',Telefono='".$Telefono."'
 				;";
                     $query_update = mysqli_query($con,$sql);
                     if ($query_update) {
@@ -180,7 +196,7 @@ elseif (
 						
 							$Comision = ($Valor*$Porcentaje_Comision)/100;	
 							$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
-									VALUES('".$Usuario."','V','".$numero_VEnta."','V','".$numero_VEnta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$fecha."')";
+									VALUES('".$Usuario."','V','".$numero_VEnta."','V','".$numero_VEnta."','".$TotalCuenta."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$fecha."')";
 							$query_update = mysqli_query($con,$sql);
 							if ($query_update) {
 								$messages[] = "La Cuanta Virtual Se Registro Correctamente,";
@@ -193,7 +209,7 @@ elseif (
 								
 								$Comision = ($Portafolio);	
 								$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
-									VALUES('".$Usuario."','V','".$numero_VEnta."','V','".$numero_VEnta."','".$Valor."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$fecha."')";
+									VALUES('".$Usuario."','V','".$numero_VEnta."','V','".$numero_VEnta."','".$TotalCuenta."','".$Porcentaje_Comision."','".$Comision."','Pendiente','".$fecha."')";
 							$query_update = mysqli_query($con,$sql);
 								if ($query_update) {
 									$messages[] = "La Cuanta Virtual Se Registro Correctamente,";
@@ -202,6 +218,10 @@ elseif (
 								}
 							}	
 						}
+				}
+				
+
+				
 					
 
 

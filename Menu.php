@@ -2,6 +2,10 @@
 
 require_once ("config/db.php");
 require_once ("config/conexion.php");
+if($_SESSION['Inicial']=='S'){
+        header("location: CambiarClave.php");
+        exit;
+}
 
 ?>
 

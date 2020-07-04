@@ -10,7 +10,8 @@
 		$VFiltro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['VFiltro'], ENT_QUOTES)));
 		$sTable = "USUARIOS 
 		
-		left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.Usuario= USUARIOS.Nit";
+		left join CUENTA_VIRTUAL on CUENTA_VIRTUAL.Usuario= USUARIOS.Nit
+		";
 		$sWhere = "where 1=1 and CUENTA_VIRTUAL.Estado <>'Pagada'";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "Razon_Social"){
@@ -55,8 +56,9 @@
 		$per_page = 50;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
-		$sql="SELECT USUARIOS.Razon_Social,USUARIOS.Tipo,USUARIOS.Estado,USUARIOS.Nit,sum((Credito-Debito)-CUENTA_VIRTUAL.Comision) Saldo FROM  $sTable $sWhere $Group  
-		order by sum(Comision)desc
+		$sql="SELECT USUARIOS.Razon_Social,USUARIOS.Tipo,USUARIOS.Estado,USUARIOS.Nit,sum((CUENTA_VIRTUAL.Credito-CUENTA_VIRTUAL.Debito)-CUENTA_VIRTUAL.Comision) Saldo ,
+		 (select sum((FONDO_PREVENCION.Credito-FONDO_PREVENCION.Debito)-FONDO_PREVENCION.Comision) from FONDO_PREVENCION where FONDO_PREVENCION.Usuario=USUARIOS.Nit)as Fondo FROM  $sTable $sWhere $Group  
+		order by sum(CUENTA_VIRTUAL.Comision)desc
 		LIMIT $offset,$per_page";
 
 		$query = mysqli_query($con, $sql);
@@ -72,7 +74,8 @@
 					<th>Nombre o Razon Social</th>
 					<th>Tipo</th>
 					<th>Estado</th>
-					<th>Saldo</th>
+					<th>Cuenta Virtual</th>
+					<th>Fondo de Prevencion</th>
 					<th class='text-right'>Ver</th>
 				</tr>
 				<?php
@@ -84,6 +87,8 @@
 						$Nit=$row['Nit'];
 						$Tipo=$row['Tipo'];
 						$Saldo=$row['Saldo'];
+						$Fondo=$row['Fondo'];
+						
 						$Estado=$row['Estado'];
 						if ($Estado=="Activo"){$label_class='label-success';}
 						if ($Estado=="InActivo"){$label_class='label-danger';}
@@ -103,6 +108,7 @@
 						<td><?php echo $Tipo; ?></td>
 						<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>	
 						<td><span class="<?php echo $Spam_Class;?>"><?php echo '$'.number_format($Saldo); ?></span></td>		
+						<td><span class="<?php echo $Spam_Class;?>"><?php echo '$'.number_format($Fondo); ?></span></td>		
 						<td class="text-right">
 							<a href="#" class='btn btn-default' title='Ver mas' onclick="obtener_datos('<?php echo $Nit;?>');"><i class="fas fa-eye"></i></a> 
 						</td>
@@ -111,7 +117,7 @@
 				}
 				?>
 				<tr>
-					<td colspan=4><b><span class="pull-right"><?php
+					<td colspan=5><b><span class="pull-right"><?php
 						
 						 echo 'Total Comision:'
 						?></span></b></td>
@@ -122,7 +128,7 @@
 					</tr>
 					<tr>
 					<tr>
-					<td colspan=4><h4><span class="pull-right"><?php
+					<td colspan=5><h4><span class="pull-right"><?php
 						 echo 'Total General:'
 						?></span></h4></td>
 						<td ><h4><span class="pull-right"><?php
@@ -134,7 +140,7 @@
 						
 					</tr>
 				<tr>
-					<td colspan=5><span class="pull-right"><?php
+					<td colspan=6><span class="pull-right"><?php
 					 echo paginate($reload, $page, $total_pages, $adjacents);
 					?></span></td>
 				</tr>

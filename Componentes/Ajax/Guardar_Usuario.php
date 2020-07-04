@@ -176,6 +176,13 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 						;";
 							$query_update = mysqli_query($con,$sql);
 							if ($query_update) {
+								date_default_timezone_set('America/Bogota');
+								$Fecha =date("Y-m-d");	
+								$sql = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
+									VALUES('".$Nit."','I','0','I','0','0','0','0','Pendiente','".$Fecha."')";
+							$query_update = mysqli_query($con,$sql);
+
+
 								$messages[] = "Los Datos Se Han Guardado Con Exito.";
 							} else {
 								$errors[] = $sql;
@@ -199,7 +206,7 @@ elseif (($_POST['Tipo_Persona']=='Juridica') && ( (empty($_POST['Razon_Social'])
 			<?php
 			}
 			if (isset($messages)){
-				
+				echo '*Correcto*'.$Nit.'*';
 				?>
 				<div class="alert alert-success" role="alert">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>

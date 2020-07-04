@@ -25,38 +25,21 @@
 				</div>
 				<div class="row">
 					<label for="PIN" class="col-sm-4 control-label">Fecha de Vencimiento:</label>
+					<input type="text" class="hidden" value="<?php echo $FechaExp;?>" name="FechaExp" id="FechaExp">
 					<div class="col-sm-2">
 						<select name="Mes" id="Mes"class="form-control">
-							<?php
-							$fom=explode("/", $FechaExp);
-							for($I=1;$I<=12;$I++){
-								if ($I<10){
-									$H = '0'.$I;
-								}else{
-									$H = $I;
-								}
-								if($fom[0]==$H){
-									?>
-									<option value="<?php echo $H;?>" selected><?php echo $H;?></option>
-	
-									<?php
-								}else{
-									?>
-									<option value="<?php echo $H;?>"><?php echo $H;?></option>
-	
-									<?php
-								}
-								
-							}
-							?>
+						<option value="Todos">Todos</option>
 						</select>
 					</div>
 				
 					
 					<div class="col-sm-3">
-						<select name="Anio" id="Anio"class="form-control">
+						<select name="Anio" id="Anio"class="form-control" onchange='Cambio()'>
 							<?php
-							for($I=2019;$I<=2050;$I++){
+							date_default_timezone_set('America/Bogota');
+							$anio =date("Y");	
+						
+							for($I=$anio;$I<=($anio+20);$I++){
 								if ($fom[1]==$I){
 									?>
 									<option value="<?php echo $I;?>"selected><?php echo $I;?></option>
@@ -99,6 +82,9 @@
 		</div>
 	  </div>
 	</div>
+	<script>
+	
+	</script>
 	<?php
 		}
 	?>	

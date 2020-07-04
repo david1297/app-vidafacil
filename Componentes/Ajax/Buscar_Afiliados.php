@@ -14,7 +14,7 @@
 							 inner join CIUDADES on AFILIADOS.Ciudad =CIUDADES.Codigo and  DEPARTAMENTOS.Codigo = CIUDADES.Departamento 
 							 inner join TIPIFICACIONES on TIPIFICACIONES.Numero = AFILIADOS.Tipificacion
 							 left join USUARIOS on AFILIADOS.Comercio= USUARIOS.Nit
-							 inner join AESTADOS on AESTADOS.Codigo = AFILIADOS.AEstado
+								 left join AESTADOS on AESTADOS.Codigo = AFILIADOS.AEstado
 							 ";
 		$sWhere = "where AFILIADOS.Visible ='S'";
 		if ( $_GET['q'] != "" ){

@@ -32,7 +32,7 @@ if (!empty($PIN)){
 if (!empty($NumeroT)){
 $Fecha = $Mes.'/'.$Anio;
 
-	$sql =  "UPDATE VENTAS set NumeroTarjeta='".$NumeroT."',SCode=$SCode,FechaExp='".$Fecha."'  where Numero =$NumeroVT ";
+	$sql =  "UPDATE VENTAS set NumeroTarjeta='".$NumeroT."',SCode='$SCode',FechaExp='".$Fecha."'  where Numero =$NumeroVT ";
 	$query_update = mysqli_query($con,$sql);
     if ($query_update) {
         $messages = "Los Datos Se Han Guardado Con Exito.";

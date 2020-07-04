@@ -19,10 +19,23 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 				$Operador_Venta = mysqli_real_escape_string($con,(strip_tags($_POST["Operador_Venta"],ENT_QUOTES)));
 				$Indicativos = mysqli_real_escape_string($con,(strip_tags($_POST["Indicativos"],ENT_QUOTES)));
 				$Adicionales = mysqli_real_escape_string($con,(strip_tags($_POST["Adicionales"],ENT_QUOTES)));
+				$ComisionT	= mysqli_real_escape_string($con,(strip_tags($_POST["ComisionT"],ENT_QUOTES)));
+				$ComisionF= mysqli_real_escape_string($con,(strip_tags($_POST["ComisionF"],ENT_QUOTES)));
+				$IvaG7= mysqli_real_escape_string($con,(strip_tags($_POST["IvaG7"],ENT_QUOTES)));
+				$Retefuente= mysqli_real_escape_string($con,(strip_tags($_POST["Retefuente"],ENT_QUOTES)));
+				$ReteIca= mysqli_real_escape_string($con,(strip_tags($_POST["ReteIca"],ENT_QUOTES)));
 
 $sql =  "UPDATE ADMINISTRACION SET Operador_Donante='".$Operador_Donante."', Operador_Venta='".$Operador_Venta."'
 , Indicativos='".$Indicativos."'
 , Adicionales='".$Adicionales."'
+
+, ComisionT='".$ComisionT."'
+, ComisionF='".$ComisionF."'
+, IvaG7='".$IvaG7."'
+, Retefuente='".$Retefuente."'
+, ReteIca='".$ReteIca."'
+
+
 
                             WHERE Numero=1;";
                     $query_update = mysqli_query($con,$sql);

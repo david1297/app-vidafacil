@@ -3,7 +3,8 @@
 	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
         header("location: login.php");
 		exit;
-        }
+		}
+		
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
 	
@@ -43,6 +44,8 @@
 	$Nombre_Completo = "";
 	$Identificacion="";
 	$Token="";
+	$Correo="";
+	$Telefono="";	
 	
 	
 
@@ -53,9 +56,11 @@
 		VENTAS.Estado_Campana,VENTAS.Estado,VENTAS.Fecha,VENTAS.Transportadora,VENTAS.Seguimiento,VENTAS.NumeroNip,VENTAS.DataCreditoTipo,
 		VENTAS.Servicio,VENTAS.Canal,VENTAS.NumeroCelular,VENTAS.OperadorVenta,VENTAS.OperadorDonante,VENTAS.NumeroSim,
 		VENTAS.Valor,VENTAS.Porcentaje_Comision,USUARIOS.Nit,USUARIOS.Razon_Social,VENTAS.Nombre_Completo,VENTAS.Identificacion,VENTAS.SAfiliado,VENTAS.Token
-			from VENTAS inner join USUARIOS on VENTAS.Usuario=USUARIOS.Nit  where Numero ='".$_GET['Numero']."' ");
+		,VENTAS.Correo,VENTAS.Telefono	from VENTAS inner join USUARIOS on VENTAS.Usuario=USUARIOS.Nit  where Numero ='".$_GET['Numero']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
 		$Numero =$rw_Admin['Numero'];
+		$Correo =$rw_Admin['Correo'];
+		$Telefono =$rw_Admin['Telefono'];
 		$Afiliado =$rw_Admin['Afiliado'];
 		$Usuario =$rw_Admin['Usuario'];
 		$Campana =$rw_Admin['Campana'];
@@ -226,19 +231,30 @@ curl_close($ch);*/
 									<div class="col-md-4">
 										<label for="mail" class="control-label">Identificacion</label>
 										<input type="text" class="form-control" id="Identificacion"  name ="Identificacion"VALUE="<?php echo $Identificacion;?>" placeholder="Identificacion" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off' onkeyup="javascript:this.value=this.value.toUpperCase();">
+									</div>
+									<div class="col-md-4">
+										<label for="mail" class="control-label">Correo</label>
+										<input type="text" class="form-control" id="Correo"  name ="Correo"VALUE="<?php echo $Correo;?>" placeholder="Correo" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off' onkeyup="javascript:this.value=this.value.toUpperCase();">
+									</div>
+								</div>	
+								<div class="row">
+									<div class="col-md-4">
+										<label for="mail" class="control-label">Telefono</label>
+										<input type="text" class="form-control" id="Telefono"  name ="Telefono"VALUE="<?php echo $Telefono;?>" placeholder="Telefono" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off' onkeyup="javascript:this.value=this.value.toUpperCase();">
 									</div>	
-									
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Usuario</label>
 										<input type="text" class="form-control" id="Usuario_N" placeholder="Usuario" value="<?php echo $Razon_Social;?>" readonly>
 										<input type="text" class="form-control hidden" id="Usuario" name="Usuario" placeholder="Usuario" value="<?php echo $Nit;?>" readonly>
 									</div>
-								</div>	
-								<div class="row">
 									<div class="col-md-4">
 										<label for="tel2" class="control-label">Fecha</label>
 										<input type="Date" class="form-control" id="fecha" name="fecha" value="<?php echo $Fecha?>"readonly>
-									</div>	
+										
+									</div>
+								</div>	
+								<div class="row">
+										
 									<div class="col-md-4">
 										<label for="email" class="control-label">Campaña</label>
 										<?PHP
@@ -277,7 +293,7 @@ curl_close($ch);*/
 												<div class="col-md-4">
 													<label for="Estado" class="control-label">Estado</label>';
 
-												$query1=mysqli_query($con, "select Id,".$_SESSION['Tipo']." from ESTADOS");
+												$query1=mysqli_query($con, "select Id,Tx from ESTADOS");
 												echo' <select class="form-control" id="Estado" name ="Estado" placeholder="Campaña" onchange="ValidarEstado(event)">';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if($Estado==$rw_Admin1[0]){
@@ -303,7 +319,7 @@ curl_close($ch);*/
 
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Valor</label>
-										<input type="text" class="form-control" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" autocomplete="off" >
+										<input type="text" class="form-control valor" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" autocomplete="off" onchange="Descuentos()">
 									</div>
 									
 									<div  class="" id="Form_Telefonica">
@@ -388,12 +404,84 @@ curl_close($ch);*/
 									</div>
 									<div class="col-md-4">
 										<label for="Token" class="control-label">Numero de Aprobacion</label>
-										<input type="text" class="form-control" id="Token" Name="Token" placeholder="Numero de Aprobacion" value="<?php echo $Token;?>" autocomplete="off" >
+										<input type="text" class="form-control" id="Token" Name="Token" maxlength="20" placeholder="Numero de Aprobacion" value="<?php echo $Token;?>" autocomplete="off" >
 									</div>
 											
 											
 										
 								</div>
+									<div class="col-md-12" id="Descuentos">
+									<?php
+										$query=mysqli_query($con, "select * from ADMINISTRACION");
+										$rw_Admin=mysqli_fetch_array($query);
+										$ComisionT =  $rw_Admin['ComisionT'];
+										$ComisionF =  $rw_Admin['ComisionF'];
+										$IvaG7 =  $rw_Admin['IvaG7'];
+										$Retefuente =  $rw_Admin['Retefuente'];
+										$ReteIca =  $rw_Admin['ReteIca'];
+									?>
+									<br>
+									<br>
+									<table>
+										<tr  class="warning">
+											<th>Descripcion</th>
+											<th>Valor</th>
+										</tr>	
+										<tr>
+											<td>Valor de Venta</td>
+											<td><input type="text" class="form-control valor" readonly name="VVenta" id="VVenta" ></td>	
+										</tr>
+										<tr>
+											<td>comision transaccion Bancaria <?php echo $ComisionT?>%</td>
+											<td>
+												<input type="text" class="form-control hidden" name="ComisionT" id="ComisionT" value="<?php echo $ComisionT?>">
+												<input type="text" class="form-control valor" name="VComisionT" id="VComisionT" readonly value="">
+											</td>	
+										</tr>
+										<tr>
+											<td>comision G7 -<?php echo $Porcentaje_Comision;?>%</td>
+											<td>
+												<input type="text" class="form-control hidden" name="ComisionG7" id="ComisionG7" value="<?php echo $Porcentaje_Comision;?>">
+												<input type="text" class="form-control valor" readonly name="VComisionG7" id="VComisionG7" value="">
+											</td>	
+										</tr>	
+										<tr>
+											<td>Comisión Fija  G7 </td>
+											<td><input type="text" class="form-control valor" name ="ComisionF" id="ComisionF" readonly value="<?php echo $ComisionF;?>"></td>	
+										</tr>
+										<tr>
+											<td>Total Comision g7 </td>
+											<td><input type="text" class="form-control valor" name ="TotalComisionG7" id="TotalComisionG7"readonly ></td>	
+										</tr>
+										<tr>
+											<td>IVA Comisión g7 - <?php echo $IvaG7;?>% </td>
+											<input type="text" class="form-control hidden" name="IvaG7" id="IvaG7" value="<?php echo $IvaG7;?>">
+											<td><input type="text" class="form-control valor" name="VIvaG7" id="VIvaG7" readonly ></td>	
+										</tr>
+										<tr>
+											<td>Retencion en la fuente - <?php echo $Retefuente;?>% </td>
+											<input type="text" class="form-control hidden" name="Retefuente" id="Retefuente"  value="<?php echo $Retefuente;?>">
+											<td><input type="text" class="form-control valor" name="VRetefuente" id="VRetefuente" readonly ></td>	
+										</tr>
+										<tr>
+											<td>Retencion ICA - <?php echo $ReteIca;?>% </td>
+											<input type="text" class="form-control hidden "name="ReteIca" id="ReteIca" value="<?php echo $ReteIca;?>">
+											<td><input type="text" class="form-control valor"name="VReteIca" id="VReteIca" readonly ></td>	
+										</tr>
+										<tr>
+											<td>Total Descuentos </td>
+											<td><input type="text" class="form-control valor"  readonly name="TotalDescuento" id="TotalDescuento"></td>	
+										</tr>
+										<tr>
+											<td>Total  cuenta virtual  </td>
+											<td><input type="text" class="form-control valor" readonly name="TotalCuenta" id ="TotalCuenta"></td>	
+										</tr>
+
+
+									</table>
+  										
+									</div>
+
 									<div class="col-md-12">
   										<label for="Observaciones">Observaciones:</label>
   										<textarea class="form-control" rows="5" id="Observaciones" name="Observaciones"></textarea>
@@ -442,7 +530,67 @@ curl_close($ch);*/
 	<script src="assets/scripts/common.js"></script>
 	
 	<script>
-	$("#Valor").on({
+	function Descuentos(){
+		$('#Descuentos').removeClass("hidden");
+		var F = $('#Forma_Pago').val();
+		var Forma_Pago = F.split('_');				
+		if (Forma_Pago[1]=='1'){
+			var TotalDevengado = $('#Valor').val();
+			var VVenta=TotalDevengado.replace(/,/g, "");
+			$('#VVenta').val(VVenta);
+			var ComisionT=$('#ComisionT').val();
+			var ComisionG7 =$('#ComisionG7').val();
+			TotalDevengado = $('#ComisionF').val();
+			var ComisionF=TotalDevengado.replace(/,/g, "");
+			var IvaG7 = $('#IvaG7').val();
+			var Retefuente = $('#Retefuente').val();
+			var ReteIca = $('#ReteIca').val();		
+			var VComisionT=VVenta*ComisionT/100;
+			$('#VComisionT').val(VComisionT);
+			var VComisionG7 = VVenta* ComisionG7 /100;
+			$('#VComisionG7').val(VComisionG7);
+			var TotalComisionG7 =(ComisionF*1)+(VComisionG7);
+			$('#TotalComisionG7').val(TotalComisionG7);
+			var VIvaG7 = TotalComisionG7*IvaG7/100;
+			$('#VIvaG7').val(VIvaG7);
+			var VRetefuente = VVenta*Retefuente/100;
+			$('#VRetefuente').val(VRetefuente);
+			var VReteIca = VVenta*ReteIca/100;
+			$('#VReteIca').val(VReteIca);
+			var TotalDescuento = VComisionT+TotalComisionG7+VIvaG7+VRetefuente+VReteIca;
+			$('#TotalDescuento').val(TotalDescuento);
+			var TotalCuenta = VVenta-TotalDescuento;
+			$('#TotalCuenta').val(TotalCuenta);
+			$(".valor").keyup();
+		}else{
+			$('#VVenta').val( $('#Valor').val());
+			$('#TotalCuenta').val($('#Valor').val());
+
+			$('#Descuentos').addClass("hidden");
+		}
+	}
+
+function NuevoAfiliadoa(){
+			
+			//
+			var Numero = $('#Numero').val();
+			var Afiliado = $('#Identificacion').val();
+			var Nombre = $('#Nombre').val();
+			var SinAfiliado = $('#SinAfiliado').val();
+
+			var Telefono =$("#Telefono").val();
+			var Correo =	$("#Correo").val();
+
+			if(SinAfiliado=='S'){
+				window.open("Afiliados.php?IdentificacionN="+Afiliado+"&Nombre="+Nombre+"&Numero="+Numero+"&Telefono="+Telefono+"&Correo="+Correo, "Diseño Web", "");
+			}else{
+				window.open("Afiliados.php", "Diseño Web", "");
+			}
+
+			
+	
+		}
+	$(".valor").on({
     "focus": function (event) {
         $(event.target).select();
     },
@@ -502,6 +650,7 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 							if (Forma_Pago[1]=='1'){
 								$('#NumeroVT').val(Res[2]);
 							$("#FormaPago_Tarjeta").modal("show");
+							Cambio();
 						 	} 
 						 }
 
@@ -594,6 +743,7 @@ function CargarEstados(){
 					}else{
 						$('#Form_Telefonica').addClass("hidden");
 					}
+					Descuentos();
 				}	
 			});
 		
@@ -605,6 +755,7 @@ function CargarEstados(){
 		function Cargar() {
 			CargarEstados();
 			$("#Valor").keyup();
+			
 		}
 
 	function validaNumericos(event) {
@@ -618,6 +769,8 @@ function CargarEstados(){
 		$("#Afiliado").val('1');
 		
 		$("#Identificacion").removeAttr("readonly");
+		$("#Telefono").removeAttr("readonly");
+		$("#Correo").removeAttr("readonly");
 		
 		$("#Nombre").removeAttr("readonly");
 	}
@@ -639,7 +792,21 @@ function CargarEstados(){
 		}
 
 	}
-
+	function Cambio(){
+	var anio = $('#Anio').val();
+	var FechaExp = $('#FechaExp').val();
+	$.ajax({
+				url:'Componentes/Ajax/Filtros_fecha.php?Anio='+anio+"&FechaExp="+FechaExp,
+				 beforeSend: function(objeto){
+				
+			  },
+				success:function(data){
+				
+					$("#Mes").html(data);
+					
+				}
+			})
+	}
 
 	</script>
 </body>

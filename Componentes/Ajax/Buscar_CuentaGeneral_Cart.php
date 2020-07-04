@@ -43,6 +43,18 @@
 							</p>
 						</div>
 					</div>
+					<div class="card border-danger   mb-3" 	>
+						<div class="card-header bg-transparent border-danger  text-danger  ">Fonde de Prevencion</div>
+						<div class="card-body text-danger  ">
+							<p class="card-text">
+								<?php
+								$query1=mysqli_query($con, "SELECT sum((Credito-Debito)-FONDO_PREVENCION.Comision) as valor FROM FONDO_PREVENCION Where   Estado= 'Pendiente';");			
+								$rw_Admin1=mysqli_fetch_array($query1);
+								echo '$ '.number_format($rw_Admin1[0]);
+								?>
+							</p>
+						</div>
+					</div>
 				</div>
 			<?php
 		}

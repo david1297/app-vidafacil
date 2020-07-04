@@ -7,7 +7,7 @@
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
   $Administracion="active";
-	$query=mysqli_query($con, "Select Operador_Venta,Operador_Donante,Indicativos,Adicionales from ADMINISTRACION ;");
+	$query=mysqli_query($con, "Select * from ADMINISTRACION ;");
 	$rw_Admin=mysqli_fetch_array($query);
 
 
@@ -91,6 +91,42 @@
 											</div>	
 										</div>
 									</div>
+									<dv class="row">
+										<div class="container">
+											<div class="form-group col-sm-9">
+												<label for="ComisionT"  class="col-sm-3 control-label">comision transaccion Bancaria </label>
+												<div class="col-sm-9">
+													<input type="Number" class="form-control" id="ComisionT" name="ComisionT" required placeholder="comision transaccion Bancaria" value="<?php echo $rw_Admin['ComisionT'];?>" min="0" max="100" step="0.01"   >
+												</div>
+											</div> 
+
+											<div class="form-group col-sm-9">
+												<label for="ComisionF"  class="col-sm-3 control-label">Comisión Fija  G7 </label>
+												<div class="col-sm-9">
+													<input type="Number" class="form-control" id="ComisionF" name="ComisionF" required placeholder="Comisión Fija  G7" value="<?php echo $rw_Admin['ComisionF'];?><?php echo $ComisionF;?>" min="0" max="100000" step="0.01"   >
+												</div>
+											</div> 
+											<div class="form-group col-sm-9">
+												<label for="IvaG7"  class="col-sm-3 control-label">IVA Comisión g7 </label>
+												<div class="col-sm-9">
+													<input type="Number" class="form-control" id="IvaG7" name="IvaG7" required placeholder="IVA Comisión g7" value="<?php echo $rw_Admin['IvaG7'];?>" min="0" max="100" step="0.01"   >
+												</div>
+											</div> 
+											<div class="form-group col-sm-9">
+												<label for="Retefuente"  class="col-sm-3 control-label">Retencion en la fuente </label>
+												<div class="col-sm-9">
+													<input type="Number" class="form-control" id="Retefuente" name="Retefuente" required placeholder="Retencion en la fuente" value="<?php echo $rw_Admin['Retefuente'];?>" min="0" max="100" step="0.01"   >
+												</div>
+											</div> 
+											<div class="form-group col-sm-9">
+												<label for="ReteIca"  class="col-sm-3 control-label">Retencion ICA </label>
+												<div class="col-sm-9">
+													<input type="Number" class="form-control" id="ReteIca" name="ReteIca" required placeholder="Retencion ICA" value="<?php echo $rw_Admin['ReteIca'];?>" min="0" max="100" step="0.01"   >
+												</div>
+											</div> 
+										</div>
+									</dv>
+									
 									<div id="resultados_ajax2"></div>
 									<p class="margin-top-30">
 										<button type="submit"  class="btn btn-primary">Guardar</button> &nbsp;&nbsp;

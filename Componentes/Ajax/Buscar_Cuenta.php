@@ -19,7 +19,7 @@
 				$order=" order by CUENTA_VIRTUAL.Fecha DESC ";
 			
 		}
-		$sWhere.='and CUENTA_VIRTUAL.Usuario = "'.$Nit.'" and CUENTA_VIRTUAL.Estado <>"Pagada" ';
+		$sWhere.='and CUENTA_VIRTUAL.Usuario = "'.$Nit.'" and CUENTA_VIRTUAL.Estado <>"Pagada" and CUENTA_VIRTUAL.Tipo <>"I" ';
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 50;

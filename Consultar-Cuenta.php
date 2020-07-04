@@ -41,7 +41,11 @@
 							$Text= 'Semestre';
 
 						}
-						
+						if ($F1==''){
+							$fondo='hidden';
+						}else{
+							$fondo='';
+						}
 						$FF1 = strtotime($F1."+ ".$Dias." days");
 						$FF2 = strtotime($F2."+ ".$Dias." days");
 						$FF3 = strtotime($F3."+ ".$Dias." days");
@@ -53,7 +57,7 @@
 						$FR4 = strtotime($F4."+ ".($Dias*2)." days");
 						$Hoy = date('d/m/Y');
 					?>
-					<div class="card border-success mb-3" >
+					<div class="card border-success mb-3 <?php echo $fondo;?>" >
   						<div class="card-header bg-transparent border-success text-success text-center">
 					  		<?php echo $Text;?> 1<br>
 					  		<?php echo date('d/m/Y',strtotime($F1)); ;?> - <?php echo date('d/m/Y',$FF1);?>
@@ -82,7 +86,7 @@
 								?>
 						</div>
 					</div>
-					<div class="card border-warning mb-3" >
+					<div class="card border-warning mb-3 <?php echo $fondo;?>" >
   						<div class="card-header bg-transparent border-warning text-warning text-center">
 					  		<?php echo $Text;?> 2<br>
 					  		<?php echo date('d/m/Y',strtotime($F2)); ;?> - <?php echo date('d/m/Y',$FF2);?>
@@ -111,7 +115,7 @@
 								?>
 						</div>
 					</div>
-					<div class="card border-info mb-3" >
+					<div class="card border-info mb-3 <?php echo $fondo;?>" >
   						<div class="card-header bg-transparent border-info text-info text-center">
 					  		<?php echo $Text;?> 3<br>
 					  		<?php echo date('d/m/Y',strtotime($F3)); ;?> - <?php echo date('d/m/Y',$FF3);?>
@@ -140,7 +144,7 @@
 								?>
 						</div>  
 					</div>
-					<div class="card border-danger mb-3" >
+					<div class="card border-danger mb-3 <?php echo $fondo;?>" >
   						<div class="card-header bg-transparent border-danger text-danger text-center">
 					  		<?php echo $Text;?> 4<br>
 					  		<?php echo date('d/m/Y',strtotime($F4)); ;?> - <?php echo date('d/m/Y',$FF4);?>

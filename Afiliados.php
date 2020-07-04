@@ -34,7 +34,8 @@
 	$NFactura='';
 	$NContrato='';
 	$Mesaje='';
-			$Bloqueo='';
+	$Bloqueo='';
+	$Numero='';
 
 
 	if (isset($_GET['Identificacion'])) {
@@ -65,6 +66,7 @@
 		$Adicional= $rw_Admin['Adicional'];
 		$NFactura= $rw_Admin['NFactura'];
 		$NContrato= $rw_Admin['NContrato'];
+		$Numero='';
 	
 
 		$EstadoC="Editando";
@@ -123,6 +125,34 @@
 		}
 
 	}
+	$Importado='';
+	if (isset($_GET['IdentificacionN'])) {
+		$Identificacion = $_GET['IdentificacionN'];
+		$Razon_Social=$_GET['Nombre'];
+		$Correo=$_GET['Correo'];
+		$Telefono=$_GET['Telefono'];
+		$Numero=$_GET['Numero'];
+		$Importado='readonly';
+		$Nom = explode(" ", $Razon_Social);
+			if(count($Nom)==2){
+				$Primer_Nombre = mysqli_real_escape_string($con,(strip_tags($Nom[0],ENT_QUOTES)));
+				$Segundo_Nombre = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));
+				$Primer_Apellido = mysqli_real_escape_string($con,(strip_tags($Nom[1],ENT_QUOTES)));
+				$Segundo_Apellido = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));	
+			}else{
+				if(count($Nom)==3){
+					$Primer_Nombre = mysqli_real_escape_string($con,(strip_tags($Nom[0],ENT_QUOTES)));
+					$Segundo_Nombre = mysqli_real_escape_string($con,(strip_tags($Nom[1],ENT_QUOTES)));
+					$Primer_Apellido = mysqli_real_escape_string($con,(strip_tags($Nom[2],ENT_QUOTES)));
+					$Segundo_Apellido = mysqli_real_escape_string($con,(strip_tags('',ENT_QUOTES)));		
+				}else{
+					$Primer_Nombre = mysqli_real_escape_string($con,(strip_tags($Nom[0],ENT_QUOTES)));
+					$Segundo_Nombre = mysqli_real_escape_string($con,(strip_tags($Nom[1],ENT_QUOTES)));
+					$Primer_Apellido = mysqli_real_escape_string($con,(strip_tags($Nom[2],ENT_QUOTES)));
+					$Segundo_Apellido = mysqli_real_escape_string($con,(strip_tags($Nom[3],ENT_QUOTES)));
+				}	
+			}
+	}
 
 ?>
 <!doctype html>
@@ -154,6 +184,7 @@
 								<form class="form-horizontal col-sm-8" method="post" id="Guardar_Afiliado" name="Guardar_Afiliado">
 			   						<div id="resultados_ajax"></div>
 									<input type="text" class="form-control hidden" id="EstadoC" name="EstadoC"  value="<?php echo $EstadoC; ?>" > 
+									<input type="text" class="form-control hidden" id="Numero" name="Numero"  value="<?php echo $Numero; ?>" > 
 									<?php
 									echo $Mesaje;
 										if ($EstadoC=='Editando'){
@@ -172,8 +203,8 @@
 									<div class="form-group">
 				  						<label for="Identificacion" class="col-sm-3  control-label">Identificacion</label>
 				  						<div class="col-sm-9 ">
-				   							<input type="text" class="form-control" id="Identificacion" name="Identificacion" placeholder="Identificacion" value="<?php echo $Identificacion; ?>" <?php echo $Read; ?> required onchange='ValidarDatos("Identificacion",$(this).val())' onkeyup="javascript:this.value=this.value.toUpperCase();">
-											   <input type="text " class="form-control hidden" id="VIdentificacion" name="VIdentificacion" value="Yes" > 
+				   							<input type="text" class="form-control"  <?php echo $Importado;?> id="Identificacion" name="Identificacion" placeholder="Identificacion" value="<?php echo $Identificacion; ?>" <?php echo $Read; ?> required onchange='ValidarDatos("Identificacion",$(this).val())' onkeyup="javascript:this.value=this.value.toUpperCase();">
+											   <input type="text " class="form-control hidden"<?php echo $Importado;?> id="VIdentificacion" name="VIdentificacion" value="Yes" > 
 											   <div class="invalid-feedback">
 											   	El Numero de Identificacion Ya se Encuentra Registrado
       											</div>
@@ -214,19 +245,19 @@
 									<div class="form-group" >
 										<label for="Nombres"  class="col-sm-3 control-label">Nombres</label>
 				  						<div class="col-sm-4">
- 				   							<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Primer_Nombre" name="Primer_Nombre"  placeholder="Primer Nombre" value="<?php echo $Primer_Nombre; ?>">
+ 				   							<input type="text" <?php echo $Importado;?> onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Primer_Nombre" name="Primer_Nombre"  placeholder="Primer Nombre" value="<?php echo $Primer_Nombre; ?>">
 				  						</div>
 										<div class="col-sm-5">
- 				   							<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Segundo_Nombre" name="Segundo_Nombre"  placeholder="Segundo Nombre" value="<?php echo $Segundo_Nombre; ?>">
+ 				   							<input type="text" <?php echo $Importado;?> onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Segundo_Nombre" name="Segundo_Nombre"  placeholder="Segundo Nombre" value="<?php echo $Segundo_Nombre; ?>">
 				  						</div>
 			   						</div> 
 									<div class="form-group" >
 					  					<label for="Apellidos" class="col-sm-3 control-label">Apellidos</label>
 				  						<div class="col-sm-4">
- 				   							<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Primer_Apellido" name="Primer_Apellido"  placeholder="Primer Apellido" value="<?php echo $Primer_Apellido; ?>"  onkeyup="RazonSocial()">
+ 				   							<input type="text" <?php echo $Importado;?> onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Primer_Apellido" name="Primer_Apellido"  placeholder="Primer Apellido" value="<?php echo $Primer_Apellido; ?>"  onkeyup="RazonSocial()">
 				  						</div>
 										  <div class="col-sm-5">
- 				   							<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Segundo_Apellido" name="Segundo_Apellido"  placeholder="Segundo Apellido" value="<?php echo $Segundo_Apellido; ?>"  onkeyup="RazonSocial()">
+ 				   							<input type="text" <?php echo $Importado;?> onkeyup="javascript:this.value=this.value.toUpperCase();"class="form-control" id="Segundo_Apellido" name="Segundo_Apellido"  placeholder="Segundo Apellido" value="<?php echo $Segundo_Apellido; ?>"  onkeyup="RazonSocial()">
 				  						</div>  
 			   						</div>
 									<div class="form-group">
@@ -322,9 +353,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="Telefono" class="col-sm-3 control-label">Telefono</label>
+										<label for="Telefono"  class="col-sm-3 control-label">Telefono</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="Telefono" name="Telefono" required placeholder="Telefono" value="<?php echo $Telefono;?>" maxlength="10"  onkeypress='return validaNumericos(event)'>
+											<input type="text" <?php echo $Importado;?> class="form-control" id="Telefono" name="Telefono" required placeholder="Telefono" value="<?php echo $Telefono;?>" maxlength="10"  onkeypress='return validaNumericos(event)'>
 										</div>
 									</div>	
 									<div class="form-group">
@@ -336,7 +367,7 @@
 									<div class="form-group">
 										<label for="Correo" class="col-sm-3 control-label">Correo</label>
 										<div class="col-sm-9">
-											<input type="Email" class="form-control" id="Correo" name="Correo" required placeholder="Correo" value="<?php echo $Correo;?>"  onkeyup="javascript:this.value=this.value.toUpperCase();">
+											<input type="Email" <?php echo $Importado;?> class="form-control" id="Correo" name="Correo" required placeholder="Correo" value="<?php echo $Correo;?>"  onkeyup="javascript:this.value=this.value.toUpperCase();">
 										</div>
 									</div>	
 									

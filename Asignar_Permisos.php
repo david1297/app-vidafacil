@@ -9,11 +9,13 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
             require_once ("config/db.php");
 			require_once ("config/conexion.php");
 			$sql=mysqli_query($con, "select Nit from USUARIOS where Rol =2 ");
+			date_default_timezone_set('America/Bogota');
+								$Fecha =date("Y-m-d");	
 	while($row=mysqli_fetch_array($sql)){
 		$Nit=$row["Nit"];
-		$sql1 =  "INSERT INTO PERMISOS (Modulo, Permiso, Estado,Usuario, Descripcion) VALUES 
-		('Afiliados', 'ConsultarTodoA', 'false', '".$Nit."', 'Ver Todo Agendamientos');";
-		echo $sql1.'<br>';			
+		
+								$sql1 = "INSERT INTO CUENTA_VIRTUAL(Usuario,Tipo,NDocumento,Cruce,NCruce,Credito,Porcentaje,Comision,Estado,Fecha)
+									VALUES('".$Nit."','I','0','I','0','0','0','0','Pendiente','".$Fecha."')";	
 							$query_update = mysqli_query($con,$sql1);
 		  
 	}
