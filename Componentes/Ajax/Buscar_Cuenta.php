@@ -11,6 +11,7 @@
 			
 				$sTable = "CUENTA_VIRTUAL 
 							inner join USUARIOS on USUARIOS.Nit=CUENTA_VIRTUAL.Usuario
+							left join VENTAS on VENTAS.Numero =CUENTA_VIRTUAL.NDocumento and CUENTA_VIRTUAL.Tipo ='V'
 						";
 				$sWhere = "where (CUENTA_VIRTUAL.Fecha >= '$fechaIni' and  CUENTA_VIRTUAL.Fecha <= '$fechaFin') ";
 				if($Estado<>"Todos"){
@@ -32,7 +33,7 @@
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-Cuenta.php';
 		$Condicion='';							
-		$sql="SELECT CUENTA_VIRTUAL.NDocumento as Numero,CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.Estado as EstadoCuenta,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Fecha,
+		$sql="SELECT VENTAS.Nombre_Completo,CUENTA_VIRTUAL.NDocumento as Numero,CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.Estado as EstadoCuenta,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Fecha,
 				(Credito-Debito)Valor,CUENTA_VIRTUAL.Porcentaje,CUENTA_VIRTUAL.Comision FROM  $sTable $sWhere $Condicion $order LIMIT $offset,$per_page";
 				
 				$query = mysqli_query($con, $sql);
@@ -45,12 +46,11 @@
 							<th class="text-center">Tipo</th>
 							<th class="text-center">Numero</th>
 							<th>Usuario</th>
+							<th>Afiliado</th>
 							<th>Fecha</th>
 							<th>Estado</th>
 							<th class="text-right">Valor</th>
-							<th class="text-right">Porcentaje</th>
-							<th class="text-right">Comision</th>
-							<th class="text-right">Total</th>
+							
 						</tr>
 						<?php
 						$TValor=0;
@@ -60,6 +60,7 @@
 								$Numero=$row['Numero'];
 								$Tipo=$row['Tipo'];
 								$Valor=$row['Valor'];
+								$Nombre_Completo=$row['Nombre_Completo'];
 								$Comision=$row['Comision'];
 								$Usuario=$row['Razon_Social'];
 								$Fecha=$row['Fecha'];
@@ -99,12 +100,17 @@
 								<td class="text-center"><?php echo $Tipo; ?></td>
 								<td class="text-center"><?php echo $Numero; ?></td>
 								<td><?php echo $Usuario; ?></td>
+								<td><?php 
+								if($Tipo=='V'){
+									echo $Nombre_Completo;
+								}else{
+									echo $Usuario; 	
+								}
+								
+								 ?></td>
 								<td><?php echo date("d-m-Y", strtotime($Fecha)); ?></td>
 								<td><span class="label <?php echo $label_class;?>"><?php echo $Estado; ?></span></td>
 								<td class="text-right"><span class="<?php echo $Spam_Class;?>"><?php echo '$'.number_format($Valor); ?></span></td>
-								<td class="text-right"><?php echo $Porcentaje_Comision.'%'; ?></td>
-								<td class="text-right"><span class="<?php echo $Spam_Class;?>"><?php echo '$'.number_format($Comision); ?></span></td>
-								<td class="text-right"><span class="<?php echo $Spam_Class;?>"><?php echo '$'.number_format($Valor-$Comision); ?></span></td>
 		
 		
 							</tr>
@@ -112,7 +118,7 @@
 						}
 						?>
 						<tr>
-					<td colspan=5><b><span class="pull-right"><?php
+					<td colspan=6><b><span class="pull-right"><?php
 						 echo 'Total Movimiento:'
 						?></span></b></td>
 						
@@ -120,20 +126,13 @@
 					
 						 echo number_format($TValor);
 						?></span></b></td>
-						<td ><b><span class="pull-right"><?php
-				
-				?></span></b></td>
-						<td ><b><span class="pull-right"><?php
-						 echo number_format($TComision);
-						?></span></b></td>
-						<td ><b><span class="pull-right"><?php
-					
-						 echo number_format($TValor-$TComision);
-						?></span></b></td>
+						
+						
+						
 					</tr>
 					<tr>
 					<tr>
-					<td colspan=5><h4><span class="pull-right"><?php
+					<td colspan=6><h4><span class="pull-right"><?php
 						 echo 'Total General:'
 						?></span></h4></td>
 						<td ><h4><span class="pull-right"><?php
@@ -142,20 +141,13 @@
 						$rw_Admin1=mysqli_fetch_array($query1);
 						 echo number_format($rw_Admin1[0]);
 						?></span></h4></td>
-						<td ><b><span class="pull-right"><?php
-				
-				?></span></b></td>
-					<td><h4><span class="pull-right"><?php
-						  echo number_format($rw_Admin1[1]);
-						?></span></h4></td>
-						<td ><h4><span class="pull-right"><?php
+					
+					
 						
-						 echo number_format($rw_Admin1[0]-$rw_Admin1[1]);
-						?></span></h4></td>
 						
 					</tr>
 						<tr>
-							<td colspan=9><span class="pull-right"><?php
+							<td colspan=7><span class="pull-right"><?php
 							 echo paginate($reload, $page, $total_pages, $adjacents);
 							?></span></td>
 						</tr>

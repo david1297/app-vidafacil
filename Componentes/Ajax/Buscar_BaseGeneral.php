@@ -88,7 +88,8 @@
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-BaseGeneral.php';
-		$sql="SELECT VENTAS.Numero,VENTAS.Porcentaje_Comision,FORMAS_PAGO.tipo As TPago, VENTAS.Token,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
+		$sql="SELECT VENTAS.Pin,VENTAS.Cuotas,VENTAS.TipoTarjeta,VENTAS.NumeroTarjeta,VENTAS.SCode,
+		VENTAS.FechaExp,VENTAS.Numero,VENTAS.Porcentaje_Comision,FORMAS_PAGO.tipo As TPago, VENTAS.Token,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
 		VENTAS.Estado,VENTAS.Estado_Campana,VENTAS.fecha,
 		CAMPANAS.NOMBRE AS Campana,CAMPANAS.Numero as Cam,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana,
 		VENTAS.Nombre_Completo,VENTAS.SAfiliado FROM  $sTable $sWhere LIMIT $offset,$per_page";
@@ -123,7 +124,12 @@
 							$Afiliado=$row['Nombre_Completo'];
 						}
 
-
+						$Pin= $row['Pin'];
+						$Cuotas= $row['Cuotas'];
+						$TipoTarjeta= $row['TipoTarjeta'];
+						$NumeroTarjeta= $row['NumeroTarjeta'];
+						$SCode= $row['SCode'];
+						$FechaExp = $row['FechaExp'];
 						
 						$Fecha=$row['Fecha'];
 						$Token=$row['Token'];
@@ -198,7 +204,18 @@
 								}
 							}
 						}
-						$Tipificacion = $row['Categoria'];
+							$Tipificacion = $row['Categoria'];
+							$NumeroTarjeta= $row['NumeroTarjeta'];
+							$SCode= $row['SCode'];
+							$FechaExp = $row['FechaExp'];
+							
+						if (($Estado==4)&&($_SESSION['Rol']=='1')){
+							
+						}else{
+							$NumeroTarjeta= '**** **** **** '.substr($NumeroTarjeta, 12, 4);
+								$SCode= '****';
+								$FechaExp = '**/**';
+						}
 						
 					?>
 					<tr>
@@ -288,7 +305,53 @@ if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
 						<input type="text" class="form-control hidden" id="Valor<?php echo $Numero;?>"  value="<?php echo $Valor;?>" autocomplete="off" >
 						<input type="text" class="form-control hidden" id="Comision<?php echo $Numero;?>"  value="<?php echo $Comision;?>" autocomplete="off" >
 						<input type="text" class="form-control hidden" id="TPago<?php echo $Numero;?>"  value="<?php echo $TPago;?>" autocomplete="off" >
-						
+						<div class="col-md-6 hidden"	id="TarjetaC<?php echo $Numero;?>">
+									<br>
+									<br>
+									<div class="card border-primary mb-3" >
+										<div class="card-header">Tarjeta de Credito</div>
+										<div class="card-body text-primary">
+										<table>
+											<tr>
+												<td><b>Numero:</b></td>
+												<td><p class="card-text"><?php echo $NumeroTarjeta;?></p></td>
+											</tr>
+											<tr>
+												<td><b>Fecha de Vencimiento:&nbsp;&nbsp;&nbsp;  </b></td>
+												<td><p class="card-text"><?php echo $FechaExp;?></p></td>
+											</tr>
+											<tr>
+												<td><b>SCode:</b></td>
+												<td><p class="card-text"><?php echo $SCode;?></p></td>
+											</tr>
+										
+										</table>
+										
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 hidden"	id="TarjetaP<?php echo $Numero;?>">
+									<br>
+									<br>
+									<div class="card border-primary mb-3" >
+										<div class="card-header">Ponal</div>
+										<div class="card-body text-primary">
+										<table>
+											<tr>
+												<td><b>Pin:</b></td>
+												<td><p class="card-text"><?php echo $Pin;?></p></td>
+											</tr>
+											<tr>
+												<td><b>Cuotas:&nbsp;&nbsp;&nbsp;  </b></td>
+												<td><p class="card-text"><?php echo $Cuotas;?></p></td>
+											</tr>
+											
+										
+										</table>
+										
+										</div>
+									</div>
+								</div>
 						</td>
 
 					</tr>

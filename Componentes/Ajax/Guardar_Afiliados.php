@@ -172,8 +172,8 @@ elseif (
 						$Fecha =date("Y-m-d");
 						if($Numero<>''){
 							$sql =  " UPDATE VENTAS Set 
-					SAfiliado ='N',Afiliado= $Id WHERE VENTAS.Numero=$Numero";
-$query_update = mysqli_query($con,$sql);
+							SAfiliado ='N',Afiliado= $Id WHERE VENTAS.Numero=$Numero";
+							$query_update = mysqli_query($con,$sql);
 
 						}else{
 							$sql =  "INSERT INTO  VENTAS(Numero,Afiliado,Usuario,fecha,Campana,Estado_Campana,Estado,Seguimiento,Transportadora,

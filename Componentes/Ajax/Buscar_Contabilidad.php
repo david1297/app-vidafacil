@@ -35,6 +35,8 @@
 					}
 				}	
 			} 
+			$sWhere.= " and CUENTA_VIRTUAL.Tipo <>'I'";		
+
 			$Order =" order by CUENTA_VIRTUAL.Fecha  DESC";
 			$Group = "group by CUENTA_VIRTUAL.Tipo,CUENTA_VIRTUAL.NDocumento,CUENTA_VIRTUAL.Fecha,USUARIOS.Razon_Social,CUENTA_VIRTUAL.Estado,CUENTA_VIRTUAL.Numero";
 		
@@ -44,8 +46,12 @@
 		$per_page = 50;
 		$adjacents  = 4;
 		$offset = ($page - 1) * $per_page;
-		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere $Group");
+		$sql="SELECT count(*) as numrows FROM $sTable $sWhere $Order";
+		
+		$count_query   = mysqli_query($con, $sql);
 		$row= mysqli_fetch_array($count_query);
+
+		
 		if (empty($row['numrows'])){
 			$numrows=1;
 		}else{
@@ -70,7 +76,6 @@
 						<th>Estado</th>
 						<th class="text-right">Valor</th>
 						<th class="text-right">Comision</th>
-						<th class="text-right">Total</th>
 					</tr>
 					<?php
 					$TValor=0;
@@ -83,12 +88,13 @@
 							$Usuario=$row['Razon_Social'];
 							$Estado=$row['Estado'];
 							$Fecha=$row['Fecha'];
+							if ($Estado=="Rechazada"){$label_class='label-danger';}
 							if ($Estado=="Pagada"){$label_class='label-success';}
 							if ($Estado=="Solicitada"){$label_class='label-info';}
 							if ($Estado=="Pendiente"){$label_class='label-warning';}
 							
 							
-							$TValor= $TValor+($Valor-$Comision);
+							$TValor= $TValor+($Valor);
 							
 						?>
 						<tr>
@@ -113,14 +119,7 @@
 								echo '<p class=""> $'.number_format($Comision).' </p>';
 
 							} ?></td>
-							<td class="text-right"><?php 
-							if (($Valor-$Comision)<0){
-								echo '<p class="text-danger"> $'.number_format($Valor-$Comision).' </p>';
-
-							}else{
-								echo '<p class="text-success"> $'.number_format($Valor-$Comision).' </p>';
-
-							} ?></td>
+							
 	
 	
 						</tr>
@@ -128,7 +127,7 @@
 					}
 					?>
 					<tr>
-					<td colspan=7><b><span class="pull-right"><?php
+					<td colspan=6><b><span class="pull-right"><?php
 						 echo 'Total Pagina:'
 						?></span></b></td>
 						<td ><b><span class="pull-right"><?php
@@ -144,23 +143,23 @@
 					</tr>
 					<tr>
 					<tr>
-					<td colspan=7><h4><span class="pull-right"><?php
+					<td colspan=6><h4><span class="pull-right"><?php
 						 echo 'Total General:'
 						?></span></h4></td>
 						<td ><h4><span class="pull-right"><?php
 						$query1=mysqli_query($con, "SELECT ".$SumValor.",sum(CUENTA_VIRTUAL.Comision) FROM $sTable $sWhere;");			
 						$rw_Admin1=mysqli_fetch_array($query1);
-						if (($rw_Admin1[0]-$rw_Admin1[1])<0){
-							echo '<p class="text-danger"> $'.number_format($rw_Admin1[0]-$rw_Admin1[1]).' </p>';
+						if (($rw_Admin1[0])<0){
+							echo '<p class="text-danger"> $'.number_format($rw_Admin1[0]).' </p>';
 
 						}else{
-							echo '<p class="text-success"> $'.number_format($rw_Admin1[0]-$rw_Admin1[1]).' </p>';
+							echo '<p class="text-success"> $'.number_format($rw_Admin1[0]).' </p>';
 
 						}
 						?></span></h4></td>
 					</tr>
 					<tr>
-						<td colspan=8><span class="pull-right"><?php
+						<td colspan=7><span class="pull-right"><?php
 						 echo paginate($reload, $page, $total_pages, $adjacents);
 						?></span></td>
 					</tr>

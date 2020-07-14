@@ -108,11 +108,16 @@
 		$EstadoU="Nuevo";
 		$Read= "";
 		$Rol="2";
+		
 	}
 	$Editar="";
+	$EditarS='';
+	$EditarB='';
 	if (isset($_GET['Perfil'])) {
 		$Perfil="Si";
 		$Editar="readonly";
+		$EditarS='disabled';
+		$EditarB='hidden';
 	}
 ?>
 <!doctype html>
@@ -171,7 +176,7 @@
 										<div class="form-group col-sm-9">
 											<label for="Tipo_Persona" class="col-sm-3 control-label">Tipo</label>
 											<div class="col-md-9 col-sm-9">
-												<select class='form-control' id="Tipo" name ="Tipo" placeholder="Tipo" onchange="TipoU()">
+												<select class='form-control' <?php echo $EditarS;?> id="Tipo" name ="Tipo" placeholder="Tipo" onchange="TipoU()">
 													<?php 
 													if($Tipo == 'Operador'){
 														echo '<option value="Operador">OPERADOR</option>';
@@ -188,7 +193,7 @@
 									<div class="form-group col-sm-9">
 										<label for="Tipo_Persona" class="col-sm-3 control-label">Tipo Persona</label>
 										<div class="col-md-9 col-sm-9">
-											<select class='form-control' id="Tipo_Persona" name ="Tipo_Persona" placeholder="Tipo Persona" onchange="TipoPersona()"> 
+											<select class='form-control' <?php echo $EditarS;?> id="Tipo_Persona" name ="Tipo_Persona" placeholder="Tipo Persona" onchange="TipoPersona()"> 
 												<?php 
 													if($Tipo_Persona == 'Natural'){
 														echo '<option value="Natural">NATURAL</option>';
@@ -221,13 +226,13 @@
 									<div class="form-group col-sm-9" id="D_Nombre">
 					  					<label for="Nombre" class="col-sm-3 control-label">Nombre</label>
 				  						<div class="col-sm-9">
- 				   							<input type="text"   class="form-control" id="Nombre" name="Nombre"  placeholder="Nombre" value="<?php echo $Nombre; ?>"  onkeyup=" javascript:this.value=this.value.toUpperCase(); RazonSocial();">
+ 				   							<input type="text" <?php echo $Editar;?>   class="form-control" id="Nombre" name="Nombre"  placeholder="Nombre" value="<?php echo $Nombre; ?>"  onkeyup=" javascript:this.value=this.value.toUpperCase(); RazonSocial();">
 				  						</div>
 			   						</div>
 									<div class="form-group col-sm-9" id="D_Apellido">
 										<label for="Apellido"  class="col-sm-3 control-label">Apellido</label>
 										<div class="col-sm-9">
-				  							<input type="text"  class="form-control" id="Apellido" name="Apellido"  placeholder="Apellido" value="<?php echo $Apellido; ?>"  onkeyup=" javascript:this.value=this.value.toUpperCase(); RazonSocial();">
+				  							<input type="text"  <?php echo $Editar;?> class="form-control" id="Apellido" name="Apellido"  placeholder="Apellido" value="<?php echo $Apellido; ?>"  onkeyup=" javascript:this.value=this.value.toUpperCase(); RazonSocial();">
 										</div>
 									</div>
 									<input type="Text" class="form-control hidden" id="Rol" name="Rol" require value="<?php echo $Rol; ?>" readonly="readonly">
@@ -240,7 +245,7 @@
 											<div class="form-group col-sm-9">
 												<label for="Estado" class="col-sm-3 control-label">Estado</label>
 												<div class="col-md-9 col-sm-9">
-													<select class="form-control" id="Estado" name ="Estado" placeholder="Estado"  >';
+													<select class="form-control" '.$EditarS.' id="Estado" name ="Estado" placeholder="Estado"  >';
 											if($Estado == 'Activo'){
 												echo '<option value="Activo">ACTIVO</option>';
 												echo '<option value="InActivo">INACTIVO</option>';
@@ -266,7 +271,7 @@
 										<label for="Tel_C" class="col-sm-3 control-label">Telefono de Contacto</label>
 										
 										<div class="col-sm-9 ">
-				   							<input type="text" class="form-control" id="Tel_C" name="Tel_C" placeholder="Telefono de Contacto" value="<?php echo $Tel_C; ?>" maxlength="7"  required onchange='ValidarDatos("TelC",$(this).val())'  onkeypress='return validaNumericos(event)'> 
+				   							<input type="text" <?php echo $Editar;?> class="form-control" id="Tel_C" name="Tel_C" placeholder="Telefono de Contacto" value="<?php echo $Tel_C; ?>" maxlength="7"  required onchange='ValidarDatos("TelC",$(this).val())'  onkeypress='return validaNumericos(event)'> 
 				   							<input type="text " class="form-control hidden" id="VTelC" name="VTelC" value="Yes" > 
 											   <div class="invalid-feedback">
 											   	El Numero de Telefono Ya se Encuentra Registrado
@@ -278,7 +283,7 @@
 										<div class="col-sm-2">
 											<?PHP
 												$query=mysqli_query($con, "select * from ADMINISTRACION");
-												echo' <select class="form-control" id="Indicativo" name ="Indicativo" placeholder="OperadorVenta" onchange="CambioDir()">';
+												echo' <select class="form-control" '.$EditarS.' id="Indicativo" name ="Indicativo" placeholder="OperadorVenta" onchange="CambioDir()">';
 												$rw_Admin=mysqli_fetch_array($query);
 												$tuArray = explode("\r\n", $rw_Admin['Indicativos']);
 												foreach($tuArray as  $indice => $palabra){
@@ -294,19 +299,19 @@
 											?>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" class="form-control" id="D1" name="D1"   value="<?php echo $D1;?>" onchange="CambioDir()" onkeyup="javascript:this.value=this.value.toUpperCase();">  
+											<input type="text" <?php echo $Editar;?> class="form-control" id="D1" name="D1"   value="<?php echo $D1;?>" onchange="CambioDir()" onkeyup="javascript:this.value=this.value.toUpperCase();">  
 										</div>
 										<div class="col-sm-1" style="padding-left: 0px; padding-right: 0px;width: 10px;">
 											<label for="" class="col-sm-1 control-label" style="padding-left: 0px;padding-right: 0px;">#</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" class="form-control" id="D2" name="D2"   value="<?php echo $D2;?>" onchange="CambioDir()" onkeyup="javascript:this.value=this.value.toUpperCase();">
+											<input type="text" <?php echo $Editar;?> class="form-control" id="D2" name="D2"   value="<?php echo $D2;?>" onchange="CambioDir()" onkeyup="javascript:this.value=this.value.toUpperCase();">
 										</div>
 										<div class="col-sm-1" style="padding-left: 0px; padding-right: 0px;width: 10px;">
 											<label for="" class="col-sm-1 control-label" style="padding-left: 0px;padding-right: 0px;">-</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" class="form-control" id="D3" name="D3"   value="<?php echo $D3;?>" onchange="CambioDir()" onkeyup="javascript:this.value=this.value.toUpperCase();">
+											<input type="text" <?php echo $Editar;?> class="form-control" id="D3" name="D3"   value="<?php echo $D3;?>" onchange="CambioDir()" onkeyup="javascript:this.value=this.value.toUpperCase();">
 										</div>
 										<div class="col-sm-9 col-sm-offset-3">
 											<input type="text" class="form-control" id="Direccion" name="Direccion"  placeholder="Direccion" value="<?php echo $Direccion;?>" readonly='readonly'>
@@ -317,7 +322,7 @@
 										<div class="col-sm-5">
 											<?PHP
 												$query=mysqli_query($con, "select * from ADMINISTRACION");
-												echo' <select class="form-control" id="Adicional" name ="Adicional" placeholder="OperadorVenta" onchange="CambioDirA()">';
+												echo' <select class="form-control" '.$EditarS.' id="Adicional" name ="Adicional" placeholder="OperadorVenta" onchange="CambioDirA()">';
 												$rw_Admin=mysqli_fetch_array($query);
 												$tuArray = explode("\r\n", $rw_Admin['Adicionales']);
 												foreach($tuArray as  $indice => $palabra){
@@ -333,7 +338,7 @@
 											?>
 										</div>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="D4" name="D4"   value="<?php echo $D4;?>" onchange="CambioDirA()">
+											<input type="text" <?php echo $Editar;?> class="form-control" id="D4" name="D4"   value="<?php echo $D4;?>" onchange="CambioDirA()">
 										</div>
 										<div class="col-sm-9 col-sm-offset-3">
 											<input type="text" class="form-control" id="Direccion_Adicional" name="Direccion_Adicional"  placeholder="Direccion Adicional" value="<?php echo $Direccion_Adicional;?>" readonly='readonly'>
@@ -342,14 +347,14 @@
 									<div class="form-group col-sm-9">
 										<label for="Correo_N" class="col-sm-3 control-label">Correo Electronico</label>
 										<div class="col-sm-9">
-											<input type="email" class="form-control" id="Correo" name="Correo" require placeholder="Correo Electronico" value="<?php echo $Correo; ?>" onkeyup="javascript:this.value=this.value.toUpperCase();">				  
+											<input type="email" <?php echo $Editar;?> class="form-control" id="Correo" name="Correo" require placeholder="Correo Electronico" value="<?php echo $Correo; ?>" onkeyup="javascript:this.value=this.value.toUpperCase();">				  
 										</div>
 			  						</div>
 									<div class="form-group col-sm-9">
 										<label for="Cel_C" class="col-sm-3 control-label">Celular de Contacto</label>
 			
 										<div class="col-sm-9 ">
-				   							<input type="text" class="form-control" id="Cel_C" name="Cel_C" placeholder="Celular de Contacto" value="<?php echo $Cel_C; ?>" maxlength="10"  required onchange='ValidarDatos("CelC",$(this).val())'  onkeypress='return validaNumericos(event)'> 
+				   							<input type="text"  <?php echo $Editar;?> class="form-control" id="Cel_C" name="Cel_C" placeholder="Celular de Contacto" value="<?php echo $Cel_C; ?>" maxlength="10"  required onchange='ValidarDatos("CelC",$(this).val())'  onkeypress='return validaNumericos(event)'> 
 				   							<input type="text " class="form-control hidden" id="VCelC" name="VCelC" value="Yes" > 
 											   <div class="invalid-feedback">
 											   	El Numero de Celular Ya se Encuentra Registrado
@@ -359,7 +364,7 @@
 									<div class="form-group col-sm-9">
 										<label for="Correo_C" class="col-sm-3 control-label">Correo de Contacto</label>
 										<div class="col-sm-9">
-											<input type="email" class="form-control" id="Correo_C" name="Correo_C" require placeholder="Correo de Contacto" value="<?php echo $Correo_C; ?>" onkeyup="javascript:this.value=this.value.toUpperCase();">				  
+											<input type="email" <?php echo $Editar;?> class="form-control" id="Correo_C" name="Correo_C" require placeholder="Correo de Contacto" value="<?php echo $Correo_C; ?>" onkeyup="javascript:this.value=this.value.toUpperCase();">				  
 										</div>
 			  						</div>
 				  					
@@ -367,13 +372,13 @@
 										<div class="form-group col-sm-9">
 											<label for="Rep_Legal" class="col-sm-3 control-label" id="Label-Rep_Legal">Representante Legal</label>
 											<div class="col-sm-9">
-												<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Rep_Legal" name="Rep_Legal" required placeholder="Representante Legal" value="<?php echo $Rep_Legal; ?>">
+												<input type="text" <?php echo $Editar;?> onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Rep_Legal" name="Rep_Legal" required placeholder="Representante Legal" value="<?php echo $Rep_Legal; ?>">
 											</div>
 										</div>
 										<div class="form-group col-sm-9">
 											<label for="CC" class="col-sm-3 control-label" id="Label-CC">Numero de Documento</label>
 											<div class="col-sm-9">
-												<input type="text" class="form-control" id="CC" name="CC" required placeholder="Numero de Documento" value="<?php echo $CC; ?>" onkeypress='return validaNumericos(event)' onchange='ValidarDatos("RepLegal",$(this).val())'>
+												<input type="text"  <?php echo $Editar;?> class="form-control" id="CC" name="CC" required placeholder="Numero de Documento" value="<?php echo $CC; ?>" onkeypress='return validaNumericos(event)' onchange='ValidarDatos("RepLegal",$(this).val())'>
 												<input type="text " class="form-control hidden" id="VCC" name="VCC" value="Yes" > 
 												<div class="invalid-feedback">
 												El Numero de Documento Del Representante Legal ya se Encuentra Registrado
@@ -387,7 +392,7 @@
 											<div class="col-sm-9">
 											<?PHP
 												$query1=mysqli_query($con, "select * from AREAS");
-												echo' <select class="form-control" id="Area" name ="Area" placeholder="Area">';
+												echo' <select class="form-control" '.$EditarS.' id="Area" name ="Area" placeholder="Area">';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Area ==$rw_Admin1['Numero']){
 														echo '<option value="'.$rw_Admin1['Numero'].'" selected>'.$rw_Admin1['Nombre'].'</option>';
@@ -428,7 +433,7 @@
 												$Comercio = $_SESSION['Nit'];
 											}
 										
-											echo' <select class="form-control" id="Asignado" name ="Asignado" placeholder="Comercio">';
+											echo' <select class="form-control" '.$EditarS.' id="Asignado" name ="Asignado" placeholder="Comercio">';
 											$query1=mysqli_query($con, "select * from USUARIOS where Estado = 'Activo' ");
 												
 																				
@@ -455,7 +460,7 @@
 											<label for="Banco_1">Nombre</label>
 											<?PHP
 												$query1=mysqli_query($con, "select * from BANCOS");
-												echo' <select class="form-control" id="Banco_1" name ="Banco_1" placeholder="Banco_1 " onchange="TipoBanco1()">';
+												echo' <select class="form-control" '.$EditarS.' id="Banco_1" name ="Banco_1" placeholder="Banco_1 " onchange="TipoBanco1()">';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Banco_1 ==$rw_Admin1['Nombre']){
 														$Bancos_1 = '<option value="'.$rw_Admin1['Nombre'].'">'.$rw_Admin1['Nombre'].'</option>';
@@ -472,7 +477,7 @@
 										</div>
 										<div class="col-sm-3">
 											<label for="Tipo_Banco_1" >Tipo de Cuenta</label>
-											<select class="form-control" id="Tipo_Banco_1" name ="Tipo_Banco_1" placeholder="Tipo_Banco_1 ">
+											<select class="form-control" <?php echo $EditarS; ?> id="Tipo_Banco_1" name ="Tipo_Banco_1" placeholder="Tipo_Banco_1 ">
 												<?PHP	
 													if($Banco_1 =='NEQUI'){
 														echo '<option value="Telefonica">TELEFONICA</option>';
@@ -490,11 +495,11 @@
 										</div>
 										<div class="col-sm-3">
 											<label for="Titular_1">Titular</label>
-											<input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Titular_1" name="Titular_1"  placeholder="Titular de la Cuenta" value="<?php echo $Titular_1; ?>">
+											<input type="text" <?php echo $Editar;?> onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Titular_1" name="Titular_1"  placeholder="Titular de la Cuenta" value="<?php echo $Titular_1; ?>">
 										</div>
 										<div class="col-sm-3">
 											<label for="Numero_Cuenta_1">Numero de cuenta</label>
-											<input type="text" class="form-control" id="Numero_Cuenta_1" name="Numero_Cuenta_1"  placeholder="Numero de Cuenta" value="<?php echo $Numero_Cuenta_1; ?>">
+											<input type="text" <?php echo $Editar;?> class="form-control" id="Numero_Cuenta_1" name="Numero_Cuenta_1"  placeholder="Numero de Cuenta" value="<?php echo $Numero_Cuenta_1; ?>">
 										</div>
 									</div>
 								
@@ -503,7 +508,7 @@
 											<label for="Banco_2">Nombre</label>
 											<?PHP
 												$query1=mysqli_query($con, "select * from BANCOS");
-												echo' <select class="form-control" id="Banco_2" name ="Banco_2" placeholder="Banco_2 " onchange="TipoBanco2()">';
+												echo' <select class="form-control"  '.$EditarS.' id="Banco_2" name ="Banco_2" placeholder="Banco_2 " onchange="TipoBanco2()">';
 												while($rw_Admin1=mysqli_fetch_array($query1)){
 													if ($Banco_2 ==$rw_Admin1['Nombre']){
 														$Bancos_2 = '<option value="'.$rw_Admin1['Nombre'].'">'.$rw_Admin1['Nombre'].'</option>';
@@ -518,7 +523,7 @@
 										</div>
 										<div class="col-sm-3">
 											<label for="Tipo_Banco_2" >Tipo de Cuenta</label>
-											<select class="form-control" id="Tipo_Banco_2" name ="Tipo_Banco_2" placeholder="Tipo_Banco_2 ">
+											<select class="form-control" <?php echo $EditarS; ?> id="Tipo_Banco_2" name ="Tipo_Banco_2" placeholder="Tipo_Banco_2 ">
 												<?PHP	
 													if($Banco_2 =='NEQUI'){
 														echo '<option value="Telefonica">TELEFONICA</option>';
@@ -536,11 +541,11 @@
 										</div>
 										<div class="col-sm-3">
 											<label for="Titular_2">Titular</label>
-											<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Titular_2" name="Titular_2"  placeholder="Titular de la Cuenta" value="<?php echo $Titular_2; ?>">
+											<input type="text" <?php echo $Editar;?> onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Titular_2" name="Titular_2"  placeholder="Titular de la Cuenta" value="<?php echo $Titular_2; ?>">
 										</div>
 										<div class="col-sm-3">
 											<label for="Numero_Cuenta_2">Numero de cuenta</label>
-											<input type="text" class="form-control" id="Numero_Cuenta_2" name="Numero_Cuenta_2"  placeholder="Numero de Cuenta" value="<?php echo $Numero_Cuenta_2; ?>">
+											<input type="text" <?php echo $Editar;?> class="form-control" id="Numero_Cuenta_2" name="Numero_Cuenta_2"  placeholder="Numero de Cuenta" value="<?php echo $Numero_Cuenta_2; ?>">
 										</div>
 									</div>	
 									<div id='DReferencias'>
@@ -552,13 +557,13 @@
 										<div class="form-group col-sm-8">
 											<label for="Nombre_R1" class="col-sm-3 control-label">Nombre</label>
 											<div class="col-sm-8">
-												<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Nombre_R1" name="Nombre_R1" required placeholder="Nombre de Referencia 1" value="<?php echo $Nombre_R1; ?>">
+												<input type="text" <?php echo $Editar;?> onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Nombre_R1" name="Nombre_R1" required placeholder="Nombre de Referencia 1" value="<?php echo $Nombre_R1; ?>">
 											</div>
 										</div>
 										<div class="form-group col-sm-8">
 											<label for="Tel_R1" class="col-sm-3 control-label">Telefono</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control" id="Tel_R1" name="Tel_R1" required placeholder="Telefono de Referencia 1" value="<?php echo $Tel_R1; ?>" maxlength="10"  onkeypress='return validaNumericos(event)' onchange='ValidarDatos("Ref1",$(this).val())'>
+												<input type="text" <?php echo $Editar;?> class="form-control" id="Tel_R1" name="Tel_R1" required placeholder="Telefono de Referencia 1" value="<?php echo $Tel_R1; ?>" maxlength="10"  onkeypress='return validaNumericos(event)' onchange='ValidarDatos("Ref1",$(this).val())'>
 												<div class="invalid-feedback">
 												Uno de los Numeros de Referencia ya se Encuentra Registrado
       											</div>
@@ -568,13 +573,13 @@
 											<hr class="style1">
 											<label for="Nombre_R2" class="col-sm-3 control-label">Nombre</label>
 											<div class="col-sm-8">
-												<input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Nombre_R2" name="Nombre_R2" required placeholder="Nombre de Referencia 2" value="<?php echo $Nombre_R2; ?>">
+												<input type="text"  <?php echo $Editar;?> onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="Nombre_R2" name="Nombre_R2" required placeholder="Nombre de Referencia 2" value="<?php echo $Nombre_R2; ?>">
 											</div>
 										</div>
 										<div class="form-group col-sm-8">
 											<label for="Tel_R2" class="col-sm-3 control-label">Telefono</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control" id="Tel_R2" name="Tel_R2" required placeholder="Telefono de Referencia 2" value="<?php echo $Tel_R2; ?>" maxlength="10"  onkeypress='return validaNumericos(event)' onchange='ValidarDatos("Ref2",$(this).val())'>
+												<input type="text" <?php echo $Editar;?> class="form-control" id="Tel_R2" name="Tel_R2" required placeholder="Telefono de Referencia 2" value="<?php echo $Tel_R2; ?>" maxlength="10"  onkeypress='return validaNumericos(event)' onchange='ValidarDatos("Ref2",$(this).val())'>
 												<div class="invalid-feedback">
 												Uno de los Numeros de Referencia ya se Encuentra Registrado
       											</div>
@@ -603,7 +608,7 @@
 									<hr class="style1">
 									</div>
 									
-									<div class=" pull-right col-sm-8">
+									<div class=" pull-right col-sm-8 <?php echo $EditarB;?>">
 									
 										<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
 										<?php
@@ -703,7 +708,7 @@
 									<div class="resultados_ajax2"></div>
 									<hr class="style1">
 								</div>
-								<div class=" pull-right col-sm-8">
+								<div class=" pull-right col-sm-8 <?php echo $EditarB;?> ">
 									
 										<button type="button" class="btn btn-default" id="Cancelar">Cancelar</button>
 										<?php

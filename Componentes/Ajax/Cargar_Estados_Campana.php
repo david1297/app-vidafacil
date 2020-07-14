@@ -12,6 +12,7 @@ if (isset($_POST['Est_camp'])){$Est_camp=$_POST['Est_camp'];}
 if (isset($_POST['Seg_camp'])){$Seg_camp=$_POST['Seg_camp'];}
 if (isset($_POST['Tran_camp'])){$Tran_camp=$_POST['Tran_camp'];}
 if (isset($_POST['Forp_camp'])){$Forp_camp=$_POST['Forp_camp'];}
+if (isset($_POST['EstadoV'])){$EstadoV=$_POST['EstadoV'];}
 
 $query1=mysqli_query($con, 'SELECT Estado FROM PERMISOS where Modulo="Transacciones" and Permiso="TipificaionesSeguimiento" and  
 Usuario ="'.$_SESSION['Nit'].'";');
@@ -138,11 +139,37 @@ Usuario ="'.$_SESSION['Nit'].'";');
 			?>
 			<div class="col-md-4"> 
 				<label for="email" class="control-label">Forma de Pago</label>
-				<select class="form-control" id="Forma_Pago" name ="Forma_Pago" placeholder="Estado Campaña" onchange="Descuentos()">';
+				<?php
+				if($EstadoV=='Nuevo'){
+					?>
+					<select class="form-control" id="Forma_Pago" name ="Forma_Pago" placeholder="Estado Campaña" onchange="Descuentos()">';
+						<?php
+						$query1=mysqli_query($con, "SELECT Codigo,Descripcion,Tipo FROM CAMP_FORMASPAGO 
+						inner join FORMAS_PAGO on CAMP_FORMASPAGO.FormaPago =FORMAS_PAGO.Codigo Where Campana = $Campana ");
+						while($rw_Admin1=mysqli_fetch_array($query1)){
+							if ($rw_Admin1[2]=='Tarjeta'){
+								$Tip='1';
+							}else{
+								if ($rw_Admin1[2]=='Policia'){
+									$Tip='2';
+								}else{
+									$Tip='3';
+								}
+							}
+							if ($Forp_camp==$rw_Admin1[0]){
+								echo '<option value="'.$rw_Admin1[0].'_'.$Tip.'" selected>'.$rw_Admin1[1].'</option>';	
+							}else{
+								echo '<option value="'.$rw_Admin1[0].'_'.$Tip.'">'.$rw_Admin1[1].'</option>';	
+							}
+						}
+						?>
+					</select>
 					<?php
-					$query1=mysqli_query($con, "SELECT Codigo,Descripcion,Tipo FROM CAMP_FORMASPAGO 
-					inner join FORMAS_PAGO on CAMP_FORMASPAGO.FormaPago =FORMAS_PAGO.Codigo Where Campana = $Campana ");
-					while($rw_Admin1=mysqli_fetch_array($query1)){
+				}else{
+					$query1=mysqli_query($con, "SELECT Codigo,Descripcion,Tipo FROM FORMAS_PAGO 
+						
+						WHERE FORMAS_PAGO.Codigo  = $Forp_camp ");
+						$rw_Admin1=mysqli_fetch_array($query1);
 						if ($rw_Admin1[2]=='Tarjeta'){
 							$Tip='1';
 						}else{
@@ -152,17 +179,16 @@ Usuario ="'.$_SESSION['Nit'].'";');
 								$Tip='3';
 							}
 						}
-
-						if ($Forp_camp==$rw_Admin1[0]){
-							echo '<option value="'.$rw_Admin1[0].'_'.$Tip.'" selected>'.$rw_Admin1[1].'</option>';	
-						}else{
-							echo '<option value="'.$rw_Admin1[0].'_'.$Tip.'">'.$rw_Admin1[1].'</option>';	
-						}
-					
 						
-					}
+						
 					?>
-				</select>
+					<input type="Text" class="form-control hidden" id="Forma_Pago" name="Forma_Pago" value="<?php echo $Forp_camp.'_'.$Tip;?>" readonly="readonly">
+					<input type="Text" class="form-control " id="NForma_Pago" name="NForma_Pago" value="<?php echo utf8_encode($rw_Admin1[1]);?>" readonly="readonly">
+
+					<?php
+				}
+				?>
+				
 			</div>
 			<?php
 		} 

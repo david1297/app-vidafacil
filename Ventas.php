@@ -46,6 +46,9 @@
 	$Token="";
 	$Correo="";
 	$Telefono="";	
+
+	$TarjetaC="hidden";
+	$TarjetaP="hidden";
 	
 	
 
@@ -94,6 +97,38 @@
 		$Identificacion = $rw_Admin['Identificacion'];
 		$Nombre_Completo = $rw_Admin['Nombre_Completo'];
 		$Token = $rw_Admin['Token'];
+
+		if (($Estado==4)&&($_SESSION['Rol']=='1')){
+			$NumeroTarjeta= $rw_Admin['NumeroTarjeta'];
+			$SCode= $rw_Admin['SCode'];
+			$FechaExp = $rw_Admin['FechaExp'];
+		}else{
+			$NumeroTarjeta= '**** **** **** '.substr($NumeroTarjeta, 12, 4);
+				$SCode= '****';
+				$FechaExp = '**/**';
+		}
+		
+
+
+		
+
+	
+
+	$query1=mysqli_query($con, "SELECT Tipo FROM FORMAS_PAGO WHERE Codigo=".$For_Pago." ");
+		$rw_Admin1=mysqli_fetch_array($query1);
+		
+	
+
+	if ($rw_Admin1['Tipo']=='Tarjeta'){
+		$TarjetaC="";
+	}else{
+		if ($rw_Admin1['Tipo']=='Policia'){
+			$TarjetaP="";
+		}
+	}
+
+		
+	
 		
 		
 		
@@ -222,7 +257,7 @@ curl_close($ch);*/
 								 			<input class="form-control hidden" type="text" id="Numero" name="Numero" VALUE="<?php echo $Numero;?>"   readonly>
 								 			<input class="form-control hidden" type="text" id="SinAfiliado" name="SinAfiliado" VALUE="<?php echo $SAfiliado;?>"   readonly>
 								 			<input class="form-control hidden" type="text" id="Afiliado" name="Afiliado" VALUE="<?php echo $Afiliado;?>"  required >
-											<input class="form-control" type="text" id="Nombre" name="Nombre" placeholder="Nombre del Afiliado" VALUE="<?php echo $Nombre_Completo;?>" required  <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off' onkeyup="javascript:this.value=this.value.toUpperCase();">
+											<input class="form-control" type="text" <?php echo  $Read;?>  id="Nombre" name="Nombre" placeholder="Nombre del Afiliado" VALUE="<?php echo $Nombre_Completo;?>" required  <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off' onkeyup="javascript:this.value=this.value.toUpperCase();">
 											<span class="input-group-btn">
 												<button type="button" class="btn btn-default" onclick="FSinAfiliado()" ><span class="glyphicon glyphicon-remove"></span></button>
 											</span>
@@ -230,17 +265,17 @@ curl_close($ch);*/
 									</div>
 									<div class="col-md-4">
 										<label for="mail" class="control-label">Identificacion</label>
-										<input type="text" class="form-control" id="Identificacion"  name ="Identificacion"VALUE="<?php echo $Identificacion;?>" placeholder="Identificacion" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off' onkeyup="javascript:this.value=this.value.toUpperCase();">
+										<input type="text" class="form-control" id="Identificacion"<?php echo  $Read;?> name ="Identificacion"VALUE="<?php echo $Identificacion;?>" placeholder="Identificacion" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off' onkeyup="javascript:this.value=this.value.toUpperCase();">
 									</div>
 									<div class="col-md-4">
 										<label for="mail" class="control-label">Correo</label>
-										<input type="text" class="form-control" id="Correo"  name ="Correo"VALUE="<?php echo $Correo;?>" placeholder="Correo" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off' onkeyup="javascript:this.value=this.value.toUpperCase();">
+										<input type="text" class="form-control" id="Correo" <?php echo  $Read;?> name ="Correo"VALUE="<?php echo $Correo;?>" placeholder="Correo" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off' onkeyup="javascript:this.value=this.value.toUpperCase();">
 									</div>
 								</div>	
 								<div class="row">
 									<div class="col-md-4">
 										<label for="mail" class="control-label">Telefono</label>
-										<input type="text" class="form-control" id="Telefono"  name ="Telefono"VALUE="<?php echo $Telefono;?>" placeholder="Telefono" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off' onkeyup="javascript:this.value=this.value.toUpperCase();">
+										<input type="text" class="form-control" <?php echo  $Read;?> id="Telefono"  name ="Telefono"VALUE="<?php echo $Telefono;?>" placeholder="Telefono" <?php if(($SAfiliado=='N')||($SAfiliado=='')){echo 'readonly';}?> autocomplete='off' onkeyup="javascript:this.value=this.value.toUpperCase();">
 									</div>	
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Usuario</label>
@@ -258,18 +293,34 @@ curl_close($ch);*/
 									<div class="col-md-4">
 										<label for="email" class="control-label">Campaña</label>
 										<?PHP
-												$query1=mysqli_query($con, "select CAMPANAS.Nombre,CAMPANAS.Numero from USUARIO_CAMP inner join CAMPANAS on USUARIO_CAMP.Campana = CAMPANAS.Numero where Usuario ='".$_SESSION['Nit']."' and CAMPANAS.Estado ='Activa' order by Nombre");
-												echo' <select class="form-control" id="Campana" name ="Campana" placeholder="Campaña" onchange="CargarEstados()">';
-												while($rw_Admin1=mysqli_fetch_array($query1)){
-													if($Campana==$rw_Admin1['Numero']){
-														echo '<option value="'.$rw_Admin1['Numero'].'" selected>'.utf8_encode($rw_Admin1['Nombre']).'</option>';	
+										if($EstadoV=='Nuevo'){
+											$query1=mysqli_query($con, "select CAMPANAS.Nombre,CAMPANAS.Numero from USUARIO_CAMP inner join CAMPANAS on USUARIO_CAMP.Campana = CAMPANAS.Numero where Usuario ='".$_SESSION['Nit']."' and CAMPANAS.Estado ='Activa' order by Nombre");
+											echo' <select class="form-control" id="Campana" name ="Campana" placeholder="Campaña" onchange="CargarEstados()">';
+											while($rw_Admin1=mysqli_fetch_array($query1)){
+												if($Campana==$rw_Admin1['Numero']){
+													echo '<option value="'.$rw_Admin1['Numero'].'" selected>'.utf8_encode($rw_Admin1['Nombre']).'</option>';	
 
-													}else{
-														echo '<option value="'.$rw_Admin1['Numero'].'">'.utf8_encode($rw_Admin1['Nombre']).'</option>';	
+												}else{
+													echo '<option value="'.$rw_Admin1['Numero'].'">'.utf8_encode($rw_Admin1['Nombre']).'</option>';	
 
-													}
 												}
-												echo '</select>';
+											}
+											echo '</select>';
+										}else{
+											$query1=mysqli_query($con, "select CAMPANAS.Nombre from CAMPANAS 
+											WHERE CAMPANAS.Numero= '$Campana'");
+												while($rw_Admin1=mysqli_fetch_array($query1)){
+													?>
+													<input type="Text" class="form-control hidden" id="Campana" name="Campana" value="<?php echo $Campana;?>" readonly="readonly">
+													<input type="Text" class="form-control " id="NCampana" name="NCampana" value="<?php echo utf8_encode($rw_Admin1['Nombre']);?>" readonly="readonly">
+
+													<?php
+													
+												
+												}
+												
+										}
+												
 											?>	
 									</div>
 									<input type="Text" class="form-control hidden" id="Est_camp" name="Est_camp" require value="<?php echo $Estado_Campana?>" readonly="readonly">
@@ -319,7 +370,7 @@ curl_close($ch);*/
 
 									<div class="col-md-4">
 										<label for="empresa" class="control-label">Valor</label>
-										<input type="text" class="form-control valor" id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" autocomplete="off" onchange="Descuentos()">
+										<input type="text" class="form-control valor" <?php echo $Read;?> id="Valor" Name="Valor" placeholder="Valor" value="<?php echo $Valor;?>" autocomplete="off" onchange="Descuentos()">
 									</div>
 									
 									<div  class="" id="Form_Telefonica">
@@ -402,7 +453,15 @@ curl_close($ch);*/
 											<hr class="style1">	
 										</div>
 									</div>
-									<div class="col-md-4">
+									<?php 
+										if($EstadoV == "Nuevo"){
+											$NumeroAp="hidden";
+										}	else{
+											$NumeroAp="";
+
+										}
+									?>
+									<div class="col-md-4 <?php echo $NumeroAp;?>">
 										<label for="Token" class="control-label">Numero de Aprobacion</label>
 										<input type="text" class="form-control" id="Token" Name="Token" maxlength="20" placeholder="Numero de Aprobacion" value="<?php echo $Token;?>" autocomplete="off" >
 									</div>
@@ -410,7 +469,7 @@ curl_close($ch);*/
 											
 										
 								</div>
-									<div class="col-md-12" id="Descuentos">
+								<div class="col-md-6" id="Descuentos">
 									<?php
 										$query=mysqli_query($con, "select * from ADMINISTRACION");
 										$rw_Admin=mysqli_fetch_array($query);
@@ -478,9 +537,55 @@ curl_close($ch);*/
 										</tr>
 
 
-									</table>
-  										
+									</table>		
+								</div>
+								<div class="col-md-6 <?php echo $TarjetaC; ?>"	id="TarjetaC">
+									<br>
+									<br>
+									<div class="card border-primary mb-3" >
+										<div class="card-header">Tarjeta de Credito</div>
+										<div class="card-body text-primary">
+										<table>
+											<tr>
+												<td><b>Numero:</b></td>
+												<td><p class="card-text"><?php echo $NumeroTarjeta;?></p></td>
+											</tr>
+											<tr>
+												<td><b>Fecha de Vencimiento:&nbsp;&nbsp;&nbsp;  </b></td>
+												<td><p class="card-text"><?php echo $FechaExp;?></p></td>
+											</tr>
+											<tr>
+												<td><b>SCode:</b></td>
+												<td><p class="card-text"><?php echo $SCode;?></p></td>
+											</tr>
+										
+										</table>
+										
+										</div>
 									</div>
+								</div>
+								<div class="col-md-6 <?php echo $TarjetaP; ?>"	id="TarjetaP">
+									<br>
+									<br>
+									<div class="card border-primary mb-3" >
+										<div class="card-header">Ponal</div>
+										<div class="card-body text-primary">
+										<table>
+											<tr>
+												<td><b>Pin:</b></td>
+												<td><p class="card-text"><?php echo $Pin;?></p></td>
+											</tr>
+											<tr>
+												<td><b>Cuotas:&nbsp;&nbsp;&nbsp;  </b></td>
+												<td><p class="card-text"><?php echo $Cuotas;?></p></td>
+											</tr>
+											
+										
+										</table>
+										
+										</div>
+									</div>
+								</div>
 
 									<div class="col-md-12">
   										<label for="Observaciones">Observaciones:</label>
@@ -641,18 +746,18 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 						
 						 var F = $('#Forma_Pago').val();
 						 var Forma_Pago = F.split('_');
-						var Estado =$('#Estado').val();
-						if (Estado!='1'){
+						var Estado =$('#EstadoV').val();
+						if (Estado=='Nuevo'){
 							if (Forma_Pago[1]=='2'){
-							$('#NumeroVP').val(Res[2]);
-							$("#FormaPago_Policia").modal("show");
-						 }else{
-							if (Forma_Pago[1]=='1'){
-								$('#NumeroVT').val(Res[2]);
-							$("#FormaPago_Tarjeta").modal("show");
-							Cambio();
-						 	} 
-						 }
+								$('#NumeroVP').val(Res[2]);
+								$("#FormaPago_Policia").modal("show");
+						 	}else{
+								if (Forma_Pago[1]=='1'){
+									$('#NumeroVT').val(Res[2]);
+									$("#FormaPago_Tarjeta").modal("show");
+									Cambio();
+						 		} 
+						 	}
 
 						}
 						 
@@ -731,10 +836,11 @@ function CargarEstados(){
 			var Seg_camp = $("#Seg_camp").val();
 			var Tran_camp = $("#Tran_camp").val();
 			var Forp_camp = $("#Forp_camp").val();
+			var EstadoV = $("#EstadoV").val();
 			$.ajax({
 				type: "POST",
 				url: "Componentes/Ajax/Cargar_Estados_Campana.php",
-				data: "Campana="+Campana+"&Est_camp="+Est_camp+"&Seg_camp="+Seg_camp+"&Tran_camp="+Tran_camp+"&Forp_camp="+Forp_camp,
+				data: "Campana="+Campana+"&Est_camp="+Est_camp+"&Seg_camp="+Seg_camp+"&Tran_camp="+Tran_camp+"&Forp_camp="+Forp_camp+"&EstadoV="+EstadoV,
 				beforeSend: function(objeto){
 				},success: function(datos){
 					$("#Estados").html(datos);
@@ -765,14 +871,19 @@ function CargarEstados(){
      	return false;        
 	}
 	function FSinAfiliado(){
-		$("#SinAfiliado").val('S');
-		$("#Afiliado").val('1');
-		
-		$("#Identificacion").removeAttr("readonly");
-		$("#Telefono").removeAttr("readonly");
-		$("#Correo").removeAttr("readonly");
-		
-		$("#Nombre").removeAttr("readonly");
+		var Estado = $("#EstadoV").val();
+
+if (Estado=='Nuevo'){
+	$("#SinAfiliado").val('S');
+	$("#Afiliado").val('1');
+	
+	$("#Identificacion").removeAttr("readonly");
+	$("#Telefono").removeAttr("readonly");
+	$("#Correo").removeAttr("readonly");
+	
+	$("#Nombre").removeAttr("readonly");
+}
+	
 	}
 	function ValidarEstado(valor){
 		var Estado =$('#Estado').val();

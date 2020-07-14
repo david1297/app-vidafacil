@@ -162,7 +162,7 @@ function obtener_datosV(Numero,Estado){
 				 beforeSend: function(objeto){
 			  },
 				success:function(data){
-					$("#FormaDePago").html(data);
+					//$("#FormaDePago").html(data);
 				}
 			})
 }
@@ -180,8 +180,9 @@ $(".valor").on({
 function Descuentos(){
 		$('#Descuentos').removeClass("hidden");
 		var F = $('#TPago').val();
-					
+		var Numero = $('#Numero_Venta').val();
 		if (F=='Tarjeta'){
+			$("#FormaDePago").html($("#TarjetaC"+Numero+"").html());	
 			var TotalDevengado = $('#Valor').val();
 			var VVenta=TotalDevengado.replace(/,/g, "");
 			$('#VVenta').val(VVenta);
@@ -210,6 +211,10 @@ function Descuentos(){
 			$('#TotalCuenta').val(TotalCuenta);
 			$(".valor").keyup();
 		}else{
+			if(F=='Policia'){
+				$("#FormaDePago").html($("#TarjetaP"+Numero+"").html());	
+			}
+			
 			$('#VVenta').val( $('#Valor').val());
 			$('#TotalCuenta').val($('#Valor').val());
 

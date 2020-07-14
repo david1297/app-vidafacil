@@ -42,7 +42,7 @@ require_once ("../../config/db.php");
 				$messages[] = "Encabezado Guardado Con Exito";
 				foreach($_POST['NumeroVenta'] as $Numero){
 					$porciones = explode("-", $Numero);
-					$query1=mysqli_query($con, "SELECT ((Credito-Debito)-Comision) As Comision FROM CUENTA_VIRTUAL where  Tipo ='".$porciones[0]."' and  NDocumento =".$porciones[1].";");
+					$query1=mysqli_query($con, "SELECT ((Credito-Debito)) As Comision FROM CUENTA_VIRTUAL where  Tipo ='".$porciones[0]."' and  NDocumento =".$porciones[1].";");
 					$rw_Admin1=mysqli_fetch_array($query1);
 					$Valor=$rw_Admin1['Comision'];
 					
@@ -50,7 +50,7 @@ require_once ("../../config/db.php");
 		
 		
 					$sql = "INSERT INTO TRANSACCIONESD(Numero,Tipo,NDocumento,Estado,Valor)
-						VALUES(".$numero_Transaccion.",'".$porciones[0]."','".$porciones[1]."','Pendiente',".$Valor.")";
+						VALUES(".$numero_Transaccion.",'".$porciones[0]."','".$porciones[1]."','Pagada',".$Valor.")";
 					$query_update = mysqli_query($con,$sql);	
 					if ($query_update) {
 						$messages[] = "Detalle Guardado Con Exito";

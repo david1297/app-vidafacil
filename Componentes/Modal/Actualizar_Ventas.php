@@ -10,35 +10,7 @@
 				  <div class="modal-body">
 					<form class="form-horizontal" method="post"  id="Actualizar_Ventas" name="Actualizar_Ventas">
 					  <div class="form-group">
-						<div class="col-md-3">		
-							<input type="text"class="hidden" id="Numero_Venta"name="Numero_Venta">
-							<?php
-							$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="Transacciones" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
-								$NumeroA="hidden";		
-							$rw_Admin1=mysqli_fetch_array($query1);
-							if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
-								$NumeroA="";
-								?>
-								<label for="Estado" class="control-label">Estado</label>
-									<select class="form-control" id="Estado" name ="Estado" placeholder="Estado" onchange="ValidarEstado(event)" >';
-															
-									</select>								
-								<?php
-							}
-							$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="Transacciones" and Permiso="TipificaionesSeguimiento" and  Usuario ="'.$_SESSION['Nit'].'";');			
-							$rw_Admin1=mysqli_fetch_array($query1);
-							if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){	
-								?>
-								<label for="Estado" class="control-label">Estado De Campaña </label>
-									<select class="form-control" id="Estado_Campana" name ="Estado_Campana" placeholder="Estado"  >';						
-									</select>	
-								<?php
-							}
-							?>
-							<label for="Token" class="control-label <?php echo $NumeroA;?>">Numero de Aprobacion</label>
-							<input type="text" class="form-control <?php echo $NumeroA;?>" id="Token" Name="Token" placeholder="Numero de Aprobacion" value="" autocomplete="off" >
-							<input type="text" class="form-control hidden" id="EstadoA" placeholder="Numero de Aprobacion" value="" autocomplete="off" >
-						</div>
+						
 						<div class="col-md-6 " id="Descuentos">
 							<input type="text" class="form-control hidden" id="Comision" Name="Comision"  autocomplete="off" >
 							<input type="text" class="form-control hidden" id="Valor" Name="Valor"  autocomplete="off" >
@@ -111,12 +83,40 @@
 
 							</table>				
 						</div>
-						<div class="row">
-							
+						<div class="col-md-3">		
+							<input type="text"class="hidden" id="Numero_Venta"name="Numero_Venta">
+							<?php
+							$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="Transacciones" and Permiso="CambiarEstado" and  Usuario ="'.$_SESSION['Nit'].'";');
+								$NumeroA="hidden";		
+							$rw_Admin1=mysqli_fetch_array($query1);
+							if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
+								$NumeroA="";
+								?>
+								<label for="Estado" class="control-label">Estado</label>
+									<select class="form-control" id="Estado" name ="Estado" placeholder="Estado" onchange="ValidarEstado(event)" >';
+															
+									</select>								
+								<?php
+							}
+							$query1=mysqli_query($con, 'SELECT Estado FROM permisos where Modulo="Transacciones" and Permiso="TipificaionesSeguimiento" and  Usuario ="'.$_SESSION['Nit'].'";');			
+							$rw_Admin1=mysqli_fetch_array($query1);
+							if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){	
+								?>
+								<label for="Estado" class="control-label">Estado De Campaña </label>
+									<select class="form-control" id="Estado_Campana" name ="Estado_Campana" placeholder="Estado"  >';						
+									</select>	
+								<?php
+							}
+							?>
+							<label for="Token" class="control-label <?php echo $NumeroA;?>">Numero de Aprobacion</label>
+							<input type="text" class="form-control <?php echo $NumeroA;?>" id="Token" Name="Token" placeholder="Numero de Aprobacion" value="" autocomplete="off" >
+							<input type="text" class="form-control hidden" id="EstadoA" placeholder="Numero de Aprobacion" value="" autocomplete="off" >
 						</div>
-						<div class="row" id="FormaDePago">
+						
+						<div class="col-md-6 " id="FormaDePago">
 							
-						</div>
+							</div>
+						
 
 						
 						

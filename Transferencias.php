@@ -364,7 +364,7 @@
                                                 </td>
 
 
-                                                <td><input type="checkbox" class="form-control" name="NumeroVenta[]"
+                                                <td><input type="checkbox" class="form-control Registros" name="NumeroVenta[]"
                                                         id="<?php echo $Tipo.'-'.$NDocumento;?>" value="<?php echo $Tipo.'-'.$NDocumento;?>"
                                                         <?php echo $CHE;?>
                                                         onclick="OnVenta(<?php echo $Valor;?>,'<?php echo $Tipo.'-'.$NDocumento;?>')" <?php echo $editar; ?>>
@@ -544,6 +544,11 @@ function Cargar(){
         $("#TotalPago1").keyup();
         $("#DescBancario1").keyup();
         $("#FPrevencion1").keyup();
+        CambioBanco();
+        $(".Registros").click();
+        $(".Registros").click();
+
+        
 }
 
 function format(input){
