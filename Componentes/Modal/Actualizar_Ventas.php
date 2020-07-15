@@ -116,14 +116,24 @@
 						<div class="col-md-6 " id="FormaDePago">
 							
 							</div>
-						
 
+
+						<div class=" col-md-12">
+						<br>
+						<div class=" card border-secondary" id="CObservaciones">
 						
 						
+						</div>
+						</div>
+
+		
 						<div class="col-md-12">
+						<br>
   							<label for="Observaciones">Observaciones:</label>
   							<textarea class="form-control" rows="5" id="Observaciones" name="Observaciones"></textarea>
 						</div>
+						
+						
 						
 						<!--<button type="button" class="btn btn-default" onclick="loadc(1)"><span class='glyphicon glyphicon-search'></span> Buscar</button>-->
 					  </div>

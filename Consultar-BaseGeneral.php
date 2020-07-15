@@ -156,6 +156,7 @@ function obtener_datosV(Numero,Estado){
 	$("#Valor").val($("#Valor"+Numero).val());
 	$("#TPago").val($("#TPago"+Numero).val());
 	$("#EstadoA").val($("#Estado"+Numero).val());
+	$("#CObservaciones").html($("#Observaciones"+Numero).html());
 	Descuentos();
 	$.ajax({
 				url:'Componentes/Ajax/CardFormaPago.php?Numero='+Numero,

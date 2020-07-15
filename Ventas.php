@@ -609,7 +609,7 @@ curl_close($ch);*/
 						<?php
 							if ( $_SESSION['Estado']=='Activo'){
 								?>
-								<button type="submit" class="btn btn-primary">Guardar datos</button>
+								<button type="submit" class="btn btn-primary" id="Guardar">Guardar datos</button>
 								<?php
 							}
 						?>
@@ -695,17 +695,7 @@ function NuevoAfiliadoa(){
 			
 	
 		}
-	$(".valor").on({
-    "focus": function (event) {
-        $(event.target).select();
-    },
-    "keyup": function (event) {
-        $(event.target).val(function (index, value ) {
-            return value.replace(/\D/g, "")       
-                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-        });
-    }
-});
+
 
 
 $( "#Cancelar" ).click(function( event ) {
@@ -735,8 +725,11 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 				data: parametros,
 				beforeSend: function(objeto){
 					$("#resultados_ajax2").html("Mensaje: Cargando...");
+					$('#Guardar').prop('disabled', true);
 				},
 				success: function(datos){
+					$('#Guardar').prop('disabled', false);
+
 		
 					var Res = datos.split('*');
 					if(Res[1]=='Correcto'){
@@ -744,6 +737,7 @@ $( "#Guardar_Ventas" ).submit(function( event ) {
 						 $('#LNumero').html("Transaccion Numero: "+Res[2]);
 						 $("#resultados_ajax2").html(Res[3]);
 						
+						$('#Observaciones').val('');	
 						 var F = $('#Forma_Pago').val();
 						 var Forma_Pago = F.split('_');
 						var Estado =$('#EstadoV').val();

@@ -89,7 +89,7 @@
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './Consultar-BaseGeneral.php';
 		$sql="SELECT VENTAS.Pin,VENTAS.Cuotas,VENTAS.TipoTarjeta,VENTAS.NumeroTarjeta,VENTAS.SCode,
-		VENTAS.FechaExp,VENTAS.Numero,VENTAS.Porcentaje_Comision,FORMAS_PAGO.tipo As TPago, VENTAS.Token,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
+		VENTAS.FechaExp,VENTAS.Numero,VENTAS.Porcentaje_Comision,FORMAS_PAGO.tipo As TPago, VENTAS.Token,TIPIFICACIONES.Nombre as NTipificacion,TIPIFICACIONES.Categoria, TIPIFICACIONES.NCategoria,AFILIADOS.Primer_Nombre,AFILIADOS.Primer_Apellido,VENTAS.Fecha,USUARIOS.Razon_Social,
 		VENTAS.Estado,VENTAS.Estado_Campana,VENTAS.fecha,
 		CAMPANAS.NOMBRE AS Campana,CAMPANAS.Numero as Cam,VENTAS.Valor,VENTAS.Porcentaje_Comision,VENTAS.Campana as NCampana,
 		VENTAS.Nombre_Completo,VENTAS.SAfiliado FROM  $sTable $sWhere LIMIT $offset,$per_page";
@@ -138,6 +138,9 @@
 						$Valor=$row['Valor'];
 						$Usuario=$row['Razon_Social'];
 						$Campana=$row['Campana'];
+						$NTipificacion=$row['NTipificacion'];
+
+						
 						$Estado=$row['Estado'];
 						$Estado_Campana=$row['Estado_Campana'];
 						$Porcentaje_Comision=$row['Porcentaje_Comision'];
@@ -216,6 +219,32 @@
 								$SCode= '****';
 								$FechaExp = '**/**';
 						}
+						$sqlo="SELECT * FROM  OBSERVACIONES_VENTAS inner join USUARIOS on USUARIOS.Nit=OBSERVACIONES_VENTAS.Usuario WHERE VENTA=".$Numero."";
+
+		$q = mysqli_query($con, $sqlo);
+		while ($Res=mysqli_fetch_array($q)){
+			$Observaciones_Cargadas.=
+			'<div class="card-header">'.$Res['Razon_Social'].'<em>&nbsp;&nbsp;&nbsp;&nbsp;('.$Res['Fecha'].')</em></div>
+				  <div class="card-body text-secondary">';
+			if($Res['Tipificacion']!=0 ){
+				$Observaciones_Cargadas.='<b>Se Realiza Tipificacion a: </b>';
+				$sql1="SELECT * FROM TIPIFICACIONES WHERE Numero=".$Res['Tipificacion']."";
+				$query1 = mysqli_query($con, $sql1);
+				$row1=mysqli_fetch_array($query1); 
+				$Observaciones_Cargadas.=utf8_encode($row1['Nombre']);
+				$Observaciones_Cargadas.='<br><br>';
+			}
+			
+			if($Res['Observacion']!='' ){	
+			$Observaciones_Cargadas.='<b>Observacion:</b> '.$Res['Observacion'].'';
+			}  
+			$Observaciones_Cargadas.='
+				  </div>
+				  
+				  
+
+		';
+		}
 						
 					?>
 					<tr>
@@ -237,7 +266,7 @@
 							}
 						?>
 						</td>
-						<td><span class="label <?php echo $label_classC;?>"><?php echo $Tipificacion; ?></span></td>
+						<td><span class="label <?php echo $label_classC;?>"><?php echo $NTipificacion; ?></span></td>
 						<td class="text-right">
 						<?php
 							if ( $_SESSION['Estado']=='Activo'){
@@ -352,6 +381,10 @@ if($_SESSION['Rol']<>'2' or $rw_Admin1['Estado']=='true'){
 										</div>
 									</div>
 								</div>
+								<div class="card border-secondary mb-3 hidden" id="Observaciones<?php echo $Numero;?>">
+											<?php echo $Observaciones_Cargadas ?>
+  										
+									</div>
 						</td>
 
 					</tr>
