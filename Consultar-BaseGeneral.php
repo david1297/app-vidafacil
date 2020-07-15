@@ -167,26 +167,23 @@ function obtener_datosV(Numero,Estado){
 				}
 			})
 }
-$(".valor").on({
-    "focus": function (event) {
-        $(event.target).select();
-    },
-    "keyup": function (event) {
-        $(event.target).val(function (index, value ) {
-            return value.replace(/\D/g, "")       
-                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-        });
-    }
-});
+
 function Descuentos(){
 		$('#Descuentos').removeClass("hidden");
 		var F = $('#TPago').val();
 		var Numero = $('#Numero_Venta').val();
 		if (F=='Tarjeta'){
 			$("#FormaDePago").html($("#TarjetaC"+Numero+"").html());	
+
+
+
 			var TotalDevengado = $('#Valor').val();
-			var VVenta=TotalDevengado.replace(/,/g, "");
-			$('#VVenta').val(VVenta);
+			
+			var VVenta=TotalDevengado;
+
+			VVenta=VVenta*1;
+		
+			$('#VVenta').val(VVenta.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
 			var ComisionT=$('#ComisionT').val();
 			var ComisionG7 =$('#ComisionG7').val();
 			TotalDevengado = $('#ComisionF').val();
@@ -195,21 +192,24 @@ function Descuentos(){
 			var Retefuente = $('#Retefuente').val();
 			var ReteIca = $('#ReteIca').val();		
 			var VComisionT=VVenta*ComisionT/100;
-			$('#VComisionT').val(VComisionT);
+			$('#VComisionT').val(VComisionT.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
 			var VComisionG7 = VVenta* ComisionG7 /100;
-			$('#VComisionG7').val(VComisionG7);
+			$('#VComisionG7').val(VComisionG7.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
+			ComisionF=ComisionF*1;
+			$('#ComisionF').val(ComisionF.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
 			var TotalComisionG7 =(ComisionF*1)+(VComisionG7);
-			$('#TotalComisionG7').val(TotalComisionG7);
+			$('#TotalComisionG7').val(TotalComisionG7.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
 			var VIvaG7 = TotalComisionG7*IvaG7/100;
-			$('#VIvaG7').val(VIvaG7);
+			$('#VIvaG7').val(VIvaG7.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
 			var VRetefuente = VVenta*Retefuente/100;
-			$('#VRetefuente').val(VRetefuente);
+			$('#VRetefuente').val(VRetefuente.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
 			var VReteIca = VVenta*ReteIca/100;
-			$('#VReteIca').val(VReteIca);
+			$('#VReteIca').val(VReteIca.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
 			var TotalDescuento = VComisionT+TotalComisionG7+VIvaG7+VRetefuente+VReteIca;
-			$('#TotalDescuento').val(TotalDescuento);
+			$('#TotalDescuento').val(TotalDescuento.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
 			var TotalCuenta = VVenta-TotalDescuento;
-			$('#TotalCuenta').val(TotalCuenta);
+
+			$('#TotalCuenta').val(TotalCuenta.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
 			$(".valor").keyup();
 		}else{
 			if(F=='Policia'){
