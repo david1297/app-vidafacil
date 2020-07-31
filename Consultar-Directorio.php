@@ -26,6 +26,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 		    			<div class="btn-group pull-right">
+						<button class="btn btn-default" onclick="location.href='Directorio.php';" id="Nuevo" ><i class="fas fa-atlas"></i>&nbsp;Nuevo Directorio </button>
 						<button class="btn btn-success" id="ExportarExcel" ><i class="fas fa-file-excel"></i>Exportar a Excel </button>
 						<button class="btn btn-success" id="ImportarExcel"  onclick='$("#Archivo").trigger("click");'><i class="fas fa-file-excel"></i>Importar a Excel </button>
 						<form class="form-horizontal" method='POST' enctype="multipart/form-data" id="CargarXlsx" name="CargarXlsx">	

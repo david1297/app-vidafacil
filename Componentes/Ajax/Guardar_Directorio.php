@@ -33,7 +33,24 @@ if (empty($_POST['Vigencia'])){
 				$Codigo = mysqli_real_escape_string($con,(strip_tags($_POST["Codigo"],ENT_QUOTES)));
 				
 
+				if($Codigo=='0'){
+					$sql =  " INSERT INTO DIRECTORIO (ServicioS,Convenio,Servicio,Ciudad,ubicacion,Porcentaje,Descripcion,Terminos,Uso,Persona,Correo,Telefono,
+					Direccion,Vigencia,FirmaVf,FirmaAc,Correo1,Categoria)VALUES
+					('".$ServicioS."','".$Convenio."','".$Servicio."','".$Ciudad."','".$ubicacion."','".$Porcentaje."','".$Descripcion."','".$Terminos."','".$Uso."','".$Persona."',
+					'".$Correo."','".$Telefono."','".$Direccion."','".$Vigencia."','".$FirmaVf."','".$FirmaAc."','".$Correo1."','".$Categoria."')";
+					$query_update = mysqli_query($con,$sql);
+					if ($query_update) {
+						$messages[] ="Correcto";
+						$sql=mysqli_query($con, "select LAST_INSERT_ID(Codigo) as last from DIRECTORIO order by Codigo desc limit 0,1 ");
+						$rw=mysqli_fetch_array($sql);
+						$Codigo=$rw['last'];
+                    } else {
+						$errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
+						
 
+                    }
+				
+				}else{
 					$sql =  " UPDATE DIRECTORIO Set 
 					ServicioS ='".$ServicioS."',
 					Convenio='".$Convenio."',
@@ -55,10 +72,13 @@ if (empty($_POST['Vigencia'])){
 						$messages[] ="Correcto";
 
 						
-
                     } else {
                         $errors[] = "Lo sentimos , el registro falló. Por favor, regrese y vuelva a intentarlo.<br>";
                     }
+				}
+
+
+					
 
 
 				
@@ -87,7 +107,7 @@ if (empty($_POST['Vigencia'])){
 			<?php
 			}
 			if (isset($messages)){
-				
+				echo '*Correcto*'.$Codigo.'*';
 				?>
 				<div class="alert alert-success" role="alert">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>

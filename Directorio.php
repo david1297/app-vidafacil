@@ -50,8 +50,10 @@
 		$Correo1=$rw_Admin['Correo1'];
 		$Categoria=$rw_Admin['Categoria'];
 		$Codigo=$rw_Admin['Codigo'];
-
+		$EstadoD="Consulta";
 	}else{
+		$EstadoD="Nuevo";
+		$Codigo="0";
 	}
 
 ?>
@@ -83,7 +85,8 @@
 							<div class="tab-pane fade in active" id="Informacion">
 								<form class="form-horizontal col-md-12" method="post" id="Guardar_Directorio" name="Guardar_Directorio">
 			   						<div id="resultados_ajax"></div>
-									<?php
+									   <div id="BotonesE">
+									   <?php
 									$query1=mysqli_query($con, 'SELECT Modulo,Estado FROM PERMISOS where Permiso="Editar" AND Usuario ="'.$_SESSION['Nit'].'" AND MODULO ="Directorio" order by Modulo ;');							
 									$rw_Admin1=mysqli_fetch_array($query1);
 									if(($rw_Admin1['Estado']=='true')or($_SESSION['Rol']=='1')){
@@ -98,9 +101,13 @@
 											<button class="btn btn-danger" type="button" onclick="Eliminar()">Eliminar</button>
 										<?php
 									}
-
+									
+									
 
 									?>
+									   </div>
+									
+									<input type="text" class="form-control hidden" id="EstadoD" name="EstadoD" placeholder="EstadoD" value="<?php echo $EstadoD; ?>" readonly='readonly'>   
 									<div class="form-group">	
 				  						<div class="col-md-4 ">
 										  <label for="Codigo">Codigo</label>
@@ -232,8 +239,19 @@
 	<script src="assets/scripts/common.js"></script>
 	<script>
 $(document).ready(function(){
-	$('.Directorio').attr('readonly', true);
-	$('#Botones').addClass("hidden");
+	var EstadoD = $('#EstadoD').val();
+	if(EstadoD=='Nuevo'){
+		$('.Directorio').attr('readonly', false);
+		$('#Botones').removeClass("hidden");
+		$('#BotonesE').addClass("hidden");
+
+		
+	}else{
+		$('.Directorio').attr('readonly', true);
+		$('#Botones').addClass("hidden");
+		$('#BotonesE').removeClass("hidden");
+	}
+	
 	});
 
 	function Editar(){
@@ -263,8 +281,16 @@ $(document).ready(function(){
 	}
 
 	function CancelarE(){
+		var EstadoD = $('#EstadoD').val();
+	if(EstadoD=='Nuevo'){
+		location.href='Consultar-Directorio.php';
+	}else{
 		$('.Directorio').attr('readonly', true);
-	$('#Botones').addClass("hidden");
+		$('#Botones').addClass("hidden");
+	}
+
+
+		
 	}
 		$( "#Consultar" ).click(function( event ) {
 			location.href='Consultar-Directorio.php';
@@ -279,7 +305,17 @@ $(document).ready(function(){
 					$("#resultados_ajax2").html("Mensaje: Cargando...");
 				},
 				success: function(datos){
-					$("#resultados_ajax2").html(datos);
+					
+
+					var Res = datos.split('*');
+					if(Res[1]=='Correcto'){
+						 $('#Codigo').val(Res[2]);
+						
+						 $("#resultados_ajax2").html(Res[3]);
+						 
+					}else{
+						$("#resultados_ajax2").html(datos);
+					}
 				}
 			});
 			event.preventDefault();
