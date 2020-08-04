@@ -45,12 +45,11 @@
 							<div class="form-group row">
 							<div class="col-md-2">		
 									<select class='form-control ' id="Filtro" name ="Filtro" placeholder="Estado" onchange='load(1);'>
-										<option value="Convenio">Convenio</option>
+										<option value="NombreEmpresa">Nombre Empresa</option>
 										<option value="Servicio">Servicio</option>
 										<option value="Descipcion">Descipcion</option>
 										<option value="Correo">Correo</option>
-										<option value="Telefono">Telefono</option>								
-										<option value="Direccion">Direccion</option>								
+										<option value="Celular">Celular</option>								
 									</select>
 								</div>
 								

@@ -9,10 +9,10 @@
 		$fechaIni = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaIni'], ENT_QUOTES)));
 
 		$sTable = "DIRECTORIO";
-		$sWhere = "where (Vigencia >= '$fechaIni' ) ";
+		$sWhere = "where (FechaV >= '$fechaIni' ) ";
 		if ( $_GET['q'] != "" ){
-			if ($Filtro == "Convenio"){
-				$sWhere.= " and  (Convenio like '%$q%' )";	
+			if ($Filtro == "NombreEmpresa"){
+				$sWhere.= " and  (NombreEmpresa like '%$q%' )";	
 			}else{
 				if ($Filtro =="Servicio"){
 					$sWhere.= " and  (Servicio like '%$q%')  ";	
@@ -23,12 +23,8 @@
 						if ($Filtro=="Correo"){
 							$sWhere.= " and  (Correo like '%$q%')";
 						} else {
-							if ($Filtro=="Telefono"){
-								$sWhere.= " and  (Telefono like '%$q%')";
-							}else{
-								if ($Filtro=="Direccion"){
-									$sWhere.= " and  (Direccion like '%$q%')";
-								}
+							if ($Filtro=="Celular"){
+								$sWhere.= " and  (Celular like '%$q%')";
 							}
 						}
 					}
@@ -57,32 +53,31 @@
 			  <table class="table table-hover">
 				<tr  class="warning">
 					<th>Servicio</th>
-					<th>Convenio</th>
-					<th>Porcentaje</th>
+					<th>Nombre Empresa</th>
+					<th>Celular</th>
 					<th>Correo</th>
-					<th>Telefono</th>
-					<th>Vigencia</th>
+					
+					<th>Fecha Vencimiento</th>
 					<th class='text-center'>Ver</th>
 				</tr>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
 
 						$Servicio=$row['Servicio'];
-						$Convenio=$row['Convenio'];
-						$Porcentaje=$row['Porcentaje'];
+						$NombreEmpresa=$row['NombreEmpresa'];
+						$Celular=$row['Celular'];
 						$Correo=$row['Correo'];
-						$Telefono=$row['Telefono'];
-						$Vigencia=$row['Vigencia'];
+						
+						$FechaV=$row['FechaV'];
 						$Codigo=$row['Codigo'];
 						
 					?>
 					<tr>
 						<td><?php echo $Servicio; ?></td>
-						<td><?php echo $Convenio; ?></td>
-						<td><?php echo $Porcentaje ?></td>
+						<td><?php echo $NombreEmpresa; ?></td>
+						<td><?php echo $Celular ?></td>
 						<td><?php echo $Correo; ?></td>
-						<td><?php echo $Telefono; ?></td>			
-						<td><?php echo $Vigencia; ?></td>			
+						<td><?php echo $FechaV; ?></td>			
 						<td class="text-center">
 							<a href="#" class='btn btn-default' title='Ver Directorio' onclick="location.href='Directorio.php?Codigo='+<?php echo $Codigo;?>;"><i class="glyphicon glyphicon-eye-open"></i></a> 
 						</td>	

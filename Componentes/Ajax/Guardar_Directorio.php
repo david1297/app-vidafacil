@@ -5,39 +5,42 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 } else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
     require_once("../../libraries/password_compatibility_library.php");
 }	
-if (empty($_POST['Vigencia'])){
-	$errors[] = "Vigencia";
-} elseif (empty($_POST['Categoria'])){
+if (empty($_POST['FechaI'])){
+	$errors[] = "FechaI";
+} elseif (empty($_POST['FechaV'])){
+	$errors[] = "FechaV";
+}elseif (empty($_POST['DescuentoH'])){
+	$errors[] = "DescuentoH";
+}elseif (empty($_POST['Categoria'])){
 	$errors[] = "Categoria";
-} elseif (!empty($_POST['Vigencia']) && !empty($_POST['Categoria'])){
+} elseif (!empty($_POST['FechaI']) && !empty($_POST['Categoria'])){
             require_once ("../../config/db.php");
 			require_once ("../../config/conexion.php");
-				$ServicioS = mysqli_real_escape_string($con,(strip_tags($_POST["ServicioS"],ENT_QUOTES)));
-				$Convenio = mysqli_real_escape_string($con,(strip_tags($_POST["Convenio"],ENT_QUOTES)));
-				$Servicio = mysqli_real_escape_string($con,(strip_tags($_POST["Servicio"],ENT_QUOTES)));
-				$Ciudad = mysqli_real_escape_string($con,(strip_tags($_POST["Ciudad"],ENT_QUOTES)));
-				$ubicacion = mysqli_real_escape_string($con,(strip_tags($_POST["ubicacion"],ENT_QUOTES)));
-				$Porcentaje = mysqli_real_escape_string($con,(strip_tags($_POST["Porcentaje"],ENT_QUOTES)));
-				$Descripcion = mysqli_real_escape_string($con,(strip_tags($_POST["Descripcion"],ENT_QUOTES)));
-				$Terminos = mysqli_real_escape_string($con,(strip_tags($_POST["Terminos"],ENT_QUOTES)));
-				$Uso = mysqli_real_escape_string($con,(strip_tags($_POST["Uso"],ENT_QUOTES)));
-				$Persona = mysqli_real_escape_string($con,(strip_tags($_POST["Persona"],ENT_QUOTES)));
-				$Correo = mysqli_real_escape_string($con,(strip_tags($_POST["Correo"],ENT_QUOTES)));
-				$Telefono = mysqli_real_escape_string($con,(strip_tags($_POST["Telefono"],ENT_QUOTES)));
-				$Direccion = mysqli_real_escape_string($con,(strip_tags($_POST["Direccion"],ENT_QUOTES)));
-				$Vigencia = mysqli_real_escape_string($con,(strip_tags($_POST["Vigencia"],ENT_QUOTES)));
-				$FirmaVf = mysqli_real_escape_string($con,(strip_tags($_POST["FirmaVf"],ENT_QUOTES)));
-				$FirmaAc = mysqli_real_escape_string($con,(strip_tags($_POST["FirmaAc"],ENT_QUOTES)));
-				$Correo1 = mysqli_real_escape_string($con,(strip_tags($_POST["Correo1"],ENT_QUOTES)));
-				$Categoria = mysqli_real_escape_string($con,(strip_tags($_POST["Categoria"],ENT_QUOTES)));
 				$Codigo = mysqli_real_escape_string($con,(strip_tags($_POST["Codigo"],ENT_QUOTES)));
+				$Categoria = mysqli_real_escape_string($con,(strip_tags($_POST["Categoria"],ENT_QUOTES)));
+				$FechaI = mysqli_real_escape_string($con,(strip_tags($_POST["FechaI"],ENT_QUOTES)));
+				$FechaV = mysqli_real_escape_string($con,(strip_tags($_POST["FechaV"],ENT_QUOTES)));
+				$NombreEmpresa = mysqli_real_escape_string($con,(strip_tags($_POST["NombreEmpresa"],ENT_QUOTES)));
+				$Beneficio = mysqli_real_escape_string($con,(strip_tags($_POST["Beneficio"],ENT_QUOTES)));
+				$DescuentoH = mysqli_real_escape_string($con,(strip_tags($_POST["DescuentoH"],ENT_QUOTES)));
+				$Cobertura = mysqli_real_escape_string($con,(strip_tags($_POST["Cobertura"],ENT_QUOTES)));
+				$Servicio = mysqli_real_escape_string($con,(strip_tags($_POST["Servicio"],ENT_QUOTES)));
+				$Descripcion = mysqli_real_escape_string($con,(strip_tags($_POST["Descripcion"],ENT_QUOTES)));
+				$PersonaC = mysqli_real_escape_string($con,(strip_tags($_POST["PersonaC"],ENT_QUOTES)));
+				$Celular = mysqli_real_escape_string($con,(strip_tags($_POST["Celular"],ENT_QUOTES)));
+				$Correo = mysqli_real_escape_string($con,(strip_tags($_POST["Correo"],ENT_QUOTES)));
+				$Whatsapp = mysqli_real_escape_string($con,(strip_tags($_POST["Whatsapp"],ENT_QUOTES)));
+				$PaginaWeb = mysqli_real_escape_string($con,(strip_tags($_POST["PaginaWeb"],ENT_QUOTES)));
+				$Uso = mysqli_real_escape_string($con,(strip_tags($_POST["Uso"],ENT_QUOTES)));
+				$Terminos = mysqli_real_escape_string($con,(strip_tags($_POST["Terminos"],ENT_QUOTES)));
+				$Politicas = mysqli_real_escape_string($con,(strip_tags($_POST["Politicas"],ENT_QUOTES)));
+				$AutorizacionLogo = mysqli_real_escape_string($con,(strip_tags($_POST["AutorizacionLogo"],ENT_QUOTES)));
 				
-
 				if($Codigo=='0'){
-					$sql =  " INSERT INTO DIRECTORIO (ServicioS,Convenio,Servicio,Ciudad,ubicacion,Porcentaje,Descripcion,Terminos,Uso,Persona,Correo,Telefono,
-					Direccion,Vigencia,FirmaVf,FirmaAc,Correo1,Categoria)VALUES
-					('".$ServicioS."','".$Convenio."','".$Servicio."','".$Ciudad."','".$ubicacion."','".$Porcentaje."','".$Descripcion."','".$Terminos."','".$Uso."','".$Persona."',
-					'".$Correo."','".$Telefono."','".$Direccion."','".$Vigencia."','".$FirmaVf."','".$FirmaAc."','".$Correo1."','".$Categoria."')";
+					$sql =  " INSERT INTO DIRECTORIO (Celular,Categoria,FechaI,FechaV,NombreEmpresa,Beneficio,DescuentoH,Cobertura,Servicio,Descripcion,PersonaC,Whatsapp,
+					PaginaWeb,Uso,Terminos,Politicas,AutorizacionLogo,Correo)VALUES
+					('".$Celular."','".$Categoria."','".$FechaI."','".$FechaV."','".$NombreEmpresa."','".$Beneficio."','".$DescuentoH."','".$Cobertura."','".$Servicio."','".$Descripcion."',
+					'".$PersonaC."','".$Whatsapp."','".$PaginaWeb."','".$Uso."','".$Terminos."','".$Politicas."','".$AutorizacionLogo."','".$Correo."')";
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {
 						$messages[] ="Correcto";
@@ -52,20 +55,20 @@ if (empty($_POST['Vigencia'])){
 				
 				}else{
 					$sql =  " UPDATE DIRECTORIO Set 
-					ServicioS ='".$ServicioS."',
-					Convenio='".$Convenio."',
+					Categoria ='".$Categoria."',
+					FechaI='".$FechaI."',
+					FechaV='".$FechaV."',
+					NombreEmpresa='".$NombreEmpresa."',
+					Beneficio = '".$Beneficio."',
+					DescuentoH='".$DescuentoH."',
+					Cobertura='".$Cobertura."',
 					Servicio='".$Servicio."',
-					Ciudad='".$Ciudad."',
-					ubicacion = '".$ubicacion."',
-					Porcentaje='".$Porcentaje."',
-					Descripcion='".$Descripcion."',
-					Terminos='".$Terminos."',
-					Uso = '".$Uso."',
-					Persona ='".$Persona."',
+					Descripcion = '".$Descripcion."',
+					PersonaC ='".$PersonaC."',
+					Celular='".$Celular."',
 					Correo='".$Correo."',
-					Telefono='".$Telefono."',
-					Direccion='".$Direccion."',Vigencia='".$Vigencia."',FirmaVf='".$FirmaVf."'
-					,FirmaAc='".$FirmaAc."',Correo1='".$Correo1."',Categoria='".$Categoria."'					
+					Whatsapp='".$Whatsapp."',PaginaWeb='".$PaginaWeb."',Uso='".$Uso."'
+					,Terminos='".$Terminos."',Politicas='".$Politicas."',AutorizacionLogo='".$AutorizacionLogo."'					
 					WHERE Codigo = $Codigo";
 					$query_update = mysqli_query($con,$sql);
 					if ($query_update) {

@@ -9,10 +9,10 @@
 		$fechaIni = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaIni'], ENT_QUOTES)));
 
 		$sTable = "DIRECTORIO inner join CATEGORIAS on CATEGORIAS.Codigo = DIRECTORIO.Categoria";
-		$sWhere = "where (Vigencia >= '$fechaIni' ) ";
+		$sWhere = "where (FechaV >= '$fechaIni' ) ";
 		if ( $_GET['q'] != "" ){
-			if ($Filtro == "Convenio"){
-				$sWhere.= " and  (Convenio like '%$q%' )";	
+			if ($Filtro == "NombreEmpresa"){
+				$sWhere.= " and  (NombreEmpresa like '%$q%' )";	
 			}else{
 				if ($Filtro =="Servicio"){
 					$sWhere.= " and  (Servicio like '%$q%')  ";	
@@ -23,12 +23,8 @@
 						if ($Filtro=="Correo"){
 							$sWhere.= " and  (Correo like '%$q%')";
 						} else {
-							if ($Filtro=="Telefono"){
-								$sWhere.= " and  (Telefono like '%$q%')";
-							}else{
-								if ($Filtro=="Direccion"){
-									$sWhere.= " and  (Direccion like '%$q%')";
-								}
+							if ($Filtro=="Celular"){
+								$sWhere.= " and  (Celular like '%$q%')";
 							}
 						}
 					}
@@ -37,46 +33,46 @@
 			
 		}
 		
-		$sql="SELECT ServicioS,Convenio,Servicio,Ciudad,ubicacion,Porcentaje,Descripcion,Terminos,
-		Uso,Persona,Correo,Telefono,Direccion,Vigencia,FirmaVf,FirmaAc,Correo1,CATEGORIAS.Nombre as Categoria FROM  $sTable $sWhere";
+		$sql="SELECT FechaI,FechaV,NombreEmpresa,Beneficio,DescuentoH,Cobertura,Servicio,Descripcion,PersonaC,Celular,Correo,Whatsapp,PaginaWeb,Uso,Terminos,Politicas,AutorizacionLogo,CATEGORIAS.Nombre as Categoria FROM  $sTable $sWhere";
 		$query = mysqli_query($con, $sql);
 		
 			$Array="";
 				while ($row=mysqli_fetch_array($query)){
 
-						$ServicioS=$row['ServicioS'];
-						$Convenio=$row['Convenio'];
-						$Servicio=$row['Servicio'];
-						$Ciudad=$row['Ciudad'];
-						$ubicacion=$row['ubicacion'];
-						$Porcentaje=$row['Porcentaje'];
-						$Descripcion=$row['Descripcion'];
-						$Terminos=$row['Terminos'];
-						$Uso=$row['Uso'];
-						$Persona=$row['Persona'];
-						$Correo=$row['Correo'];
-						$Telefono=$row['Telefono'];
-						$Direccion=$row['Direccion'];
-						$Vigencia=$row['Vigencia'];
-						$FirmaVf=$row['FirmaVf'];
-						$FirmaAc=$row['FirmaAc'];
-						$Correo1=$row['Correo1'];
-						$Categoria=$row['Categoria'];
 
-						
-						
+		
+	$Categoria=$row['Categoria'];
+	$FechaI=$row['FechaI'];
+	$FechaV=$row['FechaV'];
+	$NombreEmpresa=$row['NombreEmpresa'];
+	$Beneficio=$row['Beneficio'];
+	$DescuentoH=$row['DescuentoH'];
+	$Cobertura=$row['Cobertura'];
+	$Servicio=$row['Servicio'];
+	$Descripcion=$row['Descripcion'];
+	$PersonaC=$row['PersonaC'];
+	$Celular=$row['Celular'];
+	$Correo=$row['Correo'];
+	$Whatsapp=$row['Whatsapp'];
+	$PaginaWeb=$row['PaginaWeb'];
+	$Uso = $row['Uso'];
+	$Terminos=$row['Terminos'];
+	$Politicas=$row['Politicas'];
+	$AutorizacionLogo=$row['AutorizacionLogo'];	
 						if($Array==''){
-							$Array.='{ "Servicios  soluciones":"'.$ServicioS.'","Convenio ":"'.$Convenio.'","Servicio ":"'.$Servicio.'","Ciudad ":"'.$Ciudad.'",
-										"Ubicación ":"'.$ubicacion.'","Porcentaje ":"'.$Porcentaje.'","Descripcion ":"'.$Descripcion.'",
-										"Terminos y condiciones ":"'.$Terminos.'","Uso del servicio ":"'.$Uso.'","Persona de contacto":"'.$Persona.'",
-										"Correo":"'.$Correo.'","Telefono":"'.$Telefono.'","Direccion":"'.$Direccion.'","Vigencia":"'.date("d-m-Y", strtotime($Vigencia)).'",
-										"FirmaVf":"'.$FirmaVf.'","FirmaAc":"'.$FirmaAc.'","Correo1":"'.$Correo1.'","Categoria":"'.$Categoria.'"}';
+							$Array.='{ "Fecha Inicio":"'.date("d/m/Y", strtotime($FechaI)).'","Fecha de Vencimiento ":"'.date("d/m/Y", strtotime($FechaV)).'","Nombre Empresa ":"'.$NombreEmpresa.'","Beneficio ":"'.$Beneficio.'",
+										"Descuento Hasta":"'.date("d/m/Y", strtotime($DescuentoH)).'","Cobertura ":"'.$Cobertura.'","Servicio ":"'.$Servicio.'",
+										"Descripcion":"'.$Descripcion.'","Persona de contacto":"'.$PersonaC.'","Celular":"'.$Celular.'",
+										"Correo":"'.$Correo.'","Whatsapp":"'.$Whatsapp.'","PaginaWeb":"'.$PaginaWeb.'","Uso del servicio ":"'.$Uso.'",
+										"Terminos y condiciones":"'.$Terminos.'","Politicas de Uso":"'.$Politicas.'","AutorizacionLogo":"'.$AutorizacionLogo.'",
+										"Categoria":"'.$Categoria.'"}';
 						}else{
-							$Array.=',{ "Servicios  soluciones":"'.$ServicioS.'","Convenio ":"'.$Convenio.'","Servicio ":"'.$Servicio.'","Ciudad ":"'.$Ciudad.'",
-								"Ubicación ":"'.$ubicacion.'","Porcentaje ":"'.$Porcentaje.'","Descripcion ":"'.$Descripcion.'",
-								"Terminos y condiciones ":"'.$Terminos.'","Uso del servicio ":"'.$Uso.'","Persona de contacto":"'.$Persona.'",
-								"Correo":"'.$Correo.'","Telefono":"'.$Telefono.'","Direccion":"'.$Direccion.'","Vigencia":"'.date("d-m-Y", strtotime($Vigencia)).'",
-								"FirmaVf":"'.$FirmaVf.'","FirmaAc":"'.$FirmaAc.'","Correo1":"'.$Correo1.'","Categoria":"'.$Categoria.'"}';
+							$Array.=',{ "Fecha Inicio":"'.date("d/m/Y", strtotime($FechaI)).'","Fecha de Vencimiento ":"'.date("d/m/Y", strtotime($FechaV)).'","Nombre Empresa ":"'.$NombreEmpresa.'","Beneficio ":"'.$Beneficio.'",
+								"Descuento Hasta":"'.date("d/m/Y", strtotime($DescuentoH)).'","Cobertura ":"'.$Cobertura.'","Servicio ":"'.$Servicio.'",
+								"Descripcion":"'.$Descripcion.'","Persona de contacto":"'.$PersonaC.'","Celular":"'.$Celular.'",
+								"Correo":"'.$Correo.'","Whatsapp":"'.$Whatsapp.'","PaginaWeb":"'.$PaginaWeb.'","Uso del servicio ":"'.$Uso.'",
+								"Terminos y condiciones":"'.$Terminos.'","Politicas de Uso":"'.$Politicas.'","AutorizacionLogo":"'.$AutorizacionLogo.'",
+								"Categoria":"'.$Categoria.'"}';
 						}
 				}
 				echo $Array;

@@ -43,28 +43,41 @@ if(!empty($_FILES['Archivo']['name'])){
 		for ($i = 2; $i <= $numRows; $i++) {
 			echo "ingreso";
 			$_SESSION['Proceso']=1;
-			$ServicioS = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getCalculatedValue();
-			$Convenio = $objPHPExcel->getActiveSheet()->getCell('B'.$i)->getCalculatedValue();
-			$Servicio = $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getCalculatedValue();
-			$Ciudad = $objPHPExcel->getActiveSheet()->getCell('D'.$i)->getCalculatedValue();
-			$ubicacion = $objPHPExcel->getActiveSheet()->getCell('E'.$i)->getCalculatedValue();
-			$Porcentaje = $objPHPExcel->getActiveSheet()->getCell('F'.$i)->getCalculatedValue();
-			$Descripcion = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getCalculatedValue();
-			$Terminos = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
-			$Uso = $objPHPExcel->getActiveSheet()->getCell('I'.$i)->getCalculatedValue();
-			$Persona = $objPHPExcel->getActiveSheet()->getCell('J'.$i)->getCalculatedValue();
+
+			$FechaI1 = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getCalculatedValue();
+			$FechaV1 = $objPHPExcel->getActiveSheet()->getCell('B'.$i)->getCalculatedValue();
+			$NombreEmpresa = $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getCalculatedValue();
+			$Beneficio = $objPHPExcel->getActiveSheet()->getCell('D'.$i)->getCalculatedValue();
+			$DescuentoH1 = $objPHPExcel->getActiveSheet()->getCell('E'.$i)->getCalculatedValue();
+			$Cobertura = $objPHPExcel->getActiveSheet()->getCell('F'.$i)->getCalculatedValue();
+			$Servicio = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getCalculatedValue();
+			$Descripcion = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
+			$PersonaC = $objPHPExcel->getActiveSheet()->getCell('I'.$i)->getCalculatedValue();
+			$Celular = $objPHPExcel->getActiveSheet()->getCell('J'.$i)->getCalculatedValue();
 			$Correo	 = $objPHPExcel->getActiveSheet()->getCell('K'.$i)->getCalculatedValue();
-			$Telefono = $objPHPExcel->getActiveSheet()->getCell('L'.$i)->getCalculatedValue();
-			$Direccion = $objPHPExcel->getActiveSheet()->getCell('M'.$i)->getCalculatedValue();
-			$Vigencia1 = $objPHPExcel->getActiveSheet()->getCell('N'.$i)->getCalculatedValue();
-			$FirmaVf = $objPHPExcel->getActiveSheet()->getCell('O'.$i)->getCalculatedValue();
-			$FirmaAc = $objPHPExcel->getActiveSheet()->getCell('P'.$i)->getCalculatedValue();
-			$Correo1= $objPHPExcel->getActiveSheet()->getCell('Q'.$i)->getCalculatedValue();
+			$Whatsapp = $objPHPExcel->getActiveSheet()->getCell('L'.$i)->getCalculatedValue();
+			$PaginaWeb = $objPHPExcel->getActiveSheet()->getCell('M'.$i)->getCalculatedValue();
+			$Uso = $objPHPExcel->getActiveSheet()->getCell('N'.$i)->getCalculatedValue();
+			$Terminos = $objPHPExcel->getActiveSheet()->getCell('O'.$i)->getCalculatedValue();
+			$Politicas = $objPHPExcel->getActiveSheet()->getCell('P'.$i)->getCalculatedValue();
+			$AutorizacionLogo= $objPHPExcel->getActiveSheet()->getCell('Q'.$i)->getCalculatedValue();
 			$Categoria= $objPHPExcel->getActiveSheet()->getCell('R'.$i)->getCalculatedValue();
 			
-			$timestamp = PHPExcel_Shared_Date::ExcelToPHP($Vigencia1);
+			$timestamp = PHPExcel_Shared_Date::ExcelToPHP($FechaI1);
 			$timestamp = strtotime("+1 day",$timestamp);
-			$Vigencia = date("Y-m-d",$timestamp);
+			$FechaI = date("Y-m-d",$timestamp);
+
+			$timestamp = PHPExcel_Shared_Date::ExcelToPHP($FechaV1);
+			$timestamp = strtotime("+1 day",$timestamp);
+			$FechaV = date("Y-m-d",$timestamp);
+
+			$timestamp = PHPExcel_Shared_Date::ExcelToPHP($DescuentoH1);
+			$timestamp = strtotime("+1 day",$timestamp);
+			$DescuentoH = date("Y-m-d",$timestamp);
+
+
+
+
 
 			$query=mysqli_query($con, "select Codigo from CATEGORIAS where UPPER(Nombre) = UPPER('".$Categoria."')");
 			$rw_Admin=mysqli_fetch_array($query);
@@ -74,9 +87,10 @@ if(!empty($_FILES['Archivo']['name'])){
 				$Categoria =1;
 			}
 
-			$sql =  "INSERT INTO  DIRECTORIO(ServicioS,Convenio,Servicio,Ciudad,ubicacion,Porcentaje,Descripcion,Terminos,
-			Uso,Persona,Correo,Telefono,Direccion,Vigencia,FirmaVf,FirmaAc,Correo1,Categoria) VALUES
-					('$ServicioS','$Convenio','$Servicio','$Ciudad','$ubicacion','$Porcentaje','$Descripcion','$Terminos','$Uso','$Persona','$Correo','$Telefono','$Direccion','$Vigencia','$FirmaVf','$FirmaAc','$Correo1',$Categoria);";
+			$sql =  " INSERT INTO DIRECTORIO (Celular,Categoria,FechaI,FechaV,NombreEmpresa,Beneficio,DescuentoH,Cobertura,Servicio,Descripcion,PersonaC,Whatsapp,
+					PaginaWeb,Uso,Terminos,Politicas,AutorizacionLogo,Correo)VALUES
+					('".$Celular."','".$Categoria."','".$FechaI."','".$FechaV."','".$NombreEmpresa."','".$Beneficio."','".$DescuentoH."','".$Cobertura."','".$Servicio."','".$Descripcion."',
+					'".$PersonaC."','".$Whatsapp."','".$PaginaWeb."','".$Uso."','".$Terminos."','".$Politicas."','".$AutorizacionLogo."','".$Correo."')";
 			$query_update = mysqli_query($con,$sql);
 			if ($query_update) {
 				$Completados= $Completados+1;

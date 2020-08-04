@@ -8,48 +8,50 @@
 	require_once ("config/db.php");
 	require_once ("config/conexion.php");
 	
-	$ServicioS="";
-	$Convenio="";
-	$Servicio="";
-	$Ciudad="";
-	$ubicacion="";
-	$Porcentaje="";
-	$Descripcion="";
-	$Terminos="";
-	$Uso="";
-	$Persona="";
-	$Correo="";
-	$Telefono="";
-	$Direccion="";
-	$Vigencia="";
-	$FirmaVf="";
-	$FirmaAc="";
-	$Correo1="";
+	$Codigo="0";
 	$Categoria="";
+	$FechaI="";
+	$FechaV="";
+	$NombreEmpresa="";
+	$Beneficio="";
+	$DescuentoH="";
+	$Cobertura="";
+	$Servicio="";
+	$Descripcion="";
+	$PersonaC="";
+	$Celular="";
+	$Correo="";
+	$Whatsapp="";
+	$PaginaWeb="";
+	$Uso = "";
+	$Terminos="";
+	$Politicas="";
+	$AutorizacionLogo="";
 
 
 	if (isset($_GET['Codigo'])) {
 		$query=mysqli_query($con, "select * from DIRECTORIO where Codigo ='".$_GET['Codigo']."' ");
 		$rw_Admin=mysqli_fetch_array($query);
-		$ServicioS=$rw_Admin['ServicioS'];
-		$Convenio=$rw_Admin['Convenio'];
-		$Servicio=$rw_Admin['Servicio'];
-		$Ciudad=$rw_Admin['Ciudad'];
-		$ubicacion=$rw_Admin['ubicacion'];
-		$Porcentaje=$rw_Admin['Porcentaje'];
-		$Descripcion=$rw_Admin['Descripcion'];
-		$Terminos=$rw_Admin['Terminos'];
-		$Uso=$rw_Admin['Uso'];
-		$Persona=$rw_Admin['Persona'];
-		$Correo=$rw_Admin['Correo'];
-		$Telefono=$rw_Admin['Telefono'];
-		$Direccion=$rw_Admin['Direccion'];
-		$Vigencia=$rw_Admin['Vigencia'];
-		$FirmaVf=$rw_Admin['FirmaVf'];
-		$FirmaAc=$rw_Admin['FirmaAc'];
-		$Correo1=$rw_Admin['Correo1'];
-		$Categoria=$rw_Admin['Categoria'];
+
 		$Codigo=$rw_Admin['Codigo'];
+		$Categoria=$rw_Admin['Categoria'];
+		$FechaI=$rw_Admin['FechaI'];
+		$FechaV=$rw_Admin['FechaV'];
+		$NombreEmpresa=$rw_Admin['NombreEmpresa'];
+		$Beneficio=$rw_Admin['Beneficio'];
+		$DescuentoH=$rw_Admin['DescuentoH'];
+		$Cobertura=$rw_Admin['Cobertura'];
+		$Servicio=$rw_Admin['Servicio'];
+		$Descripcion=$rw_Admin['Descripcion'];
+		$PersonaC=$rw_Admin['PersonaC'];
+		$Celular=$rw_Admin['Celular'];
+		$Correo=$rw_Admin['Correo'];
+		$Whatsapp=$rw_Admin['Whatsapp'];
+		$PaginaWeb=$rw_Admin['PaginaWeb'];
+		$Uso=$rw_Admin['Uso'];
+		$Terminos=$rw_Admin['Terminos'];
+		$Politicas=$rw_Admin['Politicas'];
+		$AutorizacionLogo=$rw_Admin['AutorizacionLogo'];
 		$EstadoD="Consulta";
 	}else{
 		$EstadoD="Nuevo";
@@ -114,8 +116,12 @@
 				   							<input type="text" class="form-control" id="Codigo" name="Codigo" placeholder="Codigo" value="<?php echo $Codigo; ?>" readonly='readonly'>   
 										</div>
 										<div class="col-md-4">
-											<label for="Vigencia">Vigencia</label>
-											<input type="Date" class="form-control Directorio" id="Vigencia" name="Vigencia" value="<?php echo $Vigencia?>"/>
+											<label for="FechaI">Fecha de Inicio</label>
+											<input type="Date" class="form-control Directorio" id="FechaI" name="FechaI" value="<?php echo $FechaI?>"/>
+										</div>
+										<div class="col-md-4">
+											<label for="FechaV">Fecha de Vencimiento</label>
+											<input type="Date" class="form-control Directorio" id="FechaV" name="FechaV" value="<?php echo $FechaV?>"/>
 										</div>
 										<div class="col-md-4">
 											<label for="Correo1">Categoria</label>
@@ -134,68 +140,65 @@
 											?>
 										</div>
 										<div class="col-md-4">
-											<label for="ServicioS">Servicio</label>
-											<textarea class="form-control Directorio" rows="3" id="ServicioS" name="ServicioS" ><?php echo $ServicioS; ?></textarea>
+											<label for="DescuentoH">Descuento Hasta</label>
+											<input type="Date" class="form-control Directorio" id="DescuentoH" name="DescuentoH" value="<?php echo $DescuentoH?>"/>
 										</div>
 										<div class="col-md-4">
-											<label for="Convenio">Convenio</label>
-											<textarea class="form-control Directorio" rows="3" id="Convenio" name="Convenio"><?php echo $Convenio; ?></textarea>
+											<label for="NombreEmpresa">Nombre Empresa</label>
+											<input type="text" class="form-control Directorio" id="NombreEmpresa" name="NombreEmpresa" value="<?php echo $NombreEmpresa?>"/>
+										</div>
+										<div class="col-md-4">
+											<label for="Beneficio">Beneficio</label>
+											<textarea class="form-control Directorio" rows="3" id="Beneficio" name="Beneficio"><?php echo $Beneficio; ?></textarea>
+										</div>
+										
+										<div class="col-md-4">
+											<label for="Cobertura">Cobertura</label>
+											<textarea class="form-control Directorio" rows="3" id="Cobertura" name="Cobertura"><?php echo $Cobertura; ?></textarea>
 										</div>
 										<div class="col-md-4">
 											<label for="Servicio">Servicio</label>
 											<textarea class="form-control Directorio" rows="3" id="Servicio" name="Servicio"><?php echo $Servicio; ?></textarea>
 										</div>
 										<div class="col-md-4">
-											<label for="Ciudad">Ciudad</label>
-											<textarea class="form-control Directorio" rows="3" id="Ciudad" name="Ciudad"><?php echo $Ciudad; ?></textarea>
-										</div>
-										<div class="col-md-4">
-											<label for="ubicacion">Ubicacion</label>
-											<textarea class="form-control Directorio" rows="3" id="ubicacion" name="ubicacion"><?php echo $ubicacion; ?></textarea>
-										</div>
-										<div class="col-md-4">
-											<label for="Porcentaje">Porcentaje</label>
-											<textarea class="form-control Directorio" rows="3" id="Porcentaje" name="Porcentaje"><?php echo $Porcentaje; ?></textarea>
-										</div>
-										<div class="col-md-4">
 											<label for="Descripcion">Descripcion</label>
 											<textarea class="form-control Directorio" rows="3" id="Descripcion" name="Descripcion"><?php echo $Descripcion; ?></textarea>
 										</div>
 										<div class="col-md-4">
-											<label for="Terminos">Terminos y condiciones</label>
-											<textarea class="form-control Directorio" rows="3" id="Terminos" name="Terminos"><?php echo $Terminos; ?></textarea>
+											<label for="PersonaC">Persona de Contacto</label>
+											<textarea class="form-control Directorio" rows="3" id="PersonaC" name="PersonaC"><?php echo $PersonaC; ?></textarea>
 										</div>
 										<div class="col-md-4">
-											<label for="Uso">Uso del servicio</label>
-											<textarea class="form-control Directorio" rows="3" id="Uso" name="Uso"><?php echo $Uso; ?></textarea>
-										</div>
-										<div class="col-md-4">
-											<label for="Persona">Persona de contacto</label>
-											<textarea class="form-control Directorio" rows="3" id="Persona" name="Persona"><?php echo $Persona; ?></textarea>
+											<label for="Celular">Celular</label>
+											<textarea class="form-control Directorio" rows="3" id="Celular" name="Celular"><?php echo $Celular; ?></textarea>
 										</div>
 										<div class="col-md-4">
 											<label for="Correo">Correo</label>
 											<textarea class="form-control Directorio" rows="3" id="Correo" name="Correo"><?php echo $Correo; ?></textarea>
 										</div>
 										<div class="col-md-4">
-											<label for="Telefono">Telefono</label>
-											<textarea class="form-control Directorio" rows="3" id="Telefono" name="Telefono"><?php echo $Telefono; ?></textarea>
+											<label for="Whatsapp">Whatsapp</label>
+											<textarea class="form-control Directorio" rows="3" id="Whatsapp" name="Whatsapp"><?php echo $Whatsapp; ?></textarea>
 										</div>
 										<div class="col-md-4">
-											<label for="Direccion">Direccion</label>
-											<textarea class="form-control Directorio" rows="3" id="Direccion" name="Direccion"><?php echo $Direccion; ?></textarea>
+											<label for="PaginaWeb">Pagina Web</label>
+											<textarea class="form-control Directorio" rows="3" id="PaginaWeb" name="PaginaWeb"><?php echo $PaginaWeb; ?></textarea>
+										</div>
+										<div class="col-md-4">
+											<label for="Uso">Uso del Serivicio</label>
+											<textarea class="form-control Directorio" rows="3" id="Uso" name="Uso"><?php echo $Uso; ?></textarea>
+										</div>
+										<div class="col-md-4">
+											<label for="Terminos">Terminos y Condiciones</label>
+											<textarea class="form-control Directorio" rows="3" id="Terminos" name="Terminos"><?php echo $Terminos; ?></textarea>
+										</div>
+										<div class="col-md-4">
+											<label for="Politicas">Politicas de USo</label>
+											<textarea class="form-control Directorio" rows="3" id="Politicas" name="Politicas"><?php echo $Politicas; ?></textarea>
 										</div>	
 										<div class="col-md-4">
-											<label for="FirmaVf">FirmaVf</label>
-											<textarea class="form-control Directorio" rows="3" id="FirmaVf" name="FirmaVf"><?php echo $FirmaVf; ?></textarea>
-										</div>
-										<div class="col-md-4">
-											<label for="FirmaAc">FirmaAc</label>
-											<textarea class="form-control Directorio" rows="3" id="FirmaAc" name="FirmaAc"><?php echo $FirmaAc; ?></textarea>
-										</div>
-										<div class="col-md-4">
-											<label for="Correo1">Correo1</label>
-											<textarea class="form-control Directorio" rows="3" id="Correo1" name="Correo1"><?php echo $Correo1; ?></textarea>
+											<label for="AutorizacionLogo">Autorizacion Logo</label>
+											<textarea class="form-control Directorio" rows="3" id="AutorizacionLogo" name="AutorizacionLogo"><?php echo $AutorizacionLogo; ?></textarea>
 										</div>
 									</div>	
 								</div>
