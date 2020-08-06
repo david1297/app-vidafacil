@@ -43,7 +43,7 @@
 					?>
 						<form class="form-horizontal" role="form" id="datos_cotizacion">
 							<div class="form-group row">
-							<div class="col-md-2">		
+							<div class="col-md-4">		
 									<select class='form-control ' id="Filtro" name ="Filtro" placeholder="Estado" onchange='load(1);'>
 										<option value="NombreEmpresa">Nombre Empresa</option>
 										<option value="Servicio">Servicio</option>
@@ -53,9 +53,7 @@
 									</select>
 								</div>
 								
-								<div class="col-md-2">		
-									<input type="Date" class="form-control" id="fechaFin" name="fechaFin" value="<?php echo date("Y-m-d")?>" onchange='load(1);'>
-								</div>
+								
 								<div class="col-md-4">
 									<input type="text" class="form-control" id="q" autocomplete="off" placeholder="Criterio de Busqueda" onkeyup='load(1);'>
 								</div>
@@ -123,11 +121,11 @@
 			var q= $("#q").val();
 			var Filtro = $("#Filtro").val();
 			
-			var fechaIni = $("#fechaFin").val();
+			
 		
 			$("#loader").fadeIn('slow');
 			$.ajax({
-				url:'Componentes/Ajax/Buscar_Directorio.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro+'&fechaIni='+fechaIni,
+				url:'Componentes/Ajax/Buscar_Directorio.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro,
 				 beforeSend: function(objeto){
 				 $('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 			  },
@@ -141,11 +139,11 @@
 	$( "#ExportarExcel" ).click(function( event ) {
 		var q= $("#q").val();
 			var Filtro = $("#Filtro").val();
-			var fechaIni = $("#fechaFin").val();
+			
 			
 	$("#loader").fadeIn('slow');
 	$.ajax({
-		url:'Componentes/Ajax/Exportar_Directorio.php?action=ajax&q='+q+'&Filtro='+Filtro+'&fechaIni='+fechaIni,
+		url:'Componentes/Ajax/Exportar_Directorio.php?action=ajax&q='+q+'&Filtro='+Filtro,
 			beforeSend: function(objeto){
 			$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 		},

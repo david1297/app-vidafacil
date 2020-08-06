@@ -6,10 +6,9 @@
 	if($action == 'ajax'){
 		$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
-		$fechaIni = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaIni'], ENT_QUOTES)));
 
 		$sTable = "DIRECTORIO";
-		$sWhere = "where (FechaV >= '$fechaIni' ) ";
+		$sWhere = "where 1=1 ";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "NombreEmpresa"){
 				$sWhere.= " and  (NombreEmpresa like '%$q%' )";	
@@ -32,6 +31,7 @@
 			}
 			
 		}
+		$sWhere.= " order by FechaV DESC ";
 		include 'pagination.php';
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 		$per_page = 50;
@@ -51,16 +51,19 @@
 			?>
 			<div class="table-responsive">
 			  <table class="table table-hover">
-				<tr  class="warning">
+				<tr>
 					<th>Servicio</th>
 					<th>Nombre Empresa</th>
 					<th>Celular</th>
 					<th>Correo</th>
 					
+					<th>Fecha Inicio</th>
 					<th>Fecha Vencimiento</th>
 					<th class='text-center'>Ver</th>
 				</tr>
 				<?php
+				date_default_timezone_set('America/Bogota');
+				$Fecha=date("Y-m-d"); 
 				while ($row=mysqli_fetch_array($query)){
 
 						$Servicio=$row['Servicio'];
@@ -69,14 +72,21 @@
 						$Correo=$row['Correo'];
 						
 						$FechaV=$row['FechaV'];
+						$FechaI=$row['FechaI'];
 						$Codigo=$row['Codigo'];
-						
+						if($Fecha > $FechaV){
+							$Colum="danger";
+						}else{
+							$Colum="success";
+						}
+
 					?>
-					<tr>
+					<tr class="<?php echo $Colum?>">
 						<td><?php echo $Servicio; ?></td>
 						<td><?php echo $NombreEmpresa; ?></td>
 						<td><?php echo $Celular ?></td>
 						<td><?php echo $Correo; ?></td>
+						<td><?php echo $FechaI; ?></td>			
 						<td><?php echo $FechaV; ?></td>			
 						<td class="text-center">
 							<a href="#" class='btn btn-default' title='Ver Directorio' onclick="location.href='Directorio.php?Codigo='+<?php echo $Codigo;?>;"><i class="glyphicon glyphicon-eye-open"></i></a> 
