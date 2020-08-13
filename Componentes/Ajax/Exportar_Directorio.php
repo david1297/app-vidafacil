@@ -9,7 +9,7 @@
 		$fechaIni = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaIni'], ENT_QUOTES)));
 
 		$sTable = "DIRECTORIO inner join CATEGORIAS on CATEGORIAS.Codigo = DIRECTORIO.Categoria";
-		$sWhere = "where 1=1 ";
+		$sWhere = "where (FechaV >= '$fechaIni' ) ";
 		if ( $_GET['q'] != "" ){
 			if ($Filtro == "NombreEmpresa"){
 				$sWhere.= " and  (NombreEmpresa like '%$q%' )";	
