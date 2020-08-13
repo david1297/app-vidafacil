@@ -6,6 +6,7 @@
 	if($action == 'ajax'){
 		$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
 		$Filtro = mysqli_real_escape_string($con,(strip_tags($_REQUEST['Filtro'], ENT_QUOTES)));
+		$fechaIni = mysqli_real_escape_string($con,(strip_tags($_REQUEST['fechaIni'], ENT_QUOTES)));
 
 		$sTable = "DIRECTORIO inner join CATEGORIAS on CATEGORIAS.Codigo = DIRECTORIO.Categoria";
 		$sWhere = "where 1=1 ";
@@ -59,15 +60,15 @@
 	$Politicas=$row['Politicas'];
 	$AutorizacionLogo=$row['AutorizacionLogo'];	
 						if($Array==''){
-							$Array.='{ "Fecha Inicio":"'.date("d/m/Y", strtotime($FechaI)).'","Fecha de Vencimiento ":"'.date("d/m/Y", strtotime($FechaV)).'","Nombre Empresa ":"'.$NombreEmpresa.'","Beneficio ":"'.$Beneficio.'",
-										"Descuento Hasta":"'.date("d/m/Y", strtotime($DescuentoH)).'","Cobertura ":"'.$Cobertura.'","Servicio ":"'.$Servicio.'",
+							$Array.='{ "Fecha Inicio":"'.date("Y-m-d", strtotime($FechaI)).'","Fecha de Vencimiento ":"'.date("Y-m-d", strtotime($FechaV)).'","Nombre Empresa ":"'.$NombreEmpresa.'","Beneficio ":"'.$Beneficio.'",
+										"Descuento Hasta":"'.date("Y-m-d", strtotime($DescuentoH)).'","Cobertura ":"'.$Cobertura.'","Servicio ":"'.$Servicio.'",
 										"Descripcion":"'.$Descripcion.'","Persona de contacto":"'.$PersonaC.'","Celular":"'.$Celular.'",
 										"Correo":"'.$Correo.'","Whatsapp":"'.$Whatsapp.'","PaginaWeb":"'.$PaginaWeb.'","Uso del servicio ":"'.$Uso.'",
 										"Terminos y condiciones":"'.$Terminos.'","Politicas de Uso":"'.$Politicas.'","AutorizacionLogo":"'.$AutorizacionLogo.'",
 										"Categoria":"'.$Categoria.'"}';
 						}else{
-							$Array.=',{ "Fecha Inicio":"'.date("d/m/Y", strtotime($FechaI)).'","Fecha de Vencimiento ":"'.date("d/m/Y", strtotime($FechaV)).'","Nombre Empresa ":"'.$NombreEmpresa.'","Beneficio ":"'.$Beneficio.'",
-								"Descuento Hasta":"'.date("d/m/Y", strtotime($DescuentoH)).'","Cobertura ":"'.$Cobertura.'","Servicio ":"'.$Servicio.'",
+							$Array.=',{ "Fecha Inicio":"'.date("Y-m-d", strtotime($FechaI)).'","Fecha de Vencimiento ":"'.date("Y-m-d", strtotime($FechaV)).'","Nombre Empresa ":"'.$NombreEmpresa.'","Beneficio ":"'.$Beneficio.'",
+								"Descuento Hasta":"'.date("Y-m-d", strtotime($DescuentoH)).'","Cobertura ":"'.$Cobertura.'","Servicio ":"'.$Servicio.'",
 								"Descripcion":"'.$Descripcion.'","Persona de contacto":"'.$PersonaC.'","Celular":"'.$Celular.'",
 								"Correo":"'.$Correo.'","Whatsapp":"'.$Whatsapp.'","PaginaWeb":"'.$PaginaWeb.'","Uso del servicio ":"'.$Uso.'",
 								"Terminos y condiciones":"'.$Terminos.'","Politicas de Uso":"'.$Politicas.'","AutorizacionLogo":"'.$AutorizacionLogo.'",

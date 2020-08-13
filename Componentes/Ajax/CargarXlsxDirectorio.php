@@ -62,7 +62,15 @@ if(!empty($_FILES['Archivo']['name'])){
 			$Politicas = $objPHPExcel->getActiveSheet()->getCell('P'.$i)->getCalculatedValue();
 			$AutorizacionLogo= $objPHPExcel->getActiveSheet()->getCell('Q'.$i)->getCalculatedValue();
 			$Categoria= $objPHPExcel->getActiveSheet()->getCell('R'.$i)->getCalculatedValue();
-			
+
+			$sig='/';
+
+			$FechaI = str_replace($sig,'-',$FechaI1);
+			$FechaV = str_replace($sig,'-',$FechaV1);
+			$DescuentoH = str_replace($sig,'-',$DescuentoH1);
+
+
+			/*
 			$timestamp = PHPExcel_Shared_Date::ExcelToPHP($FechaI1);
 			$timestamp = strtotime("+1 day",$timestamp);
 			$FechaI = date("Y-m-d",$timestamp);
@@ -73,7 +81,7 @@ if(!empty($_FILES['Archivo']['name'])){
 
 			$timestamp = PHPExcel_Shared_Date::ExcelToPHP($DescuentoH1);
 			$timestamp = strtotime("+1 day",$timestamp);
-			$DescuentoH = date("Y-m-d",$timestamp);
+			$DescuentoH = date("Y-m-d",$timestamp);*/
 
 
 
