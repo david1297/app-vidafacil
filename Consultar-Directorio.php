@@ -148,11 +148,11 @@
 			$('#loader').html('<img src="./assets/img/ajax-loader.gif"> Cargando...');
 		},
 		success:function(dataR){
-
+			$('#loader').html('');
 			var string ='{"user_id": "1", "auth_id": "1"}';
 			var data=JSON.parse('['+dataR+']');
 			var NombreXLS='';
-			$('#loader').html('');
+			
 				NombreXLS="Directorio";
 			if(typeof XLSX == 'undefined') XLSX = require('xlsx');
 			var ws = XLSX.utils.json_to_sheet(data);

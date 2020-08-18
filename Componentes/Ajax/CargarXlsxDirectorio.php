@@ -48,7 +48,7 @@ if(!empty($_FILES['Archivo']['name'])){
 			$FechaV1 = $objPHPExcel->getActiveSheet()->getCell('B'.$i)->getCalculatedValue();
 			$NombreEmpresa = $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getCalculatedValue();
 			$Beneficio = $objPHPExcel->getActiveSheet()->getCell('D'.$i)->getCalculatedValue();
-			$DescuentoH1 = $objPHPExcel->getActiveSheet()->getCell('E'.$i)->getCalculatedValue();
+			$DescuentoH = $objPHPExcel->getActiveSheet()->getCell('E'.$i)->getCalculatedValue();
 			$Cobertura = $objPHPExcel->getActiveSheet()->getCell('F'.$i)->getCalculatedValue();
 			$Servicio = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getCalculatedValue();
 			$Descripcion = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
@@ -67,7 +67,7 @@ if(!empty($_FILES['Archivo']['name'])){
 
 			$FechaI = str_replace($sig,'-',$FechaI1);
 			$FechaV = str_replace($sig,'-',$FechaV1);
-			$DescuentoH = str_replace($sig,'-',$DescuentoH1);
+			
 
 
 			/*

@@ -44,11 +44,6 @@ class Login
                         $_SESSION['Inicial'] = $result_row->Inicial;
                         $_SESSION['user_login_status'] = 1;
                         $_SESSION['Estado'] = $result_row->Estado;
-
-                      
-                        
-
-
                     } else {
                         $this->errors[] = "Usuario y/o contraseña no coinciden.";
                     }

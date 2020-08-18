@@ -141,7 +141,7 @@
 										</div>
 										<div class="col-md-4">
 											<label for="DescuentoH">Descuento Hasta</label>
-											<input type="Date" class="form-control Directorio" id="DescuentoH" name="DescuentoH" value="<?php echo $DescuentoH?>"/>
+											<input type="text" class="form-control Directorio" id="DescuentoH" name="DescuentoH" value="<?php echo $DescuentoH?>"/>
 										</div>
 										<div class="col-md-4">
 											<label for="NombreEmpresa">Nombre Empresa</label>

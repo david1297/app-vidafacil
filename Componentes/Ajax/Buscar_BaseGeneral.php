@@ -260,8 +260,30 @@
 						$rw_Admin1=mysqli_fetch_array($query1);
 						
 							if ( $_SESSION['Estado']=='Activo'){
+								if($rw_Admin1[1]=='Aprobada'){
+									$Icono= '<i class="fas fa-check-double"></i>';
+									$Color="btn-success";
+								}
+								if($rw_Admin1[1]=='Rechazada'){
+									$Icono= '<i class="fas fa-ban"></i>';
+									$Color="btn-danger";
+								}
+								if($rw_Admin1[1]=='Negada'){
+									$Icono= '<i class="fas fa-ban"></i>';
+									$Color="btn-danger";
+								}
+								if($rw_Admin1[1]=='Pendiente'){
+									$Icono= '<i class="fas fa-history"></i>';
+									$Color="btn-warning";
+								}
 								?>
-						<a href="#" class='btn btn-default' title='Editar Estado' onclick="obtener_datosV('<?php echo $Numero;?>','<?php echo $rw_Admin1[1];?>');"  data-toggle="modal" data-target="#UdateVenta"><i class="glyphicon glyphicon-edit"></i><?php echo $rw_Admin1[1]; ?></a>
+						<a href="#" class='btn <?php echo $Color;?>' title='Editar Estado' onclick="obtener_datosV('<?php echo $Numero;?>','<?php echo $rw_Admin1[1];?>');"  data-toggle="modal" data-target="#UdateVenta">
+						
+						<?php
+							echo $Icono;
+						?>
+						<?php echo $rw_Admin1[1]; ?>
+						</a>
 						<?php
 							}
 						?>
