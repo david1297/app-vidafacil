@@ -120,9 +120,6 @@
 	function load(page){
 			var q= $("#q").val();
 			var Filtro = $("#Filtro").val();
-			
-			
-		
 			$("#loader").fadeIn('slow');
 			$.ajax({
 				url:'Componentes/Ajax/Buscar_Directorio.php?action=ajax&page='+page+'&q='+q+'&Filtro='+Filtro,
